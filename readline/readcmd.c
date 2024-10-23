@@ -59,6 +59,8 @@ int	main(int argc, char **argv, char **envp)
 	char		*str;
 	t_shvars	sh;
 
+	
+	
 	/*
 	
 	VERIFICACAO DE MEMORIA, SE INVALIDA OU INSUF PARA INCIALIZAR MINISHELL

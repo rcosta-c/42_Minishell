@@ -9,23 +9,15 @@ static int	check_quote(char *str, int *counter)
 	int 	temp;
 
 	temp = *counter;
-    printf("\n\n%d\n\n\n", temp);
 	if(str[temp] == 34)
 	{
 		temp++;
-        printf("filatrar");
 		while(str[temp] && str[temp] != 34)
-		{
-            printf("e esta hein?\n\n");
             temp++;
-        }	
-		//if(str[temp] == '\0')
-		//	return(counter);
 		if(str[temp] == '\0')
             return(*counter);
         else
 		{
-            printf("\n\nesta a sair do filtro\n\n\n");
 			temp++;
 			return(temp);
 		}
@@ -50,32 +42,15 @@ static int count_tokens(char *str, t_tokens tokens)
 		{
 			while(str[x + 1] == 32 || str[x + 1] == 9)
 				x++;
-			tokens.tk_num++;
 		}
-		/*if(str[x] == '|' || str[x] == '>' || str[x] == '<' || str[x] == ;)
-		{
-			tk_n;
-			x++;
-		}*/
-		
-	/*if(str[x + 1] == '\0')
-		tokens.tk_num++;
-    */
+        if(str[x - 1] ==  ' ' && str[x] != ' ' && str[x] != '\0')
+            tokens.tk_num++;
 		x++;
-
-
-
-
-
 	}
 
 	printf("\n\n\n string: %s\n number of tokens: %d\n\n\n", str, tokens.tk_num);
 
 	return(tk_n);
-
-
-
-
 }
 /*
 static char analise_prepare_token(char *str)
@@ -85,7 +60,7 @@ static char analise_prepare_token(char *str)
 }
 */
 
-static char    *clean_line(char *str)
+static char    *clean_line(char *str) // ESTA A FUNCIONAR MAL COM O "QUOTES"
 {
     int     x;
     int     xx;
@@ -108,6 +83,11 @@ static char    *clean_line(char *str)
         }
         if(str[x] == ' ')
         {
+            if(str[x + 1] == ' ')
+                while(str[x] == ' ')
+                    x++;
+            if(str[x] == '\0')
+                break;
             newline[xx] = ',';
             xx++;
             newline [xx] = ' ';
@@ -116,6 +96,7 @@ static char    *clean_line(char *str)
             while(str[x] == 32)
                 x++;
         }
+        x++;
     }
     newline[xx] = '\0';
     return(newline);
