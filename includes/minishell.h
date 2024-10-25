@@ -28,6 +28,16 @@ typedef struct s_shvars
 
 }   t_shvars;
 
+typedef struct s_mini
+{
+	char	*input;
+	char	*prompt;
+	char	**envp;
+	t_tokens	*tokens;
+	char	error;
+	char	exit;
+}	t_mini;
+
 
 typedef struct s_tokens
 {
@@ -40,6 +50,10 @@ typedef struct s_tokens
 
 }   t_tokens;
 
+// builtins
+void    ft_echo(t_mini *mini, char **cmd);
+void    ft_pwd(t_mini *mini, char **cmd, char **envp);
+void    ft_cd(t_mini *mini, char **cmd, char **envp);
 
 char	*get_prompt();
 void    get_tokens(char *str, t_shvars sh);
