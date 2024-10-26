@@ -1,78 +1,5 @@
-#include <stdio.h>
-#include <stdarg.h>
-#include <stdlib.h>
-#include <stdbool.h>
+
 #include "../includes/minishell.h"
-
-static bool	check_if_squote(char *str, int x_o);
-static bool	check_if_dquote(char *str, int x_o);
-static char *prepare_line(char *str);
-static char	*ft_2strdup(const char *s);
-static int	count_tokens(t_sh *sh);
-static int	check_squote(char *str, int counter);
-static int	check_dquote(char *str, int counter);
-static bool counter_validation(int c);
-static void	tokens_2_matrix(t_sh *sh);
-static void	init_tokens(t_sh *sh);
-
-
-static int	check_dquote(char *str, int counter)
-{
-	int 	temp;
-
-	temp = counter;
-	if(str[temp] == 34)
-	{
-		temp++;
-		while(str[temp] && str[temp] != 34)
-			temp++;
-		if(str[temp] == '\0')
-			return(counter);
-		else
-		{
-			temp++;
-			return(temp);
-		}
-	}
-	return(counter);
-	
-}
-
-static int	check_squote(char *str, int counter)
-{
-	int 	temp;
-
-	temp = counter;
-	if(str[temp] == 39)
-	{
-		temp++;
-		while(str[temp] && str[temp] != 39)
-			temp++;
-		if(str[temp] == '\0')
-			return(counter);
-		else
-		{
-			temp++;
-			return(temp);
-		}
-	}
-	return(counter);
-	
-}
-
-static int check_type_quote(char *cmd_line, int x)
-{
-	if(cmd_line[x] == 34)
-	{
-		return(check_dquote(cmd_line, x));
-	}
-	else if(cmd_line[x] == 39)
-	{
-		return(check_squote(cmd_line, x));
-	}
-	else
-		return(x);
-}
 
 static int	count_tokens(t_sh *sh)
 {
@@ -108,16 +35,6 @@ static bool counter_validation(int c)
 		return(false);
 }
 
-static bool token_is_valid(char *src)
-{
-	if(*src == 33 || *src >= 35 && *src <= 126)
-		return(true);
-	else if(*src == 9)
-		return(true);
-	else
-		return(false);
-}
-
 static char	*ft_2strdup(const char *s)
 {
 	unsigned int	cnt;
@@ -137,44 +54,6 @@ static char	*ft_2strdup(const char *s)
 	}
 	dest[cnt] = '\0';
 	return (dest);
-}
-
-static bool	check_if_dquote(char *str, int x_o)
-{
-	int	x;
-	int	counter;
-
-	counter = 0;
-	x = x_o + 1;
-	while(str[x])
-	{
-		if(str[x] == 34)
-			counter++;
-		x++;
-	}
-	if(counter % 2 != 0)
-		return(true);
-	else
-		return(false);
-}
-
-static bool	check_if_squote(char *str, int x_o)
-{
-	int	x;
-	int	counter;
-
-	counter = 0;
-	x = x_o + 1;
-	while(str[x])
-	{
-		if(str[x] == 39)
-			counter++;
-		x++;
-	}
-	if(counter % 2 != 0)
-		return(true);
-	else
-		return(false);
 }
 
 static char *prepare_line(char *str)
@@ -215,98 +94,119 @@ static char *prepare_line(char *str)
 	dest = ft_2strdup(temp);
 	return(dest);
 }
-/*
-void	tokens_2_matrix(t_sh *sh)
+
+
+void	filter_tokens(t_sh *sh)
 {
-	int	x;
+	int	n;
 
-	x = 0;
-	while(x <= )
-
-
-
-
-}*/
-
-
-/*
-void    get_tokens(t_sh *sh)
-{
-	
-	//memset(&sh.tokens, 0, sizeof(t_tokens));
-	
-	//printf("\n\n2222222222\n\n");
-
-	sh->vars.tk_num = count_tokens(sh);
-
-	
-	init_tokens(sh);
-	//tokens_2_matrix(sh);
-
-	printf("\n\n  ja esta   \n\n ");
-	
-	
-
-	//printf("\n\n the string \n %s \n\n", sh->cmd_line);
-
-
-
-
-
-
-
-}*/
-
-
-static void	init_tokens(t_sh *sh)
-{
-	int x;
-
-	x = 0;
-	sh->tokens = malloc(sizeof(t_tokens) * (sh->vars.tk_num));
-	if(!sh->tokens)
-		exit(EXIT_FAILURE);
-	while(x < sh->vars.tk_num)
+	n = 0;
+	while(n < sh->vars.tk_num)
 	{
-		sh->tokens[x].cmd = false;
-		sh->tokens[x].arg = false;
-		sh->tokens[x].pipe = false;
-		sh->tokens[x].r_in = false;
-		sh->tokens[x].r_out = false;
-		sh->tokens[x].s_quote = false;
-		sh->tokens[x].d_quote = false;
-		sh->tokens[x].f_quote = false;
-		sh->tokens[x].file = false;
-		x++;
+		if(sh->tokens[n].tokens[0] == 34)
+		{
+			if(!sh->tokens[n].tokens[1])
+				sh->tokens[n].f_quote = true;
+			else
+				sh->tokens[n].d_quote = true;
+		}
+		else if(sh->tokens[n].tokens[0] == 39)
+		{
+			if(!sh->tokens[n].tokens[1])
+				sh->tokens[n].f_quote = true;
+			else
+				sh->tokens[n].s_quote = true;
+		}
+		else if(sh->tokens[n].tokens[0] == 36)
+			sh->tokens[n].envp = true;
+		else if(sh->tokens[n].tokens[0] == 45)
+			sh->tokens[n].arg = true;
+		else if(sh->tokens[n].tokens[0] == 124)
+			sh->tokens[n].pipe = true;
+		else if(sh->tokens[n].tokens[0] == 60)
+			sh->tokens[n].r_in = true;
+		else if(sh->tokens[n].tokens[0] == 62)
+			sh->tokens[n].r_out = true;
+		else if(search_ext(sh->tokens[n].tokens))
+			sh->tokens[n].file = true;
+		else
+			sh->tokens[n].cmd = true;
+		n++;
 	}
-	// fazer aqui funcao de capturar os tokens e filtrar por tipo.
 }
 
-
-void	init_error(t_sh *sh)
+void	split_cmd(t_sh *sh)
 {
-	sh->error.cmd_error = false;
-	sh->error.token_error = false;
-	sh->error.expand_error = false;
-	sh->error.parse_error = false;
-	sh->error.exec_error = false;
-}
+	int	len;
+	int x;
+	int xx;
+	int n;
 
-void	free_tokens(t_sh *sh)
-{
-	/*
-	while(sh->vars.tk_num > 0)
+	n = 0;
+	x = 0;
+	if(sh->vars.tk_num == 0)
+		exit;
+	if(sh->vars.tk_num == 1)
 	{
-			free(&sh->tokens[sh->vars.tk_num].tokens);
-			sh->vars.tk_num--;
-	}*/
-	free(sh->tokens);
+		len = strlen(sh->cmd_line);
+		sh->tokens[0].tokens = malloc(sizeof(char *) * (len + 1));
+		while(x < len)
+		{
+					sh->tokens[0].tokens[x] = sh->cmd_line[x];
+					x++;
+		}
+		sh->tokens[0].tokens[x] = '\0';
+	}
+	else
+	{
+		while(1)
+		{
+			xx = 0;
+			len = 0;
+			if(!sh->cmd_line[x])
+				break;
+			else if(check_if_squote(sh->cmd_line, x) || check_if_dquote(sh->cmd_line, x))
+			{
+				len = check_type_quote(sh->cmd_line, x) - x;
+				sh->tokens[n].tokens = malloc(sizeof(char *) * (len + 1));
+				while(xx < len)
+				{
+					sh->tokens[n].tokens[xx] = sh->cmd_line[x];
+					x++;
+					xx++;
+				}
+				sh->tokens[n].tokens[xx] = '\0';
+				n++;
+			}
+			else
+			{
+				printf("\n\nlen = %d\n\nx = %d\n\n", len, x);
+				while(sh->cmd_line[x] && sh->cmd_line[x] != ' ')
+				{
+					len++;
+					x++;
+				}
+				x -= len; 
+				printf("\n\nlen = %d\n\nx = %d\n\n", len, x);
+				sh->tokens[n].tokens = malloc(sizeof(char *) * (len + 1));
+				while(sh->cmd_line[x] && sh->cmd_line[x] != ' ')
+				{
+					sh->tokens[n].tokens[xx] = sh->cmd_line[x];
+					xx++;
+					x++;
+				}
+				sh->tokens[n].tokens[xx] = '\0';
+				n++;
+			}	
+		x++;  
+		}
+	}
 }
-
 
 int main(int ac, char **av, char **envp)
 {
    	t_sh	sh;
+	
 	int x;
 
 	memset(&sh, 0, sizeof(t_sh));
@@ -330,13 +230,19 @@ int main(int ac, char **av, char **envp)
 		sh.vars.tk_num = count_tokens(&sh);
 
 		init_tokens(&sh);
-		//tokens_2_matrix(sh);
-
+		split_cmd(&sh);
+		filter_tokens(&sh);
+		x = 0;
+		while(x < sh.vars.tk_num)
+		{
+			printf("\n aqui esta \n %i \n %s \n", sh.tokens[x].num, sh.tokens[x].tokens);
+			x++;
+		}
 
 
 		//get_tokens(&sh);
 
-		printf("\n\n out of it\n\n tk_num = %d\n cmd_line = %s\n\n\n\n", sh.vars.tk_num, sh.cmd_line);
+		//printf("\n\n out of it\n\n tk_num = %d\n cmd_line = %s\n\n\n\n", sh.vars.tk_num, sh.cmd_line);
 
 
 		free_tokens(&sh);
@@ -348,3 +254,5 @@ int main(int ac, char **av, char **envp)
 
 
 }
+
+
