@@ -13,27 +13,27 @@
 
 typedef struct s_vars
 {
-    int     tk_num;
+    int     tk_num; //numero total de tokens
 }   t_vars;
 
 
 typedef struct s_tokens
 {
-    int     num;
-    char    *tokens;
-    bool    cmd;
-    bool    arg;
-    bool    pipe;
-    bool    s_quote;
-    bool    d_quote;
-    bool    f_quote;
-    bool    r_in;
-    bool    r_out;
-    bool    file;
-    bool    envp;
+    int     num;        //num do token
+    char    *tokens;    //conteudo do token
+    bool    cmd;                            // flags para definir o tipo de token
+    bool    arg;                            // flags para definir o tipo de token.
+    bool    pipe;                            // flags para definir o tipo de token.
+    bool    s_quote;                            // flags para definir o tipo de token.
+    bool    d_quote;                            // flags para definir o tipo de token.
+    bool    f_quote;                            // flags para definir o tipo de token.
+    bool    r_in;                            // flags para definir o tipo de token.
+    bool    r_out;                            // flags para definir o tipo de token.
+    bool    file;                            // flags para definir o tipo de token.
+    bool    envp;                            // flags para definir o tipo de token.
 }   t_tokens;
 
-typedef struct s_error
+typedef struct s_error                //struct apenas para assinalar erros
 {
     bool    exit_error;
     bool    cmd_error;
@@ -43,7 +43,7 @@ typedef struct s_error
     bool    exec_error;
 }   t_error;
 
-typedef struct s_sh
+typedef struct s_sh            //struct principal, onde esta as ligacoes para todas as outras estruturas existentes
 {
     t_tokens    *tokens;
     t_vars      vars;
@@ -52,10 +52,11 @@ typedef struct s_sh
 
 }   t_sh;
 
+/*             FUNCTIONS           */
 
+/* PROMPT.c */
 char	*get_prompt();
-void    get_tokens(t_sh *sh);
-
+/*    FIM     */
 
 /* TOKEN_CHECKER.c */
 bool token_is_valid(char *src);
@@ -67,7 +68,6 @@ int check_type_quote(char *cmd_line, int x);
 /* FREE.c */
 void	free_tokens(t_sh *sh);
 /*   FIM   */
-
 
 /* INIT.c */
 void	init_error(t_sh *sh);
@@ -82,14 +82,12 @@ static bool counter_validation(int c);
 void	filter_tokens(t_sh *sh);
 void	split_cmd(t_sh *sh);
 /*   FIM   */
+
 /* TOKEN_CHECKER_UTILS.c */
 bool	check_if_dquote(char *str, int x_o);
 bool	check_if_squote(char *str, int x_o);
 bool	search_ext(char *str);
 /*   FIM   */
-/* TOKEN_CHECKER.c */
-/*   FIM   */
-/* TOKEN_CHECKER.c */
-/*   FIM   */
+
 
 #endif
