@@ -10,14 +10,13 @@ static char	*verify_host(char *host)
 	{
 		if(host[x] == '.')
 		{
-			xx = x;
 			break;
 		}
 		x++;
 	}
 	res = malloc(sizeof(char *) * (x + 1));
 	x = 0;
-	while(host[x] != '.')
+	while(host[x] != '.' && host[x])
 	{
 		res[x] = host[x];
 		x++;
@@ -94,8 +93,8 @@ char	*get_prompt()
 	user = getenv("USER");
 	host = malloc(sizeof(char) * _SC_HOST_NAME_MAX + 1);
 	gethostname(host, _SC_HOST_NAME_MAX + 1);
-	host = getenv("HOST");
-
+	if(!host)
+		host = getenv("HOSTNAME");
 	host = verify_host(host);
 	prompt = join_2_str(user, host , "@");
 	dir = getenv("PWD");
@@ -105,3 +104,11 @@ char	*get_prompt()
 	free(host);
 	return(prompt);  
 }
+/* 
+int	main(void)
+{
+
+	printf("\n%s\n", get_prompt());
+
+}
+*/

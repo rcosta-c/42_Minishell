@@ -35,27 +35,6 @@ static bool counter_validation(int c)
 		return(false);
 }
 
-static char	*ft_2strdup(const char *s)
-{
-	unsigned int	cnt;
-	char			*dest;
-
-	cnt = 0;
-	while (s[cnt] != '\0')
-		cnt++;
-	dest = (char *)malloc(sizeof(char) * cnt + 1);
-	if (!dest)
-		return (NULL);
-	cnt = 0;
-	while (s[cnt] != '\0')
-	{
-		dest[cnt] = s[cnt];
-		cnt++;
-	}
-	dest[cnt] = '\0';
-	return (dest);
-}
-
 static char *prepare_line(char *str)
 {
 	int     x_o;
@@ -91,7 +70,7 @@ static char *prepare_line(char *str)
 		}
 	}
 	temp[x_d] = '\0';
-	dest = ft_2strdup(temp);
+	dest = ft_strdup(temp);
 	return(dest);
 }
 
@@ -148,7 +127,7 @@ void	split_cmd(t_sh *sh)
 		exit;
 	if(sh->vars.tk_num == 1)
 	{
-		len = strlen(sh->cmd_line);
+		len = ft_strlen(sh->cmd_line);
 		sh->tokens[0].tokens = malloc(sizeof(char *) * (len + 1));
 		while(x < len)
 		{
@@ -221,7 +200,7 @@ int main(int ac, char **av, char **envp)
 
 
 		
-		sh.cmd_line = readline("Input -> ");
+		sh.cmd_line = readline(get_prompt());
 		//	printf("\n\nbefore =%s-fim-", sh.cmd_line);
 
 		sh.cmd_line = prepare_line(sh.cmd_line);

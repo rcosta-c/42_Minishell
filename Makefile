@@ -7,9 +7,12 @@ NAME := minishell
 CC := cc
 #CFLAGS := -Wall -Werror -Wextra #
 
-SRCS := readline/readcmd.c \
-						  readline/prompt.c \
-						  readline/token_init.c \
+SRCS := src/token.c \
+						  src/free.c \
+						  src/token_checker.c \
+						  src/token_checker_utils.c \
+						  src/prompt.c \
+						  src/init.c \
 						  lib/libft/ft_isalnum.c \
 						  lib/libft/ft_bzero.c \
 						  lib/libft/ft_putchar_fd.c \

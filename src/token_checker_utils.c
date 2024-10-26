@@ -42,7 +42,7 @@ bool	search_ext(char *str)
 {
 	int	len;
 
-	len = strlen(str);
+	len = ft_strlen(str);
 	while(len > 0)
 	{
 		if(str[len] == '.')
