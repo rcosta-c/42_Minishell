@@ -6,13 +6,13 @@
 /*   By: mota <mota@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 14:59:34 by mota              #+#    #+#             */
-/*   Updated: 2024/10/25 21:25:24 by mota             ###   ########.fr       */
+/*   Updated: 2024/10/27 01:13:12 by mota             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void    ft_pwd(t_mini *mini, char **cmd, char **envp)
+void    ft_pwd(t_sh *sh, char **cmd, char **envp)
 {
     size_t  i;
 
@@ -29,7 +29,7 @@ void    ft_pwd(t_mini *mini, char **cmd, char **envp)
         else
         {
             ft_putstr_fd("pwd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n", 2);
-            mini->exit = 1;
+            sh->error.exit = true;
         }
     }
 }

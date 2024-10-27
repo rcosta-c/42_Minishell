@@ -21,7 +21,7 @@ typedef struct s_tokens
 {
     int     num;        //num do token
     char    *tokens;    //conteudo do token
-    bool    cmd;                            // flags para definir o tipo de token
+    bool    **cmd;                            // flags para definir o tipo de token
     bool    arg;                            // flags para definir o tipo de token.
     bool    pipe;                            // flags para definir o tipo de token.
     bool    s_quote;                            // flags para definir o tipo de token.
@@ -30,7 +30,7 @@ typedef struct s_tokens
     bool    r_in;                            // flags para definir o tipo de token.
     bool    r_out;                            // flags para definir o tipo de token.
     bool    file;                            // flags para definir o tipo de token.
-    bool    envp;                            // flags para definir o tipo de token.
+    bool    **envp;                            // flags para definir o tipo de token.
 }   t_tokens;
 
 typedef struct s_error                //struct apenas para assinalar erros
@@ -67,6 +67,8 @@ int check_type_quote(char *cmd_line, int x);
 
 /* FREE.c */
 void	free_tokens(t_sh *sh);
+char	*free_ptr(char *ptr);
+char	**free_mat(char **mat);
 /*   FIM   */
 
 /* INIT.c */
@@ -89,5 +91,11 @@ bool	check_if_squote(char *str, int x_o);
 bool	search_ext(char *str);
 /*   FIM   */
 
+// builtins
+void    ft_echo(t_sh *sh, char **cmd);
+void    ft_pwd(t_sh *sh, char **cmd, char **envp);
+void    ft_cd(t_sh *sh, char **cmd, char **envp);
+void    ft_unset(t_sh *sh, char **cmd, char **envp);
+/*   FIM   */
 
 #endif

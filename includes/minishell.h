@@ -50,10 +50,11 @@ typedef struct s_tokens
 
 }   t_tokens;
 
-// builtins
-void    ft_echo(t_mini *mini, char **cmd);
-void    ft_pwd(t_mini *mini, char **cmd, char **envp);
-void    ft_cd(t_mini *mini, char **cmd, char **envp);
+/* builtins
+void    ft_echo(t_sh *sh, char **cmd);
+void    ft_pwd(t_sh *sh, char **cmd, char **envp);
+void    ft_cd(t_sh *sh, char **cmd, char **envp);
+void    ft_unset(t_sh *sh, char **cmd, char **envp);*/
 
 char	*get_prompt();
 void    get_tokens(char *str, t_shvars sh);

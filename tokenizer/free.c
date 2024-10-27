@@ -10,3 +10,25 @@ void	free_tokens(t_sh *sh)
 	}*/
 	free(sh->tokens);
 }
+
+char	*free_ptr(char *ptr)
+{
+	free(ptr);
+	ptr = NULL;
+	return (NULL);
+}
+
+char	**free_mat(char **mat)
+{
+	size_t	i;
+
+	i = 0;
+	while (mat && mat[i])
+	{
+		mat[i] = free_ptr(mat[i]);
+		i++;
+	}
+	free (mat);
+	mat = NULL;
+	return (NULL);
+}

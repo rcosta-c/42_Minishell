@@ -6,13 +6,13 @@
 /*   By: mota <mota@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 18:16:01 by mota              #+#    #+#             */
-/*   Updated: 2024/10/25 23:23:25 by mota             ###   ########.fr       */
+/*   Updated: 2024/10/27 01:20:48 by mota             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void    ft_unset(t_mini *mini, char **cmd, char **envp)
+void    ft_unset(t_sh *sh, char **cmd, char **envp)
 {
     int i;
     int j;
@@ -25,16 +25,16 @@ void    ft_unset(t_mini *mini, char **cmd, char **envp)
         i++;
     envp = (char **)malloc(sizeof(char *) * (i + 1));
     i = 0;
-    while (mini->envp[i])
+    while (sh->envp[i])
     {
-        if (ft_strncmp(mini->envp[i], cmd[1], ft_strlen(cmd[1])) != 0)
+        if (ft_strncmp(sh->envp[i], cmd[1], ft_strlen(cmd[1])) != 0)
         {
-            envp[j] = ft_strdup(mini->envp[i]);
+            envp[j] = ft_strdup(sh->envp[i]);
             j++;
         }
         i++;
     }
     envp[j] = NULL;
-    free(mini->envp);
-    mini->envp = envp;
+    free_ptr(sh->envp);
+    sh->envp = envp;
 }
