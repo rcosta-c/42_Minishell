@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mota <mota@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: cde-paiv <cde-paiv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 21:26:11 by mota              #+#    #+#             */
-/*   Updated: 2024/10/25 20:43:13 by mota             ###   ########.fr       */
+/*   Updated: 2024/10/28 11:50:51 by cde-paiv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void    ft_echo(t_mini *mini, char **cmd)
+void    ft_echo(t_sh *sh, char **cmd)
 {
     int i;
     int n_flag;
@@ -33,5 +33,5 @@ void    ft_echo(t_mini *mini, char **cmd)
     }
     if (!n_flag)
         ft_putstr_fd("\n", 1);
-    mini->exit = 0;
+    sh->error.exit_error = false;
 }

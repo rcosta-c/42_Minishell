@@ -31,6 +31,8 @@ typedef struct s_tokens
     bool    r_out;
     bool    file;
     bool    envp;
+    bool    exp_t;
+    bool    exp_e;
 }   t_tokens;
 
 typedef struct s_error
@@ -43,11 +45,23 @@ typedef struct s_error
     bool    exec_error;
 }   t_error;
 
+typedef struct s_exec
+{
+    int     n_cmd;
+    char    **cmd;
+    char    **arg;
+    int     infile;
+    int     outfile;
+
+}   t_exec;
+
 typedef struct s_sh
 {
+    t_exec      **comands;
     t_tokens    *tokens;
     t_vars      vars;
     char        *cmd_line;
+    char        **envp;
     t_error     error;
 
 }   t_sh;
@@ -82,14 +96,23 @@ static bool counter_validation(int c);
 void	filter_tokens(t_sh *sh);
 void	split_cmd(t_sh *sh);
 /*   FIM   */
+
 /* TOKEN_CHECKER_UTILS.c */
 bool	check_if_dquote(char *str, int x_o);
 bool	check_if_squote(char *str, int x_o);
 bool	search_ext(char *str);
 /*   FIM   */
-/* TOKEN_CHECKER.c */
+
+/* EXPANDER.c */
+void    expand_init(t_sh *sh);
+bool	search_expand(t_sh *sh, char *tk, int n);
 /*   FIM   */
-/* TOKEN_CHECKER.c */
+
+// builtins
+void    ft_echo(t_sh *sh, char **cmd);
+void    ft_pwd(t_sh *sh, char **cmd, char **envp);
+void    ft_cd(t_sh *sh, char **cmd, char **envp);
+void    ft_unset(t_sh *sh, char **cmd);
 /*   FIM   */
 
 #endif
