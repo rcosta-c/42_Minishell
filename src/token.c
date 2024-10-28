@@ -190,6 +190,7 @@ int main(int ac, char **av, char **envp)
 
 	memset(&sh, 0, sizeof(t_sh));
 	x = 0;
+	sh.envp = envp;
 	init_error(&sh);
 	while(1)
 	{
@@ -212,6 +213,8 @@ int main(int ac, char **av, char **envp)
 		split_cmd(&sh);
 		filter_tokens(&sh);
 		x = 0;
+
+		
 		while(x < sh.vars.tk_num)
 		{
 			printf("\n aqui esta \n %i \n %s \n", sh.tokens[x].num, sh.tokens[x].tokens);

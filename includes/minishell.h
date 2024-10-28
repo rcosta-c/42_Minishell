@@ -45,11 +45,23 @@ typedef struct s_error
     bool    exec_error;
 }   t_error;
 
+typedef struct s_exec
+{
+    int     n_cmd;
+    char    **cmd;
+    char    **arg;
+    int     infile;
+    int     outfile;
+
+}   t_exec;
+
 typedef struct s_sh
 {
+    t_exec      **comands;
     t_tokens    *tokens;
     t_vars      vars;
     char        *cmd_line;
+    char        **envp;
     t_error     error;
 
 }   t_sh;
