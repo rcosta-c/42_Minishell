@@ -3,15 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cde-paiv <cde-paiv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mota <mota@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 14:59:34 by mota              #+#    #+#             */
-/*   Updated: 2024/10/28 11:51:02 by cde-paiv         ###   ########.fr       */
+/*   Updated: 2024/10/28 20:12:10 by mota             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+//imprime o diretório de trabalho atual,
+// ou exibe uma mensagem de erro caso não consiga acessá-lo
 void    ft_pwd(t_sh *sh, char **cmd, char **envp)
 {
     size_t  i;

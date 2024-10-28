@@ -3,15 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cde-paiv <cde-paiv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mota <mota@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 21:26:11 by mota              #+#    #+#             */
-/*   Updated: 2024/10/28 11:50:51 by cde-paiv         ###   ########.fr       */
+/*   Updated: 2024/10/28 20:18:01 by mota             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+//Função que imprime os argumentos passados, 
+//com suporte para omitir a nova linha final se a flag -n for utilizada
 void    ft_echo(t_sh *sh, char **cmd)
 {
     int i;

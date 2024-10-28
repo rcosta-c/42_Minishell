@@ -3,15 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   cd .c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cde-paiv <cde-paiv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mota <mota@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 15:35:59 by mota              #+#    #+#             */
-/*   Updated: 2024/10/28 11:54:13 by cde-paiv         ###   ########.fr       */
+/*   Updated: 2024/10/28 20:20:03 by mota             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+// Função que altera o diretório de trabalho atual 
+//e atualiza as variáveis de ambiente PWD e OLDPWD
 static void set_dir(t_sh *sh, char *dir, char **envp)
 {
     char    *temp;
@@ -41,6 +43,8 @@ static void set_dir(t_sh *sh, char *dir, char **envp)
     free(var);
 }
 
+// Função que retorna o caminho do diretório 
+// HOME a partir das variáveis de ambiente
 static void *set_home(t_sh *sh, char **envp)
 {
     char    *home;
@@ -51,6 +55,8 @@ static void *set_home(t_sh *sh, char **envp)
     return (home);
 }
 
+// Função que muda o diretório de trabalho, 
+// seja para um especificado ou para o HOME se nenhum for dado
 void    ft_cd(t_sh *sh, char **cmd, char **envp)
 {
     if (cmd[1] && !cmd[2])

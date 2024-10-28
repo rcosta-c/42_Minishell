@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cde-paiv <cde-paiv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mota <mota@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 18:16:01 by mota              #+#    #+#             */
-/*   Updated: 2024/10/28 11:56:59 by cde-paiv         ###   ########.fr       */
+/*   Updated: 2024/10/28 20:10:32 by mota             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void    ft_unset(t_sh *sh, char **cmd)
         i++;
     envx = malloc(sizeof(char *) * (i + 1));
     i = 0;
+    // Copia as variáveis de ambiente para 'envx', ignorando aquela especificada em 'cmd[1]'
     while (sh->envp[i])
     {
         if (ft_strncmp(sh->envp[i], cmd[1], ft_strlen(cmd[1])) != 0)
@@ -36,6 +37,7 @@ void    ft_unset(t_sh *sh, char **cmd)
         i++;
     }
     envx[j] = NULL;
+    // Atualiza o ponteiro 'envp' com o novo array de variáveis de ambiente, sem a variável removida
     // free(sh->envx);
     sh->envp = envx;
 }

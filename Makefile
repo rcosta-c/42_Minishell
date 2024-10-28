@@ -8,6 +8,13 @@ CC := cc
 #CFLAGS := -Wall -Werror -Wextra #
 
 SRCS := src/token.c \
+						  builtins/echo.c \
+						  builtins/cd.c \
+						  builtins/pwd.c \
+						  builtins/export.c \
+						  builtins/unset.c \
+						  builtins/env.c \
+						  builtins/exit.c \
 						  src/free.c \
 						  src/token_checker.c \
 						  src/token_checker_utils.c \

@@ -113,6 +113,9 @@ void    ft_echo(t_sh *sh, char **cmd);
 void    ft_pwd(t_sh *sh, char **cmd, char **envp);
 void    ft_cd(t_sh *sh, char **cmd, char **envp);
 void    ft_unset(t_sh *sh, char **cmd);
+void    ft_exit(t_sh *sh, char **cmd);
+void    ft_env(t_sh *sh, char **cmd, char **envp);
+void    ft_export(t_sh *sh, char **cmd, char ***envp);
 /*   FIM   */
 
 #endif
