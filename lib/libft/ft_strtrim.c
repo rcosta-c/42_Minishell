@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcosta-c <rcosta-c@student.42porto.co      +#+  +:+       +#+        */
+/*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 08:29:36 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/04/24 10:47:17 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/10/28 09:35:33 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,10 @@ char	*ft_strtrim(char const *s1, char const *set)
 		max_len--;
 	return (ft_substr(s1, 0, max_len + 1));
 }
+
 /*
+#include <stdio.h>
+
 int     main()
 {
         char  	*string = "---umdolita---";

@@ -31,6 +31,8 @@ typedef struct s_tokens
     bool    r_out;
     bool    file;
     bool    envp;
+    bool    exp_t;
+    bool    exp_e;
 }   t_tokens;
 
 typedef struct s_error
@@ -82,13 +84,18 @@ static bool counter_validation(int c);
 void	filter_tokens(t_sh *sh);
 void	split_cmd(t_sh *sh);
 /*   FIM   */
+
 /* TOKEN_CHECKER_UTILS.c */
 bool	check_if_dquote(char *str, int x_o);
 bool	check_if_squote(char *str, int x_o);
 bool	search_ext(char *str);
 /*   FIM   */
-/* TOKEN_CHECKER.c */
+
+/* EXPANDER.c */
+void    expand_init(t_sh *sh);
+bool	search_expand(t_sh *sh, char *tk, int n);
 /*   FIM   */
+
 /* TOKEN_CHECKER.c */
 /*   FIM   */
 

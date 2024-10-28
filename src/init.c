@@ -35,6 +35,8 @@ void	init_tokens(t_sh *sh)
 		sh->tokens[x].f_quote = false;
 		sh->tokens[x].envp = false;
 		sh->tokens[x].file = false;
+		sh->tokens[x].exp_e = false;
+		sh->tokens[x].exp_t = false;
 		x++;
 	}
 }
