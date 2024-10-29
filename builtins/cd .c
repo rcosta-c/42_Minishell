@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd .c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mota <mota@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: cde-paiv <cde-paiv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 15:35:59 by mota              #+#    #+#             */
-/*   Updated: 2024/10/28 20:20:03 by mota             ###   ########.fr       */
+/*   Updated: 2024/10/29 09:25:22 by cde-paiv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ static void set_dir(t_sh *sh, char *dir, char **envp)
     {
         perror;
         sh->error.exit_error = true;
+        //erro 
     }
     else
     {
