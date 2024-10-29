@@ -6,7 +6,6 @@ replace_expand(t_sh *sh, char *tk, int )
 
 
 
-merda
 }
 
 static char	*ft_strjoin(char *s1, char *s2)
