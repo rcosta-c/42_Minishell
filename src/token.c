@@ -1,7 +1,7 @@
 
 #include "../includes/minishell.h"
 
-static int	count_tokens(t_sh *sh)
+int	count_tokens(t_sh *sh)
 {
 	int	x;
 	int	counter;
@@ -15,7 +15,7 @@ static int	count_tokens(t_sh *sh)
 			x = check_type_quote(sh->cmd_line, x);
 			counter++;
 		}		
-		if(counter_validation(sh->cmd_line[x - 1]) && sh->cmd_line[x - 1] != 32 && sh->cmd_line[x] == 32)
+		else if(counter_validation(sh->cmd_line[x - 1]) && sh->cmd_line[x - 1] != 32 && sh->cmd_line[x] == 32)
 			counter++;
 		x++;
 	}
@@ -27,7 +27,7 @@ static int	count_tokens(t_sh *sh)
 }
 
 
-static bool counter_validation(int c)
+bool counter_validation(int c)
 {
 	if(c == 33 || (c >= 35 && c <= 38) ||c >= 40 && c <= 176)
 		return(true);
@@ -35,7 +35,7 @@ static bool counter_validation(int c)
 		return(false);
 }
 
-static char *prepare_line(char *str)
+char *prepare_line(char *str)
 {
 	int     x_o;
 	int     x_d;
@@ -72,46 +72,6 @@ static char *prepare_line(char *str)
 	temp[x_d] = '\0';
 	dest = ft_strdup(temp);
 	return(dest);
-}
-
-
-void	filter_tokens(t_sh *sh)
-{
-	int	n;
-
-	n = 0;
-	while(n < sh->vars.tk_num)
-	{
-		if(sh->tokens[n].tokens[0] == 34)
-		{
-			if(!sh->tokens[n].tokens[1])
-				sh->tokens[n].f_quote = true;
-			else
-				sh->tokens[n].d_quote = true;
-		}
-		else if(sh->tokens[n].tokens[0] == 39)
-		{
-			if(!sh->tokens[n].tokens[1])
-				sh->tokens[n].f_quote = true;
-			else
-				sh->tokens[n].s_quote = true;
-		}
-		else if(sh->tokens[n].tokens[0] == 36)
-			sh->tokens[n].envp = true;
-		else if(sh->tokens[n].tokens[0] == 45)
-			sh->tokens[n].arg = true;
-		else if(sh->tokens[n].tokens[0] == 124)
-			sh->tokens[n].pipe = true;
-		else if(sh->tokens[n].tokens[0] == 60)
-			sh->tokens[n].r_in = true;
-		else if(sh->tokens[n].tokens[0] == 62)
-			sh->tokens[n].r_out = true;
-		else if(search_ext(sh->tokens[n].tokens))
-			sh->tokens[n].file = true;
-		else
-			sh->tokens[n].cmd = true;
-		n++;
-	}
 }
 
 void	split_cmd(t_sh *sh)
@@ -159,14 +119,12 @@ void	split_cmd(t_sh *sh)
 			}
 			else
 			{
-				printf("\n\nlen = %d\n\nx = %d\n\n", len, x);
 				while(sh->cmd_line[x] && sh->cmd_line[x] != ' ')
 				{
 					len++;
 					x++;
 				}
 				x -= len; 
-				printf("\n\nlen = %d\n\nx = %d\n\n", len, x);
 				sh->tokens[n].tokens = malloc(sizeof(char *) * (len + 1));
 				while(sh->cmd_line[x] && sh->cmd_line[x] != ' ')
 				{
@@ -182,59 +140,5 @@ void	split_cmd(t_sh *sh)
 	}
 }
 
-int main(int ac, char **av, char **envp)
-{
-   	t_sh	sh;
-	
-	int x;
-
-	memset(&sh, 0, sizeof(t_sh));
-	x = 0;
-	sh.envp = envp;
-	init_error(&sh);
-	while(1)
-	{
-		sh.vars.tk_num = 0;
-
-		if(sh.cmd_line)
-			free(sh.cmd_line);
-
-
-		
-		sh.cmd_line = readline(get_prompt());
-		//	printf("\n\nbefore =%s-fim-", sh.cmd_line);
-
-		sh.cmd_line = prepare_line(sh.cmd_line);
-		//printf("\n\nafte1111111111111111r line =%s/fim/", sh.cmd_line);
-
-		sh.vars.tk_num = count_tokens(&sh);
-
-		init_tokens(&sh);
-		split_cmd(&sh);
-		filter_tokens(&sh);
-		x = 0;
-
-		
-		while(x < sh.vars.tk_num)
-		{
-			printf("\n aqui esta \n %i \n %s \n", sh.tokens[x].num, sh.tokens[x].tokens);
-			x++;
-		}
-
-
-		//get_tokens(&sh);
-
-		//printf("\n\n out of it\n\n tk_num = %d\n cmd_line = %s\n\n\n\n", sh.vars.tk_num, sh.cmd_line);
-
-
-		free_tokens(&sh);
-
-
-	}
-
-
-
-
-}
 
 

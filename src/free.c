@@ -2,11 +2,13 @@
 
 void	free_tokens(t_sh *sh)
 {
-	
-	/*while(sh->vars.tk_num > 0)
+	/*int x;
+
+	x = 0;	
+	while(x < sh->vars.tk_num - 1)
 	{
-			free(&sh->tokens[sh->vars.tk_num].tokens);
-			sh->vars.tk_num--;
+			free(&sh->tokens[x].tokens);
+			x++;
 	}*/
 	free(sh->tokens);
 }

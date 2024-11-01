@@ -1,193 +1,179 @@
 #include "../includes/minishell.h"
 
-char	*replace_tilde(char *env, char *tk)
+/* s1 = token part and s2 = envp part */
+static int	ft_envp_n_cmp(const char *s1, const char *s2)
 {
+	size_t	counter;
+	size_t n;
 
-
-
-
-
+	n = ft_strlen(s1);
+	counter = 0;
+	if (n == 0)
+		return (0);
+	while (s1[counter] == s2[counter] && s1[counter] != '\0')
+	{
+		if (counter < (n - 1))
+			counter++;
+		else
+			return (0);
+	}
+	if(s2[counter] == '=')
+		return ((unsigned char)(s1[counter]) - (unsigned char)(s2[counter]));
+	else
+		return ((unsigned char)(s2[counter]));
 }
 
-char    *replace_env(char *env, char *tk)
+static char	*search_envp(t_sh *sh, char *z)
 {
-    int x;
-	int	xx;
-	int	xxx;
-	char	*n_env;
-    char    new[200];
+	int 	x;
+	int		xx;
+	int		xt;
+	char	temp[100];
 
-	xxx = 0;
-	xx = 0;
-    x = 0;
-	while (tk[xx] != '$' && tk[xx])
-		new[xx] = tk[xx++];
-	xxx = xx;
-	while(tk[xx] != ' ' && tk[xx])
-		xx++;
-    while(env[x] && env[x] != '=')
-        x++;
-	x++;
-	while(env[x] && env[x] != ' ')
-		new[xxx++] = env[x++];
-	while(tk[xx])
-		new[xxx++] = tk[xx++];
-    n_env = strdup(new);
-    return(new);
-}
-
-bool    compare_env(char *env, char *value)
-{
-    int len;
-    int x;
-
-    x = 0;
-    len = strlen(value);
-    while(x < len && *value)
-    {
-        if(env[x] == *value)
-        {
-			x++;
-			*value++;
-		}
-        else
-            return(false);
-    }
-    return(false);
-}
-
-static char replace_exp_e(t_sh *sh, char *tk, int x)
-{
-	int env_x;
-    int len;
-    char *dest;
-
-	env_x = 0;
-    len = 0;
-    while(sh->envp[env_x])
-    {
-        len = ft_strlen(tk);
-        if(compare_env(sh->envp[x], &tk[x]))
-            dest = replace_env(sh->envp[x++], tk);
-        else
-            env_x++;
-    }
-	if(!sh->envp[x])
-		return('\n');
-	return(dest);
-}
-
-
-static char	get_env_home(t_sh *sh)
-{
-	int	x;
-
+	xx = 0;	
 	x = 0;
+	xt = 0;
+	printf("\n\n expand parte procura por expands\n\n");
 	while(sh->envp[x])
 	{
-
-
-
-
-
-		
-		x++;
-	}
-
-
-
-
-
-}
-
-static void	replace_exp_t(t_sh *sh, char *tk)
-{
-	char	*home;
-	int		x1;
-	int		x2;
-	int		counter;
-
-	x1 = 0;
-	x2 = 0;
-	counter = 0;
-	home = get_env_home();
-	home = getenv("HOME");
-	while(tk[x1] != '~')
-		x1++;
-	if(!tk[x1 + 1])
-	{
-		tk = home;
-		exit;
-	}
-	else
-	{
-
-
-	}
-
-
-
-
-
-}
-
-
-bool	search_expand(t_sh *sh, char *tk, int n)
-{
-	int	x;
-
-	x = 0;
-	if(sh->tokens[n].file || sh->tokens[n].d_quote || sh->tokens[n].envp || sh->tokens[n].arg)
-	{
-		while(tk[x])
+		if(ft_envp_n_cmp(z, sh->envp[x]) == 0)
 		{
-			if(tk[x] == '~' && (tk[x + 1] == '/' || !tk[x + 1]))
-			{
-				sh->tokens[n].exp_t = true;
-				return(true);
-				//tk = expand_home(tk);
-			}
-			else if(tk[x] == '$' && ((tk[x + 1] >= 'A' && tk[x + 1] <= 'Z') || (tk[x + 1] >= '0' && tk[x + 1] <= '9')))
-			{
-				sh->tokens[n].exp_e = true;
-				return(true);
-			}
-			else if(tk[x] == '$' && !tk[x + 1])
-			{
-				printf("$\n");
-				return(false);
-			}
-			x++;
-		}
-	}
-}
-
-void    expand_init(t_sh *sh)
-{
-	int x;
-	while(x < sh->vars.tk_num)
-	{
-		if(search_expand(sh, sh->tokens[x].tokens, x))
-		{
-			if(sh->tokens[x].exp_e)
-				replace_exp_e(sh, sh->tokens[x].tokens, x);
-			else if(sh->tokens[x].exp_t)
-				replace_exp_t(sh, sh->tokens[x].tokens)
-			x++;
+			while(sh->envp[x][xx] != '=')
+				xx++;
+			xx++;
+			while(sh->envp[x][xx])
+				temp[xt++] = sh->envp[x][xx++];
+			temp[xt] = '\0';
+			return(ft_strdup(temp));
 		}
 		else
-			x++;
+			x++;	
+	}
+	return(NULL);
+}
+
+void	expand_token(t_sh *sh, char *token, int n)
+{
+	char	a[100];
+	char	b[100];
+	char	c[100];
+	char	*z;
+	int		xa;
+	int		xb;
+
+	xa = 0;
+	xb = 0;
+	printf("\n\n entrou em expand token  1111 \n\n token=%s", token);
+	while(sh->tokens[n].tokens[xa])// && (sh->tokens[n].tokens[xa] != 126 || sh->tokens[n].tokens[xa] != 36))
+	{
+				printf("\n\n caralhooo \n%d\n  parte 22222\n\n", token[xa]);
+
+		if(token[xa] == 126 || token[xa] == 36)
+			break;
+		a[xa] = token[xa];
+		xa++;
+	}
+	a[xa] = '\0';
+	printf("\na = %s\n", a);
+
+	printf("\n\n expand parte 2222 e nao sei mais \n\n");
+
+	if(token[xa] == '~')
+	{
+		printf("\ncarlho tilde\n");
+		z = search_envp(sh, "HOME");
+		xa++;
+	}
+	else if(token[xa] == '$')
+	{
+			printf("\n\n expand parte 22222 e  2222222 \n%d\n\n", token[xa]);
+		xa++;
+		while(token[xa] >= 'A' && token[xa] <= 'Z')
+			c[xb++] = token[xa++];
+		c[xb] = '\0';
+		z = search_envp(sh, c);
+	}
+	c[xb] = '\0';
+	printf("\n\n expand parte 33333\n\n");
+	xb = 0;
+	if(token[xa])
+	{ 	printf("\n\n expand parte 33333\n\n");
+
+	while(token[xa])
+		b[xb++] = token[xa++];
+	}
+		printf("\n\n expand parte 33333\n\n");
+
+		printf("\n\n expand parte 33333\n\n");
+
+	b[xb] = '\0';
+		printf("\n\n\n a=%s , b=%s ,c=%s", a, b, z);
+
+	printf("\n\n expand parte 4444\n\n");
+	free(sh->tokens[n].tokens);
+	sh->tokens[n].tokens = join_2_str(a, b, z);
+	free(z);
+}
+
+void	search_expand(t_sh *sh)
+{
+	int	x;
+	int n;
+
+	n = 0;
+	x = 0;
+			printf("\n\n exapnd parte 0\n\n");
+
+	while(n < sh->vars.tk_num)
+	{
+		if(sh->tokens[n].exp_e || sh->tokens[n].exp_t )
+			expand_token(sh, sh->tokens[n].tokens, n);
+		else if(sh->tokens[n].d_quote)// || sh->tokens[n].file))
+		{
+			while(sh->tokens[n].tokens[x])
+			{
+				if(sh->tokens[n].tokens[x] == '$')
+					expand_token(sh, sh->tokens[n].tokens, n);
+				
+				x++;
+			}
+		}
+		n++;
 	}
 }
 
+/*
+void	search_expand(t_sh *sh)
+{
+	int	x;
+	int n;
 
+	n = 0;
+	x = 0;
+	while(n < sh->vars.tk_num)
+	{
+		x = 0;
+		printf("\n\n exapnd parte 0\n\n");
+		if(sh->tokens[n].file || sh->tokens[n].d_quote || sh->tokens[n].exp_e || sh->tokens[n].exp_t)// || sh->tokens[n].arg)
+		{
+			while(sh->tokens[n].tokens[x])
+			{
+				printf("\n\n   expand parte 1\n\n");
+				if(sh->tokens[n].tokens[x] == '~' && (sh->tokens[n].tokens[x + 1] == '/' || !sh->tokens[n].tokens[x + 1]) && sh->tokens[n].arg)
+					expand_token(sh, sh->tokens[n].tokens, n);
+			else if(sh->tokens[n].tokens[x] == '$' && sh->tokens[n].tokens[x + 1] >= 'A' && sh->tokens[n].tokens[x + 1] <= 'Z')// || (sh->tokens[n].tokens[x + 1] >= '0' && sh->tokens[n].tokens[x + 1] <= '9')))
+					expand_token(sh, sh->tokens[n].tokens, n);
+				x++;
+			}
+		}
+		n++;
+	}
+}
+*/
+
+/*
 int main()
 {
+	search_expand(sh);
 
-	expand_init(sh);
-
-
-
-
-
-}
+}*/

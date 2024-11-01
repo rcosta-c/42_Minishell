@@ -7,12 +7,16 @@ NAME := minishell
 CC := cc
 #CFLAGS := -Wall -Werror -Wextra #
 
-SRCS := src/token.c \
+SRCS := src/minishell.c \
+						  src/token.c \
 						  src/free.c \
 						  src/token_checker.c \
 						  src/token_checker_utils.c \
+						  src/token_filter1.c \
+						  src/token_filter2.c \
 						  src/prompt.c \
 						  src/init.c \
+						  src/expander.c \
 						  lib/libft/ft_isalnum.c \
 						  lib/libft/ft_bzero.c \
 						  lib/libft/ft_putchar_fd.c \

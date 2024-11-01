@@ -64,7 +64,7 @@ static char	*verify_home(char *prompt)
 	return(final_prompt);
 }
 
-static char	*join_2_str(char *a, char *b, char *z)
+char	*join_2_str(char *a, char *b, char *z)
 {
 	int 	n_a;
 	int		n_b;

@@ -28,14 +28,16 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	}
 	return ((unsigned char)(s1[counter]) - (unsigned char)(s2[counter]));
 }
-
+/*
 #include <stdio.h>
-
+#include <string.h>
 int	main()
 {
 	char	*t1, *t2;
+	int	x = 0;
 
 	t1 = "USER";
-	t2 = "USER=rcostabelele";
-	printf("value is : %d \n", ft_strncmp(t1, t2, 5));
-}
+	t2 = "USE=rcostabelele";
+	x = strlen(t1);
+	printf("value is : %d \n", ft_strncmp(t1, t2, x));
+}*/
