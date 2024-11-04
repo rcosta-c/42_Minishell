@@ -117,5 +117,6 @@ void    ft_exit(t_sh *sh, char **cmd);
 void    ft_env(t_sh *sh, char **cmd, char **envp);
 void    ft_export(t_sh *sh, char **cmd, char ***envp);
 /*   FIM   */
+void    ckeck_pipe(char **cmd, t_sh *tokens);
 
 #endif
