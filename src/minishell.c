@@ -60,6 +60,7 @@ int main(int ac, char **av, char **envp)
    	t_sh	sh;
 	
 	int x;
+	int xx;
 
 	memset(&sh, 0, sizeof(t_sh));
 	x = 0;
@@ -68,7 +69,7 @@ int main(int ac, char **av, char **envp)
 	while(1)
 	{
 		sh.vars.tk_num = 0;
-
+		sh.vars.cmds_num = 0;
 		if(sh.cmd_line)
 			free(sh.cmd_line);
 
@@ -78,32 +79,60 @@ int main(int ac, char **av, char **envp)
 		//	printf("\n\nbefore =%s-fim-", sh.cmd_line);
 
 		sh.cmd_line = prepare_line(sh.cmd_line);
-		//printf("\n\nafte1111111111111111r line =%s/fim/", sh.cmd_line);
+		printf("\n\nline /inicio/%s/fim/", sh.cmd_line);
 
 		sh.vars.tk_num = count_tokens(&sh);
 		printf("\nnumero de tokens=%d\n", sh.vars.tk_num);
 		init_tokens(&sh);
 		split_cmd(&sh);
 		filter_tokens(&sh);
-		printf("\n\n vai entrar no expand\n\n");
-		printflags(&sh);
+
 		search_expand(&sh);
 		x = 0;
 
-		
-		while(x < sh.vars.tk_num)
+				printflags(&sh);
+
+		/*while(x < sh.vars.tk_num)
 		{
-			printf("\n aqui esta \n %i \n %s \n", sh.tokens[x].num, sh.tokens[x].tokens);
+			printf("\n %i \n %s \n", sh.tokens[x].num, sh.tokens[x].tokens);
+			x++;
+		}*/
+
+		init_parser(&sh);
+		if(check_before_parse(&sh))
+			{
+				printf("\ninvalid!!!\n");
+				free_tokens(&sh);
+				break;
+			}
+		fill_parser(&sh);
+
+
+		
+		x = 0;
+		//printf("\n\n %d\n\n", sh.vars.cmds_num);
+		while(x < sh.vars.cmds_num)
+		{
+			xx = 0;
+			printf("\n******* COMAND NUM=%d *******\n", x);
+			printf("**\n**\n");
+			printf("**	CMD=%s 	\n", sh.comands[x].cmd);
+			printf("**	N_ARGS=%d 	\n", sh.comands[x].n_args);
+			while(xx < sh.comands[x].n_args)
+			{
+				printf("**	ARG %d = %s 	\n", xx, sh.comands[x].arg[xx]);
+				xx++;
+			}
+			if(sh.comands[x].pipe)
+				printf("**	pipe = ON!	\n");
+			else
+				printf("**	pipe = OFF	\n");
+			printf("**	INFILE=%s 	\n", sh.comands[x].infile);
+			printf("**	OUTFILE=%s 	\n\n\n\n", sh.comands[x].outfile);
 			x++;
 		}
 
-
-		//get_tokens(&sh);
-
-		//printf("\n\n out of it\n\n tk_num = %d\n cmd_line = %s\n\n\n\n", sh.vars.tk_num, sh.cmd_line);
-
-
-		free_tokens(&sh);
+		//free_tokens(&sh);
 
 
 	}

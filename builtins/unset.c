@@ -6,35 +6,38 @@
 /*   By: mota <mota@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 18:16:01 by mota              #+#    #+#             */
-/*   Updated: 2024/10/25 23:23:25 by mota             ###   ########.fr       */
+/*   Updated: 2024/10/28 20:10:32 by mota             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void    ft_unset(t_mini *mini, char **cmd, char **envp)
+void    ft_unset(t_sh *sh, char **cmd)
 {
     int i;
     int j;
     int k;
+    char    *envx;
 
     i = 0;
     j = 0;
     k = 0;
     while (cmd[i])
         i++;
-    envp = (char **)malloc(sizeof(char *) * (i + 1));
+    envx = malloc(sizeof(char *) * (i + 1));
     i = 0;
-    while (mini->envp[i])
+    // Copia as variáveis de ambiente para 'envx', ignorando aquela especificada em 'cmd[1]'
+    while (sh->envp[i])
     {
-        if (ft_strncmp(mini->envp[i], cmd[1], ft_strlen(cmd[1])) != 0)
+        if (ft_strncmp(sh->envp[i], cmd[1], ft_strlen(cmd[1])) != 0)
         {
-            envp[j] = ft_strdup(mini->envp[i]);
+            envx[j] = ft_strdup(sh->envp[i]);
             j++;
         }
         i++;
     }
-    envp[j] = NULL;
-    free(mini->envp);
-    mini->envp = envp;
+    envx[j] = NULL;
+    // Atualiza o ponteiro 'envp' com o novo array de variáveis de ambiente, sem a variável removida
+    // free(sh->envx);
+    sh->envp = envx;
 }

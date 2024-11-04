@@ -1,6 +1,12 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+
+#ifndef BUFFER_SIZE
+# define BUFFER_SIZE 42
+#endif
+
+
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
@@ -13,56 +19,58 @@
 
 typedef struct s_vars
 {
-    int     tk_num;
+	int     tk_num;
+	int		cmds_num;
 }   t_vars;
 
 
 typedef struct s_tokens
 {
-    int     num;
-    char    *tokens;
-    bool    cmd;
-    bool    arg;
-    bool    pipe;
-    bool    s_quote;
-    bool    d_quote;
-    bool    f_quote;
-    bool    r_in;
-    bool    r_out;
-    bool    file;
-    bool    envp;
-    bool    exp_t;      
-    bool    exp_e;
+	int     num;
+	char    *tokens;
+	bool    cmd;
+	bool    arg;
+	bool    pipe;
+	bool    s_quote;
+	bool    d_quote;
+	bool    f_quote;
+	bool    r_in;
+	bool    r_out;
+	bool    file;
+	bool    envp;
+	bool    exp_t;      
+	bool    exp_e;
 }   t_tokens;
 
 typedef struct s_error
 {
-    bool    exit_error;
-    bool    cmd_error;
-    bool    token_error;
-    bool    expand_error;
-    bool    parse_error;
-    bool    exec_error;
+	bool    exit_error;
+	bool    cmd_error;
+	bool    token_error;
+	bool    expand_error;
+	bool    parse_error;
+	bool    exec_error;
 }   t_error;
 
 typedef struct s_exec
 {
-    int     n_cmd;
-    char    **cmd;
-    char    **arg;
-    int     infile;
-    int     outfile;
+	int     n_args;
+	char    *cmd;
+	char    **arg;
+	char	*infile;
+	char    *outfile;
+	bool	pipe;
 
 }   t_exec;
 
 typedef struct s_sh
 {
-    t_exec      **comands;
-    t_tokens    *tokens;
-    t_vars      vars;
-    char        *cmd_line;
-    char        **envp;
-    t_error     error;
+	t_exec      *comands;
+	t_tokens    *tokens;
+	t_vars      vars;
+	char        *cmd_line;
+	char        **envp;
+	t_error     error;
 
 }   t_sh;
 
@@ -74,11 +82,16 @@ char	*join_2_str(char *a, char *b, char *z);
 
 /* FREE.c */
 void	free_tokens(t_sh *sh);
+char	**free_mat(char **mat);
+char	*free_ptr(char *ptr);
+
 /*   FIM   */
 
 /* INIT.c */
 void	init_error(t_sh *sh);
 void	init_tokens(t_sh *sh);
+void	init_parser(t_sh *sh);
+
 /*   FIM   */
 
 /* TOKEN.c */
@@ -86,6 +99,9 @@ char *prepare_line(char *str);
 int	count_tokens(t_sh *sh);
 bool counter_validation(int c);
 void	filter_tokens(t_sh *sh);
+/*   FIM   */
+
+/* SPLIT_CMD.c */
 void	split_cmd(t_sh *sh);
 /*   FIM   */
 
@@ -122,6 +138,20 @@ void	search_expand(t_sh *sh);
 void	expand_token(t_sh *sh, char *token, int n);
 /*   FIM   */
 
+/* PARSE.C*/
+bool    check_before_parse(t_sh *sh);
+void    fill_parser(t_sh *sh);
+/*	FIM	   */
 
+/* BUILTINS.c */
+void	ft_echo(t_sh *sh, char **cmd);
+void	ft_pwd(t_sh *sh, char **cmd, char **envp);
+void	ft_cd(t_sh *sh, char **cmd, char **envp);
+void	ft_unset(t_sh *sh, char **cmd);
+void	ft_exit(t_sh *sh, char **cmd);
+void	ft_env(t_sh *sh, char **cmd, char **envp);
+void	ft_export(t_sh *sh, char **cmd, char **envp);
+
+/*   FIM   */
 
 #endif

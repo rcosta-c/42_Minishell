@@ -6,13 +6,15 @@
 /*   By: mota <mota@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 21:26:11 by mota              #+#    #+#             */
-/*   Updated: 2024/10/25 20:43:13 by mota             ###   ########.fr       */
+/*   Updated: 2024/10/28 20:18:01 by mota             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void    ft_echo(t_mini *mini, char **cmd)
+//Função que imprime os argumentos passados, 
+//com suporte para omitir a nova linha final se a flag -n for utilizada
+void    ft_echo(t_sh *sh, char **cmd)
 {
     int i;
     int n_flag;
@@ -33,5 +35,5 @@ void    ft_echo(t_mini *mini, char **cmd)
     }
     if (!n_flag)
         ft_putstr_fd("\n", 1);
-    mini->exit = 0;
+    sh->error.exit_error = false;
 }

@@ -56,8 +56,6 @@ char *prepare_line(char *str)
 			}
 			else
 				temp[x_d++] = str[x_o++];	
-			
-
 		}
 		while(token_is_valid(&str[x_o]))
 			temp[x_d++] = str[x_o++];
@@ -74,71 +72,6 @@ char *prepare_line(char *str)
 	return(dest);
 }
 
-void	split_cmd(t_sh *sh)
-{
-	int	len;
-	int x;
-	int xx;
-	int n;
-
-	n = 0;
-	x = 0;
-	if(sh->vars.tk_num == 0)
-		exit;
-	if(sh->vars.tk_num == 1)
-	{
-		len = ft_strlen(sh->cmd_line);
-		sh->tokens[0].tokens = malloc(sizeof(char *) * (len + 1));
-		while(x < len)
-		{
-					sh->tokens[0].tokens[x] = sh->cmd_line[x];
-					x++;
-		}
-		sh->tokens[0].tokens[x] = '\0';
-	}
-	else
-	{
-		while(1)
-		{
-			xx = 0;
-			len = 0;
-			if(!sh->cmd_line[x])
-				break;
-			else if(check_if_squote(sh->cmd_line, x) || check_if_dquote(sh->cmd_line, x))
-			{
-				len = check_type_quote(sh->cmd_line, x) - x;
-				sh->tokens[n].tokens = malloc(sizeof(char *) * (len + 1));
-				while(xx < len)
-				{
-					sh->tokens[n].tokens[xx] = sh->cmd_line[x];
-					x++;
-					xx++;
-				}
-				sh->tokens[n].tokens[xx] = '\0';
-				n++;
-			}
-			else
-			{
-				while(sh->cmd_line[x] && sh->cmd_line[x] != ' ')
-				{
-					len++;
-					x++;
-				}
-				x -= len; 
-				sh->tokens[n].tokens = malloc(sizeof(char *) * (len + 1));
-				while(sh->cmd_line[x] && sh->cmd_line[x] != ' ')
-				{
-					sh->tokens[n].tokens[xx] = sh->cmd_line[x];
-					xx++;
-					x++;
-				}
-				sh->tokens[n].tokens[xx] = '\0';
-				n++;
-			}	
-		x++;  
-		}
-	}
-}
 
 
 
