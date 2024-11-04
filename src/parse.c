@@ -1,18 +1,68 @@
 #include "../includes/minishell.h"
 
+/*bool    check_pipe(t_sh *sh)
+{
+	int x;
+
+	x = 0;
+	if (sh->vars.cmds_num > 1)
+	{
+		while(x < sh->vars.tk_num)
+		{
+			if(sh->tokens[x].pipe)
+				return(false);
+			x++;
+		}
+		return(true);
+	}
+	return(false);
+}*/
+
+bool    check_r_out(t_sh *sh)
+{
+	int	x;
+
+	x = 0;
+	while(x < sh->vars.tk_num)
+	{
+		if(sh->tokens[x].r_out)
+		{
+			x++;
+			if(sh->tokens[x].file)
+				return(false);
+			else
+				return(true);		
+		}
+		x++;
+	}
+	return(false);
+}
+
+bool    check_r_in(t_sh *sh)
+{
+	int	x;
+
+	x = 0;
+	while(x < sh->vars.tk_num)
+	{
+		if(sh->tokens[x].r_in)
+		{
+			x++;
+			if(sh->tokens[x].file)
+				return(false);
+			else
+				return(true);		
+		}
+		x++;
+	}
+	return(false);
+}
+
 bool    check_before_parse(t_sh *sh)
 {
 	int x;
 
 	x = 0;
-
-
-	//FALTA VERIFICAR SE EXISTE MAIS DE 1 COMANDO , TEM DE HAVER PIPE. SE NAO HOUVER EMITIR ERRO.
-	
-
-	//PROCURAR POR MAIS SITUCAOES DE ERRO NO PARSE.
-
-	//VERIFICAR SE OS R_IN E R_OUT TEM FILE DENTRO.
 	while(x < sh->vars.tk_num)
 	{
 		if(sh->tokens[x].f_quote)
@@ -20,6 +70,17 @@ bool    check_before_parse(t_sh *sh)
 		x++;
 	}
 	return(false);
+
+	//PROCURAR POR MAIS SITUCAOES DE ERRO NO PARSE.
+}
+
+bool	check_after_parse(t_sh *sh)
+{
+
+
+
+
+
 }
 
 

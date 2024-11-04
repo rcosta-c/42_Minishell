@@ -105,6 +105,12 @@ int main(int ac, char **av, char **envp)
 				free_tokens(&sh);
 				break;
 			}
+		if(check_r_out(&sh) || check_r_in(&sh))// || check_pipe(&sh))
+			{
+				printf("\ninvalid!!!\n");
+				free_tokens(&sh);
+				break;
+			}
 		fill_parser(&sh);
 
 
