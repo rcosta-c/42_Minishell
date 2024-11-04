@@ -6,7 +6,7 @@
 /*   By: mota <mota@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 18:08:39 by mota              #+#    #+#             */
-/*   Updated: 2024/10/28 21:25:55 by mota             ###   ########.fr       */
+/*   Updated: 2024/10/29 20:26:09 by mota             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ static int valid_var(char *var)
     }
     return 1;
 }
-
 
 // executa a lógica principal do comando export, 
 // permitindo que usuários adicionem ou modifiquem variáveis de ambiente.
