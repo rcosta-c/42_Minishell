@@ -7,7 +7,8 @@ NAME := minishell
 CC := cc
 #CFLAGS := -Wall -Werror -Wextra #
 
-SRCS := src/token.c \
+SRCS := src/token.c \	
+						  src/check_pipe.c \
 						  builtins/echo.c \
 						  builtins/cd.c \
 						  builtins/pwd.c \
