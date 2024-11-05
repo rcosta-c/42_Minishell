@@ -16,7 +16,7 @@ void	init_tokens(t_sh *sh)
 	char	**temp;
 
 	if(sh->vars.tk_num == 0)
-		exit;
+		return;
 	x = 0;
 	sh->tokens = malloc(sizeof(t_tokens) * (sh->vars.tk_num + 1));
 	if(!sh->tokens)

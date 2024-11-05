@@ -52,7 +52,7 @@ void	split_cmd(t_sh *sh)
 	n = 0;
 	x = 0;
 	if(sh->vars.tk_num == 0)
-		exit;
+		return;
 	while(1)
 	{
 		xx = 0;

@@ -141,6 +141,9 @@ void	expand_token(t_sh *sh, char *token, int n);
 /* PARSE.C*/
 bool    check_before_parse(t_sh *sh);
 void    fill_parser(t_sh *sh);
+bool    check_r_out(t_sh *sh);
+bool    check_r_in(t_sh *sh);
+
 /*	FIM	   */
 
 /* BUILTINS.c */

@@ -23,7 +23,8 @@ void	filter_envp(t_sh *sh, int n)
 	if(sh->tokens[n].tokens[0] == '$')
 	{
 		x = 1;
-		while((sh->tokens[n].tokens[x] >= 'A' && sh->tokens[n].tokens[x] <= 'Z'))
+		while((sh->tokens[n].tokens[x] >= 'A' && sh->tokens[n].tokens[x] <= 'Z') || \
+		sh->tokens[n].tokens[x] == '$' || sh->tokens[n].tokens[x] == '?')
 			x++;
 		if(!sh->tokens[n].tokens[x])
 			sh->tokens[n].exp_e = true;

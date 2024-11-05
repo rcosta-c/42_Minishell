@@ -74,14 +74,14 @@ bool    check_before_parse(t_sh *sh)
 	//PROCURAR POR MAIS SITUCAOES DE ERRO NO PARSE.
 }
 
-bool	check_after_parse(t_sh *sh)
+/*bool	check_after_parse(t_sh *sh)
 {
 
 
 
 
 
-}
+}*/
 
 
 /*
@@ -122,7 +122,7 @@ void    fill_parser(t_sh *sh)
 					x++;
 					narg++;
 				}
-				sh->comands[n_cmd].arg[narg] = '\0';
+				sh->comands[n_cmd].arg[narg][0] = '\0';
 			}
 			//printf("passo aqui\n");
 		}
