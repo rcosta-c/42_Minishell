@@ -16,4 +16,12 @@
         X_OK — Verifica se tens permissão de execução.
 
 
+
+
 - Criar caminhos completos para os ficheiros dos redirects.
+
+- Criar caminhos completos para os comandos. Caso sejam bultins ou caso sejam outros
+    -PRECISO ACEDER A $PATH e separar pelos : e analisar em cada um dos directorios
+    -verificar com o access(path, X_OK) se existe e se tem acesso para execucao.
+    -devolver esse path para o comando e juntar com o join2str
+

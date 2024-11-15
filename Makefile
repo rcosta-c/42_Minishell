@@ -18,6 +18,8 @@ SRCS := src/minishell.c \
 						  src/split_cmd.c \
 						  src/free.c \
 						  src/parse.c \
+						  src/executer.c \
+						  src/executer_utils.c \
 						  src/token_checker.c \
 						  src/token_checker_utils.c \
 						  src/token_filter1.c \

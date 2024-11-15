@@ -15,7 +15,8 @@ void    execute_cmd(t_sh *sh, int x)
 		printf("\n\nvai executor o camando...\n");
 			//execvp(sh->comands[x].arg[0], sh->comands[x].arg);
 			//execve(sh->comands[x].arg[0], sh->comands[x].arg, sh->envp);
-			execve("/bin/ls", sh->comands[x].arg, sh->envp);
+			execve(sh->comands[x].cmd, sh->comands[x].arg, sh->envp);
+			//execve("/bin/ls", sh->comands[x].arg, sh->envp);
 			//perror("exec failed");
 	}
 	else
@@ -28,26 +29,35 @@ void	executor(t_sh *sh)
 	int 	x;
 
 	x = 0;
+	
 	if(sh->vars.cmds_num == 1)
 	{
-		execute_cmd(sh, x);
+		if (check_if_builtin(sh->comands[x].cmd))
+		{
+			printf("Built-in Motherfucker!\n");
+		}
+		else
+			sh->comands[x].cmd = prep_cmd(sh->comands[x].cmd);
+			execute_cmd(sh, x);
 	}
 	else
 	{
 		while(x < sh->vars.cmds_num)
 		{
-			execute_cmd(sh, x);
+			if (check_if_builtin(sh->comands[x].cmd))
+			{
+				printf("Built-in MULTIIII Motherfucker!\n");
+			}
+			else
+			{
+				sh->comands[x].cmd = prep_cmd(sh->comands[x].cmd);
+				execute_cmd(sh, x);
+			}
 			x++;		
+			printf("\nMULTI ARGS -> ARG NUMBER = %d \n", x);
 		}
-		printf("\nmuitos argumentos ainda! \n\n FIM!\n");
+		
 	}
-	
-	
-	
-	
-
-
-
 
 
 }

@@ -13,6 +13,12 @@
 #include <unistd.h>
 #include <stdarg.h>
 #include <string.h>
+#include <sys/wait.h>
+#include <sys/types.h>
+#include <fcntl.h> 
+#include <signal.h>
+#include <sys/ioctl.h>
+#include <dirent.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "../lib/libft/libft.h"
@@ -60,6 +66,8 @@ typedef struct s_exec
 	char	*infile;
 	char    *outfile;
 	bool	pipe;
+	int		infile_fd;
+	int		outfile_fd;
 
 }   t_exec;
 
@@ -156,5 +164,19 @@ void	ft_env(t_sh *sh, char **cmd, char **envp);
 void	ft_export(t_sh *sh, char **cmd, char **envp);
 
 /*   FIM   */
+
+/*	EXECUTER.c	*/
+
+void    execute_cmd(t_sh *sh, int x);
+void	executor(t_sh *sh);
+
+/*	FIM		*/
+
+/*	EXECUTER_UTILS.c	*/
+
+bool	check_if_builtin(char *cmd);
+char    *prep_cmd(char *cmd);
+
+/*	FIM		*/
 
 #endif
