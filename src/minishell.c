@@ -64,10 +64,10 @@ int main(int ac, char **av, char **envp)
 
 	memset(&sh, 0, sizeof(t_sh));
 	x = 0;
-	sh.envp = envp;
 	init_error(&sh);
 	while(1)
 	{
+		sh.envp = envp;
 		sh.vars.tk_num = 0;
 		sh.vars.cmds_num = 0;
 		if(sh.cmd_line)
@@ -76,8 +76,6 @@ int main(int ac, char **av, char **envp)
 
 		
 		sh.cmd_line = readline(get_prompt());
-		//	printf("\n\nbefore =%s-fim-", sh.cmd_line);
-
 		sh.cmd_line = prepare_line(sh.cmd_line);
 		printf("\n\nline /inicio/%s/fim/", sh.cmd_line);
 
@@ -124,7 +122,7 @@ int main(int ac, char **av, char **envp)
 			printf("**\n**\n");
 			printf("**	CMD=%s 	\n", sh.comands[x].cmd);
 			printf("**	N_ARGS=%d 	\n", sh.comands[x].n_args);
-			while(xx < sh.comands[x].n_args)
+			while(xx < sh.comands[x].n_args + 1)
 			{
 				printf("**	ARG %d = %s 	\n", xx, sh.comands[x].arg[xx]);
 				xx++;
@@ -138,10 +136,17 @@ int main(int ac, char **av, char **envp)
 			x++;
 		}
 
+		executor(&sh);
+
+
+
+
+
 		//free_tokens(&sh);
 
 
 	}
+	return(0);
 
 
 

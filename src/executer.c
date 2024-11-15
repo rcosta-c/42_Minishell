@@ -1,5 +1,62 @@
 #include "../includes/minishell.h"
 
+void    execute_cmd(t_sh *sh, int x)
+{
+	pid_t	pid;
+
+	pid = fork();
+	if(pid < 0)
+	{
+		perror("fork failed");
+		exit(EXIT_FAILURE);
+	}
+	if(pid == 0)
+	{
+		printf("\n\nvai executor o camando...\n");
+			//execvp(sh->comands[x].arg[0], sh->comands[x].arg);
+			//execve(sh->comands[x].arg[0], sh->comands[x].arg, sh->envp);
+			execve("/bin/ls", sh->comands[x].arg, sh->envp);
+			//perror("exec failed");
+	}
+	else
+		waitpid(pid, NULL, 0);
+
+}
+
+void	executor(t_sh *sh)
+{
+	int 	x;
+
+	x = 0;
+	if(sh->vars.cmds_num == 1)
+	{
+		execute_cmd(sh, x);
+	}
+	else
+	{
+		while(x < sh->vars.cmds_num)
+		{
+			execute_cmd(sh, x);
+			x++;		
+		}
+		printf("\nmuitos argumentos ainda! \n\n FIM!\n");
+	}
+	
+	
+	
+	
+
+
+
+
+
+}
+
+
+
+
+// ATENCAO FALTA ALTERAR A FORMAR COMO GUARDAMOS O INPUT_FD e OUTPUT_FD
+	// TENHO DE GUARDAR O FD TAMBEM
 
 
 // garantir que se existir uma falha na construcao da arvore de processos, a execucao nao segue, e é da mensagem de erro
