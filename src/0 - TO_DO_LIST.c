@@ -25,3 +25,5 @@
     -verificar com o access(path, X_OK) se existe e se tem acesso para execucao.
     -devolver esse path para o comando e juntar com o join2str
 
+
+- 
