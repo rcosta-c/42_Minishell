@@ -24,18 +24,7 @@ void	init_tokens(t_sh *sh)
 	while(x < sh->vars.tk_num)
 	{
 		sh->tokens[x].num = x;
-		sh->tokens[x].cmd = false;
-		sh->tokens[x].arg = false;
-		sh->tokens[x].pipe = false;
-		sh->tokens[x].r_in = false;
-		sh->tokens[x].r_out = false;
-		sh->tokens[x].s_quote = false;
-		sh->tokens[x].d_quote = false;
-		sh->tokens[x].f_quote = false;
-		sh->tokens[x].envp = false;
-		sh->tokens[x].file = false;
-		sh->tokens[x].exp_e = false;
-		sh->tokens[x].exp_t = false;
+		init_tk_flag1(sh, x);
 		x++;
 	}
 }
@@ -51,11 +40,7 @@ void	init_parser(t_sh *sh)
 		exit(EXIT_FAILURE);
 	while(x < sh->vars.cmds_num)
 	{
-		sh->comands[x].pipe = false;
-		sh->comands[x].infile = NULL;
-		sh->comands[x].outfile = NULL;
-		sh->comands[x].arg = NULL;
-		sh->comands[x].n_args = 0;
+		init_cmds(sh, x);
 		x++;
 	}
 		// CONTAR ARGUMENTO DE CADA COMANDO PARA ALOCAR MEMORIA

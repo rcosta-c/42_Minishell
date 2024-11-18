@@ -26,6 +26,7 @@ SRCS := src/minishell.c \
 						  src/token_filter2.c \
 						  src/prompt.c \
 						  src/init.c \
+						  src/init_utils.c \
 						  src/expander.c \
 						  lib/libft/ft_isalnum.c \
 						  lib/libft/ft_bzero.c \

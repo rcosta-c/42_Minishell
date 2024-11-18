@@ -115,6 +115,14 @@ int main(int ac, char **av, char **envp)
 		
 		x = 0;
 		//printf("\n\n %d\n\n", sh.vars.cmds_num);
+		
+		executor(&sh);
+
+
+
+
+
+		//free_tokens(&sh);
 		while(x < sh.vars.cmds_num)
 		{
 			xx = 0;
@@ -135,14 +143,6 @@ int main(int ac, char **av, char **envp)
 			printf("**	OUTFILE=%s 	\n\n\n\n", sh.comands[x].outfile);
 			x++;
 		}
-
-		executor(&sh);
-
-
-
-
-
-		//free_tokens(&sh);
 
 
 	}

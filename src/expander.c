@@ -63,6 +63,7 @@ void    expand_token(t_sh *sh, char *token, int n)
     int     x;
     int     exp_counter;
     char    *expands[20];
+	pid_t	pid;
 
     exp_counter = 0;
 	x = 0;
@@ -93,14 +94,25 @@ void    expand_token(t_sh *sh, char *token, int n)
 		printf("valor de x -> %d", x);
 		a[xa] = '\0';
 		z = join_2_str(z, a, NULL);
-		if(sh->tokens[n].tokens[x] == '~' && sh->tokens[n].d_quote == false && sh->tokens[n].s_quote == false)
+		x++;
+		if(sh->tokens[n].tokens[x - 1] == '~' && sh->tokens[n].d_quote == false && sh->tokens[n].s_quote == false)
 		{
 			c = search_envp(sh, "HOME");
 			x++;
 		}
+		/*else if(sh->tokens[n].tokens[x] ==  '$' && sh->tokens[n].tokens[x - 1] == '$')
+		{
+			pid = getpid();
+			*b = *ft_itoa(pid);	
+		}*/
+		/*else if(sh->tokens[n].tokens[x] ==  '?' && sh->tokens[n].tokens[x - 1] == '$')
+		{
+			b[0] = '9';
+			b[1] = '9';
+			b[2] = '\0';
+		}*/
 		else if(sh->tokens[n].tokens[x] == '$')
 		{
-			x++;
 			while((sh->tokens[n].tokens[x] >= 'A' && sh->tokens[n].tokens[x] <= 'Z') || sh->tokens[n].tokens[x] == '$' || sh->tokens[n].tokens[x] == '?')
 				b[xb++] = sh->tokens[n].tokens[x++];
 			b[xb] = '\0';

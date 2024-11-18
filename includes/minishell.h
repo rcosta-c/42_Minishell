@@ -14,6 +14,7 @@
 #include <stdarg.h>
 #include <string.h>
 #include <sys/wait.h>
+#include <sys/stat.h>
 #include <sys/types.h>
 #include <fcntl.h> 
 #include <signal.h>
@@ -58,16 +59,32 @@ typedef struct s_error
 	bool    exec_error;
 }   t_error;
 
+typedef struct s_execerror
+{
+	bool    cmd_not_found;
+	bool    infile_notvalid;
+	bool    infile_noaccess;
+	bool    outfile_noaccess;
+	bool    outfile_notvalid;
+	bool	empty_pipe;
+	
+	//ACRESCENTAR MAIIS!!!!
+
+
+
+}   t_execerror;
+
 typedef struct s_exec
 {
-	int     n_args;
-	char    *cmd;
-	char    **arg;
-	char	*infile;
-	char    *outfile;
-	bool	pipe;
-	int		infile_fd;
-	int		outfile_fd;
+	int    		n_args;
+	char   		*cmd;
+	char   		**arg;
+	char		*infile;
+	char    	*outfile;
+	bool		pipe;
+	int			infile_fd;
+	int			outfile_fd;
+	t_execerror errors;
 
 }   t_exec;
 
@@ -102,6 +119,15 @@ void	init_parser(t_sh *sh);
 
 /*   FIM   */
 
+
+/*	INIT_UTILS.c	*/
+
+void	init_tk_flag1(t_sh *sh, int x);
+void    init_cmds(t_sh *sh, int x);
+
+/*		FIM 	*/
+
+
 /* TOKEN.c */
 char *prepare_line(char *str);
 int	count_tokens(t_sh *sh);
@@ -133,11 +159,11 @@ void	filter_cmds(t_sh *sh, int n);
 void	filter_tokens(t_sh *sh);
 /*   FIM   */
 
+
 /* TOKEN_FILTER2.c */
 void	filter_file (t_sh *sh, int n);
 void	filter_pipes_redir(t_sh *sh, int n);
 void	filter_quotes(t_sh *sh, int n);
-
 /*   FIM   */
 
 
@@ -146,13 +172,14 @@ void	search_expand(t_sh *sh);
 void	expand_token(t_sh *sh, char *token, int n);
 /*   FIM   */
 
+
 /* PARSE.C*/
 bool    check_before_parse(t_sh *sh);
 void    fill_parser(t_sh *sh);
 bool    check_r_out(t_sh *sh);
 bool    check_r_in(t_sh *sh);
-
 /*	FIM	   */
+
 
 /* BUILTINS.c */
 void	ft_echo(t_sh *sh, char **cmd);
@@ -162,21 +189,20 @@ void	ft_unset(t_sh *sh, char **cmd);
 void	ft_exit(t_sh *sh, char **cmd);
 void	ft_env(t_sh *sh, char **cmd, char **envp);
 void	ft_export(t_sh *sh, char **cmd, char **envp);
-
 /*   FIM   */
 
-/*	EXECUTER.c	*/
 
+/*	EXECUTER.c	*/
 void    execute_cmd(t_sh *sh, int x);
 void	executor(t_sh *sh);
-
 /*	FIM		*/
+
 
 /*	EXECUTER_UTILS.c	*/
-
 bool	check_if_builtin(char *cmd);
-char    *prep_cmd(char *cmd);
-
+char    *prep_cmd(t_sh *sh, char *cmd, int x);
+bool	check_exec_error(t_sh *sh, int x);
 /*	FIM		*/
+
 
 #endif

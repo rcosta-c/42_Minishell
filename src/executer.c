@@ -4,24 +4,26 @@ void    execute_cmd(t_sh *sh, int x)
 {
 	pid_t	pid;
 
-	pid = fork();
-	if(pid < 0)
-	{
-		perror("fork failed");
-		exit(EXIT_FAILURE);
-	}
-	if(pid == 0)
-	{
-		printf("\n\nvai executor o camando...\n");
-			//execvp(sh->comands[x].arg[0], sh->comands[x].arg);
-			//execve(sh->comands[x].arg[0], sh->comands[x].arg, sh->envp);
-			execve(sh->comands[x].cmd, sh->comands[x].arg, sh->envp);
-			//execve("/bin/ls", sh->comands[x].arg, sh->envp);
-			//perror("exec failed");
-	}
+	if(check_exec_error(sh, x))
+		pid = pid;
 	else
-		waitpid(pid, NULL, 0);
-
+	{
+		pid = fork();
+		if(pid < 0)
+		{
+			perror("fork failed");
+			exit(EXIT_FAILURE);
+		}
+		if(pid == 0)
+		{
+			printf("\n\nvai executor o camando...\n");
+				//execvp(sh->comands[x].arg[0], sh->comands[x].arg);
+				execve(sh->comands[x].cmd, sh->comands[x].arg, sh->envp);
+				//perror("exec failed");
+		}
+		else
+			waitpid(pid, NULL, 0);
+	}
 }
 
 void	executor(t_sh *sh)
@@ -37,7 +39,7 @@ void	executor(t_sh *sh)
 			printf("Built-in Motherfucker!\n");
 		}
 		else
-			sh->comands[x].cmd = prep_cmd(sh->comands[x].cmd);
+			sh->comands[x].cmd = prep_cmd(sh, sh->comands[x].cmd, x);
 			execute_cmd(sh, x);
 	}
 	else
@@ -50,7 +52,7 @@ void	executor(t_sh *sh)
 			}
 			else
 			{
-				sh->comands[x].cmd = prep_cmd(sh->comands[x].cmd);
+				sh->comands[x].cmd = prep_cmd(sh, sh->comands[x].cmd, x);
 				execute_cmd(sh, x);
 			}
 			x++;		

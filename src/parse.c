@@ -186,6 +186,7 @@ void    fill_parser(t_sh *sh)
 			x -= sh->comands[n_cmd].n_args + 1;
 			sh->comands[n_cmd].arg = malloc(sizeof(char **) * (sh->comands[n_cmd].n_args + 2));
 			sh->comands[n_cmd].arg[narg] = ft_strdup(sh->tokens[x].tokens);
+			printf("\n\nVERIFICAR NUMERO\n%d\n\n", x);
 			sh->comands[n_cmd].cmd = ft_strdup(sh->tokens[x].tokens); //APAGAR ESTE AQUI
 			x++;
 			narg++;
