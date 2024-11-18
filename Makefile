@@ -6,21 +6,28 @@ NAME := minishell
 
 CC := cc
 #CFLAGS := -Wall -Werror -Wextra #
-
-SRCS := src/token.c \	
-						  src/check_pipe.c \
-						  builtins/echo.c \
-						  builtins/cd.c \
-						  builtins/pwd.c \
+#builtins/cd.c \#
+#  builtins/echo.c \
+ builtins/env.c \
+	  builtins/exit.c \
 						  builtins/export.c \
 						  builtins/unset.c \
-						  builtins/env.c \
-						  builtins/exit.c \
+						  builtins/pwd.c \#
+SRCS := src/minishell.c \
+						  src/token.c \
+						  src/split_cmd.c \
 						  src/free.c \
+						  src/parse.c \
+						  src/executer.c \
+						  src/executer_utils.c \
 						  src/token_checker.c \
 						  src/token_checker_utils.c \
+						  src/token_filter1.c \
+						  src/token_filter2.c \
 						  src/prompt.c \
 						  src/init.c \
+						  src/init_utils.c \
+						  src/expander.c \
 						  lib/libft/ft_isalnum.c \
 						  lib/libft/ft_bzero.c \
 						  lib/libft/ft_putchar_fd.c \

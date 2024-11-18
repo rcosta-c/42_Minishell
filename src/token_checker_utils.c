@@ -7,6 +7,8 @@ bool	check_if_dquote(char *str, int x_o)
 
 	counter = 0;
 	x = x_o + 1;
+	if(str[x_o] != 34)
+		return(false);
 	while(str[x])
 	{
 		if(str[x] == 34)
@@ -26,6 +28,8 @@ bool	check_if_squote(char *str, int x_o)
 
 	counter = 0;
 	x = x_o + 1;
+	if(str[x_o] != 39)
+		return(false);
 	while(str[x])
 	{
 		if(str[x] == 39)
