@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mota <mota@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: cde-paiv <cde-paiv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 14:59:34 by mota              #+#    #+#             */
-/*   Updated: 2024/10/28 20:12:10 by mota             ###   ########.fr       */
+/*   Updated: 2024/11/18 20:01:33 by cde-paiv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,18 @@
 
 //imprime o diretório de trabalho atual,
 // ou exibe uma mensagem de erro caso não consiga acessá-lo
-void    ft_pwd(t_sh *sh, char **cmd, char **envp)
+void    ft_pwd(t_sh *sh, char **cmd)
 {
     size_t  i;
 
     if (!cmd[1])
     {
         i = 0;
-        while (envp && ft_strncmp(envp[i], "PWD=", 4))
+        while (sh->envp && ft_strncmp(sh->envp[i], "PWD=", 4))
             i++;
-        if (envp && envp[i])
+        if (sh->envp && sh->envp[i])
         {
-            ft_putstr_fd(&envp[i][4], 1);
+            ft_putstr_fd(sh->envp[i][4], 1);
             ft_putstr_fd("\n", 1);
         }
         else
