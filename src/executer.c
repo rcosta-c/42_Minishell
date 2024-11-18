@@ -36,6 +36,7 @@ void	executor(t_sh *sh)
 	{
 		if (check_if_builtin(sh->comands[x].cmd))
 		{
+			exec_builtin(sh, x)
 			printf("Built-in Motherfucker!\n");
 		}
 		else
