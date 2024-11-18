@@ -122,7 +122,7 @@ int main(int ac, char **av, char **envp)
 
 
 
-		//free_tokens(&sh);
+		
 		while(x < sh.vars.cmds_num)
 		{
 			xx = 0;
@@ -144,7 +144,10 @@ int main(int ac, char **av, char **envp)
 			x++;
 		}
 
-
+		free_tokens(&sh);
+		free_cmds(&sh);
+		free_env(&sh);
+		free(sh.cmd_line);
 	}
 	return(0);
 
