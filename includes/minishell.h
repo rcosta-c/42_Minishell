@@ -184,13 +184,13 @@ bool    check_r_in(t_sh *sh);
 
 
 /* BUILTINS.c */
-void	ft_echo(t_sh *sh, char **cmd);
-void	ft_pwd(t_sh *sh, char **cmd, char **envp);
-void	ft_cd(t_sh *sh, char **cmd, char **envp);
-void	ft_unset(t_sh *sh, char **cmd);
-void	ft_exit(t_sh *sh, char **cmd);
-void	ft_env(t_sh *sh, char **cmd, char **envp);
-void	ft_export(t_sh *sh, char **cmd, char **envp);
+void	ft_echo(t_sh *sh, char **args);
+void	ft_pwd(t_sh *sh, char **args);
+void	ft_cd(t_sh *sh, char **args);
+void	ft_unset(t_sh *sh, char **args);
+void	ft_exit(t_sh *sh, char **args);
+void	ft_env(t_sh *sh, char **args);
+void	ft_export(t_sh *sh, char **args);
 /*   FIM   */
 
 
@@ -204,6 +204,8 @@ void	executor(t_sh *sh);
 bool	check_if_builtin(char *cmd);
 char    *prep_cmd(t_sh *sh, char *cmd, int x);
 bool	check_exec_error(t_sh *sh, int x);
+void    exec_builtin(t_sh *sh, int cmd_nbr);
+
 /*	FIM		*/
 
 

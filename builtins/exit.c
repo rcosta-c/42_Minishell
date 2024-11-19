@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mota <mota@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 18:35:22 by mota              #+#    #+#             */
-/*   Updated: 2024/10/28 20:15:26 by mota             ###   ########.fr       */
+/*   Updated: 2024/11/19 09:44:40 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,14 @@ static int  is_valid_number(char *str)
 }
 
 // Verifica se a string consiste apenas de zeros
-static int  check_zeros(char *cmd)
+static int  check_zeros(char *args)
 {
     int i;
 
     i = -1;
-    while (cmd && cmd[++i])
+    while (args && args[++i])
     {
-        if (cmd[i] != '0')
+        if (args[i] != '0')
             return (1);
     }
     return (0);
@@ -43,29 +43,29 @@ static int  check_zeros(char *cmd)
 
 // Função para encerrar o shell, validando argumentos 
 //e exibindo mensagens de erro apropriadas caso necessário
-void    ft_exit(t_sh *sh, char **cmd)
+void    ft_exit(t_sh *sh, char **args)
 {
-    if (cmd[1] && cmd[2])
+    if (args[1] && args[2])
     {
         ft_putstr_fd("exit\n", 2);
         ft_putstr_fd("exit: too many arguments\n", 2);
         sh->error.exit_error = true;
         return ;
     }
-    else if (cmd[1] && !is_valid_number(cmd[1]))
+    else if (args[1] && !is_valid_number(args[1]))
     {
         ft_putstr_fd("exit\n", 2);
         ft_putstr_fd("exit: ", 2);
-        ft_putstr_fd(cmd[1], 2);
+        ft_putstr_fd(args[1], 2);
         ft_putstr_fd(": numeric argument required\n", 2);
         sh->error.exit_error = true;
         return ;
     }
-    else if (cmd[1] && check_zeros(cmd[1]))
+    else if (args[1] && check_zeros(args[1]))
     {
         ft_putstr_fd("exit\n", 2);
         ft_putstr_fd("exit: ", 2);
-        ft_putstr_fd(cmd[1], 2);
+        ft_putstr_fd(args[1], 2);
         ft_putstr_fd(": numeric argument required\n", 2);
         sh->error.exit_error = true;
         return ;

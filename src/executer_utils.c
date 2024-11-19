@@ -49,20 +49,18 @@ void    exec_builtin(t_sh *sh, int cmd_nbr)
 {
 	if (ft_strncmp("echo", sh->comands[cmd_nbr].cmd, ft_strlen(sh->comands[cmd_nbr].cmd)) == 0)
 		ft_echo(sh, sh->comands[cmd_nbr].arg);
-	else if (ft_strncmp("cd", sh->comands[cmd_nbr].cmd, ft_strlen(sh->comands[cmd_nbr].cmd)) == 0)
-		ft_cd(sh, sh->comands[cmd_nbr].arg);
-	else if (ft_strncmp("pwd", sh->comands[cmd_nbr].cmd, ft_strlen(sh->comands[cmd_nbr].cmd)) == 0)
-		ft_pwd(sh, sh->comands[cmd_nbr].arg);
-	else if (ft_strncmp("export", sh->comands[cmd_nbr].cmd, ft_strlen(sh->comands[cmd_nbr].cmd)) == 0)
-		ft_export(sh, sh->comands[cmd_nbr].arg);
-	else if (ft_strncmp("unset", sh->comands[cmd_nbr].cmd, ft_strlen(sh->comands[cmd_nbr].cmd)) == 0)
-		ft_unset(sh, sh->comands[cmd_nbr].arg);
+//	else if (ft_strncmp("cd", sh->comands[cmd_nbr].cmd, ft_strlen(sh->comands[cmd_nbr].cmd)) == 0)
+//		ft_cd(sh, sh->comands[cmd_nbr].arg);
+//	else if (ft_strncmp("pwd", sh->comands[cmd_nbr].cmd, ft_strlen(sh->comands[cmd_nbr].cmd)) == 0)
+//		ft_pwd(sh, sh->comands[cmd_nbr].arg);
+//	else if (ft_strncmp("export", sh->comands[cmd_nbr].cmd, ft_strlen(sh->comands[cmd_nbr].cmd)) == 0)
+//		ft_export(sh, sh->comands[cmd_nbr].arg);
+//	else if (ft_strncmp("unset", sh->comands[cmd_nbr].cmd, ft_strlen(sh->comands[cmd_nbr].cmd)) == 0)
+//		ft_unset(sh, sh->comands[cmd_nbr].arg);
 	else if (ft_strncmp("env", sh->comands[cmd_nbr].cmd, ft_strlen(sh->comands[cmd_nbr].cmd)) == 0)
 		ft_env(sh, sh->comands[cmd_nbr].arg);
 	else if (ft_strncmp("exit", sh->comands[cmd_nbr].cmd, ft_strlen(sh->comands[cmd_nbr].cmd)) == 0)
 		ft_exit(sh, sh->comands[cmd_nbr].arg);
-	else
-		return(false);
 }
 
 char    *prep_cmd(t_sh *sh, char *cmd, int xx)

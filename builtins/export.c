@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mota <mota@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 18:08:39 by mota              #+#    #+#             */
-/*   Updated: 2024/10/28 21:25:55 by mota             ###   ########.fr       */
+/*   Updated: 2024/11/19 09:44:54 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 //encontra a posição de uma variável no array de ambiente.
-static int get_var_pos(char *var, char **envp)
+static int get_var_pos(t_sh *sh, char *var)
 {
     int var_len = ft_strchr(var, '=') - var;
     char *var_temp = ft_calloc(var_len + 2, sizeof(char));
@@ -22,9 +22,9 @@ static int get_var_pos(char *var, char **envp)
     var_temp[var_len] = '=';
 
     int var_pos = 0;
-    while (envp[var_pos])
+    while (sh->envp[var_pos])
     {
-        if (ft_strncmp(envp[var_pos], var_temp, var_len + 1) == 0)
+        if (ft_strncmp(sh->envp[var_pos], var_temp, var_len + 1) == 0)
         {
             free(var_temp);
             return var_pos;
@@ -36,9 +36,9 @@ static int get_var_pos(char *var, char **envp)
 }
 
 //adiciona ou atualiza uma variável de ambiente
-static void update_var(char *var, int var_pos, char **envp)
+static void update_var(t_sh *sh, char *var, int var_pos)
 {
-    if (!envp[0][var_pos])
+    if (!sh->envp[0][var_pos])
     {
         int new_size = var_pos + 2;
         char **envp_temp = ft_calloc(new_size, sizeof(char *));
@@ -46,18 +46,18 @@ static void update_var(char *var, int var_pos, char **envp)
         int i = 0;
         while (i < var_pos)
         {
-            envp_temp[i] = ft_strdup(envp[0][i]);
+            envp_temp[i] = ft_strdup(sh->envp[0][i]);
             i++;
         }
         envp_temp[var_pos] = ft_strdup(var);
 
-        *envp = free_mat(*envp);
-        *envp = envp_temp;
+        sh->envp = free_mat(sh->envp);
+        sh->envp = envp_temp;
     }
     else
     {
-        free(envp[0][var_pos]);
-        envp[0][var_pos] = ft_strdup(var);
+        free(sh->envp[0][var_pos]);
+        sh->envp[0][var_pos] = ft_strdup(var);
     }
 }
 
@@ -77,32 +77,31 @@ static int valid_var(char *var)
     return 1;
 }
 
-
 // executa a lógica principal do comando export, 
 // permitindo que usuários adicionem ou modifiquem variáveis de ambiente.
-void ft_export(t_sh *sh, char **cmd, char **envp)
+void ft_export(t_sh *sh, char **args)
 {
     int i = 1;
-    while (cmd[i])
+    while (args[i])
     {
-        if (valid_var(cmd[i]))
+        if (valid_var(args[i]))
         {
-            if (ft_strchr(cmd[i], '='))
+            if (ft_strchr(args[i], '='))
             {
-                int var_pos = get_var_pos(cmd[i], *envp);
-                update_var(cmd[i], var_pos, envp);
+                int var_pos = get_var_pos(args[i], sh->envp);
+                update_var(args[i], var_pos, sh->envp);
                 sh->error.exit_error = false;
             }
         }
         else
         {
             ft_putstr_fd(": export: ", 2);
-            ft_putstr_fd(cmd[i], 2);
+            ft_putstr_fd(args[i], 2);
             ft_putstr_fd(": not a valid identifier\n", 2);
             sh->error.exit_error = true;
         }
         i++;
     }
-    if (!cmd[1])
-        ft_env(sh, cmd, envp);
+    if (!args[1])
+        ft_env(args, sh->envp);
 }
