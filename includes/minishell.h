@@ -182,6 +182,12 @@ bool    check_r_out(t_sh *sh);
 bool    check_r_in(t_sh *sh);
 /*	FIM	   */
 
+/*	PARSE_UTILS.c	*/
+
+int	parse_utils(t_sh *sh, int z);
+int	parse_pipes(t_sh *sh, int z, int n_cmd);
+
+/*	FIM		*/
 
 /* BUILTINS.c */
 void	ft_echo(t_sh *sh, char **args);

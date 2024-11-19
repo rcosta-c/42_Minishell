@@ -21,6 +21,13 @@
 - Criar caminhos completos para os ficheiros dos redirects.
 
 
+- criar signals para ler o CTRL + D e fazer nova linha
+
+
+-criar funcao para tirar os " " e ' '
+
+
+
 
 FEITO
 /*- Criar caminhos completos para os comandos. Caso sejam bultins ou caso sejam outros

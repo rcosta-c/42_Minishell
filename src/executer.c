@@ -22,7 +22,8 @@ void    execute_cmd(t_sh *sh, int x)
 				//perror("exec failed");
 		}
 		else
-			waitpid(pid, NULL, 0);
+			printf("merda\n");
+			//waitpid(pid, NULL, 0);
 	}
 }
 
@@ -47,6 +48,7 @@ void	executor(t_sh *sh)
 	{
 		while(x < sh->vars.cmds_num)
 		{
+			printf("numero_comandos=%d\n\n", sh->vars.cmds_num);
 			if (check_if_builtin(sh->comands[x].cmd))
 			{
 				exec_builtin(sh, x);
@@ -58,7 +60,8 @@ void	executor(t_sh *sh)
 				execute_cmd(sh, x);
 			}
 			x++;		
-			printf("\nMULTI ARGS -> ARG NUMBER = %d \n", x);
+			printf("\nMULTI ARGS -> CMD NUMBER = %d \n", x);
+			
 		}
 		
 	}
