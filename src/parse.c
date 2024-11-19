@@ -170,7 +170,7 @@ void    fill_parser(t_sh *sh)
 	x = 0;
 	n_cmd = 0;
 	printf("\n\nENTROUPARSER\n\n");
-	while(x < sh->vars.tk_num)
+	while(x < sh->vars.tk_num && sh->vars.tk_num > 0)
 	{
 		narg = 0;
 		//printf("\n\n aqui quia = %s\n\n", sh->tokens[x].tokens);
@@ -197,7 +197,7 @@ void    fill_parser(t_sh *sh)
 				x++;
 				narg++;
 			}
-			sh->comands[n_cmd].arg[narg] = '\0';
+			sh->comands[n_cmd].arg[narg] = NULL;
 		}
 		printf("\nvaibreakar?\n\n");
 		if(x == sh->vars.tk_num)

@@ -7,7 +7,7 @@ void	free_tokens(t_sh *sh)
 	x = 0;	
 	while(x < sh->vars.tk_num - 1)
 	{
-			free(&sh->tokens[x].tokens);
+			free(sh->tokens[x].tokens);
 			x++;
 	}
 	free(sh->tokens);
@@ -44,10 +44,14 @@ void	free_env(t_sh *sh)
 	int	x;
 
 	x = 0;
-	while(sh->envp[x])
+	while(sh->envp[x] != NULL)
 	{
-		free(sh->envp[x]);
+		//free(sh->envp[x]);
 		x++;
+	}
+	while(x >= 0)
+	{
+		free(sh->envp[x--]);
 	}
 	free(sh->envp);
 }

@@ -118,12 +118,12 @@ int main(int ac, char **av, char **envp)
 		
 		executor(&sh);
 
-
+		
 
 
 
 		
-		while(x < sh.vars.cmds_num)
+		while(x < sh.vars.cmds_num && sh.vars.tk_num > 0)
 		{
 			xx = 0;
 			printf("\n******* COMAND NUM=%d *******\n", x);
@@ -146,8 +146,8 @@ int main(int ac, char **av, char **envp)
 
 		free_tokens(&sh);
 		free_cmds(&sh);
-		free_env(&sh);
-		free(sh.cmd_line);
+		//free_env(&sh);
+		
 	}
 	return(0);
 
