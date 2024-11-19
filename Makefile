@@ -6,14 +6,15 @@ NAME := minishell
 
 CC := cc
 #CFLAGS := -Wall -Werror -Wextra #
-#builtins/cd.c \#
-#  builtins/echo.c \
- builtins/env.c \
-	  builtins/exit.c \
+
+SRCS := src/minishell.c \
+						builtins/cd.c \
+						builtins/echo.c \
+						builtins/env.c \
+							builtins/exit.c \
 						  builtins/export.c \
 						  builtins/unset.c \
-						  builtins/pwd.c \#
-SRCS := src/minishell.c \
+						  builtins/pwd.c \
 						  src/token.c \
 						  src/split_cmd.c \
 						  src/free.c \

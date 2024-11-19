@@ -36,7 +36,7 @@ void	executor(t_sh *sh)
 	{
 		if (check_if_builtin(sh->comands[x].cmd))
 		{
-			//exec_builtin(sh, x);
+			exec_builtin(sh, x);
 			printf("Built-in Motherfucker!\n");
 		}
 		else
@@ -47,9 +47,9 @@ void	executor(t_sh *sh)
 	{
 		while(x < sh->vars.cmds_num)
 		{
-			if (check_if_builtin(sh->comands[x].cmd))
+			if (check_if_builtin(sh, x))
 			{
-				//exec_builtin(sh->comands[x].cmd);
+				exec_builtin(sh->comands[x].cmd);
 				printf("Built-in MULTIIII Motherfucker!\n");
 			}
 			else
