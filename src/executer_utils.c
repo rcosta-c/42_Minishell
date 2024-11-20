@@ -73,7 +73,7 @@ char    *prep_cmd(t_sh *sh, char *cmd, int xx)
 	x = 0;
 	path = ft_split(getenv("PATH"), ':');
 	temp = ft_strjoin("/bin/", cmd);
-	if(stat(temp, &path_stat) == 0 && access(temp, X_OK) == 0)
+	if(stat(temp, &path_stat) == 0 && access(temp, X_OK) == 0 && access(temp, F_OK) == 0)
 		x = 0;	
 	else
 	{
@@ -81,7 +81,7 @@ char    *prep_cmd(t_sh *sh, char *cmd, int xx)
 		{
 			free(temp);
 			temp = ft_strjoin(path[x], cmd);
-			if(stat(temp, &path_stat) == 0 && access(temp, X_OK) == 0)
+			if(stat(temp, &path_stat) == 0 && access(temp, X_OK) == 0 && access(temp, F_OK) == 0)
 				break;
 			x++;
 		}

@@ -24,13 +24,14 @@
 - criar signals para ler o CTRL + D e fazer nova linha
 
 
--criar funcao para tirar os " " e ' '
-
-
 
 
 FEITO
-/*- Criar caminhos completos para os comandos. Caso sejam bultins ou caso sejam outros
+/*
+-criar funcao para tirar os " " e ' '
+
+
+- Criar caminhos completos para os comandos. Caso sejam bultins ou caso sejam outros
     -PRECISO ACEDER A $PATH e separar pelos : e analisar em cada um dos directorios
     -verificar com o access(path, X_OK) se existe e se tem acesso para execucao.
     -devolver esse path para o comando e juntar com o join2str

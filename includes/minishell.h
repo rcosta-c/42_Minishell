@@ -186,6 +186,7 @@ bool    check_r_in(t_sh *sh);
 
 int	parse_utils(t_sh *sh, int z);
 int	parse_pipes(t_sh *sh, int z, int n_cmd);
+void	remove_quoted(t_sh *sh);
 
 /*	FIM		*/
 

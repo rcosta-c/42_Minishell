@@ -64,10 +64,15 @@ int main(int ac, char **av, char **envp)
 
 	memset(&sh, 0, sizeof(t_sh));
 	x = 0;
+	sh.envp = envp;
 	init_error(&sh);
 	while(1)
 	{
-		sh.envp = envp;
+		if(sh.vars.tk_num > 0)
+		{
+			ft_bzero(sh.tokens, sizeof(t_tokens));
+			ft_bzero(sh.comands, sizeof(t_exec));
+		}
 		sh.vars.tk_num = 0;
 		sh.vars.cmds_num = 0;
 		if(sh.cmd_line)
@@ -110,7 +115,6 @@ int main(int ac, char **av, char **envp)
 				break;
 			}
 		fill_parser(&sh);
-
 
 		
 		x = 0;
