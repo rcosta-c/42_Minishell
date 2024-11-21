@@ -58,9 +58,10 @@ void    printflags(t_sh *sh)
 int main(int ac, char **av, char **envp)
 {
    	t_sh	sh;
-	
 	int x;
 	int xx;
+
+	char	*a;
 
 	memset(&sh, 0, sizeof(t_sh));
 	x = 0;
@@ -68,6 +69,7 @@ int main(int ac, char **av, char **envp)
 	init_error(&sh);
 	while(1)
 	{
+		
 		if(sh.vars.tk_num > 0)
 		{
 			ft_bzero(sh.tokens, sizeof(t_tokens));
@@ -76,11 +78,23 @@ int main(int ac, char **av, char **envp)
 		sh.vars.tk_num = 0;
 		sh.vars.cmds_num = 0;
 		if(sh.cmd_line)
-			free(sh.cmd_line);
-
-
+			free(sh.cmd_line);		
 		
-		sh.cmd_line = readline(get_prompt());
+		a = get_prompt();
+		sh.cmd_line = readline(a);
+
+		if(sh.cmd_line[1] == '9') // APAGAR ISTO!
+		{
+			free(sh.cmd_line);
+			//free_tokens(&sh);
+			//free_cmds(&sh);
+			rl_clear_history();
+			free(a);
+			break;
+		}
+
+
+
 		sh.cmd_line = prepare_line(sh.cmd_line);
 		printf("\n\nline /inicio/%s/fim/", sh.cmd_line);
 
@@ -88,6 +102,7 @@ int main(int ac, char **av, char **envp)
 		printf("\nnumero de tokens=%d\n", sh.vars.tk_num);
 		init_tokens(&sh);
 		split_cmd(&sh);
+
 		filter_tokens(&sh);
 
 		search_expand(&sh);
@@ -125,7 +140,7 @@ int main(int ac, char **av, char **envp)
 		
 
 
-
+/*
 		
 		while(x < sh.vars.cmds_num && sh.vars.tk_num > 0)
 		{
@@ -147,7 +162,7 @@ int main(int ac, char **av, char **envp)
 			printf("**	OUTFILE=%s 	\n\n\n\n", sh.comands[x].outfile);
 			x++;
 		}
-
+*/
 		free_tokens(&sh);
 		free_cmds(&sh);
 		//free_env(&sh);

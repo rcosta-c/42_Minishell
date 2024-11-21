@@ -3,8 +3,8 @@
 static char	*verify_host(char *host)
 {
 	int		x;
-	int 	xx;
 	char	*res;
+
 	x = 0;
 	while(host[x])
 	{
@@ -14,7 +14,7 @@ static char	*verify_host(char *host)
 		}
 		x++;
 	}
-	res = malloc(sizeof(char *) * (x + 1));
+	res = malloc(sizeof(char) * (x + 1));
 	x = 0;
 	while(host[x] != '.' && host[x])
 	{
@@ -22,6 +22,7 @@ static char	*verify_host(char *host)
 		x++;
 	}
 	res[x] = '\0';
+	free(host);
 	return(res);
 }
 
@@ -48,7 +49,7 @@ static char	*verify_home(char *prompt)
 	}
 	n_pr = ft_strlen(prompt);
 	n_total = n_pr - x;
-	final_prompt = malloc(sizeof(char *) * n_total + 2);
+	final_prompt = malloc(sizeof(char) * n_total + 2);
 	n_total = 1;
 	if(x == 1)
 		final_prompt[0] = '/';
@@ -66,16 +67,14 @@ static char	*verify_home(char *prompt)
 
 char	*join_2_str(char *a, char *b, char *z)
 {
-	int 	n_a;
-	int		n_b;
-	int		n_z;
-	int		n_total;
 	char	*res;
+	char 	*temp;
 
 	if (z)
 	{
-		res = ft_strjoin(a, z);
-		res = ft_strjoin(res, b);
+		temp = ft_strjoin(a, z);
+		res = ft_strjoin(temp, b);
+		free(temp);
 	}
 	else
 		res = ft_strjoin(a, b);
@@ -89,26 +88,31 @@ char	*get_prompt()
 	char	*host;
 	char	*dir;
 	char	*prompt;
+	char	*temp;
 
 	user = getenv("USER");
 	host = malloc(sizeof(char) * _SC_HOST_NAME_MAX + 1);
 	gethostname(host, _SC_HOST_NAME_MAX + 1);
-	if(!host)
-		host = getenv("HOSTNAME");
 	host = verify_host(host);
 	prompt = join_2_str(user, host , "@");
 	dir = getenv("PWD");
 	dir = verify_home(dir);
-	prompt = join_2_str(prompt, dir, ":");
-	prompt = join_2_str(prompt, " ", "$");
+	temp = join_2_str(prompt, dir, ":");
+	free(prompt);
+	prompt = join_2_str(temp, " ", "$");
+	free(temp);
 	free(host);
+	free(dir);
 	return(prompt);  
 }
-/* 
+/*
 int	main(void)
 {
+	char *a;
 
-	printf("\n%s\n", get_prompt());
-
-}
-*/
+	a = get_prompt();
+	
+	printf("\n%s\n", a);
+	free(a);
+	
+}*/

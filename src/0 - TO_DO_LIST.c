@@ -23,6 +23,7 @@
 
 - criar signals para ler o CTRL + D e fazer nova linha
 
+- Verificar funcao GETENV no promp. alterar isto.
 
 
 
