@@ -65,7 +65,7 @@ void	executor(t_sh *sh)
 		
 	}
 
-
+	//adasd
 }
 
 
