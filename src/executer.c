@@ -17,7 +17,6 @@ void    execute_cmd(t_sh *sh, int x)
 		if(pid == 0)
 		{
 			printf("\n\nvai executor o camando...\n");
-				//execvp(sh->comands[x].arg[0], sh->comands[x].arg);
 				execve(sh->comands[x].cmd, sh->comands[x].arg, sh->envp);
 				//perror("exec failed");
 		}
@@ -34,6 +33,10 @@ void	executor(t_sh *sh)
 	
 	if(sh->vars.cmds_num == 1)
 	{
+				handle_redirects(sh, x); //APARTIR DAQUI
+
+
+
 		if (check_if_builtin(sh->comands[x].cmd))
 		{
 			exec_builtin(sh, x);
@@ -45,6 +48,10 @@ void	executor(t_sh *sh)
 	}
 	else
 	{
+
+				//handle_redirects(sh, x);
+
+
 		while(x < sh->vars.cmds_num)
 		{
 			printf("numero_comandos=%d\n\n", sh->vars.cmds_num);

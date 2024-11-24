@@ -24,6 +24,15 @@
 #include <readline/history.h>
 #include "../lib/libft/libft.h"
 
+
+# define CMD_NOT_FOUND	127
+# define EXIT_SIGINT	130
+# define EXIT_SIGQUIT	131
+
+extern int				g_status;
+
+
+
 typedef struct s_vars
 {
 	int     tk_num;
@@ -130,6 +139,13 @@ void    init_cmds(t_sh *sh, int x);
 /*		FIM 	*/
 
 
+/*	SIGNALS.c	*/
+
+void	ft_sigset(void);
+void	ft_signal_handler(int sig);
+
+/*	FIM		*/
+
 /* TOKEN.c */
 char *prepare_line(char *str);
 int	count_tokens(t_sh *sh);
@@ -182,6 +198,12 @@ bool    check_r_out(t_sh *sh);
 bool    check_r_in(t_sh *sh);
 /*	FIM	   */
 
+
+/*	REDIR.c		*/
+
+void	handle_redirects(t_sh *sh, int x);
+
+/*	FIM 	*/
 /*	PARSE_UTILS.c	*/
 
 int	parse_utils(t_sh *sh, int z);

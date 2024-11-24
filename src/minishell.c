@@ -1,5 +1,9 @@
 #include "../includes/minishell.h"
 
+
+int		g_status;
+
+
 void    printflags(t_sh *sh)
 {
 	int n = 0;
@@ -57,37 +61,41 @@ void    printflags(t_sh *sh)
 
 int main(int ac, char **av, char **envp)
 {
-   	t_sh	sh;
+   	t_sh	*sh;
 	int x;
 	int xx;
-
 	char	*a;
 
-	memset(&sh, 0, sizeof(t_sh));
+	(void)ac;
+	(void)av;
+	sh = ft_calloc(1, sizeof(t_sh));
+	if(sh == NULL)
+		return(EXIT_FAILURE);
+	//memset(&sh, 0, sizeof(t_sh));
 	x = 0;
-	sh.envp = envp;
-	init_error(&sh);
+	sh->envp = envp;
+	init_error(sh);
 	while(1)
 	{
-		
-		if(sh.vars.tk_num > 0)
+		ft_sigset();
+		if(sh->vars.tk_num > 0)
 		{
-			ft_bzero(sh.tokens, sizeof(t_tokens));
-			ft_bzero(sh.comands, sizeof(t_exec));
+			ft_bzero(sh->tokens, sizeof(t_tokens));
+			ft_bzero(sh->comands, sizeof(t_exec));
 		}
-		sh.vars.tk_num = 0;
-		sh.vars.cmds_num = 0;
-		if(sh.cmd_line)
-			free(sh.cmd_line);		
+		sh->vars.tk_num = 0;
+		sh->vars.cmds_num = 0;
+		if(sh->cmd_line)
+			free(sh->cmd_line);		
 		
 		a = get_prompt();
-		sh.cmd_line = readline(a);
+		sh->cmd_line = readline(a);
 
-		if(sh.cmd_line[1] == '9') // APAGAR ISTO!
+		if(sh->cmd_line[1] == '9') // APAGAR ISTO!
 		{
-			free(sh.cmd_line);
-			//free_tokens(&sh);
-			//free_cmds(&sh);
+			free(sh->cmd_line);
+			free_tokens(sh);
+			free_cmds(sh);
 			rl_clear_history();
 			free(a);
 			break;
@@ -95,77 +103,82 @@ int main(int ac, char **av, char **envp)
 
 
 
-		sh.cmd_line = prepare_line(sh.cmd_line);
-		printf("\n\nline /inicio/%s/fim/", sh.cmd_line);
+		sh->cmd_line = prepare_line(sh->cmd_line);
+//		printf("\n\nline /inicio/%s/fim/", sh->cmd_line);
 
-		sh.vars.tk_num = count_tokens(&sh);
-		printf("\nnumero de tokens=%d\n", sh.vars.tk_num);
-		init_tokens(&sh);
-		split_cmd(&sh);
+		sh->vars.tk_num = count_tokens(sh);
+//		printf("\nnumero de tokens=%d\n", sh->vars.tk_num);
+		init_tokens(sh);
+		split_cmd(sh);
 
-		filter_tokens(&sh);
+		filter_tokens(sh);
 
-		search_expand(&sh);
+		search_expand(sh);
 		x = 0;
 
-				printflags(&sh);
-
+				printflags(sh);
+		printf("\n\n");
 		/*while(x < sh.vars.tk_num)
 		{
 			printf("\n %i \n %s \n", sh.tokens[x].num, sh.tokens[x].tokens);
 			x++;
 		}*/
 
-		init_parser(&sh);
-		if(check_before_parse(&sh))
+		init_parser(sh);
+		if(check_before_parse(sh))
 			{
 				printf("\ninvalid!!!\n");
-				free_tokens(&sh);
+				free_tokens(sh);
 				break;
 			}
-		if(check_r_out(&sh) || check_r_in(&sh))// || check_pipe(&sh))
+		if(check_r_out(sh) || check_r_in(sh))// || check_pipe(&sh))
 			{
 				printf("\ninvalid!!!\n");
-				free_tokens(&sh);
+				free_tokens(sh);
 				break;
 			}
-		fill_parser(&sh);
+
+					printf("\n\n PARSERRR\n\n");
+
+		fill_parser(sh);
 
 		
 		x = 0;
-		//printf("\n\n %d\n\n", sh.vars.cmds_num);
+		printf("\n\n %d\n\n", sh->vars.cmds_num);
 		
-		executor(&sh);
+		executor(sh);
 
 		
 
+		printf("\n\n");
 
-/*
+
 		
-		while(x < sh.vars.cmds_num && sh.vars.tk_num > 0)
+		while(x < sh->vars.cmds_num && sh->vars.tk_num > 0)
 		{
 			xx = 0;
 			printf("\n******* COMAND NUM=%d *******\n", x);
 			printf("**\n**\n");
-			printf("**	CMD=%s 	\n", sh.comands[x].cmd);
-			printf("**	N_ARGS=%d 	\n", sh.comands[x].n_args);
-			while(xx < sh.comands[x].n_args + 1)
+			printf("**	CMD=%s 	\n", sh->comands[x].cmd);
+			printf("**	N_ARGS=%d 	\n", sh->comands[x].n_args);
+			while(xx < sh->comands[x].n_args + 1)
 			{
-				printf("**	ARG %d = %s 	\n", xx, sh.comands[x].arg[xx]);
+				printf("**	ARG %d = %s 	\n", xx, sh->comands[x].arg[xx]);
 				xx++;
 			}
-			if(sh.comands[x].pipe)
+			if(sh->comands[x].pipe)
 				printf("**	pipe = ON!	\n");
 			else
 				printf("**	pipe = OFF	\n");
-			printf("**	INFILE=%s 	\n", sh.comands[x].infile);
-			printf("**	OUTFILE=%s 	\n\n\n\n", sh.comands[x].outfile);
+			printf("**	INFILE=%s 	\n", sh->comands[x].infile);
+			printf("**	INFILE_FD=%d \n", sh->comands[x].infile_fd);
+			printf("**	OUTFILE=%s 	\n", sh->comands[x].outfile);
+			printf("**	OUTFILE_FD=%d \n\n\n", sh->comands[x].outfile_fd);
 			x++;
 		}
-*/
-		free_tokens(&sh);
-		free_cmds(&sh);
-		//free_env(&sh);
+		free_tokens(sh);
+		free_cmds(sh);
+
 		
 	}
 	return(0);

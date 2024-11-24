@@ -10,11 +10,12 @@ CC := cc
 ##builtins/export.c ##
 ##builtins/unset.c \ ##
 ##  builtins/pwd.c \ ##
+## builtins/echo.c \ ##
+
 
 SRCS := src/minishell.c \
-						builtins/echo.c \
 						builtins/env.c \
-							builtins/exit.c \
+						builtins/exit.c \
 						  src/token.c \
 						  src/split_cmd.c \
 						  src/free.c \
@@ -28,6 +29,8 @@ SRCS := src/minishell.c \
 						  src/token_filter2.c \
 						  src/prompt.c \
 						  src/init.c \
+						  src/redir.c \
+						  src/signals.c \
 						  src/init_utils.c \
 						  src/expander.c \
 						  lib/libft/ft_isalnum.c \

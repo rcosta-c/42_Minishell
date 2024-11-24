@@ -95,6 +95,9 @@ int	parse_pipes(t_sh *sh, int z, int n_cmd)
 			sh->comands[n_cmd].infile = ft_strdup(sh->tokens[x].tokens);
 			x++;
 		}
+		else
+			x++;
+
 	//printf("\n %s \n", sh->tokens[x].tokens);
 	}
 	if(sh->tokens[x].pipe == true && (x < sh->vars.tk_num))
