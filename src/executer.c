@@ -45,6 +45,22 @@ void	executor(t_sh *sh)
 		else
 			sh->comands[x].cmd = prep_cmd(sh, sh->comands[x].cmd, x);
 			execute_cmd(sh, x);
+
+		if (sh->comands[x].inbackup != -1) 
+		{
+			dup2(sh->comands[x].inbackup, STDIN_FILENO);
+			//dup2(sh->comands[x].infile_fd, sh->comands[x].inbackup);
+			sh->comands[x].infile_fd = -1;
+        	close(sh->comands[x].inbackup);
+    	}
+		if (sh->comands[x].outbackup != -1) 
+		{
+			dup2(sh->comands[x].outbackup, STDOUT_FILENO);
+//			dup2(sh->comands[x].outfile_fd, sh->comands[x].outbackup);
+			sh->comands[x].outfile_fd = -1;
+
+        	close(sh->comands[x].outbackup);
+    	}	
 	}
 	else
 	{
@@ -66,8 +82,18 @@ void	executor(t_sh *sh)
 				execute_cmd(sh, x);
 			}
 			printf("\nMULTI ARGS -> CMD NUMBER = %d \n", x);
+			if (sh->comands[x].inbackup != -1) 
+			{
+				dup2(sh->comands[x].inbackup, STDIN_FILENO);
+        		close(sh->comands[x].inbackup);
+    		}
+			if (sh->comands[x].outbackup != -1) 
+			{
+				dup2(sh->comands[x].outbackup, STDIN_FILENO);
+				close(sh->comands[x].outbackup);
+			}	
 			x++;		
-			
+
 		}
 		
 	}

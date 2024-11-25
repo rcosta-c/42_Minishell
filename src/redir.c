@@ -4,7 +4,7 @@ void	handle_redirects(t_sh *sh, int x)
 {
 	if (sh->comands[x].infile)
 	{
-         	close(sh->comands[x].infile_fd);
+         	//close(sh->comands[x].infile_fd);
 
         printf("\nvai fazer infile_fd open!\n\n");
 		sh->comands[x].infile_fd = open(sh->comands[x].infile, O_RDONLY);
@@ -15,19 +15,25 @@ void	handle_redirects(t_sh *sh, int x)
 			perror("Erro ao abrir input_fd");
 			return;
 		}
-        dup2(sh->comands[x].infile_fd, STDIN_FILENO);
+        sh->comands[x].inbackup = dup(STDOUT_FILENO);
+        if(dup2(sh->comands[x].infile_fd, STDIN_FILENO) < 0)
+        {
+            perror("Erro ao redirecionar stdin");
+            close(sh->comands[x].infile_fd);
+            return;
+        }
         //dup(sh->comands[x].infile_fd);
        	close(sh->comands[x].infile_fd);
 
         
         
-        printf("ACABU DE FAZER DUP2\n\n\n");
+        printf("ACABU DE FAZER  IN DUP2\n\n\n");
 
 
 	}
 	if (sh->comands[x].outfile)
 	{
-    	close(sh->comands[x].outfile_fd);
+    	//close(sh->comands[x].outfile_fd);
 
                 printf("\nvai fazer OUTfile_fd open!\n\n");
 
@@ -40,6 +46,17 @@ void	handle_redirects(t_sh *sh, int x)
 			perror("erro ao abrir output_fd");
 			return;
 		}
+        sh->comands[x].outbackup = dup(STDOUT_FILENO);
+        if(dup2(sh->comands[x].outfile_fd, STDOUT_FILENO) < 0)
+        {
+            perror("Erro ao redirecionar stdout");
+            close(sh->comands[x].outfile_fd);
+            return;
+        }
+        close(sh->comands[x].outfile_fd);
+
+                printf("ACABU DE FAZER  OUT DUP2\n\n\n");
+
 	}
 }
 

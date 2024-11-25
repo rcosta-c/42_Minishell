@@ -23,6 +23,8 @@ void    init_cmds(t_sh *sh, int x)
 	sh->comands[x].infile_fd = -1;
 	sh->comands[x].outfile = NULL;
 	sh->comands[x].outfile_fd = -1;
+	sh->comands[x].inbackup = -1;
+	sh->comands[x].outbackup = -1;
 	sh->comands[x].arg = NULL;
 	sh->comands[x].n_args = 0;
     sh->comands[x].errors.cmd_not_found = false;

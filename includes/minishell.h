@@ -93,6 +93,8 @@ typedef struct s_exec
 	bool		pipe;
 	int			infile_fd;
 	int			outfile_fd;
+	int			outbackup;
+	int			inbackup;
 	t_execerror errors;
 
 }   t_exec;

@@ -116,8 +116,16 @@ int main(int ac, char **av, char **envp)
 		search_expand(sh);
 		x = 0;
 
-				printflags(sh);
+/*
+//		PRINTAR AS FLAGS DOS TOKENS!!! //
+
+		printflags(sh);
 		printf("\n\n");
+	
+	
+*/	
+	
+	
 		/*while(x < sh.vars.tk_num)
 		{
 			printf("\n %i \n %s \n", sh.tokens[x].num, sh.tokens[x].tokens);
