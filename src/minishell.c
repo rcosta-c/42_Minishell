@@ -146,19 +146,19 @@ int main(int ac, char **av, char **envp)
 				break;
 			}
 
-					printf("\n\n PARSERRR\n\n");
+//					printf("\n\n PARSERRR\n\n");
 
 		fill_parser(sh);
 
 		
 		x = 0;
-		printf("\n\n %d\n\n", sh->vars.cmds_num);
+//		printf("\n\n %d\n\n", sh->vars.cmds_num);
 		
 		executor(sh);
 
 		
 
-		printf("\n\n");
+		//printf("\n\n");
 
 
 		
