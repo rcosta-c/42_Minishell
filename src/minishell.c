@@ -78,11 +78,11 @@ int main(int ac, char **av, char **envp)
 	while(1)
 	{
 		ft_sigset();
-		if(sh->vars.tk_num > 0)
+		/*if(sh->vars.tk_num > 0)
 		{
 			ft_bzero(sh->tokens, sizeof(t_tokens));
 			ft_bzero(sh->comands, sizeof(t_exec));
-		}
+		}*/
 		sh->vars.tk_num = 0;
 		sh->vars.cmds_num = 0;
 		if(sh->cmd_line)
@@ -178,7 +178,6 @@ int main(int ac, char **av, char **envp)
 		}
 		free_tokens(sh);
 		free_cmds(sh);
-
 		
 	}
 	return(0);
