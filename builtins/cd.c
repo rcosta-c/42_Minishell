@@ -17,11 +17,11 @@
 static void set_dir(t_sh *sh, char *dir)
 {
     char    *temp;
-    char    *var;
+    char    **var;
 
     temp = NULL;
     var = ft_calloc(3, sizeof(char *));
-    var[0] = *ft_strjoin("export", var);
+    var[0] = ft_strjoin("export", var[0]);
     temp = getcwd(temp, BUFFER_SIZE);
     if (chdir (dir))
     {
@@ -31,13 +31,13 @@ static void set_dir(t_sh *sh, char *dir)
     }
     else
     {
-        var[1] = *ft_strjoin("OLDPWD=", temp);
-        ft_export(var, sh->envp);
+        var[1] = ft_strjoin("OLDPWD=", temp);
+        ft_export(sh, sh->envp);
         free(temp);
         free(var[1]);
         temp = getcwd(temp, BUFFER_SIZE);
-        var[1] = *ft_strjoin("PWD=", temp);
-        ft_export(var, sh->envp);
+        var[1] = ft_strjoin("PWD=", temp);
+        ft_export(sh, sh->envp);
         sh->error.exit_error = false;
     }
     free(temp);
@@ -46,14 +46,23 @@ static void set_dir(t_sh *sh, char *dir)
 
 // Função que retorna o caminho do diretório 
 // HOME a partir das variáveis de ambiente
-static void *set_home(t_sh *sh)
+static char *set_home(t_sh *sh)
 {
     char    *home;
+    int i;
 
-    while (sh->envp &&  ft_strncmp(sh->envp[0], "HOME=", 5))
-        sh->envp++;
-    home = *sh->envp + 5;
-    return (home);
+    i = 0;
+    home = NULL;
+    while(sh->envp && sh->envp[i])
+    {
+        if(ft_strncmp(sh->envp[i], "HOME=", 5) == 0)
+        {
+            home = sh->envp[5]; // Atribui o valor de HOME (após "HOME=")
+            break;
+        }
+        i++;
+    }
+    return(home); //Caso nao encontre, retorna NULL
 }
 
 // Função que muda o diretório de trabalho, 
@@ -61,9 +70,9 @@ static void *set_home(t_sh *sh)
 void    ft_cd(t_sh *sh, char **args)
 {
     if (args[1] && !args[2])
-        set_dir(args[1], sh->envp);
+        set_dir(sh, args[1]);
     else if (!args[1])
-        set_dir(set_home (sh->envp), sh->envp);
+        set_dir(sh, set_home(sh));
     else
     {
         ft_putstr_fd("cd: too many arguments\n", 2);

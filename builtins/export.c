@@ -38,15 +38,18 @@ static int get_var_pos(t_sh *sh, char *var)
 //adiciona ou atualiza uma variável de ambiente
 static void update_var(t_sh *sh, char *var, int var_pos)
 {
-    if (!sh->envp[0][var_pos])
+    int new_size;
+    int i;
+    char **envp_temp;
+
+    if (!sh->envp[var_pos])
     {
-        int new_size = var_pos + 2;
-        char **envp_temp = ft_calloc(new_size, sizeof(char *));
-        
-        int i = 0;
+        new_size = var_pos + 2;
+        envp_temp = ft_calloc(new_size, sizeof(char *));
+        i = 0;
         while (i < var_pos)
         {
-            envp_temp[i] = ft_strdup(sh->envp[0][i]);
+            envp_temp[i] = ft_strdup(sh->envp[i]);
             i++;
         }
         envp_temp[var_pos] = ft_strdup(var);
@@ -56,18 +59,20 @@ static void update_var(t_sh *sh, char *var, int var_pos)
     }
     else
     {
-        free(sh->envp[0][var_pos]);
-        sh->envp[0][var_pos] = ft_strdup(var);
+        free(sh->envp[var_pos]);
+        sh->envp[var_pos] = ft_strdup(var);
     }
 }
 
 // valida se uma string é um identificador de variável apropriado.
 static int valid_var(char *var)
 {
+    int i;
+
     if (!var || var[0] == '=' || ft_isdigit(var[0]))
         return 0;
 
-    int i = 0;
+    i = 0;
     while (var[i] && var[i] != '=')
     {
         if (var[i] != '_' && !ft_isalnum(var[i]))
@@ -81,15 +86,18 @@ static int valid_var(char *var)
 // permitindo que usuários adicionem ou modifiquem variáveis de ambiente.
 void ft_export(t_sh *sh, char **args)
 {
-    int i = 1;
+    int var_pos;
+    int i;
+    
+    i = 1;
     while (args[i])
     {
         if (valid_var(args[i]))
         {
             if (ft_strchr(args[i], '='))
             {
-                int var_pos = get_var_pos(args[i], sh->envp);
-                update_var(args[i], var_pos, sh->envp);
+                var_pos = get_var_pos(sh, args[i]);
+                update_var(sh, args[i], var_pos);
                 sh->error.exit_error = false;
             }
         }
@@ -103,5 +111,5 @@ void ft_export(t_sh *sh, char **args)
         i++;
     }
     if (!args[1])
-        ft_env(args, sh->envp);
+        ft_env(sh, args);
 }

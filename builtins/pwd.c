@@ -25,7 +25,7 @@ void    ft_pwd(t_sh *sh, char **args)
             i++;
         if (sh->envp && sh->envp[i])
         {
-            ft_putstr_fd(sh->envp[i][4], 1);
+            ft_putstr_fd(sh->envp[i], 1);
             ft_putstr_fd("\n", 1);
         }
         else
