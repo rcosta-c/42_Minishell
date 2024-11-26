@@ -45,9 +45,10 @@ int     main()
 {
         char            *x = "USER=rcosta";
 	 	char 	n = '=';
-	size_t		len = 7;
+	size_t		len = 11;
         char            *d;
 
-        d = ft_substr(x, n, len);
-	printf("ft_substr.c: resultado de funcao: %s \n", d);
-}*/
+        d = ft_substr(x, 4, len);
+	printf("%s \n", d);
+}
+*/

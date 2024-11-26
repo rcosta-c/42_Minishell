@@ -83,8 +83,8 @@ int main(int ac, char **av, char **envp)
 			ft_bzero(sh->tokens, sizeof(t_tokens));
 			ft_bzero(sh->comands, sizeof(t_exec));
 		}*/
-		if(sh->cmd_line)
-			free(sh->cmd_line);		
+		//if(sh->cmd_line)
+		//	free(sh->cmd_line);		
 		
 		a = get_prompt();
 		sh->cmd_line = readline(a);

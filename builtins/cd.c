@@ -19,7 +19,9 @@ static void set_dir(t_sh *sh, char *dir)
     char    *temp;
     char    **var;
 
+    printf("entrou no setdir\n");
     temp = NULL;
+    //printf("\n%s\n", dir);
     var = ft_calloc(3, sizeof(char *));
     var[0] = ft_strjoin("export", var[0]);
     temp = getcwd(temp, BUFFER_SIZE);
@@ -31,17 +33,27 @@ static void set_dir(t_sh *sh, char *dir)
     }
     else
     {
+            printf("entrou no else\n");
+
         var[1] = ft_strjoin("OLDPWD=", temp);
         ft_export(sh, sh->envp);
+                            printf("falhou? no else\n");
+
         free(temp);
         free(var[1]);
+                    printf("falhou? no else\n");
+
         temp = getcwd(temp, BUFFER_SIZE);
         var[1] = ft_strjoin("PWD=", temp);
         ft_export(sh, sh->envp);
+                            printf("falhou? no else\n");
+
         sh->error.exit_error = false;
     }
+    printf("vai libertar\n");
     free(temp);
     free(var);
+    printf("ja libertou\n");
 }
 
 // Função que retorna o caminho do diretório 
@@ -57,7 +69,8 @@ static char *set_home(t_sh *sh)
     {
         if(ft_strncmp(sh->envp[i], "HOME=", 5) == 0)
         {
-            home = sh->envp[5]; // Atribui o valor de HOME (após "HOME=")
+            home = ft_substr(sh->envp[i], 5, ft_strlen(sh->envp[i])); // Atribui o valor de HOME (após "HOME=")
+            printf("%s\n", home);
             break;
         }
         i++;

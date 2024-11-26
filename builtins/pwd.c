@@ -17,6 +17,7 @@
 void    ft_pwd(t_sh *sh, char **args)
 {
     size_t  i;
+    char    *temp;
 
     if (!args[1])
     {
@@ -25,8 +26,10 @@ void    ft_pwd(t_sh *sh, char **args)
             i++;
         if (sh->envp && sh->envp[i])
         {
-            ft_putstr_fd(sh->envp[i], 1);
+            temp = ft_substr(sh->envp[i], 4, ft_strlen(sh->envp[i]));
+            ft_putstr_fd(temp, 1);
             ft_putstr_fd("\n", 1);
+            free(temp);
         }
         else
         {

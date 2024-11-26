@@ -1,6 +1,18 @@
 
 
 
+BUILT-INS VERIFICADOS E A FUNCIONAR BEM:
+UNSET (sem opcoes) (com argumentos)
+PWD (sem opcoes) (e sem args)
+
+
+EXPORT (sem opcoes) (nao esta a funcionar os argumentos)
+ENV (sem opcoes) (falta verificar com argumentos)
+ECHO -falta verificar
+CD -falta verificar
+EXIT -falta verificar
+
+
 FAZER:
 
 -GERAR ERRO G_STATUS ou G_EXIT
@@ -9,6 +21,10 @@ FAZER:
 -FAZER O HANDLE DE 
     -> $PWD (VAR AMBIENTE COMO TOKEN[0])
         deve printar a var
+
+
+-ALTERAR ENVP -> ALOCAR VARIAVEL CHAR ** COM OS DADOS DE ENVP para depois
+ser mais facil no FT_EXPORT para acrescentar ou retirar alguma VAR AMBIENTE
 
 
 
