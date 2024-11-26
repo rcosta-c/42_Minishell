@@ -27,12 +27,10 @@ static char	*clean_quote(char *str)
 void	remove_quoted(t_sh *sh)
 {
 	int	x;
-	int xarg;
 
 	if(sh->vars.tk_num == 0)
 		return;
 	x = 0;
-	xarg = 0;
 	while(x < sh->vars.tk_num)
 	{
 		if(sh->tokens[x].d_quote)

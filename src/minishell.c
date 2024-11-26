@@ -121,19 +121,16 @@ int main(int ac, char **av, char **envp)
 
 
 //		PRINTAR AS FLAGS DOS TOKENS!!! //
-
+/*
 		printflags(sh);
 		printf("\n\n");
-	
-	
-	
-	
-	
-		/*while(x < sh.vars.tk_num)
+*/	
+/*		while(x < sh.vars.tk_num)
 		{
 			printf("\n %i \n %s \n", sh.tokens[x].num, sh.tokens[x].tokens);
 			x++;
-		}*/
+		}
+*/
 
 		init_parser(sh);
 		if(check_before_parse(sh))
@@ -165,7 +162,7 @@ int main(int ac, char **av, char **envp)
 
 
 		
-		while(x < sh->vars.cmds_num && sh->vars.tk_num > 0)
+/*		while(x < sh->vars.cmds_num && sh->vars.tk_num > 0)
 		{
 			xx = 0;
 			printf("\n******* COMAND NUM=%d *******\n", x);
@@ -187,6 +184,8 @@ int main(int ac, char **av, char **envp)
 			printf("**	OUTFILE_FD=%d \n\n\n", sh->comands[x].outfile_fd);
 			x++;
 		}
+*/
+		
 		free_tokens(sh);
 		free_cmds(sh);
 		

@@ -27,7 +27,7 @@ bool	check_exec_error(t_sh *sh, int x)
 
 bool	check_if_builtin(char *cmd)
 {
-	/*if (ft_strncmp("echo", cmd, ft_strlen(cmd)) == 0)
+	if (ft_strncmp("echo", cmd, ft_strlen(cmd)) == 0)
 		return(true);
 	else if (ft_strncmp("cd", cmd, ft_strlen(cmd)) == 0)
 		return(true);
@@ -39,7 +39,7 @@ bool	check_if_builtin(char *cmd)
 		return(true);
 	else if (ft_strncmp("env", cmd, ft_strlen(cmd)) == 0)
 		return(true);	
-	else */if (ft_strncmp("exit", cmd, ft_strlen(cmd)) == 0)
+	else if (ft_strncmp("exit", cmd, ft_strlen(cmd)) == 0)
 		return(true);	
 	else
 		return(false);

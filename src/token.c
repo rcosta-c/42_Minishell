@@ -29,7 +29,7 @@ int	count_tokens(t_sh *sh)
 
 bool counter_validation(int c)
 {
-	if(c == 33 || (c >= 35 && c <= 38) ||c >= 40 && c <= 176)
+	if(c == 33 || (c >= 35 && c <= 38) || (c >= 40 && c <= 176))
 		return(true);
 	else 
 		return(false);

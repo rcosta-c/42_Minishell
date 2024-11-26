@@ -62,9 +62,9 @@ void    expand_token(t_sh *sh, char *token, int n)
     int     xb;
     int     x;
     int     exp_counter;
-    char    *expands[20];
 	pid_t	pid;
 
+	(void)token;
     exp_counter = 0;
 	x = 0;
 	z = NULL;

@@ -21,7 +21,6 @@ void    close_pipe_child(t_sh *sh)
 void    start_pipes(t_sh *sh)
 {
     int x;
-    int pipefd[2 * (sh->vars.cmds_num - 1)];
 
     x = 0;
     while(x < sh->vars.pipe_num)

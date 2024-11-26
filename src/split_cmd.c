@@ -44,9 +44,7 @@ static int  split_cicle(t_sh *sh, int x, int n)
 
 void	split_cmd(t_sh *sh)
 {
-	int	len;
 	int x;
-	int xx;
 	int n;
 
 	n = 0;
@@ -55,8 +53,6 @@ void	split_cmd(t_sh *sh)
 		return;
 	while(1)
 	{
-		xx = 0;
-		len = 0;
 		if(!sh->cmd_line[x])
 			break;
 		else if(check_if_squote(sh->cmd_line, x) || check_if_dquote(sh->cmd_line, x))

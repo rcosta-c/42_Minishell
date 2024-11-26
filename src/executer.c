@@ -5,7 +5,7 @@ void    execute_cmd(t_sh *sh, int x)
 	pid_t	pid;
 
 	if(check_exec_error(sh, x))
-		pid = pid; // nao podia ser return(); ????
+		return;
 	else
 	{
 		pid = fork();
@@ -33,7 +33,7 @@ void    execute_multi_cmd(t_sh *sh, int x)
 	pid_t	pid;
 
 	if(check_exec_error(sh, x))
-		pid = pid; 	// nao podia ser return(); ????
+		return;
 	else
 	{
 		pid = fork();
@@ -90,9 +90,10 @@ void	executor(t_sh *sh)
 			printf("Built-in Motherfucker!\n");
 		}
 		else
+		{
 			sh->comands[x].cmd = prep_cmd(sh, sh->comands[x].cmd, x);
 			execute_cmd(sh, x);
-
+		}
 		if (sh->comands[x].inbackup != -1) 
 		{
 			printf("\nentrou na limpeza\n");

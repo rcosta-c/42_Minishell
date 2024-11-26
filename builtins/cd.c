@@ -25,7 +25,7 @@ static void set_dir(t_sh *sh, char *dir)
     temp = getcwd(temp, BUFFER_SIZE);
     if (chdir (dir))
     {
-        perror;
+        perror("Error: cd-chdir");
         sh->error.exit_error = true;
         //erro 
     }

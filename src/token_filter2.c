@@ -18,7 +18,6 @@ void	filter_file (t_sh *sh, int n)
 
 void	filter_pipes_redir(t_sh *sh, int n)
 {
-	int	x;
 	if(sh->tokens[n].d_quote == false && sh->tokens[n].s_quote == false)
 	{
 		if(sh->tokens[n].tokens[0] == '|')
