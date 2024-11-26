@@ -10,12 +10,11 @@ FAZER:
     -> $PWD (VAR AMBIENTE COMO TOKEN[0])
         deve printar a var
 
--FAZER INTEGRACAO COMPLETA DE BUILTINS
 
 
 PROCURAR + ERROS
 
-
+-CORRIGIR A PARTE DO PROMPT QUE USA O GETENV(FUNCAO PROIBIDA)
 - Verificar funcao GETENV no promp. alterar isto.
 
 
@@ -29,6 +28,10 @@ PROCURAR + ERROS
 
 FEITO
 /*
+
+-FAZER INTEGRACAO COMPLETA DE BUILTINS
+
+
 - Verificação de permissao dos ficheiros
     -verficar permssao para escrita
     -verificar permissao para leitura

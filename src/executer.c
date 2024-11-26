@@ -16,7 +16,7 @@ void    execute_cmd(t_sh *sh, int x)
 		}
 		if(pid == 0)
 		{
-			printf("\n\nvai executor o camando...\n");
+			//printf("\n\nvai executor o camando...\n");
 			if (execve(sh->comands[x].cmd, sh->comands[x].arg, sh->envp) == -1)
 			{
                 perror("Erro ao executar comando");
@@ -57,7 +57,7 @@ void    execute_multi_cmd(t_sh *sh, int x)
 			}
 
 
-			printf("\n\nvai executor o comando %d...\n", x);
+			//printf("\n\nvai executor o comando %d...\n", x);
 
 
 			if (execve(sh->comands[x].cmd, sh->comands[x].arg, sh->envp) == -1)
@@ -87,7 +87,7 @@ void	executor(t_sh *sh)
 		if (check_if_builtin(sh->comands[x].cmd))
 		{
 			exec_builtin(sh, x);
-			printf("Built-in Motherfucker!\n");
+			//printf("Built-in Motherfucker!\n");
 		}
 		else
 		{
@@ -96,7 +96,7 @@ void	executor(t_sh *sh)
 		}
 		if (sh->comands[x].inbackup != -1) 
 		{
-			printf("\nentrou na limpeza\n");
+			//printf("\nentrou na limpeza\n");
 			dup2(sh->comands[x].inbackup, STDIN_FILENO);
 			//dup2(sh->comands[x].infile_fd, sh->comands[x].inbackup);
 			sh->comands[x].infile_fd = -1;

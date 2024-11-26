@@ -1,8 +1,6 @@
 #include "../includes/minishell.h"
 
-
 int		g_status;
-
 
 void    printflags(t_sh *sh)
 {
@@ -66,8 +64,6 @@ void    printflags(t_sh *sh)
 int main(int ac, char **av, char **envp)
 {
    	t_sh	*sh;
-	int x;
-	int xx;
 	char	*a;
 
 	(void)ac;
@@ -76,7 +72,6 @@ int main(int ac, char **av, char **envp)
 	if(sh == NULL)
 		return(EXIT_FAILURE);
 	//memset(&sh, 0, sizeof(t_sh));
-	x = 0;
 	sh->envp = envp;
 	init_error(sh);
 	while(1)
@@ -117,15 +112,15 @@ int main(int ac, char **av, char **envp)
 		filter_tokens(sh);
 
 		search_expand(sh);
-		x = 0;
 
 
 //		PRINTAR AS FLAGS DOS TOKENS!!! //
 /*
 		printflags(sh);
 		printf("\n\n");
-*/	
-/*		while(x < sh.vars.tk_num)
+		int x = 0;
+
+		while(x < sh.vars.tk_num)
 		{
 			printf("\n %i \n %s \n", sh.tokens[x].num, sh.tokens[x].tokens);
 			x++;
@@ -151,7 +146,6 @@ int main(int ac, char **av, char **envp)
 		fill_parser(sh);
 
 		
-		x = 0;
 //		printf("\n\n %d\n\n", sh->vars.cmds_num);
 		
 		executor(sh);
@@ -162,7 +156,8 @@ int main(int ac, char **av, char **envp)
 
 
 		
-/*		while(x < sh->vars.cmds_num && sh->vars.tk_num > 0)
+/*		x = 0;
+		while(x < sh->vars.cmds_num && sh->vars.tk_num > 0)
 		{
 			xx = 0;
 			printf("\n******* COMAND NUM=%d *******\n", x);
