@@ -18,6 +18,26 @@
 	return(false);
 }*/
 
+bool	check_r_append_out(t_sh *sh)
+{
+	int x;
+
+	x = 0;
+	while(x < sh->vars.tk_num)
+	{
+		if(sh->tokens[x].r_outappend)
+		{
+			x++;
+			if(sh->tokens[x].file)
+				return(false);
+			else
+				return(true);		
+		}
+		x++;
+	}
+	return(false);
+}
+
 bool    check_r_out(t_sh *sh)
 {
 	int	x;

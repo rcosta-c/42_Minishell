@@ -37,6 +37,8 @@ typedef struct s_vars
 {
 	int     tk_num;
 	int		cmds_num;
+	int		redir_num;
+	int		pipe_num;
 }   t_vars;
 
 
@@ -52,6 +54,7 @@ typedef struct s_tokens
 	bool    f_quote;
 	bool    r_in;
 	bool    r_out;
+	bool	r_outappend;
 	bool    file;
 	bool    envp;
 	bool    exp_t;      
@@ -90,6 +93,9 @@ typedef struct s_exec
 	char   		**arg;
 	char		*infile;
 	char    	*outfile;
+	char    	*outappendfile;
+	int			outappend_fd;
+	int			pipe_fd[2];
 	bool		pipe;
 	int			infile_fd;
 	int			outfile_fd;
@@ -137,7 +143,7 @@ void	init_parser(t_sh *sh);
 
 void	init_tk_flag1(t_sh *sh, int x);
 void    init_cmds(t_sh *sh, int x);
-
+void	init_vars(t_sh *sh);
 /*		FIM 	*/
 
 
@@ -198,6 +204,8 @@ bool    check_before_parse(t_sh *sh);
 void    fill_parser(t_sh *sh);
 bool    check_r_out(t_sh *sh);
 bool    check_r_in(t_sh *sh);
+bool	check_r_append_out(t_sh *sh);
+
 /*	FIM	   */
 
 
@@ -228,6 +236,8 @@ void	ft_export(t_sh *sh, char **args);
 /*	EXECUTER.c	*/
 void    execute_cmd(t_sh *sh, int x);
 void	executor(t_sh *sh);
+void    execute_multi_cmd(t_sh *sh, int x);
+
 /*	FIM		*/
 
 
@@ -239,5 +249,9 @@ void    exec_builtin(t_sh *sh, int cmd_nbr);
 
 /*	FIM		*/
 
+/*	PIPE.c*/
+void    start_pipes(t_sh *sh);
+void    close_pipe_child(t_sh *sh);
+/*	FIM		*/
 
 #endif

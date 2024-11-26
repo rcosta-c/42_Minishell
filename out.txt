@@ -1,1 +1,89 @@
 merda
+ACABU DE FAZER  OUT DUP2
+
+
+
+
+vai executor o camando...
+aasd.sd
+a.out
+asdas.asd
+asdasd.d
+asdasd.dsd
+builtins
+coco.txt
+dib.txt
+exp.c
+ignore_readline.supp
+includes
+lib
+Makefile
+merda.c
+minishell
+out.txt
+read.c
+readline.supp
+README.md
+saida.txt
+src
+teste2.c
+teste.c
+ACABU DE FAZER  OUT DUP2
+
+
+
+
+vai executor o camando...
+aasd.sd
+a.out
+asdas.asd
+asdasd.d
+asdasd.dsd
+builtins
+coco.txt
+dib.txt
+exp.c
+ignore_readline.supp
+includes
+lib
+Makefile
+merda.c
+minishell
+out.txt
+read.c
+readline.supp
+README.md
+saida.txt
+src
+teste2.c
+teste.c
+ACABU DE FAZER  OUT DUP2
+
+
+
+
+vai executor o camando...
+total 244
+-rw-r--r-- 1 rcosta-c rcosta-c     56 nov 25 12:22 aasd.sd
+-rwxrwxr-x 1 rcosta-c rcosta-c  16064 nov 22 10:22 a.out
+-rw-r--r-- 1 rcosta-c rcosta-c     27 nov 25 12:22 asdas.asd
+-rw-r--r-- 1 rcosta-c rcosta-c     56 nov 25 12:22 asdasd.d
+-rw-r--r-- 1 rcosta-c rcosta-c     27 nov 25 12:32 asdasd.dsd
+drwxrwxr-x 2 rcosta-c rcosta-c   4096 nov 25 12:45 builtins
+-rw-r--r-- 1 rcosta-c rcosta-c    224 nov 25 11:38 coco.txt
+-rw-rw-r-- 1 rcosta-c rcosta-c    180 nov 24 23:13 dib.txt
+-rw-rw-r-- 1 rcosta-c rcosta-c   1066 nov 22 10:22 exp.c
+-rw-rw-r-- 1 rcosta-c rcosta-c  18840 nov 22 10:22 ignore_readline.supp
+drwxrwxr-x 2 rcosta-c rcosta-c   4096 nov 22 10:22 includes
+drwxrwxr-x 3 rcosta-c rcosta-c   4096 nov 22 10:20 lib
+-rw-rw-r-- 1 rcosta-c rcosta-c   3322 nov 25 12:00 Makefile
+-rw-rw-r-- 1 rcosta-c rcosta-c    831 nov 22 10:22 merda.c
+-rwxrwxr-x 1 rcosta-c rcosta-c 127304 nov 25 12:45 minishell
+-rw-rw-r-- 1 rcosta-c rcosta-c    585 nov 25 12:46 out.txt
+-rw-rw-r-- 1 rcosta-c rcosta-c    438 nov 22 10:22 read.c
+-rw-rw-r-- 1 rcosta-c rcosta-c    122 nov 22 10:48 readline.supp
+-rw-rw-r-- 1 rcosta-c rcosta-c     68 nov 22 10:20 README.md
+-rw-rw-r-- 1 rcosta-c rcosta-c   1631 nov 24 23:12 saida.txt
+drwxrwxr-x 2 rcosta-c rcosta-c   4096 nov 25 12:45 src
+-rw-rw-r-- 1 rcosta-c rcosta-c    244 nov 22 10:22 teste2.c
+-rw-rw-r-- 1 rcosta-c rcosta-c    687 nov 22 10:22 teste.c

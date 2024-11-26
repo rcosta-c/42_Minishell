@@ -39,6 +39,10 @@ void    printflags(t_sh *sh)
 			printf("Flag.r inm = true\n");
 		else
 		   printf("Flag.rin = false\n");
+		if(sh->tokens[n].r_outappend == true)
+			printf("Flag.r_outappend = true\n");
+		else
+			printf("Flag.r_outappend = false\n");
 		if(sh->tokens[n].r_out == true)
 			printf("Flag.r_out = true\n");
 		else
@@ -78,13 +82,12 @@ int main(int ac, char **av, char **envp)
 	while(1)
 	{
 		ft_sigset();
+		init_vars(sh);
 		/*if(sh->vars.tk_num > 0)
 		{
 			ft_bzero(sh->tokens, sizeof(t_tokens));
 			ft_bzero(sh->comands, sizeof(t_exec));
 		}*/
-		sh->vars.tk_num = 0;
-		sh->vars.cmds_num = 0;
 		if(sh->cmd_line)
 			free(sh->cmd_line);		
 		
@@ -116,14 +119,14 @@ int main(int ac, char **av, char **envp)
 		search_expand(sh);
 		x = 0;
 
-/*
+
 //		PRINTAR AS FLAGS DOS TOKENS!!! //
 
 		printflags(sh);
 		printf("\n\n");
 	
 	
-*/	
+	
 	
 	
 		/*while(x < sh.vars.tk_num)
@@ -139,7 +142,7 @@ int main(int ac, char **av, char **envp)
 				free_tokens(sh);
 				break;
 			}
-		if(check_r_out(sh) || check_r_in(sh))// || check_pipe(&sh))
+		if(check_r_out(sh) || check_r_in(sh) || check_r_append_out(sh))// || check_pipe(&sh))
 			{
 				printf("\ninvalid!!!\n");
 				free_tokens(sh);

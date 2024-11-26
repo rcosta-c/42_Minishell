@@ -89,6 +89,13 @@ int	parse_pipes(t_sh *sh, int z, int n_cmd)
 			sh->comands[n_cmd].outfile = ft_strdup(sh->tokens[x].tokens);
 			x++;
 		}
+		if(sh->tokens[x].r_outappend)// && sh->tokens[x + 1].file)
+		{
+			x++;
+			sh->comands[n_cmd].outappendfile = ft_strdup(sh->tokens[x].tokens);
+			x++;
+		}
+		
 		if(sh->tokens[x].r_in)// && sh->tokens[x + 1].file)
 		{
 			x++;

@@ -22,11 +22,23 @@ void	filter_pipes_redir(t_sh *sh, int n)
 	if(sh->tokens[n].d_quote == false && sh->tokens[n].s_quote == false)
 	{
 		if(sh->tokens[n].tokens[0] == '|')
-			sh->tokens[n].pipe = true;
+			{
+				sh->tokens[n].pipe = true;
+				sh->vars.pipe_num++;
+			}
 		if(sh->tokens[n].tokens[0] == '<')
-			sh->tokens[n].r_in = true;		
+		{
+			sh->tokens[n].r_in = true;
+			sh->vars.redir_num++;
+		}
 		if(sh->tokens[n].tokens[0] == '>')
-			sh->tokens[n].r_out = true;		
+		{
+			if(!sh->tokens[n].tokens[1])
+				sh->tokens[n].r_out = true;		
+			if(sh->tokens[n].tokens[1] == '>')
+				sh->tokens[n].r_outappend = true;
+			sh->vars.redir_num++;
+		}
 	}
 }
 

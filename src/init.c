@@ -2,6 +2,7 @@
 
 void	init_error(t_sh *sh)
 {
+	sh->vars.redir_num = 0;
 	sh->error.cmd_error = false;
 	sh->error.token_error = false;
 	sh->error.expand_error = false;
