@@ -1,4 +1,34 @@
 
+
+
+FAZER:
+
+-GERAR ERRO G_STATUS ou G_EXIT
+-GERAR AS MENSAGENS DE ERRO ESCRITAS NECESSARIAS;
+
+-FAZER O HANDLE DE 
+    -> $PWD (VAR AMBIENTE COMO TOKEN[0])
+        deve printar a var
+
+-FAZER INTEGRACAO COMPLETA DE BUILTINS
+
+
+PROCURAR + ERROS
+
+
+- Verificar funcao GETENV no promp. alterar isto.
+
+
+
+
+
+- Criar caminhos completos para os ficheiros dos redirects.
+    (ACHO QUE NAO É NECESSARIO)
+
+
+
+FEITO
+/*
 - Verificação de permissao dos ficheiros
     -verficar permssao para escrita
     -verificar permissao para leitura
@@ -16,19 +46,6 @@
         X_OK — Verifica se tens permissão de execução.
 
 
-
-
-- Criar caminhos completos para os ficheiros dos redirects.
-
-
-
-
-- Verificar funcao GETENV no promp. alterar isto.
-
-
-
-FEITO
-/*
 - criar signals para ler o CTRL + D e fazer nova linha
 
 -criar funcao para tirar os " " e ' '
