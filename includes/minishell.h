@@ -128,7 +128,7 @@ char	*join_2_str(char *a, char *b, char *z);
 /*	PROMP_UTILS.c	*/
 
 void	ft_getenv(t_sh *sh, char **envp);
-
+char 	*find_my_host(t_sh *sh);
 /*	FIM 	*/
 
 

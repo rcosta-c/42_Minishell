@@ -1,31 +1,5 @@
 #include "../includes/minishell.h"
 
-static char	*verify_host(char *host)
-{
-	int		x;
-	char	*res;
-
-	x = 0;
-	while(host[x])
-	{
-		if(host[x] == '.')
-		{
-			break;
-		}
-		x++;
-	}
-	res = malloc(sizeof(char) * (x + 1));
-	x = 0;
-	while(host[x] != '.' && host[x])
-	{
-		res[x] = host[x];
-		x++;
-	}
-	res[x] = '\0';
-	free(host);
-	return(res);
-}
-
 static char	*verify_home(t_sh *sh, char *prompt)
 {
 	char	*home;
@@ -90,11 +64,13 @@ char	*get_prompt(t_sh *sh)
 	char	*prompt;
 	char	*temp;
 
+//printf("entrou no getrpompt\n");
 	user = search_envp(sh, "USER");
-	printf("\n%s\n", user);
 	host = malloc(sizeof(char) * _SC_HOST_NAME_MAX + 1);
-	gethostname(host, _SC_HOST_NAME_MAX + 1);
-	host = verify_host(host);
+	//gethostname(host, _SC_HOST_NAME_MAX + 1);
+	//host = verify_host(host);
+	host = find_my_host(sh);
+	//printf("%s\n", host);
 	prompt = join_2_str(user, host , "@");
 	dir = search_envp(sh, "PWD");
 	dir = verify_home(sh, dir);

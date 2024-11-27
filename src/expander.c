@@ -35,7 +35,6 @@ char	*search_envp(t_sh *sh, char *z)
 	xt = 0;
 	while(sh->envp[x])
 	{
-		printf("%s\n", sh->envp[x]);
 		if(ft_envp_n_cmp(z, sh->envp[x]) == 0)
 		{
 			while(sh->envp[x][xx] != '=')

@@ -86,8 +86,8 @@ int main(int ac, char **av, char **envp)
 		//if(sh->cmd_line)
 		//	free(sh->cmd_line);		
 		
-		a = "minishell :";
-		//a = get_prompt(sh);
+		//a = "minishell :";
+		a = get_prompt(sh);
 		sh->cmd_line = readline(a);
 
 		if(sh->cmd_line[1] == '9') // APAGAR ISTO!
