@@ -82,14 +82,3 @@ char	*get_prompt(t_sh *sh)
 	free(dir);
 	return(prompt);  
 }
-/*
-int	main(void)
-{
-	char *a;
-
-	a = get_prompt();
-	
-	printf("\n%s\n", a);
-	free(a);
-	
-}*/
