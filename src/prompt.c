@@ -10,39 +10,39 @@ static char	*verify_home(t_sh *sh, char *prompt)
 
 	x = 0;
 	home = search_envp(sh, "HOME");
-	while(prompt[x])
+	while (prompt[x])
 	{
-		if(x == 0 && prompt[x] != home[x])
-			return(prompt);
-		else if(prompt[x] == home[x])
+		if (x == 0 && prompt[x] != home[x])
+			return (prompt);
+		else if (prompt[x] == home[x])
 		{
 			x++;
 		}
-		else if(prompt[x] != home[x])
-			break;
+		else if (prompt[x] != home[x])
+			break ;
 	}
 	n_pr = ft_strlen(prompt);
 	n_total = n_pr - x;
 	final_prompt = malloc(sizeof(char) * n_total + 2);
 	n_total = 1;
-	if(x == 1)
+	if (x == 1)
 		final_prompt[0] = '/';
 	else
 		final_prompt[0] = '~';
-	while(prompt[x])
+	while (prompt[x])
 	{
 		final_prompt[n_total] = prompt[x];
 		n_total++;
 		x++;
 	}
 	final_prompt[n_total] = '\0';
-	return(final_prompt);
+	return (final_prompt);
 }
 
 char	*join_2_str(char *a, char *b, char *z)
 {
 	char	*res;
-	char 	*temp;
+	char	*temp;
 
 	if (z)
 	{
@@ -52,9 +52,8 @@ char	*join_2_str(char *a, char *b, char *z)
 	}
 	else
 		res = ft_strjoin(a, b);
-	return(res);
+	return (res);
 }
-
 
 char	*get_prompt(t_sh *sh)
 {
@@ -71,7 +70,7 @@ char	*get_prompt(t_sh *sh)
 	//host = verify_host(host);
 	host = find_my_host(sh);
 	//printf("%s\n", host);
-	prompt = join_2_str(user, host , "@");
+	prompt = join_2_str(user, host, "@");
 	dir = search_envp(sh, "PWD");
 	dir = verify_home(sh, dir);
 	temp = join_2_str(prompt, dir, ":");
@@ -80,7 +79,7 @@ char	*get_prompt(t_sh *sh)
 	free(temp);
 	free(host);
 	free(dir);
-	return(prompt);  
+	return (prompt);
 }
 /*
 int	main(void)

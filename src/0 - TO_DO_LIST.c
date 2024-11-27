@@ -5,8 +5,8 @@ BUILT-INS VERIFICADOS E A FUNCIONAR BEM:
 UNSET (sem opcoes) (com argumentos)
 PWD (sem opcoes) (e sem args)
 ENV (sem opcoes) (sem argumentos)
+EXPORT (sem opcoes) (ja esta esta a funcionar os argumentos)
 
-EXPORT (sem opcoes) (nao esta a funcionar os argumentos)
 ECHO -falta verificar
 CD -falta verificar
 EXIT -falta verificar
