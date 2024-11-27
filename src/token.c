@@ -21,7 +21,7 @@ int	count_tokens(t_sh *sh)
 	}
 	if(counter_validation(sh->cmd_line[x - 1]) && sh->cmd_line[x - 1] != 32 && sh->cmd_line[x] == '\0')
 		counter++;
-	//printf("\n\n\n string: %s\n number of tokens: %d\n\n\n", sh.cmd_line, counter);
+//printf("\n\n\n string: %s\n number of tokens: %d\n\n\n", sh.cmd_line, counter);
 	
 	return(counter);
 }
@@ -29,7 +29,7 @@ int	count_tokens(t_sh *sh)
 
 bool counter_validation(int c)
 {
-	if(c == 33 || (c >= 35 && c <= 38) ||c >= 40 && c <= 176)
+	if(c == 33 || (c >= 35 && c <= 38) || (c >= 40 && c <= 176))
 		return(true);
 	else 
 		return(false);

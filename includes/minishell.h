@@ -23,11 +23,24 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "../lib/libft/libft.h"
+#include "../lib/gnl/get_next_line_bonus.h"
+
+
+# define CMD_NOT_FOUND	127
+# define EXIT_SIGINT	130
+# define EXIT_SIGQUIT	131
+
+extern int				g_status;
+
+
 
 typedef struct s_vars
 {
 	int     tk_num;
 	int		cmds_num;
+	int		redir_num;
+	int		pipe_num;
+	int		envp_total;
 }   t_vars;
 
 
@@ -43,6 +56,7 @@ typedef struct s_tokens
 	bool    f_quote;
 	bool    r_in;
 	bool    r_out;
+	bool	r_outappend;
 	bool    file;
 	bool    envp;
 	bool    exp_t;      
@@ -81,9 +95,14 @@ typedef struct s_exec
 	char   		**arg;
 	char		*infile;
 	char    	*outfile;
+	char    	*outappendfile;
+	int			outappend_fd;
+	int			pipe_fd[2];
 	bool		pipe;
 	int			infile_fd;
 	int			outfile_fd;
+	int			outbackup;
+	int			inbackup;
 	t_execerror errors;
 
 }   t_exec;
@@ -100,10 +119,19 @@ typedef struct s_sh
 }   t_sh;
 
 /* PROMPT.c */
-char	*get_prompt();
-void    get_tokens(t_sh *sh);
+char	*get_prompt(t_sh *sh);
+//void    get_tokens(t_sh *sh);
 char	*join_2_str(char *a, char *b, char *z);
 /*   FIM   */
+
+
+/*	PROMP_UTILS.c	*/
+
+void	ft_getenv(t_sh *sh, char **envp);
+char 	*find_my_host(t_sh *sh);
+/*	FIM 	*/
+
+
 
 /* FREE.c */
 void	free_tokens(t_sh *sh);
@@ -126,9 +154,16 @@ void	init_parser(t_sh *sh);
 
 void	init_tk_flag1(t_sh *sh, int x);
 void    init_cmds(t_sh *sh, int x);
-
+void	init_vars(t_sh *sh);
 /*		FIM 	*/
 
+
+/*	SIGNALS.c	*/
+
+void	ft_sigset(void);
+void	ft_signal_handler(int sig);
+
+/*	FIM		*/
 
 /* TOKEN.c */
 char *prepare_line(char *str);
@@ -172,6 +207,8 @@ void	filter_quotes(t_sh *sh, int n);
 /* EXPANDER.c */
 void	search_expand(t_sh *sh);
 void	expand_token(t_sh *sh, char *token, int n);
+char	*search_envp(t_sh *sh, char *z);
+
 /*   FIM   */
 
 
@@ -180,23 +217,40 @@ bool    check_before_parse(t_sh *sh);
 void    fill_parser(t_sh *sh);
 bool    check_r_out(t_sh *sh);
 bool    check_r_in(t_sh *sh);
+bool	check_r_append_out(t_sh *sh);
+
 /*	FIM	   */
 
 
+/*	REDIR.c		*/
+
+void	handle_redirects(t_sh *sh, int x);
+
+/*	FIM 	*/
+/*	PARSE_UTILS.c	*/
+
+int	parse_utils(t_sh *sh, int z);
+int	parse_pipes(t_sh *sh, int z, int n_cmd);
+void	remove_quoted(t_sh *sh);
+
+/*	FIM		*/
+
 /* BUILTINS.c */
-void	ft_echo(t_sh *sh, char **cmd);
-void	ft_pwd(t_sh *sh, char **cmd);
-void	ft_cd(t_sh *sh, char **cmd);
-void	ft_unset(t_sh *sh, char **cmd);
-void	ft_exit(t_sh *sh, char **cmd);
-void	ft_env(t_sh *sh, char **cmd);
-void	ft_export(t_sh *sh, char **cmd);
+void	ft_echo(t_sh *sh, char **args);
+void	ft_pwd(t_sh *sh, char **args);
+void	ft_cd(t_sh *sh, char **args);
+void	ft_unset(t_sh *sh, char **args);
+void	ft_exit(t_sh *sh, char **args);
+void	ft_env(t_sh *sh, char **args);
+void	ft_export(t_sh *sh, char **args);
 /*   FIM   */
 
 
 /*	EXECUTER.c	*/
 void    execute_cmd(t_sh *sh, int x);
 void	executor(t_sh *sh);
+void    execute_multi_cmd(t_sh *sh, int x);
+
 /*	FIM		*/
 
 
@@ -204,7 +258,13 @@ void	executor(t_sh *sh);
 bool	check_if_builtin(char *cmd);
 char    *prep_cmd(t_sh *sh, char *cmd, int x);
 bool	check_exec_error(t_sh *sh, int x);
+void    exec_builtin(t_sh *sh, int cmd_nbr);
+
 /*	FIM		*/
 
+/*	PIPE.c*/
+void    start_pipes(t_sh *sh);
+void    close_pipe_child(t_sh *sh);
+/*	FIM		*/
 
 #endif

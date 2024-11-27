@@ -23,7 +23,7 @@ static int	ft_envp_n_cmp(const char *s1, const char *s2)
 		return ((unsigned char)(s2[counter]));
 }
 
-static char	*search_envp(t_sh *sh, char *z)
+char	*search_envp(t_sh *sh, char *z)
 {
 	int 	x;
 	int		xx;
@@ -62,13 +62,13 @@ void    expand_token(t_sh *sh, char *token, int n)
     int     xb;
     int     x;
     int     exp_counter;
-    char    *expands[20];
 	pid_t	pid;
 
+	(void)token;
     exp_counter = 0;
 	x = 0;
 	z = NULL;
-	printf("\n\n -> %d -> %s", n, token);
+//	printf("\n\n -> %d -> %s", n, token);
     while(sh->tokens[n].tokens[x])
     {
         if(sh->tokens[n].tokens[x] == '$' && sh->tokens[n].tokens[x + 1] >= 'A' && sh->tokens[n].tokens[x + 1] <= 'Z' && sh->tokens[n].s_quote == false)
@@ -79,7 +79,7 @@ void    expand_token(t_sh *sh, char *token, int n)
 			exp_counter++;
         x++;
     }
-	printf("\n\n 1 exp_counter = %d\n\n", exp_counter);
+//	printf("\n\n 1 exp_counter = %d\n\n", exp_counter);
 	x = 0;
 	while(sh->tokens[n].tokens[x])
 	{
@@ -91,7 +91,7 @@ void    expand_token(t_sh *sh, char *token, int n)
 				break;
 			a[xa++] = sh->tokens[n].tokens[x++];
 		}
-		printf("valor de x -> %d", x);
+//		printf("valor de x -> %d", x);
 		a[xa] = '\0';
 		z = join_2_str(z, a, NULL);
 		if(sh->tokens[n].tokens[x] == '~' && sh->tokens[n].d_quote == false && sh->tokens[n].s_quote == false)
@@ -102,7 +102,7 @@ void    expand_token(t_sh *sh, char *token, int n)
 		else if(sh->tokens[n].tokens[x] ==  '$' && sh->tokens[n].tokens[x + 1] == '$')
 		{
 			x++;
-			printf("acabar de definir esta passo\n");
+//			printf("acabar de definir esta passo\n");
 			pid = getpid();
 			c = ft_itoa(pid);
 			x++;
@@ -119,10 +119,10 @@ void    expand_token(t_sh *sh, char *token, int n)
 			while((sh->tokens[n].tokens[x] >= 'A' && sh->tokens[n].tokens[x] <= 'Z') || sh->tokens[n].tokens[x] == '$' || sh->tokens[n].tokens[x] == '?')
 				b[xb++] = sh->tokens[n].tokens[x++];
 			b[xb] = '\0';
-			printf("\n e aquinao??? \nHEYHEY HEY\n%s\n", b);
+//			printf("\n e aquinao??? \nHEYHEY HEY\n%s\n", b);
 			c = search_envp(sh, b);
 		}
-		printf("\n\n aqui = %s\n exp_counter = %d\n", c, exp_counter);
+//		printf("\n\n aqui = %s\n exp_counter = %d\n", c, exp_counter);
 		z = join_2_str(z, c, NULL);
 		exp_counter--;
 		if (exp_counter == 0)
@@ -135,11 +135,11 @@ void    expand_token(t_sh *sh, char *token, int n)
 			break;
 		}
 	}
-	printf("FINAL EXPAND = %s", z);
+//	printf("FINAL EXPAND = %s", z);
 
 	//free(sh->tokens[n].tokens);
 	sh->tokens[n].tokens = z;
-	printf("FINAL EXPAND = %s", sh->tokens[n].tokens);
+//	printf("FINAL EXPAND = %s", sh->tokens[n].tokens);
 
 	//free(z);
 
@@ -172,7 +172,7 @@ void	search_expand(t_sh *sh)
 					expand_token(sh, sh->tokens[n].tokens, n);
 			}
 		}
-		printf("fim de expand\n\n");
+//		printf("fim de expand\n\n");
 		n++;
 	}
 }

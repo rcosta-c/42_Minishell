@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcosta-c <rcosta-c@student.42porto.co      +#+  +:+       +#+        */
+/*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 11:26:01 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/04/23 11:05:18 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/10/28 09:40:09 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,14 @@ char	*ft_strrchr(const char *s, int c)
 	return (x);
 }
 /*
+#include <stdio.h>
+
 int	main()
 {
 	char	*teste;
 	int	prova;
 
-	prova = 'l';
-	teste = "blaplabrpla";
+	prova = '=';
+	teste = "USER=blaplabrpla";
 	printf("value is: %s \n", ft_strrchr(teste, prova));
-} */
+}*/

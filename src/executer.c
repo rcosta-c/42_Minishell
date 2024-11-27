@@ -5,7 +5,7 @@ void    execute_cmd(t_sh *sh, int x)
 	pid_t	pid;
 
 	if(check_exec_error(sh, x))
-		pid = pid;
+		return;
 	else
 	{
 		pid = fork();
@@ -16,10 +16,56 @@ void    execute_cmd(t_sh *sh, int x)
 		}
 		if(pid == 0)
 		{
-			printf("\n\nvai executor o camando...\n");
-				//execvp(sh->comands[x].arg[0], sh->comands[x].arg);
-				execve(sh->comands[x].cmd, sh->comands[x].arg, sh->envp);
-				//perror("exec failed");
+			//printf("\n\nvai executor o camando...\n");
+			if (execve(sh->comands[x].cmd, sh->comands[x].arg, sh->envp) == -1)
+			{
+                perror("Erro ao executar comando");
+                exit(EXIT_FAILURE);
+    		}
+		}
+		else
+			waitpid(pid, NULL, 0);
+	}
+}
+
+void    execute_multi_cmd(t_sh *sh, int x)
+{
+	pid_t	pid;
+
+	if(check_exec_error(sh, x))
+		return;
+	else
+	{
+		pid = fork();
+		if(pid < 0)
+		{
+			perror("fork failed");
+			exit(EXIT_FAILURE);
+		}
+		if(pid == 0)
+		{
+			if(x > 0)
+			{
+				dup2(sh->comands[x].pipe_fd[0], STDIN_FILENO);
+		        close(sh->comands[x].pipe_fd[0]);
+
+			}
+			if(x < (sh->vars.pipe_num - 1))
+			{
+				dup2(sh->comands[x].pipe_fd[1], STDOUT_FILENO);
+				close(sh->comands[x].pipe_fd[1]);
+			}
+
+
+			//printf("\n\nvai executor o comando %d...\n", x);
+
+
+			if (execve(sh->comands[x].cmd, sh->comands[x].arg, sh->envp) == -1)
+			{
+                perror("Erro ao executar comando");
+                exit(EXIT_FAILURE);
+            }
+
 		}
 		else
 			waitpid(pid, NULL, 0);
@@ -32,37 +78,78 @@ void	executor(t_sh *sh)
 
 	x = 0;
 	
+	if(sh->vars.cmds_num == 0)
+		return;
 	if(sh->vars.cmds_num == 1)
 	{
+		handle_redirects(sh, x); //APARTIR DAQUI
+
 		if (check_if_builtin(sh->comands[x].cmd))
 		{
 			exec_builtin(sh, x);
-			printf("Built-in Motherfucker!\n");
+			//printf("Built-in Motherfucker!\n");
 		}
 		else
+		{
 			sh->comands[x].cmd = prep_cmd(sh, sh->comands[x].cmd, x);
 			execute_cmd(sh, x);
+		}
+		if (sh->comands[x].inbackup != -1) 
+		{
+			//printf("\nentrou na limpeza\n");
+			dup2(sh->comands[x].inbackup, STDIN_FILENO);
+			//dup2(sh->comands[x].infile_fd, sh->comands[x].inbackup);
+			sh->comands[x].infile_fd = -1;
+        	close(sh->comands[x].inbackup);
+    	}
+		if (sh->comands[x].outbackup != -1) 
+		{
+			dup2(sh->comands[x].outbackup, STDOUT_FILENO);
+//			dup2(sh->comands[x].outfile_fd, sh->comands[x].outbackup);
+			sh->comands[x].outfile_fd = -1;
+
+        	close(sh->comands[x].outbackup);
+    	}	
 	}
 	else
 	{
+
+		handle_redirects(sh, x);
+
+		start_pipes(sh);
+
+
 		while(x < sh->vars.cmds_num)
 		{
+			printf("numero_comandos=%d\n\n", sh->vars.cmds_num);
 			if (check_if_builtin(sh->comands[x].cmd))
 			{
+				exec_builtin(sh, x);
 				printf("Built-in MULTIIII Motherfucker!\n");
 			}
 			else
 			{
 				sh->comands[x].cmd = prep_cmd(sh, sh->comands[x].cmd, x);
-				execute_cmd(sh, x);
+				execute_multi_cmd(sh, x);
 			}
+			printf("\nMULTI ARGS -> CMD NUMBER = %d \n", x);
+			if (sh->comands[x].inbackup != -1) 
+			{
+				dup2(sh->comands[x].inbackup, STDIN_FILENO);
+        		close(sh->comands[x].inbackup);
+    		}
+			if (sh->comands[x].outbackup != -1) 
+			{
+				dup2(sh->comands[x].outbackup, STDOUT_FILENO);
+				close(sh->comands[x].outbackup);
+			}	
 			x++;		
-			printf("\nMULTI ARGS -> ARG NUMBER = %d \n", x);
+
 		}
 		
 	}
 
-
+	//adasd
 }
 
 

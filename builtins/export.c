@@ -6,14 +6,14 @@
 /*   By: cde-paiv <cde-paiv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 18:08:39 by mota              #+#    #+#             */
-/*   Updated: 2024/11/18 20:02:58 by cde-paiv         ###   ########.fr       */
+/*   Updated: 2024/11/27 13:02:08 by cde-paiv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 //encontra a posição de uma variável no array de ambiente.
-static int get_var_pos(t_sh *sh, char *var)
+/*static int get_var_pos(t_sh *sh, char *var)
 {
     int var_len = ft_strchr(var, '=') - var;
     char *var_temp = ft_calloc(var_len + 2, sizeof(char));
@@ -24,8 +24,10 @@ static int get_var_pos(t_sh *sh, char *var)
     int var_pos = 0;
     while (sh->envp[var_pos])
     {
-        if (ft_strncmp(sh->envp[var_pos], var_temp, var_len + 1) == 0)
+        printf("entrou aqui %s\n", sh->envp[var_pos]);
+        if (ft_strncmp(sh->envp[var_pos], var_temp, var_len) == 0)
         {
+            printf("entrou aqui no if\n");
             free(var_temp);
             return var_pos;
         }
@@ -33,41 +35,47 @@ static int get_var_pos(t_sh *sh, char *var)
     }
     free(var_temp);
     return -1; // Retornar -1 caso não encontre
-}
+}*/
 
 //adiciona ou atualiza uma variável de ambiente
-static void update_var(t_sh *sh, char *var, int var_pos)
+static void update_var(t_sh *sh, char *var)
 {
-    if (!sh->envp[0][var_pos])
+    int new_size;
+    int i;
+    char **envp_temp;
+
+    if (!sh->envp[sh->vars.envp_total])
     {
-        int new_size = var_pos + 2;
-        char **envp_temp = ft_calloc(new_size, sizeof(char *));
-        
-        int i = 0;
-        while (i < var_pos)
+        new_size = sh->vars.envp_total + 2;
+        envp_temp = ft_calloc(new_size, sizeof(char *) + 2);
+        i = 0;
+        while (i < sh->vars.envp_total)
         {
-            envp_temp[i] = ft_strdup(sh->envp[0][i]);
+            envp_temp[i] = ft_strdup(sh->envp[i]);
             i++;
         }
-        envp_temp[var_pos] = ft_strdup(var);
-
+        envp_temp[i] = ft_strdup(var);
+        envp_temp[i + 1] = NULL;
+        free(sh->envp);
         sh->envp = free_mat(sh->envp);
         sh->envp = envp_temp;
     }
     else
     {
-        free(sh->envp[0][var_pos]);
-        sh->envp[0][var_pos] = ft_strdup(var);
+        free(sh->envp[sh->vars.envp_total]);
+        sh->envp[sh->vars.envp_total] = ft_strdup(var);
     }
 }
 
 // valida se uma string é um identificador de variável apropriado.
 static int valid_var(char *var)
 {
+    int i;
+
     if (!var || var[0] == '=' || ft_isdigit(var[0]))
         return 0;
 
-    int i = 0;
+    i = 0;
     while (var[i] && var[i] != '=')
     {
         if (var[i] != '_' && !ft_isalnum(var[i]))
@@ -79,29 +87,33 @@ static int valid_var(char *var)
 
 // executa a lógica principal do comando export, 
 // permitindo que usuários adicionem ou modifiquem variáveis de ambiente.
-void ft_export(t_sh *sh, char **cmd)
+void ft_export(t_sh *sh, char **args)
 {
-    int i = 1;
-    while (cmd[i])
+    int i;
+    
+    i = 1;
+    while (args[i])
     {
-        if (valid_var(cmd[i]))
+        if (valid_var(args[i]))
         {
-            if (ft_strchr(cmd[i], '='))
+            if (ft_strchr(args[i], '='))
             {
-                int var_pos = get_var_pos(cmd[i], sh->envp);
-                update_var(cmd[i], var_pos, sh->envp);
+                printf("entrou no 2 if\n");
+                //var_pos = get_var_pos(sh, args[i]);
+                update_var(sh, args[i]);
+                printf("entrou no 2 if next up\n");
                 sh->error.exit_error = false;
             }
         }
         else
         {
             ft_putstr_fd(": export: ", 2);
-            ft_putstr_fd(cmd[i], 2);
+            ft_putstr_fd(args[i], 2);
             ft_putstr_fd(": not a valid identifier\n", 2);
             sh->error.exit_error = true;
         }
         i++;
     }
-    if (!cmd[1])
-        ft_env(cmd, sh->envp);
+    if (!args[1])
+        ft_env(sh, args);
 }

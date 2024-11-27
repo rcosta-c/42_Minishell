@@ -1,5 +1,60 @@
 
-- Verificação de permissao dos ficheiros
+
+
+BUILT-INS VERIFICADOS E A FUNCIONAR BEM:
+UNSET (sem opcoes) (com argumentos)
+PWD (sem opcoes) (e sem args)
+ENV (sem opcoes) (sem argumentos)
+
+EXPORT (sem opcoes) (nao esta a funcionar os argumentos)
+ECHO -falta verificar
+CD -falta verificar
+EXIT -falta verificar
+
+
+FAZER:
+
+-GERAR ERRO G_STATUS ou G_EXIT
+-GERAR AS MENSAGENS DE ERRO ESCRITAS NECESSARIAS;
+
+-FAZER O HANDLE DE 
+    -> $PWD (VAR AMBIENTE COMO TOKEN[0])
+        deve printar a var
+
+
+
+
+
+PROCURAR + ERROS
+
+
+
+
+
+
+- Criar caminhos completos para os ficheiros dos redirects.
+    (ACHO QUE NAO É NECESSARIO)
+
+
+-LIBERTAR MEMORIA DE SH->ENVP quando sair.
+
+
+FEITO
+/*
+
+
+-CORRIGIR A PARTE DO PROMPT QUE USA O GETENV(FUNCAO PROIBIDA)
+- Verificar funcao GETENV no promp. alterar isto.
+
+
+-ALTERAR ENVP -> ALOCAR VARIAVEL CHAR ** COM OS DADOS DE ENVP para depois
+ser mais facil no FT_EXPORT para acrescentar ou retirar alguma VAR AMBIENTE
+
+
+-FAZER INTEGRACAO COMPLETA DE BUILTINS
+
+
+- Verificação de permissao dos ficstatusheiros
     -verficar permssao para escrita
     -verificar permissao para leitura
 
@@ -16,14 +71,12 @@
         X_OK — Verifica se tens permissão de execução.
 
 
+- criar signals para ler o CTRL + D e fazer nova linha
+status
+-criar funcao para tirar os " " e ' '
 
 
-- Criar caminhos completos para os ficheiros dos redirects.
-
-
-
-FEITO
-/*- Criar caminhos completos para os comandos. Caso sejam bultins ou caso sejam outros
+- Criar caminhos completos para os comandos. Caso sejam bultins ou caso sejam outros
     -PRECISO ACEDER A $PATH e separar pelos : e analisar em cada um dos directorios
     -verificar com o access(path, X_OK) se existe e se tem acesso para execucao.
     -devolver esse path para o comando e juntar com o join2str

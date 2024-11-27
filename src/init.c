@@ -2,6 +2,7 @@
 
 void	init_error(t_sh *sh)
 {
+	sh->vars.redir_num = 0;
 	sh->error.cmd_error = false;
 	sh->error.token_error = false;
 	sh->error.expand_error = false;
@@ -13,7 +14,6 @@ void	init_error(t_sh *sh)
 void	init_tokens(t_sh *sh)
 {
 	int x;
-	char	**temp;
 
 	if(sh->vars.tk_num == 0)
 		return;
@@ -32,7 +32,6 @@ void	init_tokens(t_sh *sh)
 void	init_parser(t_sh *sh)
 {
 	int	x;
-	int	n_args;
 
 	x = 0;
 	sh->comands = malloc(sizeof(t_exec) * (sh->vars.cmds_num + 1));
@@ -43,25 +42,4 @@ void	init_parser(t_sh *sh)
 		init_cmds(sh, x);
 		x++;
 	}
-		// CONTAR ARGUMENTO DE CADA COMANDO PARA ALOCAR MEMORIA
-	/*while(x < sh->vars.tk_num)
-	{
-		n_args = 0;
-		if(sh->tokens[x].cmd)
-		{
-			x++;
-			while(!sh->tokens[x].pipe && x < sh->vars.tk_num)
-			{
-				n_args++;
-			}
-			if(n_args == 0)
-				break;
-			else
-			{
-				sh->comands[]
-			}
-
-		}
-		x++;
-	}*/
 }

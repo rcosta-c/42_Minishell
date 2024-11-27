@@ -45,24 +45,22 @@ bool	check_if_builtin(char *cmd)
 		return(false);
 }
 
-bool    exec_builtin(t_sh *sh, char *cmd, int  cmd_nbr)
+void    exec_builtin(t_sh *sh, int cmd_nbr)
 {
-	if (ft_strncmp("echo", cmd, ft_strlen(cmd)) == 0)
+	if (ft_strncmp("echo", sh->comands[cmd_nbr].cmd, ft_strlen(sh->comands[cmd_nbr].cmd)) == 0)
 		ft_echo(sh, sh->comands[cmd_nbr].arg);
-	else if (ft_strncmp("cd", cmd, ft_strlen(cmd)) == 0)
-		ft_cd(sh->envp, sh->comands[cmd_nbr].arg);
-	else if (ft_strncmp("pwd", cmd, ft_strlen(cmd)) == 0)
-		ft_pwd(sh->envp, sh->comands[cmd_nbr].arg);
-	else if (ft_strncmp("export", cmd, ft_strlen(cmd)) == 0)
-		ft_export(sh->envp, sh->comands[cmd_nbr].arg);
-	else if (ft_strncmp("unset", cmd, ft_strlen(cmd)) == 0)
+	else if (ft_strncmp("cd", sh->comands[cmd_nbr].cmd, ft_strlen(sh->comands[cmd_nbr].cmd)) == 0)
+		ft_cd(sh, sh->comands[cmd_nbr].arg);
+	else if (ft_strncmp("pwd", sh->comands[cmd_nbr].cmd, ft_strlen(sh->comands[cmd_nbr].cmd)) == 0)
+		ft_pwd(sh, sh->comands[cmd_nbr].arg);
+	else if (ft_strncmp("export", sh->comands[cmd_nbr].cmd, ft_strlen(sh->comands[cmd_nbr].cmd)) == 0)
+		ft_export(sh, sh->comands[cmd_nbr].arg);
+	else if (ft_strncmp("unset", sh->comands[cmd_nbr].cmd, ft_strlen(sh->comands[cmd_nbr].cmd)) == 0)
 		ft_unset(sh, sh->comands[cmd_nbr].arg);
-	else if (ft_strncmp("env", cmd, ft_strlen(cmd)) == 0)
-		ft_env(sh->envp, sh->comands[cmd_nbr].arg);
-	else if (ft_strncmp("exit", cmd, ft_strlen(cmd)) == 0)
+	else if (ft_strncmp("env", sh->comands[cmd_nbr].cmd, ft_strlen(sh->comands[cmd_nbr].cmd)) == 0)
+		ft_env(sh, sh->comands[cmd_nbr].arg);
+	else if (ft_strncmp("exit", sh->comands[cmd_nbr].cmd, ft_strlen(sh->comands[cmd_nbr].cmd)) == 0)
 		ft_exit(sh, sh->comands[cmd_nbr].arg);
-	else
-		return(false);
 }
 
 char    *prep_cmd(t_sh *sh, char *cmd, int xx)
@@ -75,7 +73,7 @@ char    *prep_cmd(t_sh *sh, char *cmd, int xx)
 	x = 0;
 	path = ft_split(getenv("PATH"), ':');
 	temp = ft_strjoin("/bin/", cmd);
-	if(stat(temp, &path_stat) == 0 && access(temp, X_OK) == 0)
+	if(stat(temp, &path_stat) == 0 && access(temp, X_OK) == 0 && access(temp, F_OK) == 0)
 		x = 0;	
 	else
 	{
@@ -83,7 +81,7 @@ char    *prep_cmd(t_sh *sh, char *cmd, int xx)
 		{
 			free(temp);
 			temp = ft_strjoin(path[x], cmd);
-			if(stat(temp, &path_stat) == 0 && access(temp, X_OK) == 0)
+			if(stat(temp, &path_stat) == 0 && access(temp, X_OK) == 0 && access(temp, F_OK) == 0)
 				break;
 			x++;
 		}
