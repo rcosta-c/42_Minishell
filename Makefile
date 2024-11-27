@@ -29,11 +29,14 @@ SRCS := src/minishell.c \
 						src/token_filter1.c \
 						src/token_filter2.c \
 						src/prompt.c \
+						src/prompt_utils.c \
 						src/init.c \
 						src/redir.c \
 						src/signals.c \
 						src/init_utils.c \
 						src/expander.c \
+						lib/gnl/get_next_line_bonus.c \
+						lib/gnl/get_next_line_utils_bonus.c \
 						lib/libft/ft_isalnum.c \
 						lib/libft/ft_bzero.c \
 						lib/libft/ft_putchar_fd.c \

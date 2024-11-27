@@ -4,10 +4,9 @@
 BUILT-INS VERIFICADOS E A FUNCIONAR BEM:
 UNSET (sem opcoes) (com argumentos)
 PWD (sem opcoes) (e sem args)
-
+ENV (sem opcoes) (sem argumentos)
 
 EXPORT (sem opcoes) (nao esta a funcionar os argumentos)
-ENV (sem opcoes) (falta verificar com argumentos)
 ECHO -falta verificar
 CD -falta verificar
 EXIT -falta verificar
@@ -23,15 +22,11 @@ FAZER:
         deve printar a var
 
 
--ALTERAR ENVP -> ALOCAR VARIAVEL CHAR ** COM OS DADOS DE ENVP para depois
-ser mais facil no FT_EXPORT para acrescentar ou retirar alguma VAR AMBIENTE
 
 
 
 PROCURAR + ERROS
 
--CORRIGIR A PARTE DO PROMPT QUE USA O GETENV(FUNCAO PROIBIDA)
-- Verificar funcao GETENV no promp. alterar isto.
 
 
 
@@ -41,14 +36,25 @@ PROCURAR + ERROS
     (ACHO QUE NAO É NECESSARIO)
 
 
+-LIBERTAR MEMORIA DE SH->ENVP quando sair.
+
 
 FEITO
 /*
 
+
+-CORRIGIR A PARTE DO PROMPT QUE USA O GETENV(FUNCAO PROIBIDA)
+- Verificar funcao GETENV no promp. alterar isto.
+
+
+-ALTERAR ENVP -> ALOCAR VARIAVEL CHAR ** COM OS DADOS DE ENVP para depois
+ser mais facil no FT_EXPORT para acrescentar ou retirar alguma VAR AMBIENTE
+
+
 -FAZER INTEGRACAO COMPLETA DE BUILTINS
 
 
-- Verificação de permissao dos ficheiros
+- Verificação de permissao dos ficstatusheiros
     -verficar permssao para escrita
     -verificar permissao para leitura
 
@@ -66,7 +72,7 @@ FEITO
 
 
 - criar signals para ler o CTRL + D e fazer nova linha
-
+status
 -criar funcao para tirar os " " e ' '
 
 

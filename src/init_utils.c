@@ -22,7 +22,6 @@ void    init_cmds(t_sh *sh, int x)
     sh->comands[x].pipe = false;
 	sh->comands[x].pipe_fd[0] = -1;
 	sh->comands[x].pipe_fd[1] = -1;
-	sh->comands[x].pipe_fd[2] = 0;
 	sh->comands[x].infile = NULL;
 	sh->comands[x].infile_fd = -1;
 	sh->comands[x].outfile = NULL;

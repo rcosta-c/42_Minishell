@@ -23,6 +23,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "../lib/libft/libft.h"
+#include "../lib/gnl/get_next_line_bonus.h"
 
 
 # define CMD_NOT_FOUND	127
@@ -39,6 +40,7 @@ typedef struct s_vars
 	int		cmds_num;
 	int		redir_num;
 	int		pipe_num;
+	int		envp_total;
 }   t_vars;
 
 
@@ -117,10 +119,19 @@ typedef struct s_sh
 }   t_sh;
 
 /* PROMPT.c */
-char	*get_prompt();
-void    get_tokens(t_sh *sh);
+char	*get_prompt(t_sh *sh);
+//void    get_tokens(t_sh *sh);
 char	*join_2_str(char *a, char *b, char *z);
 /*   FIM   */
+
+
+/*	PROMP_UTILS.c	*/
+
+void	ft_getenv(t_sh *sh, char **envp);
+
+/*	FIM 	*/
+
+
 
 /* FREE.c */
 void	free_tokens(t_sh *sh);
@@ -196,6 +207,8 @@ void	filter_quotes(t_sh *sh, int n);
 /* EXPANDER.c */
 void	search_expand(t_sh *sh);
 void	expand_token(t_sh *sh, char *token, int n);
+char	*search_envp(t_sh *sh, char *z);
+
 /*   FIM   */
 
 

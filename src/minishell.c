@@ -72,7 +72,7 @@ int main(int ac, char **av, char **envp)
 	if(sh == NULL)
 		return(EXIT_FAILURE);
 	//memset(&sh, 0, sizeof(t_sh));
-	sh->envp = envp;
+	ft_getenv(sh, envp);
 	init_error(sh);
 	while(1)
 	{
@@ -86,7 +86,8 @@ int main(int ac, char **av, char **envp)
 		//if(sh->cmd_line)
 		//	free(sh->cmd_line);		
 		
-		a = get_prompt();
+		a = "minishell :";
+		//a = get_prompt(sh);
 		sh->cmd_line = readline(a);
 
 		if(sh->cmd_line[1] == '9') // APAGAR ISTO!

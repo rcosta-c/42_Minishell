@@ -26,7 +26,7 @@ static char	*verify_host(char *host)
 	return(res);
 }
 
-static char	*verify_home(char *prompt)
+static char	*verify_home(t_sh *sh, char *prompt)
 {
 	char	*home;
 	int		x;
@@ -35,7 +35,7 @@ static char	*verify_home(char *prompt)
 	char	*final_prompt;
 
 	x = 0;
-	home = getenv("HOME");
+	home = search_envp(sh, "HOME");
 	while(prompt[x])
 	{
 		if(x == 0 && prompt[x] != home[x])
@@ -82,7 +82,7 @@ char	*join_2_str(char *a, char *b, char *z)
 }
 
 
-char	*get_prompt()
+char	*get_prompt(t_sh *sh)
 {
 	char	*user;
 	char	*host;
@@ -90,13 +90,14 @@ char	*get_prompt()
 	char	*prompt;
 	char	*temp;
 
-	user = getenv("USER");
+	user = search_envp(sh, "USER");
+	printf("\n%s\n", user);
 	host = malloc(sizeof(char) * _SC_HOST_NAME_MAX + 1);
 	gethostname(host, _SC_HOST_NAME_MAX + 1);
 	host = verify_host(host);
 	prompt = join_2_str(user, host , "@");
-	dir = getenv("PWD");
-	dir = verify_home(dir);
+	dir = search_envp(sh, "PWD");
+	dir = verify_home(sh, dir);
 	temp = join_2_str(prompt, dir, ":");
 	free(prompt);
 	prompt = join_2_str(temp, " ", "$");

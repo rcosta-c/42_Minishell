@@ -23,7 +23,7 @@ static int	ft_envp_n_cmp(const char *s1, const char *s2)
 		return ((unsigned char)(s2[counter]));
 }
 
-static char	*search_envp(t_sh *sh, char *z)
+char	*search_envp(t_sh *sh, char *z)
 {
 	int 	x;
 	int		xx;
@@ -35,6 +35,7 @@ static char	*search_envp(t_sh *sh, char *z)
 	xt = 0;
 	while(sh->envp[x])
 	{
+		printf("%s\n", sh->envp[x]);
 		if(ft_envp_n_cmp(z, sh->envp[x]) == 0)
 		{
 			while(sh->envp[x][xx] != '=')
