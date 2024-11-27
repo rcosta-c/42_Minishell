@@ -120,7 +120,6 @@ typedef struct s_sh
 
 /* PROMPT.c */
 char	*get_prompt(t_sh *sh);
-//void    get_tokens(t_sh *sh);
 char	*join_2_str(char *a, char *b, char *z);
 /*   FIM   */
 

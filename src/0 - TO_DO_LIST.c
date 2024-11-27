@@ -1,3 +1,9 @@
+NORMINETTE:
+
+prompt_utils.c
+prompt.c
+parse.c
+parse_utils.c
 
 
 
