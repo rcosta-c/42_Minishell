@@ -93,6 +93,7 @@ int main(int ac, char **av, char **envp)
 		if(sh->cmd_line[1] == '9') // APAGAR ISTO!
 		{
 			free(sh->cmd_line);
+			free_env(sh);
 			free_tokens(sh);
 			free_cmds(sh);
 			rl_clear_history();
@@ -181,7 +182,7 @@ int main(int ac, char **av, char **envp)
 			x++;
 		}
 */
-		
+//		free_env(sh);
 		free_tokens(sh);
 		free_cmds(sh);
 		

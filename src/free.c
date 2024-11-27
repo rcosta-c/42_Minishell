@@ -44,15 +44,15 @@ void	free_env(t_sh *sh)
 	int	x;
 
 	x = 0;
-	while(sh->envp[x] != NULL)
+	while(sh->envp[x])
 	{
-		//free(sh->envp[x]);
+		free(sh->envp[x]);
 		x++;
 	}
-	while(x >= 0)
+	/*while(x >= 0)
 	{
 		free(sh->envp[x--]);
-	}
+	}*/
 	free(sh->envp);
 }
 

@@ -112,7 +112,7 @@ $(NAME): ${OBJS}
 
 valgrind: 
 	@echo "{\n   leak readline\n   Memcheck:Leak\n...\n   fun:readline\n}\n{\n   leak add_history\n   Memcheck:Leak\n...\n   fun:add_history\n}" > readline.supp
-	@valgrind --suppressions=readline.supp ./$(NAME)
+	@valgrind --leak-check=full --show-leak-kinds=all --suppressions=readline.supp ./$(NAME)
 #	@valgrind --suppressions=readline.supp --leak-check=full -s --show-leak-kinds=all ./$(NAME)
 
 clean:

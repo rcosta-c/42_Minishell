@@ -114,7 +114,3 @@ int	parse_pipes(t_sh *sh, int z, int n_cmd)
 	return(x);
 }
 
-
-
-
-
