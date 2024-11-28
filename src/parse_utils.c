@@ -57,7 +57,7 @@ int	parse_utils(t_sh *sh, int z)
    	if(sh->tokens[x].cmd)
 	{
 		x++;
-		while(sh->tokens[x].arg)// && (*x < sh->vars.tk_num))
+		while(sh->tokens[x].arg)
 		{
 			sh->comands[n_cmd].n_args++;
 			x++;
@@ -65,12 +65,37 @@ int	parse_utils(t_sh *sh, int z)
 		x -= sh->comands[n_cmd].n_args + 1;
 		sh->comands[n_cmd].arg = malloc(sizeof(char **) * (sh->comands[n_cmd].n_args + 2));
 		sh->comands[n_cmd].arg[narg] = ft_strdup(sh->tokens[x].tokens);
-		sh->comands[n_cmd].cmd = ft_strdup(sh->tokens[x++].tokens); //APAGAR ESTE AQUI
+		sh->comands[n_cmd].cmd = ft_strdup(sh->tokens[x++].tokens); 
 		narg++;
 		while(sh->tokens[x].arg)
 			sh->comands[n_cmd].arg[narg++] = ft_strdup(sh->tokens[x++].tokens);
 		sh->comands[n_cmd].arg[narg] = NULL;
 	}
+	return(x);
+}
+
+static int parse_redir(t_sh *sh, int x, int n_cmd)
+{
+	if(sh->tokens[x].r_out)// && sh->tokens[x + 1].file)
+	{
+		x++;
+		sh->comands[n_cmd].outfile = ft_strdup(sh->tokens[x].tokens);
+		x++;
+	}
+	if(sh->tokens[x].r_outappend)// && sh->tokens[x + 1].file)
+	{
+		x++;
+		sh->comands[n_cmd].outappendfile = ft_strdup(sh->tokens[x].tokens);
+		x++;
+	}
+	if(sh->tokens[x].r_in)// && sh->tokens[x + 1].file)
+	{
+		x++;
+		sh->comands[n_cmd].infile = ft_strdup(sh->tokens[x].tokens);
+		x++;
+	}
+	else
+		x++;
 	return(x);
 }
 
@@ -80,31 +105,7 @@ int	parse_pipes(t_sh *sh, int z, int n_cmd)
 
 	x = z;
 	while(sh->tokens[x].pipe == false && (x < sh->vars.tk_num))
-	{
-		if(sh->tokens[x].r_out)// && sh->tokens[x + 1].file)
-		{
-			x++;
-			sh->comands[n_cmd].outfile = ft_strdup(sh->tokens[x].tokens);
-			x++;
-		}
-		if(sh->tokens[x].r_outappend)// && sh->tokens[x + 1].file)
-		{
-			x++;
-			sh->comands[n_cmd].outappendfile = ft_strdup(sh->tokens[x].tokens);
-			x++;
-		}
-		
-		if(sh->tokens[x].r_in)// && sh->tokens[x + 1].file)
-		{
-			x++;
-			sh->comands[n_cmd].infile = ft_strdup(sh->tokens[x].tokens);
-			x++;
-		}
-		else
-			x++;
-
-	//printf("\n %s \n", sh->tokens[x].tokens);
-	}
+		x = parse_redir(sh, x, n_cmd);
 	if(sh->tokens[x].pipe == true && (x < sh->vars.tk_num))
 	{
 		sh->comands[n_cmd].pipe = true;
@@ -112,8 +113,4 @@ int	parse_pipes(t_sh *sh, int z, int n_cmd)
 	}
 	return(x);
 }
-
-
-
-
 

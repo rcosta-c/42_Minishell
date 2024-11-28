@@ -6,10 +6,11 @@ UNSET (sem opcoes) (com argumentos)
 PWD (sem opcoes) (e sem args)
 ENV (sem opcoes) (sem argumentos)
 EXPORT (sem opcoes) (ja esta esta a funcionar os argumentos)
+EXIT (funcionando perfeitamente)
+ECHO (funcionando perfeitamente)
 
-ECHO -falta verificar
-CD -falta verificar
-EXIT -falta verificar
+
+CD - erros fora dos builtins 
 
 
 FAZER:
@@ -81,5 +82,3 @@ status
     -verificar com o access(path, X_OK) se existe e se tem acesso para execucao.
     -devolver esse path para o comando e juntar com o join2str
 */
-
-- 
