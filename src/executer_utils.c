@@ -4,22 +4,22 @@ bool	check_exec_error(t_sh *sh, int x)
 {
 	if (sh->comands[x].errors.cmd_not_found == true)
 	{
-		printf("Minishell: command not found: %s", sh->comands[x].cmd);
+		printf("%s: command not found\n", sh->comands[x].cmd);
 		return(true);
 	}
 	else if (sh->comands[x].errors.empty_pipe == true)
 	{
-		printf("Minishell: command not found: %s", sh->comands[x].cmd);
+		printf("%s empty pipe not allowed\n", sh->comands[x].cmd);
 		return(true);
 	}
 	else if (sh->comands[x].errors.infile_noaccess == true || sh->comands[x].errors.infile_notvalid == true)
 	{
-		printf("Minishell: command not found: %s", sh->comands[x].cmd);
+		printf("%s: access to file denied\n", sh->comands[x].cmd);
 		return(true);
 	}
 	else if (sh->comands[x].errors.outfile_noaccess == true || sh->comands[x].errors.outfile_notvalid == true)
 	{
-		printf("Minishell: command not found: %s", sh->comands[x].cmd);
+		printf("%s: access to file denied\n", sh->comands[x].cmd);
 		return(true);
 	}
 	return(false);

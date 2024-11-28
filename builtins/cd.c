@@ -1,94 +1,97 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   cd.c                                               :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/25 15:35:59 by mota              #+#    #+#             */
-/*   Updated: 2024/11/19 09:50:05 by rcosta-c         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../includes/minishell.h"
 
-// Função que altera o diretório de trabalho atual 
-//e atualiza as variáveis de ambiente PWD e OLDPWD
+// Altera o diretório de trabalho e atualiza PWD e OLDPWD
 static void set_dir(t_sh *sh, char *dir)
 {
-    char    *temp;
-    char    **var;
+    char *old_pwd;
+    char *new_pwd;
 
-    printf("entrou no setdir\n");
-    temp = NULL;
-    //printf("\n%s\n", dir);
-    var = ft_calloc(3, sizeof(char *));
-    var[0] = ft_strjoin("export", var[0]);
-    temp = getcwd(temp, BUFFER_SIZE);
-    if (chdir (dir))
+    if (!dir)
     {
-        perror("Error: cd-chdir");
+        ft_putstr_fd("cd: directory not specified\n", 2);
         sh->error.exit_error = true;
-        //erro 
+        return;
     }
-    else
+    old_pwd = getcwd(NULL, 0);
+    if (!old_pwd)
     {
-            printf("entrou no else\n");
-
-        var[1] = ft_strjoin("OLDPWD=", temp);
-        ft_export(sh, sh->envp);
-                            printf("falhou? no else\n");
-
-        free(temp);
-        free(var[1]);
-                    printf("falhou? no else\n");
-
-        temp = getcwd(temp, BUFFER_SIZE);
-        var[1] = ft_strjoin("PWD=", temp);
-        ft_export(sh, sh->envp);
-                            printf("falhou? no else\n");
-
-        sh->error.exit_error = false;
+        free(old_pwd);
+        sh->error.exit_error = true;
+        return;
     }
-    printf("vai libertar\n");
-    free(temp);
-    free(var);
-    printf("ja libertou\n");
+    if (chdir(dir) != 0)
+    {
+        perror("cd");
+        free(old_pwd);
+        sh->error.exit_error = true;
+        return;
+    }
+    char *old_pwd_var = ft_strjoin("OLDPWD=", old_pwd);
+    if (!old_pwd_var)
+    {
+        free(old_pwd);
+        sh->error.exit_error = true;
+        return;
+    }
+    ft_export(sh, (char *[]){ "export", old_pwd_var, NULL });
+    free(old_pwd_var);
+    free(old_pwd);
+    new_pwd = getcwd(NULL, 0);
+    if (!new_pwd)
+    {
+        sh->error.exit_error = true;
+        return;
+    }
+    char *new_pwd_var = ft_strjoin("PWD=", new_pwd);
+    if (!new_pwd_var)
+    {
+        free(new_pwd);
+        sh->error.exit_error = true;
+        return;
+    }
+    ft_export(sh, (char *[]){ "export", new_pwd_var, NULL });
+    free(new_pwd_var);
+    free(new_pwd);
+    sh->error.exit_error = false;
 }
 
-// Função que retorna o caminho do diretório 
-// HOME a partir das variáveis de ambiente
+
+// Retorna o valor da variável HOME ou NULL se não existir
 static char *set_home(t_sh *sh)
 {
-    char    *home;
+    char *home;
     int i;
 
     i = 0;
     home = NULL;
-    while(sh->envp && sh->envp[i])
+    while (sh->envp && sh->envp[i])
     {
-        if(ft_strncmp(sh->envp[i], "HOME=", 5) == 0)
+        if (ft_strncmp(sh->envp[i], "HOME=", 5) == 0)
         {
-            home = ft_substr(sh->envp[i], 5, ft_strlen(sh->envp[i])); // Atribui o valor de HOME (após "HOME=")
-            printf("%s\n", home);
+            home = ft_strdup(sh->envp[i] + 5);
             break;
         }
         i++;
     }
-    return(home); //Caso nao encontre, retorna NULL
+    if (!home)
+    {
+        ft_putstr_fd("cd: HOME not set\n", 2);
+        sh->error.exit_error = true;
+    }
+    return home;
 }
 
-// Função que muda o diretório de trabalho, 
-// seja para um especificado ou para o HOME se nenhum for dado
-void    ft_cd(t_sh *sh, char **args)
+
+// Implementa o builtin cd
+void ft_cd(t_sh *sh, char **args)
 {
-    if (args[1] && !args[2])
-        set_dir(sh, args[1]);
-    else if (!args[1])
-        set_dir(sh, set_home(sh));
-    else
+    if (args[1] && args[2])
     {
         ft_putstr_fd("cd: too many arguments\n", 2);
         sh->error.exit_error = true;
     }
+    else if (args[1])
+        set_dir(sh, args[1]);
+    else
+        set_dir(sh, set_home(sh));
 }

@@ -6,63 +6,80 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 18:08:39 by mota              #+#    #+#             */
-/*   Updated: 2024/11/19 09:44:54 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/11/28 08:36:16 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-//encontra a posição de uma variável no array de ambiente.
+// Retorna a posição de uma variável no envp, ou -1 se não encontrada
 static int get_var_pos(t_sh *sh, char *var)
 {
-    int var_len = ft_strchr(var, '=') - var;
-    char *var_temp = ft_calloc(var_len + 2, sizeof(char));
+    int i;
+    int len;
 
-    ft_strlcpy(var_temp, var, var_len + 1);
-    var_temp[var_len] = '=';
+    len = ft_strchr(var, '=') - var;
+    if (len <= 0)
+        return -1;
 
-    int var_pos = 0;
-    while (sh->envp[var_pos])
+    for (i = 0; i < sh->vars.envp_total; i++)
     {
-        if (ft_strncmp(sh->envp[var_pos], var_temp, var_len + 1) == 0)
-        {
-            free(var_temp);
-            return var_pos;
-        }
-        var_pos++;
+        if (!ft_strncmp(sh->envp[i], var, len) && sh->envp[i][len] == '=')
+            return i;
     }
-    free(var_temp);
-    return -1; // Retornar -1 caso não encontre
+    return -1;
 }
-
-//adiciona ou atualiza uma variável de ambiente
-static void update_var(t_sh *sh, char *var, int var_pos)
+// Adiciona ou atualiza uma variável de ambiente
+static void update_var(t_sh *sh, char *var)
 {
-    int new_size;
+    int var_pos;
     int i;
     char **envp_temp;
 
-    if (!sh->envp[var_pos])
+    // Verifica se a variável já existe no envp
+    var_pos = get_var_pos(sh, var);
+    if (var_pos >= 0)
     {
-        new_size = var_pos + 2;
-        envp_temp = ft_calloc(new_size, sizeof(char *));
-        i = 0;
-        while (i < var_pos)
-        {
-            envp_temp[i] = ft_strdup(sh->envp[i]);
-            i++;
-        }
-        envp_temp[var_pos] = ft_strdup(var);
-
-        sh->envp = free_mat(sh->envp);
-        sh->envp = envp_temp;
-    }
-    else
-    {
+        // Atualiza a variável existente
         free(sh->envp[var_pos]);
         sh->envp[var_pos] = ft_strdup(var);
+        return;
     }
+    // Calcula o novo tamanho da matriz envp
+    int new_size = sh->vars.envp_total + 2; // +1 para a nova variável, +1 para NULL
+    // Aloca memória para a nova matriz envp
+    envp_temp = ft_calloc(new_size, sizeof(char *));
+    if (!envp_temp)
+    {
+        free(envp_temp);
+        exit(EXIT_FAILURE);
+    }
+    // Copia as variáveis existentes para a nova matriz
+    i = 0;
+    while (i < sh->vars.envp_total)
+    {
+        envp_temp[i] = ft_strdup(sh->envp[i]);
+        if (!envp_temp[i])
+        {
+            free(envp_temp);
+            exit(EXIT_FAILURE);
+        }
+        i++;
+    }
+    // Adiciona a nova variável
+    envp_temp[i] = ft_strdup(var);
+    if (!envp_temp[i])
+    {
+        free(envp_temp);
+        exit(EXIT_FAILURE);
+    }
+    // Atualiza o total de variáveis
+    sh->vars.envp_total++;
+    // Substitui a matriz envp antiga pela nova
+    free(sh->envp);
+    sh->envp = envp_temp;
 }
+
 
 // valida se uma string é um identificador de variável apropriado.
 static int valid_var(char *var)
@@ -86,7 +103,6 @@ static int valid_var(char *var)
 // permitindo que usuários adicionem ou modifiquem variáveis de ambiente.
 void ft_export(t_sh *sh, char **args)
 {
-    int var_pos;
     int i;
     
     i = 1;
@@ -96,8 +112,7 @@ void ft_export(t_sh *sh, char **args)
         {
             if (ft_strchr(args[i], '='))
             {
-                var_pos = get_var_pos(sh, args[i]);
-                update_var(sh, args[i], var_pos);
+                update_var(sh, args[i]);
                 sh->error.exit_error = false;
             }
         }

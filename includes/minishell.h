@@ -141,6 +141,14 @@ void	free_env(t_sh *sh);
 
 /*   FIM   */
 
+/*	ERRORS.c	*/
+
+bool    verify_errors(t_sh *sh);
+
+/*	FIM 	*/
+
+
+
 /* INIT.c */
 void	init_error(t_sh *sh);
 void	init_tokens(t_sh *sh);

@@ -64,31 +64,26 @@ void    printflags(t_sh *sh)
 int main(int ac, char **av, char **envp)
 {
    	t_sh	*sh;
-	char	*a;
+	char	*prompt;
 
 	(void)ac;
 	(void)av;
 	sh = ft_calloc(1, sizeof(t_sh));
 	if(sh == NULL)
 		return(EXIT_FAILURE);
-	//memset(&sh, 0, sizeof(t_sh));
+	
 	ft_getenv(sh, envp);
 	init_error(sh);
 	while(1)
 	{
 		ft_sigset();
 		init_vars(sh);
-		/*if(sh->vars.tk_num > 0)
-		{
-			ft_bzero(sh->tokens, sizeof(t_tokens));
-			ft_bzero(sh->comands, sizeof(t_exec));
-		}*/
+		
 		//if(sh->cmd_line)
 		//	free(sh->cmd_line);		
 		
-		//a = "minishell :";
-		a = get_prompt(sh);
-		sh->cmd_line = readline(a);
+		prompt = get_prompt(sh); //----------VERIFICAR LEAKS AQUI!!!!
+		sh->cmd_line = readline(prompt);
 
 		if(sh->cmd_line[1] == '9') // APAGAR ISTO!
 		{
@@ -96,14 +91,16 @@ int main(int ac, char **av, char **envp)
 			free_env(sh);
 			free_tokens(sh);
 			free_cmds(sh);
+	//		free(prompt);
+			free(sh);
 			rl_clear_history();
-			free(a);
+			free(prompt);
 			break;	
 		}
 
 
 
-		sh->cmd_line = prepare_line(sh->cmd_line);
+		sh->cmd_line = prepare_line(sh->cmd_line); //----------VERIFICAR LEAKS AQUI!!!!
 //		printf("\n\nline /inicio/%s/fim/", sh->cmd_line);
 
 		sh->vars.tk_num = count_tokens(sh);
@@ -145,7 +142,7 @@ int main(int ac, char **av, char **envp)
 
 //					printf("\n\n PARSERRR\n\n");
 
-		fill_parser(sh);
+		fill_parser(sh);  //----------VERIFICAR LEAKS AQUI!!!!
 
 		
 //		printf("\n\n %d\n\n", sh->vars.cmds_num);

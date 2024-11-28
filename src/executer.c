@@ -55,11 +55,6 @@ void    execute_multi_cmd(t_sh *sh, int x)
 				dup2(sh->comands[x].pipe_fd[1], STDOUT_FILENO);
 				close(sh->comands[x].pipe_fd[1]);
 			}
-
-
-			//printf("\n\nvai executor o comando %d...\n", x);
-
-
 			if (execve(sh->comands[x].cmd, sh->comands[x].arg, sh->envp) == -1)
 			{
                 perror("Erro ao executar comando");
@@ -78,6 +73,8 @@ void	executor(t_sh *sh)
 
 	x = 0;
 	
+	if((verify_errors(sh)) == true)
+		return;
 	if(sh->vars.cmds_num == 0)
 		return;
 	if(sh->vars.cmds_num == 1)

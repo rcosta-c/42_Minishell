@@ -19,6 +19,7 @@ SRCS := src/minishell.c \
 						src/token.c \
 						src/split_cmd.c \
 						src/free.c \
+						src/errors.c \
 						src/pipe.c \
 						src/parse.c \
 						src/parse_utils.c \
