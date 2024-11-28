@@ -1,6 +1,6 @@
 #include "../includes/minishell.h"
 
-// Exibe todas as variáveis de ambiente, 
+// Exibe todas as variaveis de ambiente, 
 //ou uma mensagem de erro caso haja argumentos adicionais
 void	ft_env(t_sh *sh, char **args)
 {

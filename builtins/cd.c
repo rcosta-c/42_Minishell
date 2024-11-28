@@ -1,6 +1,6 @@
 #include "../includes/minishell.h"
 
-// Altera o diretório de trabalho e atualiza PWD e OLDPWD
+// Altera o diretorio de trabalho e atualiza PWD e OLDPWD
 static void	set_dir(t_sh *sh, char *dir)
 {
 	char	*old_pwd;
@@ -64,7 +64,7 @@ static void	set_dir(t_sh *sh, char *dir)
 	sh->error.exit_error = false;
 }
 
-// Retorna o valor da variável HOME ou NULL se não existir
+// Retorna o valor da variavel HOME ou NULL se nao existir
 static char	*set_home(t_sh *sh)
 {
 	char	*home;

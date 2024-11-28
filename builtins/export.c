@@ -1,6 +1,6 @@
 #include "../includes/minishell.h"
 
-// Retorna a posição de uma variável no envp, ou -1 se não encontrada
+// Retorna a posicao de uma variavel no envp ou -1 se nao encontrada
 static int	get_var_pos(t_sh *sh, char *var)
 {
 	int	i;
@@ -19,7 +19,7 @@ static int	get_var_pos(t_sh *sh, char *var)
 	return (-1);
 }
 
-// Adiciona ou atualiza uma variável de ambiente
+// Adiciona ou atualiza uma variavel de ambiente
 static void	update_var(t_sh *sh, char *var)
 {
 	int		var_pos;
@@ -63,7 +63,7 @@ static void	update_var(t_sh *sh, char *var)
 	sh->envp = envp_temp;
 }
 
-// valida se uma string é um identificador de variável apropriado.
+// valida se uma string é um identificador de variavel apropriado.
 static int	valid_var(char *var)
 {
 	int	i;
@@ -81,8 +81,8 @@ static int	valid_var(char *var)
 	return (1);
 }
 
-// executa a logica principal do comando export, 
-// permitindo que usuários adicionem ou modifiquem variáveis de ambiente.
+// executa a logica principal do comando export,
+// permitindo que usuários adicionem ou modifiquem variaveis de ambiente.
 void	ft_export(t_sh *sh, char **args)
 {
 	int	i;

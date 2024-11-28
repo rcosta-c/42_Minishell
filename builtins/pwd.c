@@ -1,7 +1,7 @@
 #include "../includes/minishell.h"
 
-//imprime o diretório de trabalho atual,
-// ou exibe uma mensagem de erro caso não consiga acessá-lo
+//imprime o diretorio de trabalho atual,
+// ou exibe uma mensagem de erro caso nao consiga acessa-lo
 void	ft_pwd(t_sh *sh, char **args)
 {
 	size_t	i;
