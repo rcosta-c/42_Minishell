@@ -8,6 +8,8 @@ int	count_tokens(t_sh *sh)
 
 	x = 0;
 	counter = 0;
+	if(ft_strlen(sh->cmd_line) == 0)
+		return(0);
 	while(sh->cmd_line[x])
 	{
 		if(sh->cmd_line[x] == 34 || sh->cmd_line[x] == 39)
@@ -40,10 +42,12 @@ char *prepare_line(char *str)
 	int     x_o;
 	int     x_d;
 	char    temp[1000];
-	char    *dest;
+	//char    *dest;
 
 	x_o = 0;
 	x_d = 0;
+	if(ft_strlen(str) == 0)
+		return(ft_strdup(""));
 	while(str[x_o])
 	{
 		if(str[x_o] == 34)
@@ -68,8 +72,8 @@ char *prepare_line(char *str)
 		}
 	}
 	temp[x_d] = '\0';
-	dest = ft_strdup(temp);
-	return(dest);
+	//dest = ft_strdup(temp);
+	return(ft_strdup(temp));
 }
 
 

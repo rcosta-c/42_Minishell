@@ -40,15 +40,15 @@ void	free_cmds(t_sh *sh)
 }
 
 void	free_env(t_sh *sh)
-{
+{/*
 	int	x;
 
 	x = 0;
-	while(sh->envp[x])
+	while(x < sh->vars.envp_total)
 	{
 		free(sh->envp[x]);
 		x++;
-	}
+	}*/
 	/*while(x >= 0)
 	{
 		free(sh->envp[x--]);

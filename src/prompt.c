@@ -66,12 +66,11 @@ char	*get_prompt(t_sh *sh)
 
 //printf("entrou no getrpompt\n");
 	user = search_envp(sh, "USER");
-	host = malloc(sizeof(char) * _SC_HOST_NAME_MAX + 1);
-	//gethostname(host, _SC_HOST_NAME_MAX + 1);
-	//host = verify_host(host);
 	host = find_my_host(sh);
 	//printf("%s\n", host);
+	//host = NULL;
 	prompt = join_2_str(user, host , "@");
+	
 	dir = search_envp(sh, "PWD");
 	dir = verify_home(sh, dir);
 	temp = join_2_str(prompt, dir, ":");

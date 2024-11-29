@@ -2,6 +2,38 @@
 
 int		g_status;
 
+
+void	 print_exec(t_sh *sh)
+{
+	int  x;
+	int xx;
+
+	xx = 0;
+	x = 0;
+		while(x < sh->vars.cmds_num && sh->vars.tk_num > 0)
+		{
+			xx = 0;
+			printf("\n******* COMAND NUM=%d *******\n", x);
+			printf("**\n**\n");
+			printf("**	CMD=%s 	\n", sh->comands[x].cmd);
+			printf("**	N_ARGS=%d 	\n", sh->comands[x].n_args);
+			while(xx < sh->comands[x].n_args + 1)
+			{
+				printf("**	ARG %d = %s 	\n", xx, sh->comands[x].arg[xx]);
+				xx++;
+			}
+			if(sh->comands[x].pipe)
+				printf("**	pipe = ON!	\n");
+			else
+				printf("**	pipe = OFF	\n");
+			printf("**	INFILE=%s 	\n", sh->comands[x].infile);
+			printf("**	INFILE_FD=%d \n", sh->comands[x].infile_fd);
+			printf("**	OUTFILE=%s 	\n", sh->comands[x].outfile);
+			printf("**	OUTFILE_FD=%d \n\n\n", sh->comands[x].outfile_fd);
+			x++;
+		}
+}
+
 void    printflags(t_sh *sh)
 {
 	int n = 0;
@@ -64,11 +96,13 @@ void    printflags(t_sh *sh)
 int main(int ac, char **av, char **envp)
 {
    	t_sh	*sh;
-	char	*prompt;
+//	char	*prompt;
 
 	(void)ac;
 	(void)av;
 	sh = ft_calloc(1, sizeof(t_sh));
+	//sh->tokens = ft_calloc(1, sizeof(t_tokens));
+
 	if(sh == NULL)
 		return(EXIT_FAILURE);
 	
@@ -79,11 +113,13 @@ int main(int ac, char **av, char **envp)
 		ft_sigset();
 		init_vars(sh);
 		
-		//if(sh->cmd_line)
-		//	free(sh->cmd_line);		
-		
-		prompt = get_prompt(sh); //----------VERIFICAR LEAKS AQUI!!!!
-		sh->cmd_line = readline(prompt);
+		if(sh->cmd_line)
+			free(sh->cmd_line);		
+		//prompt = "a";
+///		prompt = get_prompt(sh); //----------VERIFICAR LEAKS AQUI!!!!
+
+
+		sh->cmd_line = readline("Minishell:");
 
 		if(sh->cmd_line[1] == '9') // APAGAR ISTO!
 		{
@@ -91,10 +127,10 @@ int main(int ac, char **av, char **envp)
 			free_env(sh);
 			free_tokens(sh);
 			free_cmds(sh);
-	//		free(prompt);
+	
 			free(sh);
 			rl_clear_history();
-			free(prompt);
+			//free(prompt);
 			break;	
 		}
 
@@ -144,9 +180,12 @@ int main(int ac, char **av, char **envp)
 
 		fill_parser(sh);  //----------VERIFICAR LEAKS AQUI!!!!
 
-		
-//		printf("\n\n %d\n\n", sh->vars.cmds_num);
-		
+/*		
+		printf("\n\n %d\n\n", sh->vars.cmds_num);
+		print_exec(sh);
+*/
+
+
 		executor(sh);
 
 		
@@ -155,29 +194,7 @@ int main(int ac, char **av, char **envp)
 
 
 		
-/*		x = 0;
-		while(x < sh->vars.cmds_num && sh->vars.tk_num > 0)
-		{
-			xx = 0;
-			printf("\n******* COMAND NUM=%d *******\n", x);
-			printf("**\n**\n");
-			printf("**	CMD=%s 	\n", sh->comands[x].cmd);
-			printf("**	N_ARGS=%d 	\n", sh->comands[x].n_args);
-			while(xx < sh->comands[x].n_args + 1)
-			{
-				printf("**	ARG %d = %s 	\n", xx, sh->comands[x].arg[xx]);
-				xx++;
-			}
-			if(sh->comands[x].pipe)
-				printf("**	pipe = ON!	\n");
-			else
-				printf("**	pipe = OFF	\n");
-			printf("**	INFILE=%s 	\n", sh->comands[x].infile);
-			printf("**	INFILE_FD=%d \n", sh->comands[x].infile_fd);
-			printf("**	OUTFILE=%s 	\n", sh->comands[x].outfile);
-			printf("**	OUTFILE_FD=%d \n\n\n", sh->comands[x].outfile_fd);
-			x++;
-		}
+/*		
 */
 //		free_env(sh);
 		free_tokens(sh);
