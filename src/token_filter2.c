@@ -4,16 +4,17 @@ void	filter_file (t_sh *sh, int n)
 {
 	int	x;
 
-	x = ft_strlen(sh->tokens[n].tokens) - 5;
-	while(sh->tokens[n].tokens[x])
+	x = ft_strlen(sh->tokens[n].tokens);
+	while(x > 0)
 	{
 		if(sh->tokens[n].tokens[x] == '.')
 		{
 			sh->tokens[n].file = true;
 			break;
 		}
-		x++;
+		x--;
 	}
+	sh->tokens[n].file = false;
 }
 
 void	filter_pipes_redir(t_sh *sh, int n)

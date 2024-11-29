@@ -2,6 +2,8 @@
 
 void	handle_redirects(t_sh *sh, int x)
 {
+	if(sh->vars.redir_num == 0)
+		return;
 	if (sh->comands[x].infile)
 	{
          	//close(sh->comands[x].infile_fd);

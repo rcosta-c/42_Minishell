@@ -59,7 +59,9 @@ void	split_cmd(t_sh *sh)
             x = split_quote(sh, x, n++);
 		else
               x = split_cicle(sh, x, n++);
-	    x++;  
+	    if(!sh->cmd_line[x])
+			break;
+		x++;  
 	}
 }
 

@@ -16,15 +16,16 @@ int	count_tokens(t_sh *sh)
 		{
 			x = check_type_quote(sh->cmd_line, x);
 			counter++;
-		}		
-		else if(counter_validation(sh->cmd_line[x - 1]) && sh->cmd_line[x - 1] != 32 && sh->cmd_line[x] == 32)
-			counter++;
+		}
+		if(x >= 0)
+		{
+			if(counter_validation(sh->cmd_line[x - 1]) && sh->cmd_line[x - 1] != 32 && sh->cmd_line[x] == 32)
+				counter++;
+		}
 		x++;
 	}
 	if(counter_validation(sh->cmd_line[x - 1]) && sh->cmd_line[x - 1] != 32 && sh->cmd_line[x] == '\0')
 		counter++;
-//printf("\n\n\n string: %s\n number of tokens: %d\n\n\n", sh.cmd_line, counter);
-	
 	return(counter);
 }
 
@@ -42,7 +43,7 @@ char *prepare_line(char *str)
 	int     x_o;
 	int     x_d;
 	char    temp[1000];
-	//char    *dest;
+	char    *dest;
 
 	x_o = 0;
 	x_d = 0;
@@ -50,7 +51,7 @@ char *prepare_line(char *str)
 		return(ft_strdup(""));
 	while(str[x_o])
 	{
-		if(str[x_o] == 34)
+		if(str[x_o] == 34 || str[x_o] == 39)
 		{
 			if(check_if_dquote(str, x_o) || check_if_squote(str, x_o))
 			{
@@ -72,8 +73,8 @@ char *prepare_line(char *str)
 		}
 	}
 	temp[x_d] = '\0';
-	//dest = ft_strdup(temp);
-	return(ft_strdup(temp));
+	dest = ft_strdup(temp);
+	return(dest);
 }
 
 

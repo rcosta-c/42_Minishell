@@ -112,94 +112,48 @@ int main(int ac, char **av, char **envp)
 	{
 		ft_sigset();
 		init_vars(sh);
-		
 		if(sh->cmd_line)
 			free(sh->cmd_line);		
-		//prompt = "a";
 ///		prompt = get_prompt(sh); //----------VERIFICAR LEAKS AQUI!!!!
-
-
 		sh->cmd_line = readline("Minishell:");
 
-		if(sh->cmd_line[1] == '9') // APAGAR ISTO!
+		/*if(sh->cmd_line[1] == '9') // APAGAR ISTO!
 		{
 			free(sh->cmd_line);
 			free_env(sh);
 			free_tokens(sh);
 			free_cmds(sh);
-	
 			free(sh);
 			rl_clear_history();
-			//free(prompt);
 			break;	
-		}
-
-
-
-		sh->cmd_line = prepare_line(sh->cmd_line); //----------VERIFICAR LEAKS AQUI!!!!
-//		printf("\n\nline /inicio/%s/fim/", sh->cmd_line);
-
-		sh->vars.tk_num = count_tokens(sh);
-//		printf("\nnumero de tokens=%d\n", sh->vars.tk_num);
-		init_tokens(sh);
-		split_cmd(sh);
-
-		filter_tokens(sh);
-
-		search_expand(sh);
-
-
-//		PRINTAR AS FLAGS DOS TOKENS!!! //
-/*
-		printflags(sh);
-		printf("\n\n");
-		int x = 0;
-
-		while(x < sh.vars.tk_num)
+		}*/
+		if(ft_strlen(sh->cmd_line) > 0)
 		{
-			printf("\n %i \n %s \n", sh.tokens[x].num, sh.tokens[x].tokens);
-			x++;
+			sh->vars.tk_num = count_tokens(sh);
+			sh->cmd_line = prepare_line(sh->cmd_line); //----------VERIFICAR LEAKS AQUI!!!!
+			init_tokens(sh);
+			split_cmd(sh);
+			filter_tokens(sh);
+			search_expand(sh);
+			init_parser(sh);
+			if(check_before_parse(sh))
+				{
+					printf("\ninvalid!!!\n");
+					free_tokens(sh);
+					break;
+				}
+			if(check_r_out(sh) || check_r_in(sh) || check_r_append_out(sh))// || check_pipe(&sh))
+				{
+					printf("\ninvalid!!!\n");
+					free_tokens(sh);
+					break;
+				}
+			fill_parser(sh);  //----------VERIFICAR LEAKS AQUI!!!!
+			executor(sh);
+			free_tokens(sh);
+			free_cmds(sh);
 		}
-*/
-
-		init_parser(sh);
-		if(check_before_parse(sh))
-			{
-				printf("\ninvalid!!!\n");
-				free_tokens(sh);
-				break;
-			}
-		if(check_r_out(sh) || check_r_in(sh) || check_r_append_out(sh))// || check_pipe(&sh))
-			{
-				printf("\ninvalid!!!\n");
-				free_tokens(sh);
-				break;
-			}
-
-//					printf("\n\n PARSERRR\n\n");
-
-		fill_parser(sh);  //----------VERIFICAR LEAKS AQUI!!!!
-
-/*		
-		printf("\n\n %d\n\n", sh->vars.cmds_num);
-		print_exec(sh);
-*/
-
-
-		executor(sh);
-
-		
-
-		//printf("\n\n");
-
-
-		
-/*		
-*/
-//		free_env(sh);
-		free_tokens(sh);
-		free_cmds(sh);
-		
+	
 	}
 	return(0);
 

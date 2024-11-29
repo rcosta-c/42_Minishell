@@ -58,20 +58,23 @@ int	parse_utils(t_sh *sh, int z)
 	{
 		sh->comands[n_cmd].cmd = ft_strdup(sh->tokens[x].tokens); 
 		x++;
-		if(sh->tokens[x].arg == true)
+		if(x < sh->vars.tk_num)
+		{
+			if(sh->tokens[x].arg == true)
 			{
-			while(sh->tokens[x].arg)
-			{
-				sh->comands[n_cmd].n_args++;
-				x++;
+				while(sh->tokens[x].arg)
+				{
+					sh->comands[n_cmd].n_args++;
+					x++;
+				}
+				x -= sh->comands[n_cmd].n_args + 1;
+				sh->comands[n_cmd].arg = malloc(sizeof(char **) * (sh->comands[n_cmd].n_args + 2));
+				sh->comands[n_cmd].arg[narg] = ft_strdup(sh->tokens[x].tokens);
+				narg++;
+				while(sh->tokens[x].arg)
+					sh->comands[n_cmd].arg[narg++] = ft_strdup(sh->tokens[x++].tokens);
+				sh->comands[n_cmd].arg[narg] = NULL;
 			}
-			x -= sh->comands[n_cmd].n_args + 1;
-			sh->comands[n_cmd].arg = malloc(sizeof(char **) * (sh->comands[n_cmd].n_args + 2));
-			sh->comands[n_cmd].arg[narg] = ft_strdup(sh->tokens[x].tokens);
-			narg++;
-			while(sh->tokens[x].arg)
-				sh->comands[n_cmd].arg[narg++] = ft_strdup(sh->tokens[x++].tokens);
-			sh->comands[n_cmd].arg[narg] = NULL;
 		}
 	}
 	return(x);
