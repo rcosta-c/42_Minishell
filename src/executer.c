@@ -118,7 +118,7 @@ void	executor(t_sh *sh)
 
 		while(x < sh->vars.cmds_num)
 		{
-			printf("numero_comandos=%d\n\n", sh->vars.cmds_num);
+			//printf("numero_comandos=%d\n\n", sh->vars.cmds_num);
 			if (check_if_builtin(sh->comands[x].cmd))
 			{
 				exec_builtin(sh, x);
@@ -129,7 +129,7 @@ void	executor(t_sh *sh)
 				sh->comands[x].cmd = prep_cmd(sh, sh->comands[x].cmd, x);
 				execute_multi_cmd(sh, x);
 			}
-			printf("\nMULTI ARGS -> CMD NUMBER = %d \n", x);
+			//printf("\nMULTI ARGS -> CMD NUMBER = %d \n", x);
 			if (sh->comands[x].inbackup != -1) 
 			{
 				dup2(sh->comands[x].inbackup, STDIN_FILENO);

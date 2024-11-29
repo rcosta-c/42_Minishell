@@ -138,6 +138,7 @@ char	**free_mat(char **mat);
 char	*free_ptr(char *ptr);
 void	free_cmds(t_sh *sh);
 void	free_env(t_sh *sh);
+void	free_exit(t_sh *sh);
 
 /*   FIM   */
 

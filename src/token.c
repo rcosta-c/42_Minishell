@@ -8,8 +8,8 @@ int	count_tokens(t_sh *sh)
 
 	x = 0;
 	counter = 0;
-	if(ft_strlen(sh->cmd_line) == 0)
-		return(0);
+	if(!sh->cmd_line)
+		return(counter);
 	while(sh->cmd_line[x])
 	{
 		if(sh->cmd_line[x] == 34 || sh->cmd_line[x] == 39)

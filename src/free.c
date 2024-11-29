@@ -4,13 +4,16 @@ void	free_tokens(t_sh *sh)
 {
 	int x;
 
-	x = 0;	
-	while(x < sh->vars.tk_num - 1)
+	x = 0;
+	if(sh->vars.tk_num > 0)
 	{
-			free(sh->tokens[x].tokens);
-			x++;
+		while(x < sh->vars.tk_num - 1)
+		{
+				free(sh->tokens[x].tokens);
+				x++;
+		}
+		free(sh->tokens);
 	}
-	free(sh->tokens);
 }
 
 void	free_cmds(t_sh *sh)
@@ -20,7 +23,7 @@ void	free_cmds(t_sh *sh)
 
 	xx = 0;
 	x = 0;
-	while(x < sh->vars.cmds_num)
+	while(x < sh->vars.cmds_num && sh->vars.cmds_num > 0)
 	{
 		if(sh->comands[x].n_args > 0)
 		{
@@ -78,4 +81,14 @@ char	**free_mat(char **mat)
 	free (mat);
 	mat = NULL;
 	return (NULL);
+}
+
+void	free_exit(t_sh *sh)
+{
+	free(sh->cmd_line);
+	free_env(sh);
+	free_tokens(sh);
+	free_cmds(sh);
+	free(sh);
+	rl_clear_history();
 }

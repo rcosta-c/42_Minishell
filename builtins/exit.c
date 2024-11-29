@@ -1,78 +1,46 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/28 18:35:22 by mota              #+#    #+#             */
-/*   Updated: 2024/11/19 09:44:40 by rcosta-c         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../includes/minishell.h"
 
-// Verifica se a string é um número válido
-static int  is_valid_number(char *str)
+// Verifica se a string e um numero valido
+static int	is_valid_number(char *str)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    while (str && str[i])
-    {
-        if (!ft_isdigit(str[i]) && str[i] == '+')
-            return (0);
-        i++;
-    }
-    return (1);
+	i = 0;
+	if (str[i] == '+' || str[i] == '-')
+		i++;
+	while (str[i])
+	{
+		if (!ft_isdigit(str[i]))
+			return (0);
+		i++;
+	}
+	return (1);
 }
 
-// Verifica se a string consiste apenas de zeros
-static int  check_zeros(char *args)
+// Funcao para encerrar o shell validando argumentos e encerrando
+void	ft_exit(t_sh *sh, char **args)
 {
-    int i;
+	int	exit_code;
 
-    i = -1;
-    while (args && args[++i])
-    {
-        if (args[i] != '0')
-            return (1);
-    }
-    return (0);
-}
-
-// Função para encerrar o shell, validando argumentos 
-//e exibindo mensagens de erro apropriadas caso necessário
-void    ft_exit(t_sh *sh, char **args)
-{
-    if (args[1] && args[2])
-    {
-        ft_putstr_fd("exit\n", 2);
-        ft_putstr_fd("exit: too many arguments\n", 2);
-        sh->error.exit_error = true;
-        return ;
-    }
-    else if (args[1] && !is_valid_number(args[1]))
-    {
-        ft_putstr_fd("exit\n", 2);
-        ft_putstr_fd("exit: ", 2);
-        ft_putstr_fd(args[1], 2);
-        ft_putstr_fd(": numeric argument required\n", 2);
-        sh->error.exit_error = true;
-        return ;
-    }
-    else if (args[1] && check_zeros(args[1]))
-    {
-        ft_putstr_fd("exit\n", 2);
-        ft_putstr_fd("exit: ", 2);
-        ft_putstr_fd(args[1], 2);
-        ft_putstr_fd(": numeric argument required\n", 2);
-        sh->error.exit_error = true;
-        return ;
-    }
-    else
-    {
-        ft_putstr_fd("exit\n", 2);
-        sh->error.exit_error = false;
-    }
+	ft_putstr_fd("exit\n", 2);
+	if (args[1] && args[2])
+	{
+		ft_putstr_fd("exit: too many arguments\n", 2);
+		sh->error.exit_error = true;
+		return ;
+	}
+	if (args[1] && !is_valid_number(args[1]))
+	{
+        free_exit(sh);
+		ft_putstr_fd("exit: ", 2);
+		ft_putstr_fd(args[1], 2);
+		ft_putstr_fd(": numeric argument required\n", 2);
+		exit(255); //Encerra com codigo de erro 255 para argumento invalido(nao sei se ode usar
+	}
+	if (args[1])
+		exit_code = ft_atoi(args[1]);
+	else
+		exit_code = 0;
+    free_exit(sh);
+	exit(exit_code);
 }
