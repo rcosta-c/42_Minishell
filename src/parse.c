@@ -107,17 +107,14 @@ void    fill_parser(t_sh *sh)
 //	printf("\n\nENTROUPARSER\n\n");
 	while(x < sh->vars.tk_num)
 	{
+		//printf("\ncmd=%d,tk=%d,pipe=%d\nx=%d\n", sh->vars.cmds_num, sh->vars.tk_num, sh->vars.pipe_num, x);
 		x = parse_utils(sh, x);
 	//	printf("\nvaibreakar?\n");
-		if(x == sh->vars.tk_num)
+		if(x >= sh->vars.tk_num)
 			break;
 //		printf("\n %s e num %d \n", sh->tokens[x].tokens, x);
 		x = parse_pipes(sh, x, n_cmd);
 		n_cmd++;		
 	}
 }
-
-
-
-
 

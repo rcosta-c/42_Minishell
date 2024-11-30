@@ -129,8 +129,8 @@ int main(int ac, char **av, char **envp)
 		}*/
 		if(ft_strlen(sh->cmd_line) > 0)
 		{
-			sh->vars.tk_num = count_tokens(sh);
 			sh->cmd_line = prepare_line(sh->cmd_line); //----------VERIFICAR LEAKS AQUI!!!!
+			sh->vars.tk_num = count_tokens(sh);
 			init_tokens(sh);
 			split_cmd(sh);
 			filter_tokens(sh);

@@ -18,8 +18,14 @@ void    ft_pwd(t_sh *sh, char **args)
 {
     size_t  i;
     char    *temp;
+    
 
-    if (!args[1])
+    if (args[1])
+    {
+        ft_putstr_fd("no args accepted", 1);
+        ft_putstr_fd("\n", 1);
+    }
+    else
     {
         i = 0;
         while (sh->envp && ft_strncmp(sh->envp[i], "PWD=", 4))

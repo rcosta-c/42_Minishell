@@ -3,6 +3,36 @@
 
 int	count_tokens(t_sh *sh)
 {
+	int x;
+	int counter;
+
+	x = 0;
+	counter = 0;
+	if(!sh->cmd_line)
+		return(counter);
+	while(sh->cmd_line[x])
+	{
+		while(sh->cmd_line[x] == 32)
+			x++;
+		if(sh->cmd_line[x] == 34 || sh->cmd_line[x] == 39)
+		{
+			x = check_type_quote(sh->cmd_line, x);
+			counter++;
+		}
+		while(counter_validation(sh->cmd_line[x]))
+			x++;
+		if(sh->cmd_line[x] == 32 && counter_validation(sh->cmd_line[x - 1]))
+			counter++;
+		if(!sh->cmd_line[x] && counter_validation(sh->cmd_line[x - 1]))
+			counter++;
+	}
+	//printf("\n%d\n", counter);
+	return(counter);
+}
+
+/*
+int	count_tokens(t_sh *sh)
+{
 	int	x;
 	int	counter;
 
@@ -28,7 +58,7 @@ int	count_tokens(t_sh *sh)
 		counter++;
 	return(counter);
 }
-
+*/
 
 bool counter_validation(int c)
 {
