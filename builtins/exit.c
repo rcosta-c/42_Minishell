@@ -31,10 +31,10 @@ void	ft_exit(t_sh *sh, char **args)
 	}
 	if (args[1] && !is_valid_number(args[1]))
 	{
-        free_exit(sh);
 		ft_putstr_fd("exit: ", 2);
 		ft_putstr_fd(args[1], 2);
 		ft_putstr_fd(": numeric argument required\n", 2);
+        free_exit(sh);
 		exit(255); //Encerra com codigo de erro 255 para argumento invalido(nao sei se ode usar
 	}
 	if (args[1])

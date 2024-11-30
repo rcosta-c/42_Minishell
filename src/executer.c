@@ -73,6 +73,7 @@ void	executor(t_sh *sh)
 
 	x = 0;
 	
+	//free_for_executer(sh);
 	if((verify_errors(sh)) == true)
 		return;
 	if(sh->vars.cmds_num == 0)

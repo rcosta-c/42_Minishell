@@ -64,10 +64,10 @@ int	parse_utils(t_sh *sh, int z)
 				sh->comands[n_cmd].n_args++;
 				x++;
 			}
-			printf("\n\n (DENTRO)antes X=%d\n", x);
+//			printf("\n\n (DENTRO)antes X=%d\n", x);
 
 			x -= sh->comands[n_cmd].n_args + 1;
-						printf("\n\n (DENTRO)depois X=%d\n", x);
+//						printf("\n\n (DENTRO)depois X=%d\n", x);
 
 			sh->comands[n_cmd].arg = malloc(sizeof(char **) * (sh->comands[n_cmd].n_args + 2));
 			sh->comands[n_cmd].arg[narg - 1] = ft_strdup(sh->tokens[x].tokens);

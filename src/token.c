@@ -104,6 +104,7 @@ char *prepare_line(char *str)
 	}
 	temp[x_d] = '\0';
 	dest = ft_strdup(temp);
+	free(str);
 	return(dest);
 }
 

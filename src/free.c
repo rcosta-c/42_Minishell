@@ -1,5 +1,13 @@
 #include "../includes/minishell.h"
 
+/*void	free_for_executer(t_sh *sh)
+{
+	free_tokens(sh);
+	free(sh->cmd_line);
+
+}*/
+
+
 void	free_tokens(t_sh *sh)
 {
 	int x;
@@ -7,7 +15,7 @@ void	free_tokens(t_sh *sh)
 	x = 0;
 	if(sh->vars.tk_num > 0)
 	{
-		while(x < sh->vars.tk_num - 1)
+		while(x < sh->vars.tk_num)
 		{
 				free(sh->tokens[x].tokens);
 				x++;
@@ -27,9 +35,10 @@ void	free_cmds(t_sh *sh)
 	{
 		if(sh->comands[x].n_args > 0)
 		{
-			while(xx < sh->comands[x].n_args)
+			while(xx - 1 <= sh->comands[x].n_args)
 			{
-				free(sh->comands[x].arg[xx++]);	
+				free(sh->comands[x].arg[xx]);
+				xx++;	
 			}
 			free(sh->comands[x].arg);
 		}
@@ -85,9 +94,9 @@ char	**free_mat(char **mat)
 
 void	free_exit(t_sh *sh)
 {
-	free(sh->cmd_line);
+	//free(sh->cmd_line);
 	free_env(sh);
-	free_tokens(sh);
+	//free_tokens(sh);
 	free_cmds(sh);
 	free(sh);
 	rl_clear_history();

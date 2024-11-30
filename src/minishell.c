@@ -149,7 +149,7 @@ int main(int ac, char **av, char **envp)
 					break;
 				}
 
-printflags(sh);
+//printflags(sh);
 			fill_parser(sh);  //----------VERIFICAR LEAKS AQUI!!!!
 			executor(sh);
 			free_tokens(sh);
