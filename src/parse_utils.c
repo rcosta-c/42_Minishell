@@ -51,7 +51,7 @@ int	parse_utils(t_sh *sh, int z)
 	int	narg;
 	int	n_cmd;
 
-	narg = 0;
+	narg = 1;
 	n_cmd = 0;
 	x = z;
    	if(sh->tokens[x].cmd)
@@ -59,18 +59,20 @@ int	parse_utils(t_sh *sh, int z)
 		x++;
 		if(x < sh->vars.tk_num && sh->tokens[x].arg == true)
 		{
-			//printf("\na verificar argumentos\n");
-			while(sh->tokens[x].arg)
+			while(x < sh->vars.tk_num)
 			{
 				sh->comands[n_cmd].n_args++;
 				x++;
 			}
+			printf("\n\n (DENTRO)antes X=%d\n", x);
+
 			x -= sh->comands[n_cmd].n_args + 1;
+						printf("\n\n (DENTRO)depois X=%d\n", x);
+
 			sh->comands[n_cmd].arg = malloc(sizeof(char **) * (sh->comands[n_cmd].n_args + 2));
-			sh->comands[n_cmd].arg[narg] = ft_strdup(sh->tokens[x].tokens);
+			sh->comands[n_cmd].arg[narg - 1] = ft_strdup(sh->tokens[x].tokens);
 			sh->comands[n_cmd].cmd = ft_strdup(sh->tokens[x++].tokens); 
-			narg++;
-			while(sh->tokens[x].arg)
+			while(narg <= sh->comands[n_cmd].n_args)
 				sh->comands[n_cmd].arg[narg++] = ft_strdup(sh->tokens[x++].tokens);
 			sh->comands[n_cmd].arg[narg] = NULL;
 		}

@@ -108,7 +108,9 @@ void    fill_parser(t_sh *sh)
 	while(x < sh->vars.tk_num)
 	{
 		//printf("\ncmd=%d,tk=%d,pipe=%d\nx=%d\n", sh->vars.cmds_num, sh->vars.tk_num, sh->vars.pipe_num, x);
+		printf("\n\n antes X=%d\n", x);
 		x = parse_utils(sh, x);
+		printf("\n\n depois X=%d\n", x);
 	//	printf("\nvaibreakar?\n");
 		if(x >= sh->vars.tk_num)
 			break;
