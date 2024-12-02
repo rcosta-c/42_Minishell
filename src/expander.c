@@ -1,6 +1,5 @@
 #include "../includes/minishell.h"
 
-/* s1 = token part && s2 = envp part */
 static int	ft_envp_n_cmp(const char *s1, const char *s2)
 {
 	size_t	counter;
@@ -70,6 +69,19 @@ static int		count_expands(t_sh *sh, int n)
     }
 	return(exp_counter);
 }
+
+static char	*expand_exit(t_sh *sh, int n, int x)
+{
+	int xa;
+	char	a[500];
+
+	xa = 0;
+	while(sh->tokens[n].tokens[x])
+		a[xa++] = sh->tokens[n].tokens[x++];
+	a[xa] = '\0';
+	return(join_2_str(z, a, NULL, 2));
+}
+
 void    expand_token(t_sh *sh, char *token, int n)
 {
     char    a[500];
@@ -130,17 +142,14 @@ void    expand_token(t_sh *sh, char *token, int n)
 		exp_counter--;
 		if (exp_counter == 0)
 		{
-			xa = 0;
-			while(sh->tokens[n].tokens[x])
-				a[xa++] = sh->tokens[n].tokens[x++];
-			a[xa] = '\0';
-			z = join_2_str(z, a, NULL, 2);
+			z = expand_exit(sh, n, x);
 			break;
 		}
 	}
 	free(sh->tokens[n].tokens);
 	sh->tokens[n].tokens = z;
 }
+
 
 void	search_expand(t_sh *sh)
 {
@@ -164,10 +173,8 @@ void	search_expand(t_sh *sh)
 		else if(sh->tokens[n].file)
 		{
 			while(sh->tokens[n].tokens[x++])
-			{
 				if(sh->tokens[n].tokens[x] == '~')
 					expand_token(sh, sh->tokens[n].tokens, n);
-			}
 		}
 		n++;
 	}
