@@ -20,6 +20,7 @@ void    execute_cmd(t_sh *sh, int x)
 			if (execve(sh->comands[x].cmd, sh->comands[x].arg, sh->envp) == -1)
 			{
                 perror("Erro ao executar comando");
+				//printf("\n\n SAIU COM ERRO\n\n");
                 exit(EXIT_FAILURE);
     		}
 		}

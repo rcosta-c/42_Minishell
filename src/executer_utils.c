@@ -88,6 +88,7 @@ char    *prep_cmd(t_sh *sh, char *cmd, int xx)
 		if (!path[x])
 		{
 			sh->comands[xx].errors.cmd_not_found = true;
+			free(temp);
 			temp = ft_strdup(cmd);	
 		}
 	}
