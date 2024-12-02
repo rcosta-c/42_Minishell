@@ -39,7 +39,7 @@ static char	*verify_home(t_sh *sh, char *prompt)
 	return(final_prompt);
 }
 
-char	*join_2_str(char *a, char *b, char *z)
+char	*join_2_str(char *a, char *b, char *z, int option)
 {
 	char	*res;
 	char 	*temp;
@@ -52,6 +52,13 @@ char	*join_2_str(char *a, char *b, char *z)
 	}
 	else
 		res = ft_strjoin(a, b);
+	if(option == 1)
+	{
+		free(b);
+		free(a);
+	}
+	if(option == 2)
+		free(a);
 	return(res);
 }
 
@@ -69,13 +76,13 @@ char	*get_prompt(t_sh *sh)
 	host = find_my_host(sh);
 	//printf("%s\n", host);
 	//host = NULL;
-	prompt = join_2_str(user, host , "@");
+	prompt = join_2_str(user, host , "@", 0);
 	
 	dir = search_envp(sh, "PWD");
 	dir = verify_home(sh, dir);
-	temp = join_2_str(prompt, dir, ":");
+	temp = join_2_str(prompt, dir, ":", 0);
 	free(prompt);
-	prompt = join_2_str(temp, " ", "$");
+	prompt = join_2_str(temp, " ", "$", 0);
 	free(temp);
 	free(host);
 	free(dir);

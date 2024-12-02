@@ -30,36 +30,6 @@ int	count_tokens(t_sh *sh)
 	return(counter);
 }
 
-/*
-int	count_tokens(t_sh *sh)
-{
-	int	x;
-	int	counter;
-
-	x = 0;
-	counter = 0;
-	if(!sh->cmd_line)
-		return(counter);
-	while(sh->cmd_line[x])
-	{
-		if(sh->cmd_line[x] == 34 || sh->cmd_line[x] == 39)
-		{
-			x = check_type_quote(sh->cmd_line, x);
-			counter++;
-		}
-		if(x >= 0)
-		{
-			if(counter_validation(sh->cmd_line[x - 1]) && sh->cmd_line[x - 1] != 32 && sh->cmd_line[x] == 32)
-				counter++;
-		}
-		x++;
-	}
-	if(counter_validation(sh->cmd_line[x - 1]) && sh->cmd_line[x - 1] != 32 && sh->cmd_line[x] == '\0')
-		counter++;
-	return(counter);
-}
-*/
-
 bool counter_validation(int c)
 {
 	if(c == 33 || (c >= 35 && c <= 38) || (c >= 40 && c <= 176))

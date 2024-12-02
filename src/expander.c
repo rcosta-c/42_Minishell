@@ -51,7 +51,25 @@ char	*search_envp(t_sh *sh, char *z)
 	return(NULL);
 }
 
+static int		count_expands(t_sh *sh, int n)
+{
+	int x;
+	int	exp_counter;
 
+	exp_counter = 0;
+	x = 0;
+	while(sh->tokens[n].tokens[x])
+    {
+        if(sh->tokens[n].tokens[x] == '$' && sh->tokens[n].tokens[x + 1] >= 'A' && sh->tokens[n].tokens[x + 1] <= 'Z' && sh->tokens[n].s_quote == false)
+            exp_counter++;
+		else if(sh->tokens[n].tokens[x] == '~' && sh->tokens[n].d_quote == false && sh->tokens[n].s_quote == false)
+			exp_counter++;
+		else if(sh->tokens[n].tokens[x] == '$' && (sh->tokens[n].tokens[x + 1] == '$' || sh->tokens[n].tokens[x + 1] == '?'))
+			exp_counter++;
+        x++;
+    }
+	return(exp_counter);
+}
 void    expand_token(t_sh *sh, char *token, int n)
 {
     char    a[500];
@@ -65,21 +83,10 @@ void    expand_token(t_sh *sh, char *token, int n)
 	pid_t	pid;
 
 	(void)token;
-    exp_counter = 0;
 	x = 0;
 	z = NULL;
-//	printf("\n\n -> %d -> %s", n, token);
-    while(sh->tokens[n].tokens[x])
-    {
-        if(sh->tokens[n].tokens[x] == '$' && sh->tokens[n].tokens[x + 1] >= 'A' && sh->tokens[n].tokens[x + 1] <= 'Z' && sh->tokens[n].s_quote == false)
-            exp_counter++;
-		else if(sh->tokens[n].tokens[x] == '~' && sh->tokens[n].d_quote == false && sh->tokens[n].s_quote == false)
-			exp_counter++;
-		else if(sh->tokens[n].tokens[x] == '$' && (sh->tokens[n].tokens[x + 1] == '$' || sh->tokens[n].tokens[x + 1] == '?'))
-			exp_counter++;
-        x++;
-    }
-//	printf("\n\n 1 exp_counter = %d\n\n", exp_counter);
+	c = NULL;
+	exp_counter = count_expands(sh, n);
 	x = 0;
 	while(sh->tokens[n].tokens[x])
 	{
@@ -91,9 +98,8 @@ void    expand_token(t_sh *sh, char *token, int n)
 				break;
 			a[xa++] = sh->tokens[n].tokens[x++];
 		}
-//		printf("valor de x -> %d", x);
 		a[xa] = '\0';
-		z = join_2_str(z, a, NULL);
+		z = join_2_str(z, a, NULL, 2);
 		if(sh->tokens[n].tokens[x] == '~' && sh->tokens[n].d_quote == false && sh->tokens[n].s_quote == false)
 		{
 			c = search_envp(sh, "HOME");
@@ -102,7 +108,6 @@ void    expand_token(t_sh *sh, char *token, int n)
 		else if(sh->tokens[n].tokens[x] ==  '$' && sh->tokens[n].tokens[x + 1] == '$')
 		{
 			x++;
-//			printf("acabar de definir esta passo\n");
 			pid = getpid();
 			c = ft_itoa(pid);
 			x++;
@@ -110,7 +115,7 @@ void    expand_token(t_sh *sh, char *token, int n)
 		else if(sh->tokens[n].tokens[x + 1] ==  '?' && sh->tokens[n].tokens[x] == '$')
 		{
 			x++;
-			c = "99";
+			c = ft_strdup("99"); //ALTERAR ISTO
 			x++;
 		}
 		else if(sh->tokens[n].tokens[x] == '$')
@@ -119,11 +124,9 @@ void    expand_token(t_sh *sh, char *token, int n)
 			while((sh->tokens[n].tokens[x] >= 'A' && sh->tokens[n].tokens[x] <= 'Z') || sh->tokens[n].tokens[x] == '$' || sh->tokens[n].tokens[x] == '?')
 				b[xb++] = sh->tokens[n].tokens[x++];
 			b[xb] = '\0';
-//			printf("\n e aquinao??? \nHEYHEY HEY\n%s\n", b);
 			c = search_envp(sh, b);
 		}
-//		printf("\n\n aqui = %s\n exp_counter = %d\n", c, exp_counter);
-		z = join_2_str(z, c, NULL);
+		z = join_2_str(z, c, NULL, 1);
 		exp_counter--;
 		if (exp_counter == 0)
 		{
@@ -131,18 +134,12 @@ void    expand_token(t_sh *sh, char *token, int n)
 			while(sh->tokens[n].tokens[x])
 				a[xa++] = sh->tokens[n].tokens[x++];
 			a[xa] = '\0';
-			z = join_2_str(z, a, NULL);
+			z = join_2_str(z, a, NULL, 2);
 			break;
 		}
 	}
-//	printf("FINAL EXPAND = %s", z);
-
-	//free(sh->tokens[n].tokens);
+	free(sh->tokens[n].tokens);
 	sh->tokens[n].tokens = z;
-//	printf("FINAL EXPAND = %s", sh->tokens[n].tokens);
-
-	//free(z);
-
 }
 
 void	search_expand(t_sh *sh)
@@ -172,7 +169,6 @@ void	search_expand(t_sh *sh)
 					expand_token(sh, sh->tokens[n].tokens, n);
 			}
 		}
-//		printf("fim de expand\n\n");
 		n++;
 	}
 }
