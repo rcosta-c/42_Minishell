@@ -31,6 +31,23 @@ void	free_cmds(t_sh *sh)
 
 	xx = 0;
 	x = 0;
+
+	if(sh->vars.cmds_num > 0)
+	{
+		while(x < sh->vars.cmds_num)
+		{
+			while(xx <= sh->comands[x].n_args)
+			{
+				free(sh->comands[x].arg[xx]);
+				xx++;
+			}
+			free(sh->comands[x].arg);
+			free(sh->comands[x].cmd);
+			x++;
+		}
+		free(sh->comands);
+	}
+	/*
 	while(x < sh->vars.cmds_num && sh->vars.cmds_num > 0)
 	{
 		if(sh->comands[x].n_args > 0)
@@ -48,7 +65,7 @@ void	free_cmds(t_sh *sh)
 		if(sh->comands[x].infile)
 			free(sh->comands[x].infile);
 		x++;
-	}
+	}*/
 }
 
 void	free_env(t_sh *sh)
@@ -94,10 +111,10 @@ char	**free_mat(char **mat)
 
 void	free_exit(t_sh *sh)
 {
-	//free(sh->cmd_line);
-	free_env(sh);
-	//free_tokens(sh);
+	free_tokens(sh);
 	free_cmds(sh);
+	free(sh->cmd_line);
+	free_env(sh);
 	free(sh);
 	rl_clear_history();
 }
