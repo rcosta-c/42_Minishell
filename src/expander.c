@@ -70,7 +70,7 @@ static int		count_expands(t_sh *sh, int n)
 	return(exp_counter);
 }
 
-static char	*expand_exit(t_sh *sh, int n, int x)
+static char	*expand_exit(t_sh *sh, int n, int x, char *z)
 {
 	int xa;
 	char	a[500];
@@ -142,7 +142,7 @@ void    expand_token(t_sh *sh, char *token, int n)
 		exp_counter--;
 		if (exp_counter == 0)
 		{
-			z = expand_exit(sh, n, x);
+			z = expand_exit(sh, n, x, z);
 			break;
 		}
 	}
