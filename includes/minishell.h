@@ -39,6 +39,7 @@ typedef struct s_vars
 	int     tk_num;
 	int		cmds_num;
 	int		redir_num;
+	int		heredoc_num;
 	int		pipe_num;
 	int		envp_total;
 }   t_vars;
@@ -55,6 +56,7 @@ typedef struct s_tokens
 	bool    d_quote;
 	bool    f_quote;
 	bool    r_in;
+	bool	r_heredoc;
 	bool    r_out;
 	bool	r_outappend;
 	bool    file;
@@ -67,6 +69,7 @@ typedef struct s_error
 {
 	bool    exit_error;
 	bool    cmd_error;
+	bool	heredoc_error;
 	bool    token_error;
 	bool    expand_error;
 	bool    parse_error;
@@ -81,11 +84,6 @@ typedef struct s_execerror
 	bool    outfile_noaccess;
 	bool    outfile_notvalid;
 	bool	empty_pipe;
-	
-	//ACRESCENTAR MAIIS!!!!
-
-
-
 }   t_execerror;
 
 typedef struct s_exec

@@ -23,6 +23,12 @@ void	ft_exit(t_sh *sh, char **args)
 	int	exit_code;
 
 	ft_putstr_fd("exit\n", 2);
+
+	if (!args)
+	{
+		free_exit(sh);
+		exit(0);
+	}
 	if (args[1] && args[2])
 	{
 		ft_putstr_fd("exit: too many arguments\n", 2);

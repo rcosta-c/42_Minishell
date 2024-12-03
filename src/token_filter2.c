@@ -28,8 +28,16 @@ void	filter_pipes_redir(t_sh *sh, int n)
 			}
 		if(sh->tokens[n].tokens[0] == '<')
 		{
-			sh->tokens[n].r_in = true;
-			sh->vars.redir_num++;
+			if(!sh->tokens[n].tokens[1])
+			{
+				sh->tokens[n].r_in = true;
+				sh->vars.redir_num++;
+			}
+			if(sh->tokens[n].tokens[1] == '<')
+			{
+				sh->tokens[n].r_heredoc = true;
+				sh->vars.heredoc_num++;
+			}
 		}
 		if(sh->tokens[n].tokens[0] == '>')
 		{

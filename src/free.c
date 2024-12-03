@@ -78,10 +78,6 @@ void	free_env(t_sh *sh)
 		free(sh->envp[x]);
 		x++;
 	}*/
-	/*while(x >= 0)
-	{
-		free(sh->envp[x--]);
-	}*/
 	free(sh->envp);
 }
 
@@ -113,7 +109,8 @@ void	free_exit(t_sh *sh)
 {
 	free_tokens(sh);
 	free_cmds(sh);
-	free(sh->cmd_line);
+	if(sh->cmd_line)
+		free(sh->cmd_line);
 	free_env(sh);
 	free(sh);
 	rl_clear_history();

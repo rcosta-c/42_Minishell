@@ -44,4 +44,5 @@ void	init_vars(t_sh *sh)
 	sh->vars.cmds_num = 0;
 	sh->vars.pipe_num = 0;
 	sh->vars.redir_num = 0;
+	sh->vars.heredoc_num = 0;
 }

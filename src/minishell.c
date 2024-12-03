@@ -97,10 +97,12 @@ int main(int ac, char **av, char **envp)
 {
    	t_sh	*sh;
 //	char	*prompt;
+	//char	**temp;
 
 	(void)ac;
 	(void)av;
 	sh = ft_calloc(1, sizeof(t_sh));
+	//temp = ft_calloc(2, sizeof(char **));
 	//sh->tokens = ft_calloc(1, sizeof(t_tokens));
 
 	if(sh == NULL)
@@ -110,13 +112,15 @@ int main(int ac, char **av, char **envp)
 	init_error(sh);
 	while(1)
 	{
+		//free_heredoc(sh);
 		ft_sigset();
 		init_vars(sh);
 		if(sh->cmd_line)
 			free(sh->cmd_line);		
 ///		prompt = get_prompt(sh); //----------VERIFICAR LEAKS AQUI!!!!
 		sh->cmd_line = readline("Minishell:");
-
+		if(!sh->cmd_line)
+			ft_exit(sh, NULL);
 		/*if(sh->cmd_line[1] == '9') // APAGAR ISTO!
 		{
 			free(sh->cmd_line);

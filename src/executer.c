@@ -82,7 +82,7 @@ void	executor(t_sh *sh)
 	if(sh->vars.cmds_num == 1)
 	{
 		handle_redirects(sh, x); //APARTIR DAQUI
-
+		//handle_heredoc(sh, x);
 		if (check_if_builtin(sh->comands[x].cmd))
 		{
 			exec_builtin(sh, x);
