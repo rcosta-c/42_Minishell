@@ -103,7 +103,7 @@ int	parse_utils(t_sh *sh, int z)
 				sh->vars.redir_num--;
 				x++;
 			}
-			printf("x=%d\n", x);
+			//printf("x=%d\n", x);
 			return(x + 1);
 
 		}
