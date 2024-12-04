@@ -236,7 +236,7 @@ void	handle_redirects(t_sh *sh, int x);
 /*	FIM 	*/
 /*	PARSE_UTILS.c	*/
 
-int	parse_utils(t_sh *sh, int z);
+int	parse_utils(t_sh *sh, int z, int n_cmd);
 int	parse_pipes(t_sh *sh, int z, int n_cmd);
 void	remove_quoted(t_sh *sh);
 

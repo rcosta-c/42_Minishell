@@ -45,14 +45,12 @@ void	remove_quoted(t_sh *sh)
 	}
 }
 
-int	parse_utils(t_sh *sh, int z)
+int	parse_utils(t_sh *sh, int z, int n_cmd)
 {
 	int x;
 	int	narg;
-	int	n_cmd;
 
 	narg = 0;
-	n_cmd = 0;
 	x = z;
    	if(sh->tokens[x].cmd)
 	{
@@ -103,7 +101,7 @@ int	parse_utils(t_sh *sh, int z)
 				sh->vars.redir_num--;
 				x++;
 			}
-			//printf("x=%d\n", x);
+			printf("x=%d\n", x);
 			return(x + 1);
 
 		}
@@ -139,7 +137,7 @@ int	parse_utils(t_sh *sh, int z)
 	}
 	return(x);
 }
-
+/*
 static int parse_redir(t_sh *sh, int x, int n_cmd)
 {
 	if(sh->tokens[x].r_out)// && sh->tokens[x + 1].file)
@@ -163,17 +161,19 @@ static int parse_redir(t_sh *sh, int x, int n_cmd)
 	else
 		x++;
 	return(x);
-}
-
-int	parse_pipes(t_sh *sh, int z, int n_cmd)
+	
+}*/
+	 
+int		parse_pipes(t_sh *sh, int z, int n_cmd)
 {
 	int x;
 
 	x = z;
 	if(sh->vars.pipe_num == 0)
 		return(x);
-	while(sh->tokens[x].pipe == false && (x < sh->vars.tk_num))
-		x = parse_redir(sh, x, n_cmd);
+	x++;
+	//while(sh->tokens[x].pipe == false && (x < sh->vars.tk_num))
+	//	x = parse_redir(sh, x, n_cmd);
 	if(sh->tokens[x].pipe == true && (x < sh->vars.tk_num))
 	{
 		sh->comands[n_cmd].pipe = true;
