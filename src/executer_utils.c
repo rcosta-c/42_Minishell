@@ -72,7 +72,11 @@ char    *prep_cmd(t_sh *sh, char *cmd, int xx)
 
 	x = 0;
 	if(cmd[0] == '/')
+	{
+		if(access(cmd, X_OK) != 0 && access(cmd, F_OK) != 0)
+			sh->comands[xx].errors.cmd_not_found = true;
 		return(cmd);
+	}
 	path = ft_split(getenv("PATH"), ':');
 	temp = ft_strjoin("/bin/", cmd);
 	if(stat(temp, &path_stat) == 0 && access(temp, X_OK) == 0 && access(temp, F_OK) == 0)
@@ -99,6 +103,5 @@ char    *prep_cmd(t_sh *sh, char *cmd, int xx)
 		free(path[x]);
 	free(path);
 	free(cmd);
-	printf("\n\naquiesta o temp_cmd=%s\n\n", temp);
 	return(temp);
 }

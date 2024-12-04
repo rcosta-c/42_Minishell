@@ -38,6 +38,7 @@ void    printflags(t_sh *sh)
 {
 	int n = 0;
 
+	printf("\n tknum = %d\ncmds_num=%d\nheredoc=%d\npipe=%d\nredir=%d", sh->vars.tk_num, sh->vars.cmds_num, sh->vars.heredoc_num, sh->vars.pipe_num, sh->vars.redir_num);
 	while(n < sh->vars.tk_num)
 	{
 		printf("\n\n\n\n TOKEN NUMERO %d \n\ntoken=%s\n\n", n, sh->tokens[n].tokens);
@@ -107,7 +108,6 @@ int main(int ac, char **av, char **envp)
 
 	if(sh == NULL)
 		return(EXIT_FAILURE);
-	
 	ft_getenv(sh, envp);
 	init_error(sh);
 	while(1)
@@ -121,16 +121,8 @@ int main(int ac, char **av, char **envp)
 		sh->cmd_line = readline("Minishell:");
 		if(!sh->cmd_line)
 			ft_exit(sh, NULL);
-		/*if(sh->cmd_line[1] == '9') // APAGAR ISTO!
-		{
-			free(sh->cmd_line);
-			free_env(sh);
-			free_tokens(sh);
-			free_cmds(sh);
-			free(sh);
-			rl_clear_history();
-			break;	
-		}*/
+		//add_history(sh->cmd_line);
+
 		if(ft_strlen(sh->cmd_line) > 0)
 		{
 			sh->cmd_line = prepare_line(sh->cmd_line); //----------VERIFICAR LEAKS AQUI!!!!
@@ -138,24 +130,31 @@ int main(int ac, char **av, char **envp)
 			init_tokens(sh);
 			split_cmd(sh);
 			filter_tokens(sh);
-			search_expand(sh);
-			init_parser(sh);
-			if(check_before_parse(sh))
-				{
-					printf("\ninvalid!!!\n");
-					free_tokens(sh);
-					break;
-				}
-			if(check_r_out(sh) || check_r_in(sh) || check_r_append_out(sh))// || check_pipe(&sh))
-				{
-					printf("\ninvalid!!!\n");
-					free_tokens(sh);
-					break;
-				}
+			//printf("saiu do filter\n");
+			//printflags(sh);
 
-//printflags(sh);
+			//search_expand(sh);
+
+			init_parser(sh);
+			/*if(check_before_parse(sh))
+			{
+					printf("\ninvalid!!!\n");
+					free_tokens(sh);
+					break;
+			}
+			if(check_r_out(sh) || check_r_in(sh) || check_r_append_out(sh))// || check_pipe(&sh))
+			{
+					printf("\ninvalid!!!\n");
+					free_tokens(sh);
+					break;
+			}*/
+
 			fill_parser(sh);  //----------VERIFICAR LEAKS AQUI!!!!
+			//printf("acabou fillparser\n");
+//printf("\n\n\n");
+
 			executor(sh);
+			//print_exec(sh);
 			free_tokens(sh);
 			free_cmds(sh);
 		}

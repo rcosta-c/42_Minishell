@@ -111,7 +111,7 @@ void    fill_parser(t_sh *sh)
 //		printf("\n\n antes X=%d\n", x);
 		x = parse_utils(sh, x);
 //		printf("\n\n depois X=%d\n", x);
-	//	printf("\nvaibreakar?\n");
+		//printf("\nvaibreakar?\n");
 		if(x >= sh->vars.tk_num)
 			break;
 //		printf("\n %s e num %d \n", sh->tokens[x].tokens, x);

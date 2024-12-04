@@ -34,7 +34,10 @@ void    execute_multi_cmd(t_sh *sh, int x)
 	pid_t	pid;
 
 	if(check_exec_error(sh, x))
+	{
+		printf("\n\nFOUDASE! foi aqui que deu merda!\n\n");
 		return;
+	}
 	else
 	{
 		pid = fork();
@@ -61,7 +64,6 @@ void    execute_multi_cmd(t_sh *sh, int x)
                 perror("Erro ao executar comando");
                 exit(EXIT_FAILURE);
             }
-
 		}
 		else
 			waitpid(pid, NULL, 0);
@@ -76,13 +78,17 @@ void	executor(t_sh *sh)
 	
 	//free_for_executer(sh);
 	if((verify_errors(sh)) == true)
+	{
 		return;
+	}
 	if(sh->vars.cmds_num == 0)
 		return;
 	if(sh->vars.cmds_num == 1)
 	{
+		//printf("\n\n\n ENTROU NO EXEC CMD SO 1\n\n");
 		handle_redirects(sh, x); //APARTIR DAQUI
 		//handle_heredoc(sh, x);
+		//printf("\nJA SAIUDO DOS REDIREEC NO EXEC\n");
 		if (check_if_builtin(sh->comands[x].cmd))
 		{
 			exec_builtin(sh, x);

@@ -26,6 +26,8 @@ void    init_cmds(t_sh *sh, int x)
 	sh->comands[x].infile_fd = -1;
 	sh->comands[x].outfile = NULL;
 	sh->comands[x].outfile_fd = -1;
+	sh->comands[x].outappend_fd = -1;
+	sh->comands[x].outappendfile = NULL;
 	sh->comands[x].inbackup = -1;
 	sh->comands[x].outbackup = -1;
 	sh->comands[x].arg = NULL;

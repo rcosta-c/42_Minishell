@@ -51,7 +51,7 @@ int	parse_utils(t_sh *sh, int z)
 	int	narg;
 	int	n_cmd;
 
-	narg = 1;
+	narg = 0;
 	n_cmd = 0;
 	x = z;
    	if(sh->tokens[x].cmd)
@@ -59,31 +59,81 @@ int	parse_utils(t_sh *sh, int z)
 		x++;
 		if(x < sh->vars.tk_num && sh->tokens[x].arg == true)
 		{
-			while(x < sh->vars.tk_num)
+			while(sh->tokens[x].arg == true && x < sh->vars.tk_num)
 			{
 				sh->comands[n_cmd].n_args++;
 				x++;
 			}
-//			printf("\n\n (DENTRO)antes X=%d\n", x);
+			//printf("\n\n (DENTRO)antes X=%d\n", x);
 
-			x -= sh->comands[n_cmd].n_args + 1;
+			x -= sh->comands[n_cmd].n_args;
+//						printf("\nnargs=%d\nagora o X =%d", sh->comands[n_cmd].n_args, x);
+
 //						printf("\n\n (DENTRO)depois X=%d\n", x);
 
 			sh->comands[n_cmd].arg = malloc(sizeof(char **) * (sh->comands[n_cmd].n_args + 2));
-			sh->comands[n_cmd].arg[narg - 1] = ft_strdup(sh->tokens[x].tokens);
-			sh->comands[n_cmd].cmd = ft_strdup(sh->tokens[x++].tokens); 
-			while(narg <= sh->comands[n_cmd].n_args)
-				sh->comands[n_cmd].arg[narg++] = ft_strdup(sh->tokens[x++].tokens);
-			sh->comands[n_cmd].arg[narg] = NULL;
+			//sh->comands[n_cmd].arg[narg - 1] = ft_strdup(sh->tokens[x].tokens);
+//			printf("\n\ncomandovaiser %s\ne o X =%d", sh->tokens[x - 1].tokens, x);
+			
+			sh->comands[n_cmd].cmd = ft_strdup(sh->tokens[x - 1].tokens);
+			sh->comands[n_cmd].arg[0] = ft_strdup(sh->tokens[x - 1].tokens); 
+			narg = sh->comands[n_cmd].n_args;
+			while(sh->comands[n_cmd].n_args > 0) 
+			{
+				sh->comands[n_cmd].arg[sh->comands[n_cmd].n_args] = ft_strdup(sh->tokens[x].tokens);
+				sh->comands[n_cmd].n_args--;
+			}
+//			printf("\n\ncmd=%s\narg[0]=%s\narg1=%s", sh->comands[n_cmd].cmd, sh->comands[n_cmd].arg[0], sh->comands[n_cmd].arg[1]);
+			sh->comands[n_cmd].n_args = narg;
+			sh->comands[n_cmd].arg[sh->comands[n_cmd].n_args + 1] = NULL;
+	//		printf("\nonde ja vai %s \n\n\n", sh->tokens[x - 1].tokens);
+			//printf("111\n%s\n", sh->tokens[x].tokens);
+			if(sh->vars.redir_num > 0)
+			{
+				x++;
+	//			printf("222\n%s\n", sh->tokens[x].tokens);
+				if(sh->tokens[x].r_in  == true && sh->tokens[x + 1].file == true )
+					sh->comands[n_cmd].infile = ft_strdup(sh->tokens[x + 1].tokens);
+				else if(sh->tokens[x].r_heredoc == true && sh->tokens[x + 1].file == true )
+					sh->comands[n_cmd].infile = ft_strdup(sh->tokens[x + 1].tokens);
+				else if(sh->tokens[x].r_out == true  && sh->tokens[x + 1].file == true )
+					sh->comands[n_cmd].outfile = ft_strdup(sh->tokens[x + 1].tokens);
+				else if(sh->tokens[x].r_outappend == true && sh->tokens[x + 1].file == true )
+					sh->comands[n_cmd].outappendfile = ft_strdup(sh->tokens[x + 1].tokens);
+				sh->vars.redir_num--;
+			}
+			return(x + 1);
+
 		}
 		else
-		{			//printf("\n sem verificar argumentos\n");
-
-			sh->comands[n_cmd].arg = malloc(sizeof(char **) * 2);
+		{	
+			
+			sh->comands[n_cmd].arg = malloc(sizeof(char **) * 2); 
 			sh->comands[n_cmd].cmd = ft_strdup(sh->tokens[x - 1].tokens); 
 			sh->comands[n_cmd].arg[0] = ft_strdup(sh->tokens[x - 1].tokens);
 			sh->comands[n_cmd].arg[1] = NULL;
+			if(sh->vars.redir_num > 0 || sh->tokens[x].file)
+			{
+				x++;
+//				printf("\n\nestou aqui\ntoken[x]=%d\n", x);
+				if(sh->tokens[x - 1].file == true)
+					sh->comands[n_cmd].infile = ft_strdup(sh->tokens[x - 1].tokens);
+				else if(sh->tokens[x - 1].r_in == true && sh->tokens[x].file)
+					sh->comands[n_cmd].infile = ft_strdup(sh->tokens[x].tokens);
+				else if(sh->tokens[x - 1].r_heredoc == true && sh->tokens[x].file)
+					sh->comands[n_cmd].infile = ft_strdup(sh->tokens[x].tokens);
+				else if(sh->tokens[x - 1].r_out == true && sh->tokens[x].file)
+					sh->comands[n_cmd].outfile = ft_strdup(sh->tokens[x].tokens);
+				else if(sh->tokens[x - 1].r_outappend == true && sh->tokens[x].file)
+					sh->comands[n_cmd].outappendfile = ft_strdup(sh->tokens[x].tokens);
+				if(sh->vars.redir_num  > 0)
+					sh->vars.redir_num--;
+			}
+			
+	//		printf("\n\nsaaaaaou aqui\n\n");
+			return(sh->vars.tk_num);
 		}
+
 	}
 	return(x);
 }

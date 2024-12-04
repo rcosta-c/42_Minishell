@@ -170,12 +170,16 @@ void	search_expand(t_sh *sh)
 					expand_token(sh, sh->tokens[n].tokens, n); 
 			}
 		}
-		else if(sh->tokens[n].file)
+		/*else if(sh->tokens[n].file)
 		{
-			while(sh->tokens[n].tokens[x++])
+			while(sh->tokens[n].tokens[x])
+			{
 				if(sh->tokens[n].tokens[x] == '~')
 					expand_token(sh, sh->tokens[n].tokens, n);
-		}
+				x++;
+			}
+		}*/
+	printf("\n%d\n", n);
 		n++;
 	}
 }

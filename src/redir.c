@@ -2,13 +2,11 @@
 
 void	handle_redirects(t_sh *sh, int x)
 {
-	if(sh->vars.redir_num == 0)
-		return;
 	if (sh->comands[x].infile)
 	{
          	//close(sh->comands[x].infile_fd);
 
-        //printf("\nvai fazer infile_fd open!\n\n");
+//        printf("\nvai fazer infile_fd open!\n\n");
 		sh->comands[x].infile_fd = open(sh->comands[x].infile, O_RDONLY);
 		if (sh->comands[x].infile_fd < 0) 
 		{
@@ -37,7 +35,7 @@ void	handle_redirects(t_sh *sh, int x)
 	{
     	//close(sh->comands[x].outfile_fd);
 
-                //printf("\nvai fazer OUTfile_fd open!\n\n");
+ //               printf("\nvai fazer OUTfile_fd open!\n\n");
 
 		sh->comands[x].outfile_fd = open(sh->comands[x].outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if(sh->comands[x].outfile_fd < 0)

@@ -2,7 +2,6 @@
 
 void	init_error(t_sh *sh)
 {
-	sh->vars.redir_num = 0;
 	sh->error.cmd_error = false;
 	sh->error.token_error = false;
 	sh->error.expand_error = false;
@@ -18,10 +17,10 @@ void	init_tokens(t_sh *sh)
 	if(sh->vars.tk_num == 0)
 		return;
 	x = 0;
-	sh->tokens = malloc(sizeof(t_tokens) * (sh->vars.tk_num + 1));
+	sh->tokens = malloc(sizeof(t_tokens) * (sh->vars.tk_num + 2));
 	if(!sh->tokens)
 		exit(EXIT_FAILURE);
-	while(x < sh->vars.tk_num)
+	while(x <= sh->vars.tk_num)
 	{
 		sh->tokens[x].num = x;
 		init_tk_flag1(sh, x);
