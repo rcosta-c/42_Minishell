@@ -94,14 +94,16 @@ int	parse_utils(t_sh *sh, int z)
 	//			printf("222\n%s\n", sh->tokens[x].tokens);
 				if(sh->tokens[x].r_in  == true && sh->tokens[x + 1].file == true )
 					sh->comands[n_cmd].infile = ft_strdup(sh->tokens[x + 1].tokens);
-				else if(sh->tokens[x].r_heredoc == true && sh->tokens[x + 1].file == true )
-					sh->comands[n_cmd].infile = ft_strdup(sh->tokens[x + 1].tokens);
 				else if(sh->tokens[x].r_out == true  && sh->tokens[x + 1].file == true )
 					sh->comands[n_cmd].outfile = ft_strdup(sh->tokens[x + 1].tokens);
+				else if(sh->tokens[x].r_heredoc == true && sh->tokens[x + 1].file == true )
+					sh->comands[n_cmd].infile = ft_strdup(sh->tokens[x + 1].tokens);
 				else if(sh->tokens[x].r_outappend == true && sh->tokens[x + 1].file == true )
 					sh->comands[n_cmd].outappendfile = ft_strdup(sh->tokens[x + 1].tokens);
 				sh->vars.redir_num--;
+				x++;
 			}
+			printf("x=%d\n", x);
 			return(x + 1);
 
 		}
