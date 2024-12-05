@@ -7,6 +7,7 @@ void    init_tk_flag1(t_sh *sh, int x)
 	sh->tokens[x].pipe = false;
 	sh->tokens[x].r_in = false;
 	sh->tokens[x].r_out = false;
+	sh->tokens[x].r_heredoc = false;
 	sh->tokens[x].r_outappend = false;
 	sh->tokens[x].s_quote = false;
 	sh->tokens[x].d_quote = false;

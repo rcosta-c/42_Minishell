@@ -6,11 +6,37 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 18:16:01 by mota              #+#    #+#             */
-/*   Updated: 2024/12/05 11:33:51 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/05 12:37:55 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+static bool check_wrong_args(char **args)
+{
+    int x;
+    int xx;
+
+    xx = 0;
+    while(args[xx])
+    {
+        x = 0;
+        while(args[xx][x])
+        {
+            if(args[xx][x] == '=')
+            {
+                printf("unset: %s: invalid parameter name\n", args[xx]);
+                return(true);  
+            }
+            x++;
+        }
+        xx++;
+    }
+    return(false);
+
+
+    
+}
 
 void    ft_unset(t_sh *sh, char **args)
 {
@@ -23,7 +49,9 @@ void    ft_unset(t_sh *sh, char **args)
 //    while (args[i])
  //       i++;
 //    envx = malloc(sizeof(char *) * (i));
-    envx = malloc(sizeof(char *) * (sh->vars.envp_total));
+    if(check_wrong_args(args) == true)
+        return;
+    envx = malloc(sizeof(char *) * (sh->vars.envp_total ));
     if(!envx)
         return;
     i = 0;
