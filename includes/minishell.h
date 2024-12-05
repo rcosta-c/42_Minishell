@@ -36,6 +36,7 @@ extern int				g_status;
 
 typedef struct s_vars
 {
+	bool	sh_status;
 	int     tk_num;
 	int		cmds_num;
 	int		redir_num;

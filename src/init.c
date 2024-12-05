@@ -33,7 +33,11 @@ void	init_parser(t_sh *sh)
 	int	x;
 
 	if(sh->vars.cmds_num == 0)
+	{
+		
 		return;
+	}
+	
 	x = 0;
 	sh->comands = malloc(sizeof(t_exec) * (sh->vars.cmds_num + 1));
 	if(!sh->comands)

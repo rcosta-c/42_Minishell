@@ -106,6 +106,7 @@ int main(int ac, char **av, char **envp)
 	//temp = ft_calloc(2, sizeof(char **));
 	//sh->tokens = ft_calloc(1, sizeof(t_tokens));
 	g_status = -1;
+	sh->vars.sh_status = true;
 	if(sh == NULL)
 		return(EXIT_FAILURE);
 	ft_getenv(sh, envp);
@@ -121,6 +122,7 @@ int main(int ac, char **av, char **envp)
 		sh->cmd_line = readline("Minishell:");
 		if(!sh->cmd_line)
 		{
+			sh->vars.sh_status = false;
 			g_status = EXIT_SIGQUIT;
 			ft_exit(sh, NULL);	
 		}

@@ -77,7 +77,7 @@ void	executor(t_sh *sh)
 	x = 0;
 	
 	//free_for_executer(sh);
-	if((verify_errors(sh)) == true)
+	if(verify_errors(sh) == true || sh->vars.sh_status == false)
 	{
 		return;
 	}

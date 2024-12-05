@@ -101,10 +101,12 @@ void    fill_parser(t_sh *sh)
 	int n_cmd;
 	//int narg;
 
+	if(sh->vars.sh_status == false)
+		return;
 	x = 0;
 	n_cmd = 0;
 	remove_quoted(sh);
-//	printf("\n\nENTROUPARSER\n\n");
+//printf("\n\nENTROUPARSER\n\n");
 	while(x < sh->vars.tk_num)
 	{
 

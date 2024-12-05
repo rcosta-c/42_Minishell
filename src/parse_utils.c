@@ -50,8 +50,8 @@ int	parse_utils(t_sh *sh, int x, int n_cmd)
 	int	narg;
 
 	narg = 0;
-   	if(sh->tokens[x].cmd)
-	{
+   	if(sh->tokens[x].cmd) 
+	{		
 		x++;
 		if(x < sh->vars.tk_num && sh->tokens[x].arg == true)
 		{
@@ -120,7 +120,6 @@ int	parse_utils(t_sh *sh, int x, int n_cmd)
 		}
 		else
 		{	
-			
 			sh->comands[n_cmd].arg = malloc(sizeof(char **) * 2); 
 			sh->comands[n_cmd].cmd = ft_strdup(sh->tokens[x - 1].tokens); 
 			sh->comands[n_cmd].arg[0] = ft_strdup(sh->tokens[x - 1].tokens);
