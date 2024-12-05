@@ -32,6 +32,8 @@
 # define EXIT_SIGQUIT	131
 # define WRONG_SYNTAX	258
 
+//FALTAM MAIS AQUI em cima
+
 extern int				g_status;
 
 typedef struct s_vars
