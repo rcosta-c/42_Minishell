@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 18:16:01 by mota              #+#    #+#             */
-/*   Updated: 2024/12/05 11:30:37 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/05 11:33:51 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void    ft_unset(t_sh *sh, char **args)
 //    while (args[i])
  //       i++;
 //    envx = malloc(sizeof(char *) * (i));
-    envx = malloc(sizeof(char *) * (sh->vars.envp_total - 1));
+    envx = malloc(sizeof(char *) * (sh->vars.envp_total));
     if(!envx)
         return;
     i = 0;
@@ -37,9 +37,9 @@ void    ft_unset(t_sh *sh, char **args)
         }
         i++;
     }
-    envx[j - 1] = NULL;
+    envx[j] = NULL;
     // Atualiza o ponteiro 'envp' com o novo array de variáveis de ambiente, sem a variável removida
 	free_env(sh);
     sh->envp = envx;
-    
+    sh->vars.envp_total--;
 }

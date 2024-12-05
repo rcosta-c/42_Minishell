@@ -10,6 +10,8 @@ void	filter_file(t_sh *sh, int n)
 	{
 		if(sh->tokens[n].tokens[x] == '.')
 		{
+			if(sh->tokens[n].tokens[x + 1] == '.')
+				break;
 			//printf("\n%s true file", sh->tokens[n].tokens);
 			sh->tokens[n].file = true;
 			break;
