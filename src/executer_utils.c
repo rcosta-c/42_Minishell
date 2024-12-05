@@ -5,21 +5,25 @@ bool	check_exec_error(t_sh *sh, int x)
 	if (sh->comands[x].errors.cmd_not_found == true)
 	{
 		printf("%s: command not found\n", sh->comands[x].cmd);
+		g_status = CMD_NOT_FOUND;
 		return(true);
 	}
 	else if (sh->comands[x].errors.empty_pipe == true)
 	{
 		printf("%s empty pipe not allowed\n", sh->comands[x].cmd);
+		g_status = WRONG_SYNTAX;
 		return(true);
 	}
 	else if (sh->comands[x].errors.infile_noaccess == true || sh->comands[x].errors.infile_notvalid == true)
 	{
 		printf("%s: access to file denied\n", sh->comands[x].cmd);
+		g_status = NO_PERMISSION;
 		return(true);
 	}
 	else if (sh->comands[x].errors.outfile_noaccess == true || sh->comands[x].errors.outfile_notvalid == true)
 	{
 		printf("%s: access to file denied\n", sh->comands[x].cmd);
+		g_status = NO_PERMISSION;
 		return(true);
 	}
 	return(false);

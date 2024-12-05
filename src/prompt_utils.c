@@ -10,14 +10,14 @@ void    ft_getenv(t_sh *sh, char **envp)
 		x++;
 	}
 	sh->vars.envp_total = x;
-	sh->envp = malloc(sizeof(char *) * (x + 2));
+	sh->envp = malloc(sizeof(char *) * (x + 1));
 	if(!sh->envp)
 		return;
 	x = 0;
 	while(envp[x] && x < sh->vars.envp_total)
 	{
 		//printf("%s\n",envp[x]);
-		sh->envp[x] = envp[x];
+		sh->envp[x] = ft_strdup(envp[x]);
 		x++;
 	}
 	sh->envp[x] = NULL; 

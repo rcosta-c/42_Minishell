@@ -14,11 +14,20 @@ bool    verify_errors(t_sh *sh)
 		while(x < sh->vars.cmds_num)
 		{
 			if(sh->comands[x].errors.empty_pipe == true)
+			{
+				g_status = WRONG_SYNTAX;
 				return(true);
+			}
 			else if(sh->comands[x].errors.infile_noaccess == true || sh->comands[x].errors.infile_notvalid == true)
+			{
+				g_status = NO_PERMISSION;
 				return(true);
+			}			
 			else if(sh->comands[x].errors.outfile_noaccess == true || sh->comands[x].errors.outfile_notvalid == true)
+			{
+				g_status = NO_PERMISSION;
 				return(true);
+			}
 			else
 				x++;
 		}	

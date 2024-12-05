@@ -51,7 +51,7 @@ char *prepare_line(char *str)
 		return(ft_strdup(""));
 	while(str[x_o])
 	{
-		if(str[x_o] == 34 || str[x_o] == 39)
+		if(str[x_o] == 34 || str[x_o] == 39)	
 		{
 			if(check_if_dquote(str, x_o) || check_if_squote(str, x_o))
 			{

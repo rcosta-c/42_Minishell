@@ -25,12 +25,12 @@
 #include "../lib/libft/libft.h"
 #include "../lib/gnl/get_next_line_bonus.h"
 
-
+# define OTHER_ERROR	1
+# define NO_PERMISSION	126
 # define CMD_NOT_FOUND	127
 # define EXIT_SIGINT	130
 # define EXIT_SIGQUIT	131
-#
-
+# define WRONG_SYNTAX	258
 
 extern int				g_status;
 

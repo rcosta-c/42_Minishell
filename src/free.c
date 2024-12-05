@@ -77,7 +77,7 @@ void	free_cmds(t_sh *sh)
 }
 
 void	free_env(t_sh *sh)
-{/*
+{
 	int	x;
 
 	x = 0;
@@ -85,7 +85,7 @@ void	free_env(t_sh *sh)
 	{
 		free(sh->envp[x]);
 		x++;
-	}*/
+	}
 	free(sh->envp);
 }
 

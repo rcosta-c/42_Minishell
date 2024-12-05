@@ -137,6 +137,8 @@ void    expand_token(t_sh *sh, char *token, int n)
 				b[xb++] = sh->tokens[n].tokens[x++];
 			b[xb] = '\0';
 			c = search_envp(sh, b);
+			if(!c)
+				c =ft_strdup(" ");	
 		}
 		z = join_2_str(z, c, NULL, 1);
 		exp_counter--;
