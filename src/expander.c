@@ -127,7 +127,7 @@ void    expand_token(t_sh *sh, char *token, int n)
 		else if(sh->tokens[n].tokens[x + 1] ==  '?' && sh->tokens[n].tokens[x] == '$')
 		{
 			x++;
-			c = ft_strdup("99"); //ALTERAR ISTO
+			c = ft_strdup(ft_itoa(g_status)); //ALTERAR ISTO
 			x++;
 		}
 		else if(sh->tokens[n].tokens[x] == '$')
@@ -162,7 +162,7 @@ void	search_expand(t_sh *sh)
 	{
 		if(sh->tokens[n].exp_e || sh->tokens[n].exp_t )
 			expand_token(sh, sh->tokens[n].tokens, n);
-		else if(sh->tokens[n].d_quote)
+		else if(sh->tokens[n].d_quote && (sh->tokens[n].exp_e || sh->tokens[n].exp_t))
 		{
 			while(sh->tokens[n].tokens[x++])
 			{
@@ -170,7 +170,7 @@ void	search_expand(t_sh *sh)
 					expand_token(sh, sh->tokens[n].tokens, n); 
 			}
 		}
-		/*else if(sh->tokens[n].file)
+		else if(sh->tokens[n].file)
 		{
 			while(sh->tokens[n].tokens[x])
 			{
@@ -178,8 +178,8 @@ void	search_expand(t_sh *sh)
 					expand_token(sh, sh->tokens[n].tokens, n);
 				x++;
 			}
-		}*/
-	printf("\n%d\n", n);
+		}
+//printf("\n%d\n", n);
 		n++;
 	}
 }

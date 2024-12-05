@@ -29,10 +29,10 @@
 # define CMD_NOT_FOUND	127
 # define EXIT_SIGINT	130
 # define EXIT_SIGQUIT	131
+#
+
 
 extern int				g_status;
-
-
 
 typedef struct s_vars
 {

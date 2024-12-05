@@ -36,13 +36,14 @@ void	free_cmds(t_sh *sh)
 	{
 		while(x < sh->vars.cmds_num)
 		{
-			while(sh->comands[x].arg[xx])
+			free(sh->comands[x].cmd);
+			while(xx <= sh->comands[x].n_args)
 			{
 				free(sh->comands[x].arg[xx]);
 				xx++;
 			}
+//			free(sh->comands[x].arg[xx + 1]);
 			free(sh->comands[x].arg);
-			free(sh->comands[x].cmd);
 			if(sh->comands->infile)
 				free(sh->comands->infile);
 			if(sh->comands->outappendfile)

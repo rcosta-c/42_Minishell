@@ -105,7 +105,7 @@ int main(int ac, char **av, char **envp)
 	sh = ft_calloc(1, sizeof(t_sh));
 	//temp = ft_calloc(2, sizeof(char **));
 	//sh->tokens = ft_calloc(1, sizeof(t_tokens));
-
+	g_status = -1;
 	if(sh == NULL)
 		return(EXIT_FAILURE);
 	ft_getenv(sh, envp);
@@ -120,8 +120,12 @@ int main(int ac, char **av, char **envp)
 ///		prompt = get_prompt(sh); //----------VERIFICAR LEAKS AQUI!!!!
 		sh->cmd_line = readline("Minishell:");
 		if(!sh->cmd_line)
-			ft_exit(sh, NULL);
-		//add_history(sh->cmd_line);
+		{
+			g_status = EXIT_SIGQUIT;
+			ft_exit(sh, NULL);	
+		}
+			
+		add_history(sh->cmd_line);
 
 		if(ft_strlen(sh->cmd_line) > 0)
 		{
@@ -130,10 +134,10 @@ int main(int ac, char **av, char **envp)
 			init_tokens(sh);
 			split_cmd(sh);
 			filter_tokens(sh);
-			//printf("saiu do filter\n");
-			printflags(sh);
+//printf("saiu do filter\n");
+//printflags(sh);
 
-			//search_expand(sh);
+			search_expand(sh);
 
 			init_parser(sh);
 			/*if(check_before_parse(sh))
@@ -150,9 +154,9 @@ int main(int ac, char **av, char **envp)
 			}*/
 
 			fill_parser(sh);  //----------VERIFICAR LEAKS AQUI!!!!
-			//printf("acabou fillparser\n");
+//printf("acabou fillparser\n");
 //printf("\n\n\n");
-			print_exec(sh);
+//print_exec(sh);
 
 			executor(sh);
 			free_tokens(sh);

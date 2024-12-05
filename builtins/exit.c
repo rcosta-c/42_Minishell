@@ -24,10 +24,12 @@ void	ft_exit(t_sh *sh, char **args)
 
 	ft_putstr_fd("exit\n", 2);
 
+	if (g_status != -1)
+		exit_code = g_status;
 	if (!args)
 	{
 		free_exit(sh);
-		exit(0);
+		exit(exit_code);
 	}
 	if (args[1] && args[2])
 	{
