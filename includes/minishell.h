@@ -87,6 +87,7 @@ typedef struct s_execerror
 	bool    outfile_noaccess;
 	bool    outfile_notvalid;
 	bool	empty_pipe;
+	bool	empty_redir;
 }   t_execerror;
 
 typedef struct s_exec

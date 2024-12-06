@@ -40,6 +40,7 @@ void    init_cmds(t_sh *sh, int x)
     sh->comands[x].errors.infile_notvalid = false;
     sh->comands[x].errors.outfile_noaccess = false;
     sh->comands[x].errors.outfile_notvalid = false;
+	sh->comands[x].errors.empty_redir = false;
 }
 
 void	init_vars(t_sh *sh)

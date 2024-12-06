@@ -23,7 +23,7 @@ bool    verify_errors(t_sh *sh)
 		{
 			if(sh->comands[x].errors.empty_pipe == true)
 			{
-				ft_putstr_fd("Minishell: erro de sintaxe junto a símbolo | inesperado: ", 2);
+				ft_putstr_fd("syntax error near unexpected token '|'", 2);
 				g_status = WRONG_SYNTAX;
 				return(true);
 			}
