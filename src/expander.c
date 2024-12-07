@@ -127,7 +127,7 @@ void    expand_token(t_sh *sh, char *token, int n)
 		else if(sh->tokens[n].tokens[x + 1] ==  '?' && sh->tokens[n].tokens[x] == '$')
 		{
 			x++;
-			c = ft_strdup(ft_itoa(g_status)); //ALTERAR ISTO
+			c = ft_strdup(ft_itoa(g_status));
 			x++;
 		}
 		else if(sh->tokens[n].tokens[x] == '$')
