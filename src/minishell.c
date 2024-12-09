@@ -17,7 +17,7 @@ void	 print_exec(t_sh *sh)
 			printf("**\n**\n");
 			printf("**	CMD=%s 	\n", sh->comands[x].cmd);
 			printf("**	N_ARGS=%d 	\n", sh->comands[x].n_args);
-			while(xx < sh->comands[x].n_args + 1)
+			while(xx < sh->comands[x].n_args)
 			{
 				printf("**	ARG %d = %s 	\n", xx, sh->comands[x].arg[xx]);
 				xx++;
@@ -97,7 +97,7 @@ void    printflags(t_sh *sh)
 int main(int ac, char **av, char **envp)
 {
    	t_sh	*sh;
-//	char	*prompt;
+	char	*prompt;
 	//char	**temp;
 
 	(void)ac;
@@ -118,8 +118,9 @@ int main(int ac, char **av, char **envp)
 		init_vars(sh);
 		if(sh->cmd_line)
 			free(sh->cmd_line);		
-///		prompt = get_prompt(sh); //----------VERIFICAR LEAKS AQUI!!!!
-		sh->cmd_line = readline("Minishell:");
+		prompt = get_prompt(sh); //----------VERIFICAR LEAKS AQUI!!!!
+		sh->cmd_line = readline(prompt);
+		free(prompt);
 		if(!sh->cmd_line)
 		{
 			sh->vars.sh_status = false;
@@ -161,6 +162,9 @@ int main(int ac, char **av, char **envp)
 //print_exec(sh);
 
 			executor(sh);
+
+//printf("acabou executor\n");
+
 			free_tokens(sh);
 			free_cmds(sh);
 		}

@@ -64,6 +64,7 @@ static void	filter_tkerrors(t_sh *sh)
 	int	x;
 
 	x = 0;
+//printf("\nfilter_tkerrors-sh_status=%d\n", sh->vars.sh_status);
 	while(x < sh->vars.tk_num)
 	{
 		if(sh->tokens[0].pipe == true)
@@ -81,7 +82,7 @@ static void	filter_tkerrors(t_sh *sh)
 		if(sh->tokens[x].r_heredoc || sh->tokens[x].r_in || sh->tokens[x].r_out || sh->tokens[x].r_outappend)
 		{
 			x++;
-			if(sh->tokens->file == false)
+			if(sh->tokens[x].file == false)
 			{
 				g_status = WRONG_SYNTAX;
 				sh->vars.sh_status = false;

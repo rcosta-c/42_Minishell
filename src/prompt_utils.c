@@ -43,5 +43,7 @@ char *find_my_host(t_sh *sh)
 	}
 	temp2[xx] = '\0';
 	free(temp);
-	return(ft_strdup(temp2));
+	temp = ft_strdup(temp2);
+	free(temp2);
+	return (temp);
 }
