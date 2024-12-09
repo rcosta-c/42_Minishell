@@ -60,7 +60,6 @@ void handle_heredoc(t_sh *sh, int x, char *delimiter)
 
     printf("\n\nENTROU HEREDOC \n\n");   
     delimit = delimiter;
-    free(delimiter);
     sh->comands[x].inheredoc_file = ft_strdup(".heredoc_temp.txt");
     sh->comands[x].inheredoc_fd = open(sh->comands[x].inheredoc_file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
     if (sh->comands[x].inheredoc_fd < 0) {

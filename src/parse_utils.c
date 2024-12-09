@@ -140,7 +140,7 @@ int	parse_utils(t_sh *sh, int x, int n_cmd)
 				else if(sh->tokens[x - 1].r_in == true && sh->tokens[x].file)
 					sh->comands[n_cmd].infile = ft_strdup(sh->tokens[x].tokens);
 				else if(sh->tokens[x - 1].r_heredoc == true && sh->tokens[x].file)
-					sh->comands[n_cmd].infile = ft_strdup(sh->tokens[x].tokens);
+					sh->comands[n_cmd].inheredoc_file = ft_strdup(sh->tokens[x].tokens);
 				else if(sh->tokens[x - 1].r_out == true && sh->tokens[x].file)
 					sh->comands[n_cmd].outfile = ft_strdup(sh->tokens[x].tokens);
 				else if(sh->tokens[x - 1].r_outappend == true && sh->tokens[x].file)
