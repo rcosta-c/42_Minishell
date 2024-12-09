@@ -1,16 +1,27 @@
 #include "../includes/minishell.h"
 
+/*void	free_for_executer(t_sh *sh)
+{
+	free_tokens(sh);
+	free(sh->cmd_line);
+
+}*/
+
+
 void	free_tokens(t_sh *sh)
 {
 	int x;
 
-	x = 0;	
-	while(x < sh->vars.tk_num - 1)
+	x = 0;
+	if(sh->vars.tk_num > 0)
 	{
-			free(sh->tokens[x].tokens);
-			x++;
+		while(x < sh->vars.tk_num)
+		{
+				free(sh->tokens[x].tokens);
+				x++;
+		}
+		free(sh->tokens);
 	}
-	free(sh->tokens);
 }
 
 void	free_cmds(t_sh *sh)
@@ -20,13 +31,39 @@ void	free_cmds(t_sh *sh)
 
 	xx = 0;
 	x = 0;
-	while(x < sh->vars.cmds_num)
+
+	if(sh->vars.cmds_num > 0)
+	{
+		while(x < sh->vars.cmds_num)
+		{
+			free(sh->comands[x].cmd);
+			while(xx <= sh->comands[x].n_args)
+			{
+				free(sh->comands[x].arg[xx]);
+				xx++;
+			}
+//			free(sh->comands[x].arg[xx + 1]);
+			free(sh->comands[x].arg);
+			if(sh->comands->infile)
+				free(sh->comands->infile);
+			if(sh->comands->outappendfile)
+				free(sh->comands->outappendfile);
+			if(sh->comands->outfile)
+				free(sh->comands->outfile);
+					
+			x++;
+		}
+		free(sh->comands);
+	}
+	/*
+	while(x < sh->vars.cmds_num && sh->vars.cmds_num > 0)
 	{
 		if(sh->comands[x].n_args > 0)
 		{
-			while(xx < sh->comands[x].n_args)
+			while(xx - 1 <= sh->comands[x].n_args)
 			{
-				free(sh->comands[x].arg[xx++]);	
+				free(sh->comands[x].arg[xx]);
+				xx++;	
 			}
 			free(sh->comands[x].arg);
 		}
@@ -36,7 +73,7 @@ void	free_cmds(t_sh *sh)
 		if(sh->comands[x].infile)
 			free(sh->comands[x].infile);
 		x++;
-	}
+	}*/
 }
 
 void	free_env(t_sh *sh)
@@ -44,14 +81,10 @@ void	free_env(t_sh *sh)
 	int	x;
 
 	x = 0;
-	while(sh->envp[x] != NULL)
+	while(x < sh->vars.envp_total)
 	{
-		//free(sh->envp[x]);
+		free(sh->envp[x]);
 		x++;
-	}
-	while(x >= 0)
-	{
-		free(sh->envp[x--]);
 	}
 	free(sh->envp);
 }
@@ -78,4 +111,15 @@ char	**free_mat(char **mat)
 	free (mat);
 	mat = NULL;
 	return (NULL);
+}
+
+void	free_exit(t_sh *sh)
+{
+	free_tokens(sh);
+	free_cmds(sh);
+	if(sh->cmd_line)
+		free(sh->cmd_line);
+	free_env(sh);
+	free(sh);
+	rl_clear_history();
 }

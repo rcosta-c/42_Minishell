@@ -1,69 +1,6 @@
 #include "../includes/minishell.h"
 
-void	ft_getenv(t_sh *sh, char **envp)
-{
-	int	x;
-
-	x = 0;
-	while (envp[x] && envp)
-	{
-		x++;
-	}
-	sh->vars.envp_total = x;
-	sh->envp = malloc(sizeof(char *) * (x + 1));
-	if (!sh->envp)
-		return ;
-	x = 0;
-	while (envp[x] && x < sh->vars.envp_total)
-	{
-		sh->envp[x] = envp[x];
-		x++;
-	}
-	sh->envp[x] = NULL;
-}
-
-char	*find_my_host(t_sh *sh)
-{
-	int		x;
-	int		xx;
-	char	*temp;
-	char	temp2[20];
-
-	x = 0;
-	xx = 0;
-	temp = search_envp(sh, "SESSION_MANAGER");
-	while (temp[x] != '/')
-		x++;
-	x++;
-	while (temp[x] != '.')
-	{
-		temp2[xx++] = temp[x++];
-	}
-	temp2[xx] = '\0';
-	return (ft_strdup(temp2));
-}
-
-/*
-char *find_my_host(t_sh *sh, char *str)
-{
-	int x;
-
-	x = 0;
-	//printf("\n entrou no find my env\n");
-	while(sh->envp[x])
-	{
-		//printf("%s\n", sh->envp[x]);
-		if(ft_strncmp(sh->envp[x], str, ft_strlen(str)) == 0)
-		{
-			return(ft_substr(sh->envp[x], ft_strlen(str), ft_strlen(sh->envp[x])));
-		}
-		x++;
-	}
-	return(NULL);
-}*/
-
-/*
-char    **ft_getenv(t_sh *sh, char **envp, char **merda)
+void    ft_getenv(t_sh *sh, char **envp)
 {
 	int x;
 	
@@ -73,53 +10,40 @@ char    **ft_getenv(t_sh *sh, char **envp, char **merda)
 		x++;
 	}
 	sh->vars.envp_total = x;
-	merda = malloc(sizeof(char *) * (x + 1));
+	sh->envp = malloc(sizeof(char *) * (x + 1));
 	if(!sh->envp)
-		return(NULL);
+		return;
 	x = 0;
 	while(envp[x] && x < sh->vars.envp_total)
 	{
-		merda[x] = envp[x];
+		//printf("%s\n",envp[x]);
+		sh->envp[x] = ft_strdup(envp[x]);
 		x++;
 	}
-	merda[x] = NULL; 
-	return(merda); 
-
+	sh->envp[x] = NULL; 
 }
 
-
-int main(int ac, char **av, char **envp)
+char *find_my_host(t_sh *sh)
 {
-	t_sh    *sh;
-	int x = 0;
-	char **merda;
-	int     total;
+	int x;
+	int	xx;
+	char *temp;
+	char *temp2;
 
-	//merda = ft_getenv(sh, envp, merda);
-
-	while(envp[x] && envp)
-	{
-		x++;
-	}
-	total = x;
-	merda = malloc(sizeof(char *) * (x + 1));
-//    if(!sh->envp)
-  //      return(0);
 	x = 0;
-	while(envp[x] && x < total)
-	{
-		merda[x] = envp[x];
+	xx = 0;
+	temp = search_envp(sh, "SESSION_MANAGER");
+	temp2 = malloc(sizeof(char *) * 20);
+	while(temp[x] != '/' && temp[x])
 		x++;
-	}
-	merda[x] = NULL; 
-	x = 0;
-	while(merda[x])
+	x++;	
+	while(temp[x] != ':' && temp[x])
 	{
-		printf("%s\n", merda[x]);
-		x++;
+		temp2[xx++] = temp[x++];
 	}
-	printf("%d\n", total);
-	free(merda);
-	return(0);
-
-}*/
+	temp2[xx] = '\0';
+	free(temp);
+	temp = ft_strdup(temp2);
+	free(temp2);
+	return (temp);
+}

@@ -6,11 +6,11 @@ void	handle_redirects(t_sh *sh, int x)
 	{
          	//close(sh->comands[x].infile_fd);
 
-        printf("\nvai fazer infile_fd open!\n\n");
+//        printf("\nvai fazer infile_fd open!\n\n");
 		sh->comands[x].infile_fd = open(sh->comands[x].infile, O_RDONLY);
 		if (sh->comands[x].infile_fd < 0) 
 		{
-            printf("\n\n CORREU MAL CARALHO infile_fd open!\n\n");
+            //printf("\n\n CORREU MAL CARALHO infile_fd open!\n\n");
 			sh->comands[x].errors.infile_notvalid = true;
 			perror("Erro ao abrir input_fd");
 			return;
@@ -27,20 +27,20 @@ void	handle_redirects(t_sh *sh, int x)
 
         
         
-        printf("ACABU DE FAZER  IN DUP2\n\n\n");
+        //printf("ACABU DE FAZER  IN DUP2\n\n\n");
 
 
 	}
-	if (sh->comands[x].outfile)
+	else if (sh->comands[x].outfile)
 	{
     	//close(sh->comands[x].outfile_fd);
 
-                printf("\nvai fazer OUTfile_fd open!\n\n");
+ //               printf("\nvai fazer OUTfile_fd open!\n\n");
 
 		sh->comands[x].outfile_fd = open(sh->comands[x].outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if(sh->comands[x].outfile_fd < 0)
 		{
-                        printf("\n\n CORREU MAL CARALHO OUT_FD open!\n\n");
+        // printf("\n\n CORREU MAL CARALHO OUT_FD open!\n\n");
 
 			sh->comands[x].errors.outfile_notvalid = true;
 			perror("erro ao abrir output_fd");
@@ -55,19 +55,19 @@ void	handle_redirects(t_sh *sh, int x)
         }
         close(sh->comands[x].outfile_fd);
 
-                printf("ACABU DE FAZER  OUT DUP2\n\n\n");
+                //printf("ACABU DE FAZER  OUT DUP2\n\n\n");
 
 	}
-    if (sh->comands[x].outappendfile)
+    else if (sh->comands[x].outappendfile)
 	{
     	//close(sh->comands[x].outfile_fd);
 
-                printf("\nvai fazer OUTAPPEND file_fd open!\n\n");
+                //printf("\nvai fazer OUTAPPEND file_fd open!\n\n");
 
 		sh->comands[x].outappend_fd = open(sh->comands[x].outappendfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if(sh->comands[x].outappend_fd < 0)
 		{
-                        printf("\n\n CORREU MAL CARALHO OUT_FD open!\n\n");
+        //     printf("\n\n CORREU MAL CARALHO OUT_FD open!\n\n");
 
 			sh->comands[x].errors.outfile_notvalid = true;
 			perror("erro ao abrir output_fd");
@@ -82,7 +82,7 @@ void	handle_redirects(t_sh *sh, int x)
         }
         close(sh->comands[x].outappend_fd);
 
-                printf("ACABU DE FAZER  OUT DUP2\n\n\n");
+            //    printf("ACABU DE FAZER  OUT DUP2\n\n\n");
 
 	}
     

@@ -49,6 +49,8 @@ void	split_cmd(t_sh *sh)
 
 	n = 0;
 	x = 0;
+	if(sh->vars.sh_status == false)
+		return;
 	if(sh->vars.tk_num == 0)
 		return;
 	while(1)
@@ -59,7 +61,9 @@ void	split_cmd(t_sh *sh)
             x = split_quote(sh, x, n++);
 		else
               x = split_cicle(sh, x, n++);
-	    x++;  
+	    if(!sh->cmd_line[x])
+			break;
+		x++;  
 	}
 }
 

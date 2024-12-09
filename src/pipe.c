@@ -25,7 +25,7 @@ void    start_pipes(t_sh *sh)
     x = 0;
     while(x < sh->vars.pipe_num)
     {
-        if (pipe(sh->comands[x].pipe_fd) == -1) 
+        if (pipe(sh->comands[x + 1].pipe_fd) == -1) // ALTEREI AQUI PARA X + 1
         {
             perror("Erro ao criar pipe");
             exit(EXIT_FAILURE);

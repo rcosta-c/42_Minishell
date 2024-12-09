@@ -3,29 +3,32 @@
 
 int	count_tokens(t_sh *sh)
 {
-	int	x;
-	int	counter;
+	int x;
+	int counter;
 
 	x = 0;
 	counter = 0;
+	if(!sh->cmd_line)
+		return(counter);
 	while(sh->cmd_line[x])
 	{
+		while(sh->cmd_line[x] == 32)
+			x++;
 		if(sh->cmd_line[x] == 34 || sh->cmd_line[x] == 39)
 		{
 			x = check_type_quote(sh->cmd_line, x);
 			counter++;
-		}		
-		else if(counter_validation(sh->cmd_line[x - 1]) && sh->cmd_line[x - 1] != 32 && sh->cmd_line[x] == 32)
+		}
+		while(counter_validation(sh->cmd_line[x]))
+			x++;
+		if(sh->cmd_line[x] == 32 && counter_validation(sh->cmd_line[x - 1]))
 			counter++;
-		x++;
+		if(!sh->cmd_line[x] && counter_validation(sh->cmd_line[x - 1]))
+			counter++;
 	}
-	if(counter_validation(sh->cmd_line[x - 1]) && sh->cmd_line[x - 1] != 32 && sh->cmd_line[x] == '\0')
-		counter++;
-//printf("\n\n\n string: %s\n number of tokens: %d\n\n\n", sh.cmd_line, counter);
-	
+	//printf("\n%d\n", counter);
 	return(counter);
 }
-
 
 bool counter_validation(int c)
 {
@@ -44,9 +47,11 @@ char *prepare_line(char *str)
 
 	x_o = 0;
 	x_d = 0;
+	if(ft_strlen(str) == 0)
+		return(ft_strdup(""));
 	while(str[x_o])
 	{
-		if(str[x_o] == 34)
+		if(str[x_o] == 34 || str[x_o] == 39)	
 		{
 			if(check_if_dquote(str, x_o) || check_if_squote(str, x_o))
 			{
@@ -69,6 +74,7 @@ char *prepare_line(char *str)
 	}
 	temp[x_d] = '\0';
 	dest = ft_strdup(temp);
+	free(str);
 	return(dest);
 }
 

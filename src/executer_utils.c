@@ -4,22 +4,26 @@ bool	check_exec_error(t_sh *sh, int x)
 {
 	if (sh->comands[x].errors.cmd_not_found == true)
 	{
-		printf("Minishell: command not found: %s", sh->comands[x].cmd);
+		printf("%s: command not found\n", sh->comands[x].cmd);
+		g_status = CMD_NOT_FOUND;
 		return(true);
 	}
 	else if (sh->comands[x].errors.empty_pipe == true)
 	{
-		printf("Minishell: command not found: %s", sh->comands[x].cmd);
+		printf("%s empty pipe not allowed\n", sh->comands[x].cmd);
+		g_status = WRONG_SYNTAX;
 		return(true);
 	}
 	else if (sh->comands[x].errors.infile_noaccess == true || sh->comands[x].errors.infile_notvalid == true)
 	{
-		printf("Minishell: command not found: %s", sh->comands[x].cmd);
+		printf("%s: access to file denied\n", sh->comands[x].cmd);
+		g_status = NO_PERMISSION;
 		return(true);
 	}
 	else if (sh->comands[x].errors.outfile_noaccess == true || sh->comands[x].errors.outfile_notvalid == true)
 	{
-		printf("Minishell: command not found: %s", sh->comands[x].cmd);
+		printf("%s: access to file denied\n", sh->comands[x].cmd);
+		g_status = NO_PERMISSION;
 		return(true);
 	}
 	return(false);
@@ -71,6 +75,12 @@ char    *prep_cmd(t_sh *sh, char *cmd, int xx)
 	int x;
 
 	x = 0;
+	if(cmd[0] == '/')
+	{
+		if(access(cmd, X_OK) != 0 && access(cmd, F_OK) != 0)
+			sh->comands[xx].errors.cmd_not_found = true;
+		return(cmd);
+	}
 	path = ft_split(getenv("PATH"), ':');
 	temp = ft_strjoin("/bin/", cmd);
 	if(stat(temp, &path_stat) == 0 && access(temp, X_OK) == 0 && access(temp, F_OK) == 0)
@@ -88,6 +98,7 @@ char    *prep_cmd(t_sh *sh, char *cmd, int xx)
 		if (!path[x])
 		{
 			sh->comands[xx].errors.cmd_not_found = true;
+			free(temp);
 			temp = ft_strdup(cmd);	
 		}
 	}

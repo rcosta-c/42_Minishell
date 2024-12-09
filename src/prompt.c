@@ -10,39 +10,41 @@ static char	*verify_home(t_sh *sh, char *prompt)
 
 	x = 0;
 	home = search_envp(sh, "HOME");
-	while (prompt[x])
+	while(prompt[x])
 	{
-		if (x == 0 && prompt[x] != home[x])
-			return (prompt);
-		else if (prompt[x] == home[x])
+		if(x == 0 && prompt[x] != home[x])
+			return(prompt);
+		else if(prompt[x] == home[x])
 		{
 			x++;
 		}
-		else if (prompt[x] != home[x])
-			break ;
+		else if(prompt[x] != home[x])
+			break;
 	}
 	n_pr = ft_strlen(prompt);
 	n_total = n_pr - x;
+	free(home);
 	final_prompt = malloc(sizeof(char) * n_total + 2);
 	n_total = 1;
-	if (x == 1)
+	if(x == 1)
 		final_prompt[0] = '/';
 	else
 		final_prompt[0] = '~';
-	while (prompt[x])
+	while(prompt[x])
 	{
 		final_prompt[n_total] = prompt[x];
 		n_total++;
 		x++;
 	}
 	final_prompt[n_total] = '\0';
-	return (final_prompt);
+	free(prompt);
+	return(final_prompt);
 }
 
-char	*join_2_str(char *a, char *b, char *z)
+char	*join_2_str(char *a, char *b, char *z, int option)
 {
 	char	*res;
-	char	*temp;
+	char 	*temp;
 
 	if (z)
 	{
@@ -52,8 +54,16 @@ char	*join_2_str(char *a, char *b, char *z)
 	}
 	else
 		res = ft_strjoin(a, b);
-	return (res);
+	if(option == 1)
+	{
+		free(b);
+		free(a);
+	}
+	if(option == 2)
+		free(a);
+	return(res);
 }
+
 
 char	*get_prompt(t_sh *sh)
 {
@@ -63,32 +73,17 @@ char	*get_prompt(t_sh *sh)
 	char	*prompt;
 	char	*temp;
 
-//printf("entrou no getrpompt\n");
 	user = search_envp(sh, "USER");
-	host = malloc(sizeof(char) * _SC_HOST_NAME_MAX + 1);
-	//gethostname(host, _SC_HOST_NAME_MAX + 1);
-	//host = verify_host(host);
 	host = find_my_host(sh);
-	//printf("%s\n", host);
-	prompt = join_2_str(user, host, "@");
+	prompt = join_2_str(user, host , "@", 0);
+	free(user);
+	free(host);
 	dir = search_envp(sh, "PWD");
 	dir = verify_home(sh, dir);
-	temp = join_2_str(prompt, dir, ":");
+	temp = join_2_str(prompt, dir, ":", 0);
 	free(prompt);
-	prompt = join_2_str(temp, " ", "$");
-	free(temp);
-	free(host);
 	free(dir);
-	return (prompt);
+	prompt = join_2_str(temp, " ", "$", 0);
+	free(temp);
+	return(prompt);  
 }
-/*
-int	main(void)
-{
-	char *a;
-
-	a = get_prompt();
-	
-	printf("\n%s\n", a);
-	free(a);
-	
-}*/

@@ -1,3 +1,9 @@
+NORMINETTE:
+
+prompt_utils.c
+prompt.c
+parse.c
+parse_utils.c
 
 
 
@@ -5,12 +11,11 @@ BUILT-INS VERIFICADOS E A FUNCIONAR BEM:
 UNSET (sem opcoes) (com argumentos)
 PWD (sem opcoes) (e sem args)
 ENV (sem opcoes) (sem argumentos)
-EXPORT (sem opcoes) (ja esta esta a funcionar os argumentos)
-EXIT (funcionando perfeitamente)
-ECHO (funcionando perfeitamente)
 
-
-CD - erros fora dos builtins 
+EXPORT (sem opcoes) (nao esta a funcionar os argumentos)
+ECHO -falta verificar
+CD -falta verificar
+EXIT -falta verificar
 
 
 FAZER:
@@ -82,3 +87,5 @@ status
     -verificar com o access(path, X_OK) se existe e se tem acesso para execucao.
     -devolver esse path para o comando e juntar com o join2str
 */
+
+- 
