@@ -56,7 +56,7 @@ char *prepare_line(char *str)
 			if(check_if_dquote(str, x_o) || check_if_squote(str, x_o))
 			{
 				temp[x_d++] = str[x_o++];
-				while(str[x_o] != 34)
+				while(str[x_o] != 34 && str[x_o] != 39)
 					temp[x_d++] = str[x_o++];
 			}
 			else

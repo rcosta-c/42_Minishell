@@ -1,4 +1,11 @@
 #include "../includes/minishell.h"
+/*
+void	ft_sigset_heredoc(void)
+{
+	signal(SIGINT, ft_signal_handler);
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGTERM, SIG_IGN);
+}*/
 
 void	ft_sigset(void)
 {

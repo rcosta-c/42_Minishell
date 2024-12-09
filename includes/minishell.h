@@ -1,9 +1,10 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+#define DELIMITER "EOF"
 
 #ifndef BUFFER_SIZE
-# define BUFFER_SIZE 42
+# define BUFFER_SIZE 1024
 #endif
 
 
@@ -13,7 +14,7 @@
 #include <unistd.h>
 #include <stdarg.h>
 #include <string.h>
-#include <sys/wait.h>
+#include <sys/wait.h> 	
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <fcntl.h> 
@@ -97,12 +98,15 @@ typedef struct s_exec
 	char   		**arg;
 	char		*infile;
 	char    	*outfile;
+	char		*inheredoc_file;
 	char    	*outappendfile;
-	int			outappend_fd;
 	int			pipe_fd[2];
+	bool		redir;
 	bool		pipe;
+	int			inheredoc_fd;
 	int			infile_fd;
 	int			outfile_fd;
+	int			outappend_fd;
 	int			outbackup;
 	int			inbackup;
 	t_execerror errors;
@@ -238,6 +242,7 @@ bool	check_r_append_out(t_sh *sh);
 void	handle_redirects(t_sh *sh, int x);
 
 /*	FIM 	*/
+
 /*	PARSE_UTILS.c	*/
 
 int	parse_utils(t_sh *sh, int z, int n_cmd);
@@ -245,6 +250,14 @@ int	parse_pipes(t_sh *sh, int z, int n_cmd);
 void	remove_quoted(t_sh *sh);
 
 /*	FIM		*/
+
+/*	HEREDOC.c	*/
+
+char *handle_nextline_heredoc(int fd);
+void handle_heredoc(t_sh *sh, int x, char *delimiter);
+
+/*	FIM		*/
+
 
 /* BUILTINS.c */
 void	ft_echo(t_sh *sh, char **args);

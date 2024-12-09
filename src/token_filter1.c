@@ -16,6 +16,9 @@ void	filter_args (t_sh *sh, int n)
 		sh->tokens[n].arg = true;
 	if(sh->tokens[n].exp_e == true || sh->tokens[n].exp_t == true)
 		sh->tokens[n].arg = true;
+	if(sh->tokens[n].file == true)
+		sh->tokens[n].arg = true;
+	
 }
 
 void	filter_envp(t_sh *sh, int n)

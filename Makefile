@@ -23,6 +23,7 @@ SRCS := src/minishell.c \
 						src/pipe.c \
 						src/parse.c \
 						src/parse_utils.c \
+						src/heredoc.c \
 						src/executer.c \
 						src/executer_utils.c \
 						src/token_checker.c \

@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 18:39:54 by mota              #+#    #+#             */
-/*   Updated: 2024/11/19 10:03:42 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/09 11:43:09 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void    ft_env(t_sh *sh, char **args)
 {
     size_t i;
 
+    if (args[1] && args[1][0] == '-' && args[1][1] == 'i')
+        return;
     if (args[1])
     {
         ft_putstr_fd("env: ", 2);
