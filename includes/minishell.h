@@ -1,9 +1,10 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+#define DELIMITER "EOF"
 
 #ifndef BUFFER_SIZE
-# define BUFFER_SIZE 42
+# define BUFFER_SIZE 1024
 #endif
 
 
@@ -13,7 +14,7 @@
 #include <unistd.h>
 #include <stdarg.h>
 #include <string.h>
-#include <sys/wait.h>
+#include <sys/wait.h> 	
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <fcntl.h> 
@@ -25,20 +26,24 @@
 #include "../lib/libft/libft.h"
 #include "../lib/gnl/get_next_line_bonus.h"
 
-
+# define OTHER_ERROR	1
+# define NO_PERMISSION	126
 # define CMD_NOT_FOUND	127
 # define EXIT_SIGINT	130
 # define EXIT_SIGQUIT	131
+# define WRONG_SYNTAX	258
+
+//FALTAM MAIS AQUI em cima
 
 extern int				g_status;
 
-
-
 typedef struct s_vars
 {
+	bool	sh_status;
 	int     tk_num;
 	int		cmds_num;
 	int		redir_num;
+	int		heredoc_num;
 	int		pipe_num;
 	int		envp_total;
 }   t_vars;
@@ -55,6 +60,7 @@ typedef struct s_tokens
 	bool    d_quote;
 	bool    f_quote;
 	bool    r_in;
+	bool	r_heredoc;
 	bool    r_out;
 	bool	r_outappend;
 	bool    file;
@@ -67,6 +73,7 @@ typedef struct s_error
 {
 	bool    exit_error;
 	bool    cmd_error;
+	bool	heredoc_error;
 	bool    token_error;
 	bool    expand_error;
 	bool    parse_error;
@@ -81,11 +88,7 @@ typedef struct s_execerror
 	bool    outfile_noaccess;
 	bool    outfile_notvalid;
 	bool	empty_pipe;
-	
-	//ACRESCENTAR MAIIS!!!!
-
-
-
+	bool	empty_redir;
 }   t_execerror;
 
 typedef struct s_exec
@@ -95,12 +98,15 @@ typedef struct s_exec
 	char   		**arg;
 	char		*infile;
 	char    	*outfile;
+	char		*inheredoc_file;
 	char    	*outappendfile;
-	int			outappend_fd;
 	int			pipe_fd[2];
+	bool		redir;
 	bool		pipe;
+	int			inheredoc_fd;
 	int			infile_fd;
 	int			outfile_fd;
+	int			outappend_fd;
 	int			outbackup;
 	int			inbackup;
 	t_execerror errors;
@@ -120,8 +126,7 @@ typedef struct s_sh
 
 /* PROMPT.c */
 char	*get_prompt(t_sh *sh);
-//void    get_tokens(t_sh *sh);
-char	*join_2_str(char *a, char *b, char *z);
+char	*join_2_str(char *a, char *b, char *z, int option);
 /*   FIM   */
 
 
@@ -139,8 +144,18 @@ char	**free_mat(char **mat);
 char	*free_ptr(char *ptr);
 void	free_cmds(t_sh *sh);
 void	free_env(t_sh *sh);
+void	free_exit(t_sh *sh);
+void	free_for_executer(t_sh *sh);
 
 /*   FIM   */
+
+/*	ERRORS.c	*/
+
+bool    verify_errors(t_sh *sh);
+
+/*	FIM 	*/
+
+
 
 /* INIT.c */
 void	init_error(t_sh *sh);
@@ -227,13 +242,22 @@ bool	check_r_append_out(t_sh *sh);
 void	handle_redirects(t_sh *sh, int x);
 
 /*	FIM 	*/
+
 /*	PARSE_UTILS.c	*/
 
-int	parse_utils(t_sh *sh, int z);
+int	parse_utils(t_sh *sh, int z, int n_cmd);
 int	parse_pipes(t_sh *sh, int z, int n_cmd);
 void	remove_quoted(t_sh *sh);
 
 /*	FIM		*/
+
+/*	HEREDOC.c	*/
+
+char *handle_nextline_heredoc(int fd);
+void handle_heredoc(t_sh *sh, int x, char *delimiter);
+
+/*	FIM		*/
+
 
 /* BUILTINS.c */
 void	ft_echo(t_sh *sh, char **args);

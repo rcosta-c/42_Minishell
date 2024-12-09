@@ -17,19 +17,29 @@ void	 print_exec(t_sh *sh)
 			printf("**\n**\n");
 			printf("**	CMD=%s 	\n", sh->comands[x].cmd);
 			printf("**	N_ARGS=%d 	\n", sh->comands[x].n_args);
-			while(xx < sh->comands[x].n_args)
+			while(xx <= sh->comands[x].n_args)
 			{
 				printf("**	ARG %d = %s 	\n", xx, sh->comands[x].arg[xx]);
 				xx++;
 			}
+			
 			if(sh->comands[x].pipe)
 				printf("**	pipe = ON!	\n");
 			else
 				printf("**	pipe = OFF	\n");
+			if(sh->comands[x].redir)
+				printf("**	redir = ON!	\n");
+			else
+				printf("**	redir = ON!	\n");
 			printf("**	INFILE=%s 	\n", sh->comands[x].infile);
 			printf("**	INFILE_FD=%d \n", sh->comands[x].infile_fd);
+			printf("**	IN_HEREDOC=%s 	\n", sh->comands[x].inheredoc_file);
+			printf("**	IN_HEREDOC=FD=%d \n", sh->comands[x].inheredoc_fd);
 			printf("**	OUTFILE=%s 	\n", sh->comands[x].outfile);
 			printf("**	OUTFILE_FD=%d \n\n\n", sh->comands[x].outfile_fd);
+			printf("**	OUTAPPENDFILE=%s 	\n", sh->comands[x].outappendfile);
+			printf("**	OUTAPPENDFILE_FD=%d \n\n\n", sh->comands[x].outappend_fd);
+			
 			x++;
 		}
 }
@@ -125,7 +135,7 @@ int main(int ac, char **av, char **envp)
 		{
 			sh->vars.sh_status = false;
 			g_status = EXIT_SIGQUIT;
-			ft_exit(sh, NULL);
+			ft_exit(sh, NULL);	
 		}
 			
 		add_history(sh->cmd_line);
@@ -138,7 +148,7 @@ int main(int ac, char **av, char **envp)
 			split_cmd(sh);
 			filter_tokens(sh);
 //printf("saiu do filter\n");
-//printflags(sh);
+printflags(sh);
 
 			search_expand(sh);
 
@@ -159,7 +169,7 @@ int main(int ac, char **av, char **envp)
 			fill_parser(sh);  //----------VERIFICAR LEAKS AQUI!!!!
 //printf("acabou fillparser\n");
 //printf("\n\n\n");
-//print_exec(sh);
+print_exec(sh);
 
 			executor(sh);
 

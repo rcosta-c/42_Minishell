@@ -90,7 +90,6 @@ void	executor(t_sh *sh)
 	{
 //printf("\n\n\n ENTROU NO EXEC CMD SO 1\n\n");
 		handle_redirects(sh, x); //APARTIR DAQUI
-		//handle_heredoc(sh, x);
 //printf("\nJA SAIUDO DOS REDIREEC NO EXEC\n");
 		if (check_if_builtin(sh->comands[x].cmd))
 		{

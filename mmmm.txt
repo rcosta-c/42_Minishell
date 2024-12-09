@@ -1,0 +1,43 @@
+total 204
+-rw-r--r-- 1 rcosta-c 2024_lisboa   1152 Dec  5 07:56 7887.txt
+drwxr-xr-x 2 rcosta-c 2024_lisboa   4096 Dec  5 12:45 builtins
+-rw-r--r-- 1 rcosta-c 2024_lisboa    224 Dec  5 07:56 coco.txt
+-rw-r--r-- 1 rcosta-c 2024_lisboa    180 Dec  5 07:56 dib.txt
+drwxr-xr-x 2 rcosta-c 2024_lisboa     25 Dec  5 07:56 includes
+drwxr-xr-x 4 rcosta-c 2024_lisboa     30 Dec  5 07:56 lib
+-rw-r--r-- 1 rcosta-c 2024_lisboa   3393 Dec  5 07:56 Makefile
+-rw-r--r-- 1 rcosta-c 2024_lisboa    831 Dec  5 07:56 merda.c
+-rw-r--r-- 1 rcosta-c 2024_lisboa    180 Dec  5 07:56 merda.txt
+-rwxr-xr-x 1 rcosta-c 2024_lisboa 142720 Dec  5 12:45 minishell
+-rw-r--r-- 1 rcosta-c 2024_lisboa      0 Dec  5 12:45 mmmm.txt
+-rw-r--r-- 1 rcosta-c 2024_lisboa   1975 Dec  5 07:56 out.txt
+-rw-r--r-- 1 rcosta-c 2024_lisboa     19 Dec  5 07:56 ovar.txt
+-rw-r--r-- 1 rcosta-c 2024_lisboa    122 Dec  5 12:45 readline.supp
+-rw-r--r-- 1 rcosta-c 2024_lisboa     68 Dec  5 07:55 README.md
+-rw-r--r-- 1 rcosta-c 2024_lisboa     34 Dec  5 07:56 sadsd.txt
+-rw-r--r-- 1 rcosta-c 2024_lisboa   1631 Dec  5 07:56 saida.txt
+drwxr-xr-x 2 rcosta-c 2024_lisboa   4096 Dec  5 12:45 src
+-rw-r--r-- 1 rcosta-c 2024_lisboa     39 Dec  5 07:56 teste1.txt
+-rw-r--r-- 1 rcosta-c 2024_lisboa     38 Dec  5 07:56 teste42.txt
+total 208
+-rw-r--r-- 1 rcosta-c 2024_lisboa   1152 Dec  5 07:56 7887.txt
+drwxr-xr-x 2 rcosta-c 2024_lisboa   4096 Dec  5 12:45 builtins
+-rw-r--r-- 1 rcosta-c 2024_lisboa    224 Dec  5 07:56 coco.txt
+-rw-r--r-- 1 rcosta-c 2024_lisboa    180 Dec  5 07:56 dib.txt
+drwxr-xr-x 2 rcosta-c 2024_lisboa     25 Dec  5 07:56 includes
+drwxr-xr-x 4 rcosta-c 2024_lisboa     30 Dec  5 07:56 lib
+-rw-r--r-- 1 rcosta-c 2024_lisboa   3393 Dec  5 07:56 Makefile
+-rw-r--r-- 1 rcosta-c 2024_lisboa    831 Dec  5 07:56 merda.c
+-rw-r--r-- 1 rcosta-c 2024_lisboa    180 Dec  5 07:56 merda.txt
+-rwxr-xr-x 1 rcosta-c 2024_lisboa 142720 Dec  5 12:45 minishell
+-rw-r--r-- 1 rcosta-c 2024_lisboa   1272 Dec  5 12:45 mmmm.txt
+-rw-r--r-- 1 rcosta-c 2024_lisboa   1975 Dec  5 07:56 out.txt
+-rw-r--r-- 1 rcosta-c 2024_lisboa     19 Dec  5 07:56 ovar.txt
+-rw-r--r-- 1 rcosta-c 2024_lisboa    122 Dec  5 12:45 readline.supp
+-rw-r--r-- 1 rcosta-c 2024_lisboa     68 Dec  5 07:55 README.md
+-rw-r--r-- 1 rcosta-c 2024_lisboa     34 Dec  5 07:56 sadsd.txt
+-rw-r--r-- 1 rcosta-c 2024_lisboa   1631 Dec  5 07:56 saida.txt
+drwxr-xr-x 2 rcosta-c 2024_lisboa   4096 Dec  5 12:45 src
+-rw-r--r-- 1 rcosta-c 2024_lisboa     39 Dec  5 07:56 teste1.txt
+-rw-r--r-- 1 rcosta-c 2024_lisboa     38 Dec  5 07:56 teste42.txt
+asdsasdsadsasa987asd8as89dsa97ds9a8d7

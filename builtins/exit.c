@@ -23,6 +23,14 @@ void	ft_exit(t_sh *sh, char **args)
 	int	exit_code;
 
 	ft_putstr_fd("exit\n", 2);
+
+	if (g_status != -1)
+		exit_code = g_status;
+	if (!args)
+	{
+		free_exit(sh);
+		exit(exit_code);
+	}
 	if (args[1] && args[2])
 	{
 		ft_putstr_fd("exit: too many arguments\n", 2);
@@ -34,11 +42,13 @@ void	ft_exit(t_sh *sh, char **args)
 		ft_putstr_fd("exit: ", 2);
 		ft_putstr_fd(args[1], 2);
 		ft_putstr_fd(": numeric argument required\n", 2);
+        free_exit(sh);
 		exit(255); //Encerra com codigo de erro 255 para argumento invalido(nao sei se ode usar
 	}
 	if (args[1])
 		exit_code = ft_atoi(args[1]);
 	else
 		exit_code = 0;
+    free_exit(sh);
 	exit(exit_code);
 }

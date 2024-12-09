@@ -1,0 +1,20 @@
+total 228
+-rw-r--r-- 1 rcosta-c rcosta-c      0 dez  4 00:53 7887.txt
+drwxrwxr-x 2 rcosta-c rcosta-c   4096 dez  4 00:52 builtins
+-rw-r--r-- 1 rcosta-c rcosta-c    224 nov 25 11:38 coco.txt
+-rw-rw-r-- 1 rcosta-c rcosta-c    180 nov 24 23:13 dib.txt
+drwxrwxr-x 2 rcosta-c rcosta-c   4096 dez  1 15:58 includes
+drwxrwxr-x 4 rcosta-c rcosta-c   4096 nov 28 16:39 lib
+-rw-rw-r-- 1 rcosta-c rcosta-c   3393 nov 29 16:01 Makefile
+-rw-rw-r-- 1 rcosta-c rcosta-c    831 nov 22 10:22 merda.c
+-rw-rw-r-- 1 rcosta-c rcosta-c    180 nov 26 00:35 merda.txt
+-rwxrwxr-x 1 rcosta-c rcosta-c 163320 dez  4 00:52 minishell
+-rw-rw-r-- 1 rcosta-c rcosta-c   1975 nov 25 12:46 out.txt
+-rw-rw-r-- 1 rcosta-c rcosta-c     19 dez  2 23:44 ovar.txt
+-rw-rw-r-- 1 rcosta-c rcosta-c    122 dez  4 00:53 readline.supp
+-rw-rw-r-- 1 rcosta-c rcosta-c     68 nov 22 10:20 README.md
+-rw-r--r-- 1 rcosta-c rcosta-c     34 nov 29 11:02 sadsd.txt
+-rw-rw-r-- 1 rcosta-c rcosta-c   1631 nov 24 23:12 saida.txt
+drwxrwxr-x 2 rcosta-c rcosta-c   4096 dez  4 00:52 src
+-rw-r--r-- 1 rcosta-c rcosta-c     39 nov 26 16:59 teste1.txt
+-rw-rw-r-- 1 rcosta-c rcosta-c     38 nov 28 16:39 teste42.txt

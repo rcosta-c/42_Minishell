@@ -107,11 +107,12 @@ int	parse_utils(t_sh *sh, int x, int n_cmd)
 					sh->comands[n_cmd].infile = ft_strdup(sh->tokens[x].tokens);
 				else if(sh->tokens[x - 1].r_out == true  && sh->tokens[x].file == true )
 					sh->comands[n_cmd].outfile = ft_strdup(sh->tokens[x].tokens);
-				else if(sh->tokens[x - 1].r_heredoc == true && sh->tokens[x].file == true )
-					sh->comands[n_cmd].infile = ft_strdup(sh->tokens[x].tokens);
+				else if(sh->tokens[x - 1].r_heredoc == true && sh->tokens[x].tokens)
+					sh->comands[n_cmd].inheredoc_file = ft_strdup(sh->tokens[x].tokens);
 				else if(sh->tokens[x - 1].r_outappend == true && sh->tokens[x].file == true )
 					sh->comands[n_cmd].outappendfile = ft_strdup(sh->tokens[x].tokens);
 				sh->vars.redir_num--;
+				sh->comands[n_cmd].redir = true;
 				x++;
 			}
 //printf("x=%d\n", x);

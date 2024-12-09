@@ -5,7 +5,7 @@
 NAME := minishell
 
 CC := cc
-CFLAGS := -Wall -Werror -Wextra #
+CFLAGS := -Wall -Werror -Wextra
 
 
 SRCS := src/minishell.c \
@@ -19,9 +19,11 @@ SRCS := src/minishell.c \
 						src/token.c \
 						src/split_cmd.c \
 						src/free.c \
+						src/errors.c \
 						src/pipe.c \
 						src/parse.c \
 						src/parse_utils.c \
+						src/heredoc.c \
 						src/executer.c \
 						src/executer_utils.c \
 						src/token_checker.c \
@@ -112,7 +114,7 @@ $(NAME): ${OBJS}
 
 valgrind: 
 	@echo "{\n   leak readline\n   Memcheck:Leak\n...\n   fun:readline\n}\n{\n   leak add_history\n   Memcheck:Leak\n...\n   fun:add_history\n}" > readline.supp
-	@valgrind --suppressions=readline.supp ./$(NAME)
+	@valgrind --leak-check=full --show-leak-kinds=all --suppressions=readline.supp ./$(NAME)
 #	@valgrind --suppressions=readline.supp --leak-check=full -s --show-leak-kinds=all ./$(NAME)
 
 clean:
