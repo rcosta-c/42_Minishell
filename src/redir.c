@@ -68,7 +68,7 @@ void	handle_redirects(t_sh *sh, int x)
 	{
     	//close(sh->comands[x].outfile_fd);
 
-                printf("\nvai fazer OUTfile_fd open!\n\n");
+//printf("\nvai fazer OUTfile_fd open!\n\n");
 
 		sh->comands[x].outfile_fd = open(sh->comands[x].outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if(sh->comands[x].outfile_fd < 0)
@@ -118,7 +118,7 @@ void	handle_redirects(t_sh *sh, int x)
             //    printf("ACABU DE FAZER  OUT DUP2\n\n\n");
 
 	}
-    printf("\n\nSAIIUUUUUU\n\n");
+//printf("\n\nSAIIUUUUUU\n\n");
     
 }
 
