@@ -6,6 +6,7 @@ void	filter_args (t_sh *sh, int n)
 		return;
 	if(sh->tokens[n].d_quote == false && sh->tokens[n].s_quote == false \
 		&& sh->tokens[n].r_in == false && sh->tokens[n].r_out == false && \
+		sh->tokens[n].r_heredoc == false && sh->tokens[n].r_outappend == false && \
 		sh->tokens[n].pipe == false && sh->tokens[n].file == false && \
 		sh->tokens[n].exp_e == false && sh->tokens[n].f_quote == false && \
 		sh->tokens[n].exp_t == false && sh->tokens[n].r_outappend == false)

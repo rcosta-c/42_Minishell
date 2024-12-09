@@ -18,8 +18,11 @@ void	filter_file(t_sh *sh, int n)
 		}
 		x++;
 	}
-	//if(!sh->tokens[n].tokens[x])
-	//	sh->tokens[n].file = false;
+	if(n > 0 && sh->tokens[n - 1].r_heredoc == true)
+	{
+		sh->tokens[n].file = true;
+		sh->tokens[n].arg = false;
+	}
 }
 
 void	filter_pipes_redir(t_sh *sh, int n)
