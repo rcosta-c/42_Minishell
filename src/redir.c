@@ -29,7 +29,7 @@ void	handle_redirects(t_sh *sh, int x)
 
 	if (sh->comands[x].inheredoc_file)
 	{
-		handle_heredoc(sh, x, sh->comands[x].inheredoc_file);
+		handle_heredoc(sh, x);
          	//close(sh->comands[x].infile_fd);
 
 //        printf("\nvai fazer heredoc_fd open!\n\n");

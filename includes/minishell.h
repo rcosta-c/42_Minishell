@@ -254,7 +254,7 @@ void	remove_quoted(t_sh *sh);
 /*	HEREDOC.c	*/
 
 char *handle_nextline_heredoc(int fd);
-void handle_heredoc(t_sh *sh, int x, char *delimiter);
+void handle_heredoc(t_sh *sh, int x);
 
 /*	FIM		*/
 

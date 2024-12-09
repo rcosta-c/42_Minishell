@@ -172,7 +172,7 @@ void	search_expand(t_sh *sh)
 					expand_token(sh, sh->tokens[n].tokens, n); 
 			}
 		}
-		else if(sh->tokens[n].file)
+		else if(sh->tokens[n].file && sh->tokens[n].exp_t)
 		{
 			while(sh->tokens[n].tokens[x])
 			{
