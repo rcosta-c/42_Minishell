@@ -119,7 +119,6 @@ int main(int ac, char **av, char **envp)
 	sh = ft_calloc(1, sizeof(t_sh));
 	//temp = ft_calloc(2, sizeof(char **));
 	//sh->tokens = ft_calloc(1, sizeof(t_tokens));
-	g_status = -1;
 	sh->vars.sh_status = true;
 	if(sh == NULL)
 		return(EXIT_FAILURE);
@@ -152,7 +151,7 @@ int main(int ac, char **av, char **envp)
 			split_cmd(sh);
 			filter_tokens(sh);
 //printf("saiu do filter\n");
-//printflags(sh);
+printflags(sh);
 
 			search_expand(sh);
 
@@ -173,9 +172,9 @@ int main(int ac, char **av, char **envp)
 			fill_parser(sh);  //----------VERIFICAR LEAKS AQUI!!!!
 //printf("acabou fillparser\n");
 //printf("\n\n\n");
-//print_exec(sh);
 
 			executor(sh);
+print_exec(sh);
 
 //printf("acabou executor\n");
 

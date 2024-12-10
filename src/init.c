@@ -34,7 +34,7 @@ void	init_parser(t_sh *sh)
 
 	if(sh->vars.cmds_num == 0)
 	{
-		
+		printf("saiu aqui\n\n");
 		return;
 	}
 	

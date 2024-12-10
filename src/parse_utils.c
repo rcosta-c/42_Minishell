@@ -156,51 +156,40 @@ int	parse_utils(t_sh *sh, int x, int n_cmd)
 			}
 			
 	//		printf("\n\nsaaaaaou aqui\n\n");
-			return(sh->vars.tk_num);
+			return(x);
 		}
 
 	}
+	else
+	{
+		sh->comands = malloc(sizeof(t_exec) * 1);
+		init_cmds(sh, 0);
+		sh->comands[n_cmd].arg = malloc(sizeof(char **) * 2); 
+		sh->comands[n_cmd].cmd = ft_strdup(sh->tokens[0].tokens); 
+		sh->comands[n_cmd].arg[0] = ft_strdup(sh->tokens[0].tokens);
+		sh->comands[n_cmd].arg[1] = NULL;
+		sh->comands[n_cmd].n_args = 1;
+		sh->vars.cmds_num = 1;
+		
+		
+	}
 	return(x);
 }
-/*
-static int parse_redir(t_sh *sh, int x, int n_cmd)
-{
-	if(sh->tokens[x].r_out)// && sh->tokens[x + 1].file)
-	{
-		x++;
-		sh->comands[n_cmd].outfile = ft_strdup(sh->tokens[x].tokens);
-		x++;
-	}
-	if(sh->tokens[x].r_outappend)// && sh->tokens[x + 1].file)
-	{
-		x++;
-		sh->comands[n_cmd].outappendfile = ft_strdup(sh->tokens[x].tokens);
-		x++;
-	}
-	if(sh->tokens[x].r_in)// && sh->tokens[x + 1].file)
-	{
-		x++;
-		sh->comands[n_cmd].infile = ft_strdup(sh->tokens[x].tokens);
-		x++;
-	}
-	else
-		x++;
-	return(x);
-	
-}*/
+
 	 
 int		parse_pipes(t_sh *sh, int z, int n_cmd)
 {
 	int x;
 
 	x = z;
+//printf("\nentrou no parse_pipes = %d\n", sh->vars.pipe_num);
 	if(sh->vars.pipe_num == 0)
 		return(x);
-	x++;
 	//while(sh->tokens[x].pipe == false && (x < sh->vars.tk_num))
 	//	x = parse_redir(sh, x, n_cmd);
 	if(sh->tokens[x].pipe == true && (x < sh->vars.tk_num))
 	{
+//printf("nao entrou!?\n");
 		sh->comands[n_cmd].pipe = true;
 		x++;
 	}

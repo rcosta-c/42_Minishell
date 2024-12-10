@@ -54,7 +54,7 @@ void	filter_cmds(t_sh *sh, int n)
 			sh->tokens[n].arg = false;
 			sh->vars.cmds_num++;
 		}
-	else if(sh->tokens[n - 1].pipe == true)
+	else if(n > 0 && sh->tokens[n - 1].pipe == true)
 	{
 		sh->tokens[n].cmd = true;
 		sh->tokens[n].arg = false;
@@ -63,7 +63,7 @@ void	filter_cmds(t_sh *sh, int n)
 	}
 }
 
-static void	filter_tkerrors(t_sh *sh)
+/*static void	filter_tkerrors(t_sh *sh)
 {
 	int	x;
 
@@ -107,7 +107,7 @@ static void	filter_tkerrors(t_sh *sh)
 		x++;
 	}
 	return;
-}
+}*/
 
 
 void	filter_tokens(t_sh *sh)
@@ -125,5 +125,5 @@ void	filter_tokens(t_sh *sh)
 		filter_cmds(sh, n);
 	n++;
 	}
-	filter_tkerrors(sh);
+	//
 }
