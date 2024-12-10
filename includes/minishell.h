@@ -14,7 +14,7 @@
 #include <unistd.h>
 #include <stdarg.h>
 #include <string.h>
-#include <sys/wait.h> 	
+#include <sys/wait.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <fcntl.h> 
@@ -45,6 +45,7 @@ typedef struct s_vars
 	int		redir_num;
 	int		heredoc_num;
 	int		pipe_num;
+	int		is_pipe;
 	int		envp_total;
 }   t_vars;
 
@@ -102,7 +103,7 @@ typedef struct s_exec
 	char    	*outappendfile;
 	int			pipe_fd[2];
 	bool		redir;
-	bool		pipe;
+	bool		pipes;
 	int			inheredoc_fd;
 	int			infile_fd;
 	int			outfile_fd;
@@ -287,8 +288,13 @@ void    exec_builtin(t_sh *sh, int cmd_nbr);
 /*	FIM		*/
 
 /*	PIPE.c*/
-void    start_pipes(t_sh *sh);
-void    close_pipe_child(t_sh *sh);
+void	start_pipes(t_sh *sh);
+void	close_pipe_child(t_sh *sh);
+void	execute_pipeline(t_sh *sh);
+void	create_pipes(t_sh *sh, int **pipes);
+void	close_pipes(int **pipes, int pipe_num);
+void	setup_pipes(int **pipes, int cmds_num);
+void	check_pipes(t_sh *sh);
 /*	FIM		*/
 
 #endif

@@ -23,7 +23,7 @@ void	 print_exec(t_sh *sh)
 				xx++;
 			}
 			
-			if(sh->comands[x].pipe)
+			if(sh->comands[x].pipes)
 				printf("**	pipe = ON!	\n");
 			else
 				printf("**	pipe = OFF	\n");

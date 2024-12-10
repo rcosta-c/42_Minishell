@@ -189,7 +189,7 @@ int		parse_pipes(t_sh *sh, int z, int n_cmd)
 	//	x = parse_redir(sh, x, n_cmd);
 	if(sh->tokens[x].pipe == true && (x < sh->vars.tk_num))
 	{
-		sh->comands[n_cmd].pipe = true;
+		sh->comands[n_cmd].pipes = true;
 		x++;
 	}
 	return(x);

@@ -123,10 +123,11 @@ void	executor(t_sh *sh)
 
 		handle_redirects(sh, x);
 
-		start_pipes(sh);
+		//start_pipes(sh);
+		check_pipes(sh);
 
 
-		while(x < sh->vars.cmds_num)
+		/*while(x < sh->vars.cmds_num)
 		{
 			//printf("numero_comandos=%d\n\n", sh->vars.cmds_num);
 			if (check_if_builtin(sh->comands[x].cmd))
@@ -144,7 +145,7 @@ void	executor(t_sh *sh)
 			{
 				dup2(sh->comands[x].inbackup, STDIN_FILENO);
 				sh->comands[x].infile_fd = -1;
-        		close(sh->comands[x].inbackup);
+				close(sh->comands[x].inbackup);
     		}
 			if (sh->comands[x].outbackup != -1) 
 			{
@@ -152,14 +153,14 @@ void	executor(t_sh *sh)
 				sh->comands[x].outfile_fd = -1;
 				close(sh->comands[x].outbackup);
 			}	
-			x++;		
+			x++;
 
-		}
-		
+		}*/	
 	}
-
-	//adasd
 }
+
+
+
 
 // ATENCAO FALTA ALTERAR A FORMAR COMO GUARDAMOS O INPUT_FD e OUTPUT_FD
 	// TENHO DE GUARDAR O FD TAMBEM
