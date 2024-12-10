@@ -161,9 +161,6 @@ void	executor(t_sh *sh)
 	//adasd
 }
 
-
-
-
 // ATENCAO FALTA ALTERAR A FORMAR COMO GUARDAMOS O INPUT_FD e OUTPUT_FD
 	// TENHO DE GUARDAR O FD TAMBEM
 
