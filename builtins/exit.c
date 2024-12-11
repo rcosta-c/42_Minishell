@@ -1,6 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exit.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cde-paiv <cde-paiv@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/11 17:55:12 by cde-paiv          #+#    #+#             */
+/*   Updated: 2024/12/11 17:55:14 by cde-paiv         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
-// Verifica se a string e um numero valido
 static int	is_valid_number(char *str)
 {
 	int	i;
@@ -17,12 +28,9 @@ static int	is_valid_number(char *str)
 	return (1);
 }
 
-// Funcao para encerrar o shell validando argumentos e encerrando
 void	ft_exit(t_sh *sh, char **args)
 {
 	int	exit_code;
-
-	//ft_putstr_fd("exit\n", 2);
 
 	if (g_status != -1)
 		exit_code = g_status;
@@ -42,13 +50,13 @@ void	ft_exit(t_sh *sh, char **args)
 		ft_putstr_fd("exit: ", 2);
 		ft_putstr_fd(args[1], 2);
 		ft_putstr_fd(": numeric argument required\n", 2);
-        free_exit(sh);
-		exit(255); //Encerra com codigo de erro 255 para argumento invalido(nao sei se ode usar
+		free_exit(sh);
+		exit(255);
 	}
 	if (args[1])
 		exit_code = ft_atoi(args[1]);
 	else
 		exit_code = 0;
-    free_exit(sh);
+	free_exit(sh);
 	exit(exit_code);
 }
