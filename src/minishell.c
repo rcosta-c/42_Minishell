@@ -17,26 +17,26 @@ void	 print_exec(t_sh *sh)
 			printf("**\n**\n");
 			printf("**	CMD=%s 	\n", sh->comands[x].cmd);
 			printf("**	N_ARGS=%d 	\n", sh->comands[x].n_args);
-			while(xx <= sh->comands[x].n_args)
+			while(sh->comands[x].arg && xx <= sh->comands[x].n_args)
 			{
 				printf("**	ARG %d = %s 	\n", xx, sh->comands[x].arg[xx]);
 				xx++;
 			}
 			
-			if(sh->comands[x].pipes)
+			if(sh->comands[x].pipes == true)
 				printf("**	pipe = ON!	\n");
 			else
 				printf("**	pipe = OFF	\n");
-			if(sh->comands[x].redir)
+			if(sh->comands[x].redir == true)
 				printf("**	redir = ON!	\n");
 			else
-				printf("**	redir = ON!	\n");
+				printf("**	redir = OFF!	\n");
 			printf("**	INFILE=%s 	\n", sh->comands[x].infile);
 			printf("**	INFILE_FD=%d \n", sh->comands[x].infile_fd);
 			printf("**	IN_HEREDOC=%s 	\n", sh->comands[x].inheredoc_file);
 			printf("**	IN_HEREDOC=FD=%d \n", sh->comands[x].inheredoc_fd);
 			printf("**	OUTFILE=%s 	\n", sh->comands[x].outfile);
-			printf("**	OUTFILE_FD=%d \n\n\n", sh->comands[x].outfile_fd);
+			printf("**	OUTFILE_FD=%d \n", sh->comands[x].outfile_fd);
 			printf("**	OUTAPPENDFILE=%s 	\n", sh->comands[x].outappendfile);
 			printf("**	OUTAPPENDFILE_FD=%d \n\n\n", sh->comands[x].outappend_fd);
 			
@@ -80,6 +80,10 @@ void    printflags(t_sh *sh)
 			printf("Flag.r inm = true\n");
 		else
 		   printf("Flag.rin = false\n");
+		if(sh->tokens[n].r_heredoc == true)
+			printf("Flag.rheredoc = true\n");
+		else
+			printf("Flag.rheredoc = false\n");
 		if(sh->tokens[n].r_outappend == true)
 			printf("Flag.r_outappend = true\n");
 		else
@@ -115,15 +119,16 @@ int main(int ac, char **av, char **envp)
 	sh = ft_calloc(1, sizeof(t_sh));
 	//temp = ft_calloc(2, sizeof(char **));
 	//sh->tokens = ft_calloc(1, sizeof(t_tokens));
-	g_status = -1;
-	sh->vars.sh_status = true;
 	if(sh == NULL)
 		return(EXIT_FAILURE);
 	ft_getenv(sh, envp);
 	init_error(sh);
 	while(1)
 	{
+		sh->vars.sh_status = true;
 		//free_heredoc(sh);
+	//	if(!g_status)
+	//		g_status = 0;
 		ft_sigset();
 		init_vars(sh);
 		if(sh->cmd_line)
@@ -131,6 +136,7 @@ int main(int ac, char **av, char **envp)
 		prompt = get_prompt(sh); //----------VERIFICAR LEAKS AQUI!!!!
 		sh->cmd_line = readline(prompt);
 		free(prompt);
+//printf("\ncmdline=%s\n", sh->cmd_line);
 		if(!sh->cmd_line)
 		{
 			sh->vars.sh_status = false;
@@ -147,8 +153,7 @@ int main(int ac, char **av, char **envp)
 			init_tokens(sh);
 			split_cmd(sh);
 			filter_tokens(sh);
-//printf("saiu do filter\n");
-printflags(sh);
+
 
 			search_expand(sh);
 
@@ -167,13 +172,11 @@ printflags(sh);
 			}*/
 
 			fill_parser(sh);  //----------VERIFICAR LEAKS AQUI!!!!
-//printf("acabou fillparser\n");
-//printf("\n\n\n");
+
+printflags(sh);
 print_exec(sh);
-
+			
 			executor(sh);
-
-//printf("acabou executor\n");
 
 			free_tokens(sh);
 			free_cmds(sh);

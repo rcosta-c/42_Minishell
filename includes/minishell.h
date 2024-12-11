@@ -27,6 +27,7 @@
 #include "../lib/gnl/get_next_line_bonus.h"
 
 # define OTHER_ERROR	1
+# define SYNTAX_MISPELL	2
 # define NO_PERMISSION	126
 # define CMD_NOT_FOUND	127
 # define EXIT_SIGINT	130
@@ -255,7 +256,7 @@ void	remove_quoted(t_sh *sh);
 /*	HEREDOC.c	*/
 
 char *handle_nextline_heredoc(int fd);
-void handle_heredoc(t_sh *sh, int x, char *delimiter);
+void handle_heredoc(t_sh *sh, int x);
 
 /*	FIM		*/
 

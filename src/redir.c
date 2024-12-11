@@ -1,18 +1,18 @@
 #include "../includes/minishell.h"
 void	handle_redirects(t_sh *sh, int x)
 {
+
+//printf("\n\nENTROU NO HANDLE REDIRS\n\n");
+
+
 	if(sh->comands[x].redir == false)
 		return;
-	printf("\n\nENTROU NO HANDLE REDIRS\n\n");
 	if (sh->comands[x].infile)
 	{
-         	//close(sh->comands[x].infile_fd);
-
-//        printf("\nvai fazer infile_fd open!\n\n");
 		sh->comands[x].infile_fd = open(sh->comands[x].infile, O_RDONLY);
 		if (sh->comands[x].infile_fd < 0) 
 		{
-            //printf("\n\n CORREU MAL CARALHO infile_fd open!\n\n");
+            printf("\n\n CORREU MAL CARALHO infile_fd open!\n\n");
 			sh->comands[x].errors.infile_notvalid = true;
 			perror("Erro ao abrir input_fd");
 			return;
@@ -24,30 +24,17 @@ void	handle_redirects(t_sh *sh, int x)
             close(sh->comands[x].infile_fd);
             return;
         }
-        //dup(sh->comands[x].infile_fd);
        	close(sh->comands[x].infile_fd);
-
-        
-        
-        //printf("ACABU DE FAZER  IN DUP2\n\n\n");
-
-
 	}
 
-
-
-
-
-
-	
-	else if (sh->comands[x].inheredoc_fd)
+	if (sh->comands[x].inheredoc_file)
 	{
-		handle_heredoc(sh, x, sh->comands[x].inheredoc_file);
+		handle_heredoc(sh, x);
          	//close(sh->comands[x].infile_fd);
 
 //        printf("\nvai fazer heredoc_fd open!\n\n");
-		sh->comands[x].infile_fd = open(sh->comands[x].inheredoc_file, O_RDONLY);
-		if (sh->comands[x].infile_fd < 0) 
+		sh->comands[x].inheredoc_fd = open(sh->comands[x].inheredoc_file, O_RDONLY);
+		if (sh->comands[x].inheredoc_fd < 0) 
 		{
             //printf("\n\n CORREU MAL CARALHO infile_fd open!\n\n");
 			sh->comands[x].errors.infile_notvalid = true;
@@ -57,7 +44,7 @@ void	handle_redirects(t_sh *sh, int x)
         sh->comands[x].inbackup = dup(STDOUT_FILENO);
         if(dup2(sh->comands[x].inheredoc_fd, STDIN_FILENO) < 0)
         {
-            perror("Erro ao redirecionar stdin");
+            perror("Erro ao abrir (heredoc)input_fd");
             close(sh->comands[x].inheredoc_fd);
             return;
         }
@@ -77,11 +64,11 @@ void	handle_redirects(t_sh *sh, int x)
 
 
 
-	else if (sh->comands[x].outfile)
+	if (sh->comands[x].outfile)
 	{
     	//close(sh->comands[x].outfile_fd);
 
- //               printf("\nvai fazer OUTfile_fd open!\n\n");
+//printf("\nvai fazer OUTfile_fd open!\n\n");
 
 		sh->comands[x].outfile_fd = open(sh->comands[x].outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if(sh->comands[x].outfile_fd < 0)
@@ -104,7 +91,7 @@ void	handle_redirects(t_sh *sh, int x)
                 //printf("ACABU DE FAZER  OUT DUP2\n\n\n");
 
 	}
-    else if (sh->comands[x].outappendfile)
+    if (sh->comands[x].outappendfile)
 	{
     	//close(sh->comands[x].outfile_fd);
 
@@ -131,7 +118,7 @@ void	handle_redirects(t_sh *sh, int x)
             //    printf("ACABU DE FAZER  OUT DUP2\n\n\n");
 
 	}
-    printf("\n\nSAIIUUUUUU\n\n");
+//printf("\n\nSAIIUUUUUU\n\n");
     
 }
 

@@ -44,13 +44,14 @@ void	free_cmds(t_sh *sh)
 			}
 //			free(sh->comands[x].arg[xx + 1]);
 			free(sh->comands[x].arg);
-			if(sh->comands->infile)
-				free(sh->comands->infile);
-			if(sh->comands->outappendfile)
-				free(sh->comands->outappendfile);
-			if(sh->comands->outfile)
-				free(sh->comands->outfile);
-					
+			if(sh->comands[x].infile)
+				free(sh->comands[x].infile);
+			if(sh->comands[x].outappendfile)
+				free(sh->comands[x].outappendfile);
+			if(sh->comands[x].outfile)
+				free(sh->comands[x].outfile);
+			if(sh->comands[x].inheredoc_file)
+				free(sh->comands[x].inheredoc_file);		
 			x++;
 		}
 		free(sh->comands);

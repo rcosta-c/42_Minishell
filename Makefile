@@ -113,6 +113,7 @@ $(NAME): ${OBJS}
 	@echo "$(GREEN)$(NAME) created ✔️"
 
 valgrind: 
+	@if [ -f readline.supp ]; then rm readline.supp; fi
 	@echo "{\n   leak readline\n   Memcheck:Leak\n...\n   fun:readline\n}\n{\n   leak add_history\n   Memcheck:Leak\n...\n   fun:add_history\n}" > readline.supp
 	@valgrind --leak-check=full --show-leak-kinds=all --suppressions=readline.supp ./$(NAME)
 #	@valgrind --suppressions=readline.supp --leak-check=full -s --show-leak-kinds=all ./$(NAME)

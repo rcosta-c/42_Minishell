@@ -112,9 +112,14 @@ void execute_pipeline(t_sh *sh)
     {
         cmd = &sh->comands[i];
         pid = fork();
-        if (pid < 0)
+        
+        if (check_if_builtin(sh->comands[i].cmd))
+			exec_builtin(sh, i);
+        else
+        {
+            if (pid < 0)
             exit(EXIT_FAILURE);
-        if (pid == 0) // processo filho
+            if (pid == 0) // processo filho
         {
             setup_pipes(pipes, sh->vars.cmds_num);
             if (execve(cmd->cmd, cmd->arg, sh->envp) == -1) // substituir execve pelos dados reais de sh->comands
@@ -126,6 +131,7 @@ void execute_pipeline(t_sh *sh)
                 close(pipes[i][1]); // fecha a escrita do pipe
         }
         i++;
+        }
     }
     close_pipes(pipes, sh->vars.pipe_num);
     while (wait(&status) > 0); // aguarda todos os filhos

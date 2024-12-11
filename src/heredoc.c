@@ -53,14 +53,17 @@ char *handle_nextline_heredoc(int fd)
 }
 
 
-void handle_heredoc(t_sh *sh, int x, char *delimiter) 
+void handle_heredoc(t_sh *sh, int x) 
 {
-    char *delimit;
-    char *line = NULL;
-    
-    delimit = delimiter;
-    free(delimiter);
+    char *line;
+    char *delimiter;
+
+    //printf("\n\nENTROU HEREDOC \n\n");   
+    line = NULL;
+    delimiter = sh->comands[x].inheredoc_file;
+    printf("\n\n%s\n", sh->comands[x].inheredoc_file);
     sh->comands[x].inheredoc_file = ft_strdup(".heredoc_temp.txt");
+    printf("\n\n%s\n", sh->comands[x].inheredoc_file);
     sh->comands[x].inheredoc_fd = open(sh->comands[x].inheredoc_file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
     if (sh->comands[x].inheredoc_fd < 0) {
         perror("Erro ao abrir o arquivo temporário");
@@ -78,7 +81,7 @@ void handle_heredoc(t_sh *sh, int x, char *delimiter)
             break; // Se houver um erro ou EOF, sai do loop
         }
         // Verifica se a linha lida é o delimitador
-        if (strcmp(line, delimit) == 0)
+        if (strcmp(line, delimiter) == 0)
         {
             free(line);
             break; // Sai do loop se o delimitador for encontrado
@@ -89,7 +92,7 @@ void handle_heredoc(t_sh *sh, int x, char *delimiter)
     }
     // Fecha o arquivo
     close(sh->comands[x].inheredoc_fd);
-
+    free(delimiter);   
     // Abre o arquivo para leitura e armazena o descritor na estrutur
 
     // Aqui você pode usar shell->fd_in conforme necessário

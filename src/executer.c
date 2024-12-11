@@ -80,8 +80,8 @@ void	executor(t_sh *sh)
 	//free_for_executer(sh);
 	if(verify_errors(sh) == true || sh->vars.sh_status == false)
 	{
-		printf("%d", sh->vars.sh_status);
-		printf("\nMERDA:SAIU AQUI!\n");
+//printf("%d", sh->vars.sh_status);
+//printf("\nMERDA:SAIU AQUI!\n");
 		return;
 	}
 	if(sh->vars.cmds_num == 0)
@@ -123,7 +123,6 @@ void	executor(t_sh *sh)
 
 		handle_redirects(sh, x);
 
-		//start_pipes(sh);
 		check_pipes(sh);
 
 
@@ -145,7 +144,7 @@ void	executor(t_sh *sh)
 			{
 				dup2(sh->comands[x].inbackup, STDIN_FILENO);
 				sh->comands[x].infile_fd = -1;
-				close(sh->comands[x].inbackup);
+        		close(sh->comands[x].inbackup);
     		}
 			if (sh->comands[x].outbackup != -1) 
 			{
@@ -153,9 +152,9 @@ void	executor(t_sh *sh)
 				sh->comands[x].outfile_fd = -1;
 				close(sh->comands[x].outbackup);
 			}	
-			x++;
+			x++;		
 
-		}*/	
+		}*/
 	}
 }
 
