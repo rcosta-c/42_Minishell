@@ -27,10 +27,12 @@
 #include "../lib/gnl/get_next_line_bonus.h"
 
 # define OTHER_ERROR	1
+# define SYNTAX_MISPELL	2
 # define NO_PERMISSION	126
 # define CMD_NOT_FOUND	127
 # define EXIT_SIGINT	130
 # define EXIT_SIGQUIT	131
+# define PAR
 # define WRONG_SYNTAX	258
 
 //FALTAM MAIS AQUI em cima

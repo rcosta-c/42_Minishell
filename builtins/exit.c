@@ -22,7 +22,7 @@ void	ft_exit(t_sh *sh, char **args)
 {
 	int	exit_code;
 
-	ft_putstr_fd("exit\n", 2);
+	//ft_putstr_fd("exit\n", 2);
 
 	if (g_status != -1)
 		exit_code = g_status;

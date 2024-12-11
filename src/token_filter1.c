@@ -26,6 +26,8 @@ void	filter_envp(t_sh *sh, int n)
 {
 	int	x;
 
+	if(!sh->tokens[n].tokens)
+		return;
 	if(sh->tokens[n].tokens[0] == '$')
 	{
 		x = 1;

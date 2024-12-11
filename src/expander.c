@@ -127,7 +127,7 @@ void    expand_token(t_sh *sh, char *token, int n)
 		else if(sh->tokens[n].tokens[x + 1] ==  '?' && sh->tokens[n].tokens[x] == '$')
 		{
 			x++;
-			c = ft_strdup(ft_itoa(g_status));
+			c = ft_itoa(g_status);
 			x++;
 		}
 		else if(sh->tokens[n].tokens[x] == '$')
@@ -141,6 +141,7 @@ void    expand_token(t_sh *sh, char *token, int n)
 				c =ft_strdup(" ");	
 		}
 		z = join_2_str(z, c, NULL, 1);
+	//free(c);
 		exp_counter--;
 		if (exp_counter == 0)
 		{

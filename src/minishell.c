@@ -119,14 +119,16 @@ int main(int ac, char **av, char **envp)
 	sh = ft_calloc(1, sizeof(t_sh));
 	//temp = ft_calloc(2, sizeof(char **));
 	//sh->tokens = ft_calloc(1, sizeof(t_tokens));
-	sh->vars.sh_status = true;
 	if(sh == NULL)
 		return(EXIT_FAILURE);
 	ft_getenv(sh, envp);
 	init_error(sh);
 	while(1)
 	{
+		sh->vars.sh_status = true;
 		//free_heredoc(sh);
+	//	if(!g_status)
+	//		g_status = 0;
 		ft_sigset();
 		init_vars(sh);
 		if(sh->cmd_line)
@@ -134,6 +136,7 @@ int main(int ac, char **av, char **envp)
 		prompt = get_prompt(sh); //----------VERIFICAR LEAKS AQUI!!!!
 		sh->cmd_line = readline(prompt);
 		free(prompt);
+//printf("\ncmdline=%s\n", sh->cmd_line);
 		if(!sh->cmd_line)
 		{
 			sh->vars.sh_status = false;
@@ -150,8 +153,7 @@ int main(int ac, char **av, char **envp)
 			init_tokens(sh);
 			split_cmd(sh);
 			filter_tokens(sh);
-//printf("saiu do filter\n");
-printflags(sh);
+
 
 			search_expand(sh);
 
@@ -170,13 +172,12 @@ printflags(sh);
 			}*/
 
 			fill_parser(sh);  //----------VERIFICAR LEAKS AQUI!!!!
-//printf("acabou fillparser\n");
-//printf("\n\n\n");
 
+printflags(sh);
+			
 			executor(sh);
-print_exec(sh);
 
-//printf("acabou executor\n");
+print_exec(sh);
 
 			free_tokens(sh);
 			free_cmds(sh);

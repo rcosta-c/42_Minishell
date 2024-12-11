@@ -126,7 +126,8 @@ int	parse_utils(t_sh *sh, int x, int n_cmd)
 
 		}
 		else
-		{	
+		{	printf("\nn_cmd=%d\n", n_cmd);
+			printf("%s\n", sh->tokens[x - 1].tokens);
 			sh->comands[n_cmd].arg = malloc(sizeof(char **) * 2); 
 			sh->comands[n_cmd].cmd = ft_strdup(sh->tokens[x - 1].tokens); 
 			sh->comands[n_cmd].arg[0] = ft_strdup(sh->tokens[x - 1].tokens);
@@ -162,16 +163,15 @@ int	parse_utils(t_sh *sh, int x, int n_cmd)
 	}
 	else
 	{
-		sh->comands = malloc(sizeof(t_exec) * 1);
-		init_cmds(sh, 0);
+
+		printf("\nn_cmd=%d\n", n_cmd);
 		sh->comands[n_cmd].arg = malloc(sizeof(char **) * 2); 
 		sh->comands[n_cmd].cmd = ft_strdup(sh->tokens[0].tokens); 
 		sh->comands[n_cmd].arg[0] = ft_strdup(sh->tokens[0].tokens);
 		sh->comands[n_cmd].arg[1] = NULL;
 		sh->comands[n_cmd].n_args = 1;
 		sh->vars.cmds_num = 1;
-		
-		
+		x++;
 	}
 	return(x);
 }

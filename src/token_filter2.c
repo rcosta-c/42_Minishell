@@ -69,6 +69,8 @@ void	filter_quotes(t_sh *sh, int n)
 	int x;
 
 	x = 1;
+	if(!sh->tokens[n].tokens)
+		return;
 	if(sh->tokens[n].tokens[0] == 34)
 	{
 		while(sh->tokens[n].tokens[x])

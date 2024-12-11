@@ -80,8 +80,8 @@ void	executor(t_sh *sh)
 	//free_for_executer(sh);
 	if(verify_errors(sh) == true || sh->vars.sh_status == false)
 	{
-		printf("%d", sh->vars.sh_status);
-		printf("\nMERDA:SAIU AQUI!\n");
+//printf("%d", sh->vars.sh_status);
+//printf("\nMERDA:SAIU AQUI!\n");
 		return;
 	}
 	if(sh->vars.cmds_num == 0)
