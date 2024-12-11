@@ -51,10 +51,10 @@ int	parse_utils(t_sh *sh, int x, int n_cmd)
 
 	narg = 0;
    	if(sh->tokens[x].cmd) 
-	{		
-		x++;
-		if(x < sh->vars.tk_num && sh->tokens[x].arg == true)
+	{	
+		if(x < sh->vars.tk_num && sh->tokens[x + 1].arg == true)
 		{
+			x++;
 			while(sh->tokens[x].arg == true && x < sh->vars.tk_num)
 			{
 				sh->comands[n_cmd].n_args++;
@@ -109,7 +109,7 @@ int	parse_utils(t_sh *sh, int x, int n_cmd)
 					sh->comands[n_cmd].outfile = ft_strdup(sh->tokens[x].tokens);
 				else if(sh->tokens[x - 1].r_heredoc == true && sh->tokens[x].tokens)
 				{
-					printf("\n\n entrou onde queriamos redir heredoc\n\n");	
+//printf("\n\n entrou onde queriamos redir heredoc\n\n");	
 					sh->comands[n_cmd].inheredoc_file = ft_strdup(sh->tokens[x].tokens);
 
 				}
@@ -126,12 +126,16 @@ int	parse_utils(t_sh *sh, int x, int n_cmd)
 
 		}
 		else
-		{	printf("\nn_cmd=%d\n", n_cmd);
-			printf("%s\n", sh->tokens[x - 1].tokens);
+		{
+//printf("\nn_cmd=%d\n", n_cmd);
+//printf("%s\n", sh->tokens[x].tokens);
+//printf("\n\nmerda=%d\n", n_cmd);
 			sh->comands[n_cmd].arg = malloc(sizeof(char **) * 2); 
-			sh->comands[n_cmd].cmd = ft_strdup(sh->tokens[x - 1].tokens); 
-			sh->comands[n_cmd].arg[0] = ft_strdup(sh->tokens[x - 1].tokens);
+			sh->comands[n_cmd].cmd = ft_strdup(sh->tokens[x].tokens); 
+			sh->comands[n_cmd].arg[0] = ft_strdup(sh->tokens[x].tokens);
 			sh->comands[n_cmd].arg[1] = NULL;
+			sh->comands[n_cmd].n_args = 0;
+			x++;
 			if(x < sh->vars.tk_num && (sh->vars.redir_num > 0 || sh->tokens[x].file))
 			{
 				if(sh->tokens[x].file == true)
@@ -163,14 +167,12 @@ int	parse_utils(t_sh *sh, int x, int n_cmd)
 	}
 	else
 	{
-
-		printf("\nn_cmd=%d\n", n_cmd);
+//printf("\nn_cmd=%d\n", n_cmd);
 		sh->comands[n_cmd].arg = malloc(sizeof(char **) * 2); 
 		sh->comands[n_cmd].cmd = ft_strdup(sh->tokens[0].tokens); 
 		sh->comands[n_cmd].arg[0] = ft_strdup(sh->tokens[0].tokens);
 		sh->comands[n_cmd].arg[1] = NULL;
-		sh->comands[n_cmd].n_args = 1;
-		sh->vars.cmds_num = 1;
+//		sh->vars.cmds_num = 1;
 		x++;
 	}
 	return(x);

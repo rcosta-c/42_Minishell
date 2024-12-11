@@ -170,8 +170,10 @@ int main(int ac, char **av, char **envp)
 					free_tokens(sh);
 					break;
 			}*/
+//printf("\nQUUUEUEUEUUE CARALHO AQUI ESTA CMD=%d\n", sh->vars.cmds_num);
 
 			fill_parser(sh);  //----------VERIFICAR LEAKS AQUI!!!!
+//printf("\nQUUUEUEUEUUE CARALHO AQUI ESTA CMD=%d\n", sh->vars.cmds_num);
 
 printflags(sh);
 			

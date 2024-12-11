@@ -36,13 +36,14 @@ void	free_cmds(t_sh *sh)
 	{
 		while(x < sh->vars.cmds_num)
 		{
-			free(sh->comands[x].cmd);
+			xx = 0;
+//printf("\nnumero de comandos= %d\ne agora no cmd = %d\n", sh->vars.cmds_num, x);
 			while(xx <= sh->comands[x].n_args)
 			{
 				free(sh->comands[x].arg[xx]);
 				xx++;
 			}
-//			free(sh->comands[x].arg[xx + 1]);
+			free(sh->comands[x].cmd);
 			free(sh->comands[x].arg);
 			if(sh->comands[x].infile)
 				free(sh->comands[x].infile);

@@ -32,11 +32,13 @@ void	init_parser(t_sh *sh)
 {
 	int	x;
 
-	if(sh->vars.cmds_num == 0 && sh->vars.pipe_num == 0)
+	if(sh->vars.cmds_num == 0 && sh->vars.pipe_num == 0 && sh->vars.redir_num == 0)
 		return;
 	x = 0;
 	if(sh->vars.cmds_num <= sh->vars.pipe_num)
 		sh->vars.cmds_num = sh->vars.cmds_num + sh->vars.pipe_num; 
+
+//printf("\nCARALHO AQUI ESTA CMD=%d\n", sh->vars.cmds_num);
 	sh->comands = malloc(sizeof(t_exec) * (sh->vars.cmds_num + 1));
 	if(!sh->comands)
 		exit(EXIT_FAILURE);

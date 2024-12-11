@@ -76,7 +76,8 @@ void	executor(t_sh *sh)
 	int 	x;
 
 	x = 0;
-	
+//printf("\nCARALHO AQUI ESTA CMD=%d\n", sh->vars.cmds_num);
+
 	//free_for_executer(sh);
 	if(verify_errors(sh) == true || sh->vars.sh_status == false)
 	{
