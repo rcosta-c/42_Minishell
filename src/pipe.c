@@ -1,61 +1,25 @@
 #include "../includes/minishell.h"
 
-void    close_pipe_child(t_sh *sh)
-{
-    int  x;
-    
-    x = 0;
-    if(sh->vars.pipe_num == 0)
-    return;
-
-     while (x < sh->vars.pipe_num) 
-     {
-        close(sh->comands[x].pipe_fd[0]);
-           close(sh->comands[x].pipe_fd[1]);
-
-        x++;
-     }
-
-}
-
-void    start_pipes(t_sh *sh)
-{
-    int x;
-
-    x = 0;
-    while(x < sh->vars.pipe_num)
-    {
-        if (pipe(sh->comands[x + 1].pipe_fd) == -1) // ALTEREI AQUI PARA X + 1
-        {
-            perror("Erro ao criar pipe");
-            exit(EXIT_FAILURE);
-        }
-        x++;
-    }
-}
-
 // funcao para criar os pipes
-void create_pipes(t_sh *sh, int **pipes)
+void create_pipes(t_sh *sh, int ***pipes)
 {
     int i;
 
-    i = 0;
-    pipes = malloc(sizeof(int *) * sh->vars.pipe_num);
-    if (!pipes)
+    *pipes = malloc(sizeof(int *) * sh->vars.pipe_num);
+    if (!*pipes)
         exit(EXIT_FAILURE);
+    i = 0;
     while (i < sh->vars.pipe_num)
     {
-        pipes[i] = malloc(sizeof(int) * 2);
-        if (!pipes[i])
+        (*pipes)[i] = malloc(sizeof(int) * 2);
+        if (!(*pipes)[i])
             exit(EXIT_FAILURE);
-
-        if (pipe(pipes[i]) == -1)
+        if (pipe((*pipes)[i]) == -1)
             exit(EXIT_FAILURE);
         i++;
     }
 }
 
-// funcao para fechar e liberar os pipes
 void close_pipes(int **pipes, int pipe_num)
 {
     int i;
@@ -71,87 +35,73 @@ void close_pipes(int **pipes, int pipe_num)
     free(pipes);
 }
 
-// funcao para configurar os pipes
-void setup_pipes(int **pipes, int cmds_num)
+void setup_pipes(int **pipes, int i, int cmds_num)
 {
-    int i;
-
-    i = 0;
-    if (i == 0) // primeiro comando
+    if (i == 0) // Primeiro comando
         dup2(pipes[i][1], STDOUT_FILENO);
-    else if (i == cmds_num - 1) // ultimo comando
+    else if (i == cmds_num - 1) // Último comando
         dup2(pipes[i - 1][0], STDIN_FILENO);
     else
     {
         dup2(pipes[i - 1][0], STDIN_FILENO);
         dup2(pipes[i][1], STDOUT_FILENO);
     }
-    // fechar todos os pipes apos configurar
-    i = 0;
-    while (i < cmds_num - 1)
+    // Fechar os pipes para evitar vazamentos
+    for (int j = 0; j < cmds_num - 1; j++)
     {
-        close(pipes[i][0]);
-        close(pipes[i][1]);
-        i++;
+        close(pipes[j][0]);
+        close(pipes[j][1]);
     }
 }
 
-// funcao principal de execucao
-void execute_pipeline(t_sh *sh)
+void execute_pipeline(t_sh *sh, int n_cmds)
 {
-    int i;
-    int **pipes;
-    pid_t pid;
-    int status;
-    t_exec  *cmd;
+    int i, pipefd[2], in_fd = 0;
 
-    i = 0;
-    pipes = NULL;
-    create_pipes(sh, pipes);
-    while (i < sh->vars.cmds_num)
+    for (i = 0; i < n_cmds; i++)
     {
-        cmd = &sh->comands[i];
-        pid = fork();
-        
-        if (check_if_builtin(sh->comands[i].cmd))
-			exec_builtin(sh, i);
-        else
+        pipe(pipefd); // Cria um par de file descriptors para o pipe
+
+        if (fork() == 0)
         {
-            if (pid < 0)
+            dup2(in_fd, 0); // Redireciona entrada padrão
+            if (i < n_cmds - 1)
+                dup2(pipefd[1], 1); // Redireciona saída padrão para o pipe
+
+            close(pipefd[0]); // Fecha leitura do pipe
+            execvp(sh->comands[i].cmd, sh->comands[i].arg); // Executa o comando
+            perror("execvp"); // Caso falhe, exibe erro
             exit(EXIT_FAILURE);
-            if (pid == 0) // processo filho
-        {
-            setup_pipes(pipes, sh->vars.cmds_num);
-            if (execve(cmd->cmd, cmd->arg, sh->envp) == -1) // substituir execve pelos dados reais de sh->comands
-                exit(EXIT_FAILURE);
         }
-        else // processo pai
-        {
-            if (i < sh->vars.cmds_num - 1)
-                close(pipes[i][1]); // fecha a escrita do pipe
-        }
-        i++;
-        }
+
+        // Fecha o pipe atual e ajusta o in_fd para o próximo comando
+        close(pipefd[1]);
+        in_fd = pipefd[0];
     }
-    close_pipes(pipes, sh->vars.pipe_num);
-    while (wait(&status) > 0); // aguarda todos os filhos
+
+    // Aguarda todos os processos filhos
+    for (i = 0; i < n_cmds; i++)
+        wait(NULL);
 }
+
 void check_pipes(t_sh *sh)
 {
     int i;
 
     sh->vars.pipe_num = 0;
     sh->vars.is_pipe = false;
+
     i = 0;
-    while (i < sh->vars.tk_num - 1) // percorre os tokens ate o final do comando
+    while (i < sh->vars.tk_num - 1)
     {
-        if (strcmp(sh->tokens[i].tokens, "|") == 0) // verifica se o token atual e um pipe
+        if (strcmp(sh->tokens[i].tokens, "|") == 0)
         {
-            sh->vars.pipe_num++;      // incrementa o numero de pipes
-            sh->vars.is_pipe = true;  // marca que ha um pipe
-            execute_pipeline(sh);
-            return ;
+            sh->vars.pipe_num++;
+            sh->vars.is_pipe = true;
         }
         i++;
     }
+
+    if (sh->vars.is_pipe)
+        execute_pipeline(sh, sh->vars.cmds_num);
 }

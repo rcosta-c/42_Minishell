@@ -291,10 +291,10 @@ void    exec_builtin(t_sh *sh, int cmd_nbr);
 /*	PIPE.c*/
 void	start_pipes(t_sh *sh);
 void	close_pipe_child(t_sh *sh);
-void	execute_pipeline(t_sh *sh);
-void	create_pipes(t_sh *sh, int **pipes);
+void	execute_pipeline(t_sh *sh, int n_cmds);
+void create_pipes(t_sh *sh, int ***pipes);
 void	close_pipes(int **pipes, int pipe_num);
-void	setup_pipes(int **pipes, int cmds_num);
+void setup_pipes(int **pipes, int i, int cmds_num);
 void	check_pipes(t_sh *sh);
 /*	FIM		*/
 

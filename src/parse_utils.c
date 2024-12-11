@@ -126,8 +126,8 @@ int	parse_utils(t_sh *sh, int x, int n_cmd)
 
 		}
 		else
-		{	printf("\nn_cmd=%d\n", n_cmd);
-			printf("%s\n", sh->tokens[x - 1].tokens);
+		{	//printf("\nn_cmd=%d\n", n_cmd);
+			//printf("%s\n", sh->tokens[x - 1].tokens);
 			sh->comands[n_cmd].arg = malloc(sizeof(char **) * 2); 
 			sh->comands[n_cmd].cmd = ft_strdup(sh->tokens[x - 1].tokens); 
 			sh->comands[n_cmd].arg[0] = ft_strdup(sh->tokens[x - 1].tokens);
@@ -164,7 +164,7 @@ int	parse_utils(t_sh *sh, int x, int n_cmd)
 	else
 	{
 
-		printf("\nn_cmd=%d\n", n_cmd);
+		//printf("\nn_cmd=%d\n", n_cmd);
 		sh->comands[n_cmd].arg = malloc(sizeof(char **) * 2); 
 		sh->comands[n_cmd].cmd = ft_strdup(sh->tokens[0].tokens); 
 		sh->comands[n_cmd].arg[0] = ft_strdup(sh->tokens[0].tokens);
@@ -176,23 +176,30 @@ int	parse_utils(t_sh *sh, int x, int n_cmd)
 	return(x);
 }
 
-	 
-int		parse_pipes(t_sh *sh, int z, int n_cmd)
+int	parse_pipes(t_sh *sh, int z, int n_cmd)
 {
-	int x;
+	int	x;
 
 	x = z;
-//printf("\nentrou no parse_pipes = %d\n", sh->vars.pipe_num);
-	if(sh->vars.pipe_num == 0)
-		return(x);
-	//while(sh->tokens[x].pipe == false && (x < sh->vars.tk_num))
-	//	x = parse_redir(sh, x, n_cmd);
-	if(sh->tokens[x].pipe == true && (x < sh->vars.tk_num))
-	{
-//printf("nao entrou!?\n");
-		sh->comands[n_cmd].pipes = true;
-		x++;
-	}
-	return(x);
-}
+	if (sh->vars.pipe_num == 0)
+		return (x);
 
+	// Itera até encontrar um pipe ou chegar ao final dos tokens
+	while (x < sh->vars.tk_num)
+	{
+		// Se encontrar um pipe, marca e avança
+		if (sh->tokens[x].pipe == true)
+		{
+			sh->comands[n_cmd].pipes = true; // Marca que este comando usa pipe
+			x++; // Avança para o próximo token após o pipe
+			break; // Sai do laço, pois encontrou o pipe
+		}
+		// Caso contrário, pode lidar com redirecionamentos aqui (não implementado)
+		// x = parse_redir(sh, x, n_cmd);
+		else
+		{
+			x++;
+		}
+	}
+	return (x);
+}

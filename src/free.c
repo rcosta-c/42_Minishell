@@ -29,13 +29,13 @@ void	free_cmds(t_sh *sh)
 	int x;
 	int	xx;
 
-	xx = 0;
 	x = 0;
 
 	if(sh->vars.cmds_num > 0)
 	{
 		while(x < sh->vars.cmds_num)
 		{
+			xx = 0;
 			free(sh->comands[x].cmd);
 			while(xx <= sh->comands[x].n_args)
 			{

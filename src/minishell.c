@@ -173,8 +173,8 @@ int main(int ac, char **av, char **envp)
 
 			fill_parser(sh);  //----------VERIFICAR LEAKS AQUI!!!!
 
-printflags(sh);
-print_exec(sh);
+//printflags(sh);
+//print_exec(sh);
 			
 			executor(sh);
 
