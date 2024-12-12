@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcosta-c <rcosta-c@student.42porto.co      +#+  +:+       +#+        */
+/*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 11:43:36 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/04/29 08:52:00 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/10/28 09:33:53 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,16 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	return (n_str);
 }
 /*
+#include <stdio.h>
+
 int     main()
 {
-        char            *x = "0 1234 56789";
-	unsigned char 	n = '32';
-	size_t		len = 4;
+        char            *x = "USER=rcosta";
+	 	char 	n = '=';
+	size_t		len = 11;
         char            *d;
 
-        d = ft_substr(&x[3], n, len);
-	printf("ft_substr.c: resultado de funcao: %s \n", d);
-}*/
+        d = ft_substr(x, 4, len);
+	printf("%s \n", d);
+}
+*/

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcosta-c <rcosta-c@student.42porto.co      +#+  +:+       +#+        */
+/*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 10:46:58 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/04/23 10:08:01 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/10/28 09:39:53 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,28 +29,15 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	return ((unsigned char)(s1[counter]) - (unsigned char)(s2[counter]));
 }
 /*
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
-{
-	size_t	counter;
-
-	counter = 0;
-	while ((s1[counter] != '\0' || s2[counter] != '\0') && counter < n)
-	{
-		if (s1[counter] < s2[counter])
-			return (-1);
-		if (s1[counter] > s2[counter])
-			return (1);
-		counter++;
-	}
-	return (0);
-}
-*/
-/*
+#include <stdio.h>
+#include <string.h>
 int	main()
 {
 	char	*t1, *t2;
+	int	x = 0;
 
-	t1 = "belele";
-	t2 = "belele";
-	printf("value is : %d \n", ft_strncmp(t1, t2, 5));
-} */
+	t1 = "USER";
+	t2 = "USE=rcostabelele";
+	x = strlen(t1);
+	printf("value is : %d \n", ft_strncmp(t1, t2, x));
+}*/

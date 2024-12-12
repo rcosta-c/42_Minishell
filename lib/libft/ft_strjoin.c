@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcosta-c <rcosta-c@student.42porto.co      +#+  +:+       +#+        */
+/*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 07:50:54 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/04/24 13:53:00 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/11/21 09:28:58 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		newstr[counter++] = *s2++;
 	}
 	newstr[counter] = '\0';
+
 	return (newstr);
 }
 /*
