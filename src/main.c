@@ -113,7 +113,6 @@ static void	sh_loop(t_sh *sh)
 {
 		char	*prompt;
 
-
 		init_cycle(sh);
 		prompt = get_prompt(sh);
 		sh->cmd_line = readline(prompt);
@@ -129,13 +128,11 @@ static void	sh_loop(t_sh *sh)
 			split_cmd(sh);
 			filter_tokens(sh);
 			search_expand(sh);
-printflags(sh);
+//printflags(sh);
 			init_parser(sh);
 			fill_parser(sh);
-
 			executor(sh);
-print_exec(sh);
-
+//print_exec(sh);
 			free_tokens(sh);
 			free_cmds(sh);
 		}
@@ -144,7 +141,6 @@ print_exec(sh);
 int main(int ac, char **av, char **envp)
 {
    	t_sh	*sh;
-	//char	*prompt;
 
 	(void)ac;
 	(void)av;

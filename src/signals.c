@@ -7,14 +7,28 @@ void	ft_sigset(void)
 	signal(SIGTERM, SIG_IGN);
 }
 
+
+
+void	ft_sigset_fd(void)
+{
+	signal(SIGINT, ft_signal_handfd);
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGTERM, SIG_IGN);
+}
 void	ft_signal_handler(int sig)
 {
 	if (sig == SIGINT)
 	{
 		rl_replace_line("", 0);
-		write(1, "\n", 1);
+		write(0, "\n", 1);
 		rl_on_new_line();
 		rl_redisplay();
-		g_status = EXIT_SIGINT;
+	}
+}
+void	ft_signal_handfd(int sig)
+{
+	if (sig == SIGINT)
+	{
+		write(STDERR_FILENO, "\n", 1);
 	}
 }

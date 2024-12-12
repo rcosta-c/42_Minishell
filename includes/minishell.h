@@ -24,7 +24,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "../lib/libft/libft.h"
-#include "../lib/gnl/get_next_line_bonus.h"
+#include "../lib/gnl/get_next_line.h"
 
 # define OTHER_ERROR	1
 # define SYNTAX_MISPELL	2
@@ -127,6 +127,7 @@ typedef struct s_sh
 
 }   t_sh;
 
+
 /* PROMPT.c */
 char	*get_prompt(t_sh *sh);
 char	*join_2_str(char *a, char *b, char *z, int option);
@@ -180,9 +181,11 @@ void	init_vars(t_sh *sh);
 /*	SIGNALS.c	*/
 
 void	ft_sigset(void);
+void	ft_sigset_fd(void);
 void	ft_signal_handler(int sig);
+void	ft_signal_handfd(int sig);
 
-/*	FIM		*/
+/*	FIM		*/         
 
 /* TOKEN.c */
 char *prepare_line(char *str);

@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcosta-c <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 07:58:24 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/05/24 09:23:15 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/12 22:59:47 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
+# include "../42_Minishell/includes/minishell.h"
 # include <stdlib.h>
 # include <unistd.h>
 
@@ -21,8 +22,9 @@
 # endif
 
 char	*get_next_line(int fd);
+char    *ft_finalstr(char *buffer);
+char    *ft_nextgnl(char *buffer);
 char	*ft_search_nl(const char *x, int flag);
-int		ft_bufferlen(char *x);
-char	*ft_strchunckjoin(char *buffer, char *chunck);
+char    *ft_chunckjoin(int fd, char *buffer, char *temp);
 
 #endif

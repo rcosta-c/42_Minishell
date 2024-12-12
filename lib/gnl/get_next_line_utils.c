@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcosta-c <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 07:36:20 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/05/24 08:28:53 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/12 22:58:03 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,38 +27,24 @@ char	*ft_search_nl(const char *x, int flag)
 	return (NULL);
 }
 
-int	ft_bufferlen(char *x)
+char *ft_chunckjoin(int fd, char *buffer, char *temp)
 {
-	int	len;
+	int temp_len;
 
-	len = 0;
-	if (x)
-		while (x[len])
-			len++;
-	return (len);
-}
-
-char	*ft_strchunckjoin(char *buffer, char *chunck)
-{
-	int		counter;
-	int		total_len;
-	char	*temp;
-	char	*ptr_buffer;
-
-	if (!buffer || !chunck)
-		return (NULL);
-	ptr_buffer = buffer;
-	total_len = ft_bufferlen(buffer) + ft_bufferlen(chunck);
-	temp = malloc(sizeof(char) * total_len + 1);
-	if (!temp)
-		return (NULL);
-	counter = 0;
-	while (*buffer)
-		temp[counter++] = *buffer++;
-	while (*chunck)
-		temp[counter++] = *chunck++;
-	temp[counter] = '\0';
-	if (ptr_buffer)
-		free (ptr_buffer);
-	return (temp);
+    temp_len = 1;
+    while (!ft_search_nl(buffer, '\n') && temp_len != 0)
+    {
+		temp_len = read(fd, temp, BUFFER_SIZE);
+		if (temp_len == -1)
+			return (NULL);
+		temp[temp_len] = '\0';
+		char *new_buffer = ft_strjoin(buffer, temp);
+		if (!new_buffer)
+		{
+			free(buffer);
+            return (NULL);
+        }
+        free(buffer);
+        buffer = new_buffer;
+    }    return (buffer);
 }

@@ -11,8 +11,7 @@ void handle_heredoc(t_sh *sh, int x)
 		perror("Error opening .heredoc_temp.txt");
 		exit(EXIT_FAILURE);
 	}
-	//printf("\n\nESTOU AQUI!!!\n\n");
-	ft_sigset();
+	ft_sigset_fd();
 	while (1)
 	{
 		write(1, ">", 2);
@@ -32,4 +31,5 @@ void handle_heredoc(t_sh *sh, int x)
 	}
 	close(sh->comands[x].inheredoc_fd);
 }
+
 

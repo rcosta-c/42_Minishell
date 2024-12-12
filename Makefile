@@ -38,8 +38,8 @@ SRCS := src/main.c \
 						src/signals.c \
 						src/init_utils.c \
 						src/expander.c \
-						lib/gnl/get_next_line_bonus.c \
-						lib/gnl/get_next_line_utils_bonus.c \
+						lib/gnl/get_next_line.c \
+						lib/gnl/get_next_line_utils.c \
 						lib/libft/ft_isalnum.c \
 						lib/libft/ft_bzero.c \
 						lib/libft/ft_putchar_fd.c \
