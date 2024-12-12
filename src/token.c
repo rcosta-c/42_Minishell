@@ -26,7 +26,6 @@ int	count_tokens(t_sh *sh)
 		if(!sh->cmd_line[x] && counter_validation(sh->cmd_line[x - 1]))
 			counter++;
 	}
-	//printf("\n%d\n", counter);
 	return(counter);
 }
 
@@ -37,13 +36,17 @@ bool counter_validation(int c)
 	else 
 		return(false);
 }
+/*static int		prepare_line_helper(char *str, char *temp, int x_o)
+{
+	
+	return(x_o);
+}*/
 
 char *prepare_line(char *str)
 {
 	int     x_o;
 	int     x_d;
 	char    temp[1000];
-	char    *dest;
 
 	x_o = 0;
 	x_d = 0;
@@ -73,9 +76,8 @@ char *prepare_line(char *str)
 		}
 	}
 	temp[x_d] = '\0';
-	dest = ft_strdup(temp);
 	free(str);
-	return(dest);
+	return(ft_strdup(temp));
 }
 
 

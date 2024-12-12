@@ -60,141 +60,110 @@ int	parse_utils(t_sh *sh, int x, int n_cmd)
 				sh->comands[n_cmd].n_args++;
 				x++;
 			}
-//printf("\n\n (DENTRO)antes X=%d\n", x);
 			if(sh->comands[n_cmd].n_args > 0)
-			{
 				x -= sh->comands[n_cmd].n_args;
-			}
-//printf("\nnargs=%d\nagora o X =%d", sh->comands[n_cmd].n_args, x);
-//printf("\n\n (DENTRO)depois X=%d\n", x);
-				sh->comands[n_cmd].arg = malloc(sizeof(char **) * (sh->comands[n_cmd].n_args + 2));
-//sh->comands[n_cmd].arg[narg - 1] = ft_strdup(sh->tokens[x].tokens);
-//printf("\n\ncomandovaiser %s\n", sh->comands[n_cmd].cmd);
-//printf("arg1=%s ", sh->tokens[x].tokens);			
-//printf("\ncmd vai ser =%s\n", sh->tokens[x - 1].tokens);
-				sh->comands[n_cmd].cmd = ft_strdup(sh->tokens[x - 1].tokens);
-				sh->comands[n_cmd].arg[narg] = ft_strdup(sh->tokens[x - 1].tokens);
-				narg++; 
-				while(narg <= sh->comands[n_cmd].n_args) 
-				{
-					sh->comands[n_cmd].arg[narg] = ft_strdup(sh->tokens[x].tokens);
-//printf("\narg %d = %s", narg, sh->comands[n_cmd].arg[narg]);				
-				
-					narg++;
-					x++;
-				}
-//printf("\narg %d = %s\n e narg=%d", narg, sh->comands[n_cmd].arg[narg - 1], narg);				
-
-//printf("\n\ncmd=%s\narg[0]=%s\narg1=%s", sh->comands[n_cmd].cmd, sh->comands[n_cmd].arg[0], sh->comands[n_cmd].arg[1]);
-				if (sh->comands[n_cmd].n_args > 0)
-				{
-					sh->comands[n_cmd].arg[narg] = NULL;
-
-				}
-				else
-					sh->comands[n_cmd].arg[1] = NULL;
-
-
-//printf("\nonde ja vai %s \n\n\n", sh->tokens[x - 1].tokens);
-//printf("111\n%s\n", sh->tokens[x].tokens);
-//printf("if redir entao vai\narg %d = %s", narg, sh->comands[n_cmd].arg[narg]);				
-			if(sh->vars.redir_num > 0)
-			{
-
-				x++;
-//printf("222\n%s\n", sh->tokens[x].tokens);
-				if(sh->tokens[x - 1].r_in  == true && sh->tokens[x].file == true )
-					sh->comands[n_cmd].infile = ft_strdup(sh->tokens[x].tokens);
-				else if(sh->tokens[x - 1].r_out == true  && sh->tokens[x].file == true )
-					sh->comands[n_cmd].outfile = ft_strdup(sh->tokens[x].tokens);
-				else if(sh->tokens[x - 1].r_heredoc == true && sh->tokens[x].tokens)
-				{
-//printf("\n\n entrou onde queriamos redir heredoc\n\n");	
-					sh->comands[n_cmd].inheredoc_file = ft_strdup(sh->tokens[x].tokens);
-
-				}
-				else if(sh->tokens[x - 1].r_outappend == true && sh->tokens[x].file == true )
-					sh->comands[n_cmd].outappendfile = ft_strdup(sh->tokens[x].tokens);
-				sh->vars.redir_num--;
-//printf("\n\n\vai altarar o redir bool esta em %dn\n", sh->comands[n_cmd].redir);
-				sh->comands[n_cmd].redir = true;
-//printf("\n\n\vai ja alterou o redir bool esta em %dn\n", sh->comands[n_cmd].redir);
-				x++;
-			}
-//printf("x=%d\n", x);
-			return(x);
-
+			x = parse_with_args(sh, n_cmd, x, narg);		
 		}
 		else
-		{
-//printf("\nn_cmd=%d\n", n_cmd);
-//printf("%s\n", sh->tokens[x].tokens);
-//printf("\n\nmerda=%d\n", n_cmd);
-			sh->comands[n_cmd].arg = malloc(sizeof(char **) * 2); 
-			sh->comands[n_cmd].cmd = ft_strdup(sh->tokens[x].tokens); 
-			sh->comands[n_cmd].arg[0] = ft_strdup(sh->tokens[x].tokens);
-			sh->comands[n_cmd].arg[1] = NULL;
-			sh->comands[n_cmd].n_args = 0;
-			x++;
-			if(x < sh->vars.tk_num && (sh->vars.redir_num > 0 || sh->tokens[x].file))
-			{
-				if(sh->tokens[x].file == true)
-					sh->comands[n_cmd].infile = ft_strdup(sh->tokens[x - 1].tokens);
-				x++;
-//				printf("\n\nestou aqui\ntoken[x]=%d\n", x);
-				while(sh->tokens[x].pipe == false && x < sh->vars.tk_num)
-				{
-					if(sh->tokens[x - 1].r_in == true && sh->tokens[x].file)
-						sh->comands[n_cmd].infile = ft_strdup(sh->tokens[x].tokens);
-					else if(sh->tokens[x - 1].r_heredoc == true && sh->tokens[x].file)
-						sh->comands[n_cmd].inheredoc_file = NULL;//ft_strdup(sh->tokens[x].tokens);
-					else if(sh->tokens[x - 1].r_out == true && sh->tokens[x].file)
-						sh->comands[n_cmd].outfile = ft_strdup(sh->tokens[x].tokens);
-					else if(sh->tokens[x - 1].r_outappend == true && sh->tokens[x].file)
-						sh->comands[n_cmd].outappendfile = ft_strdup(sh->tokens[x].tokens);
-					x++;	
-				}
-				//if(sh->vars.redir_num  > 0)
-				//	sh->vars.redir_num--;
-				sh->comands[n_cmd].redir = true;
-
-			}
-			
-	//		printf("\n\nsaaaaaou aqui\n\n");
-			return(x);
-		}
-
+			x = parse_no_args(sh, n_cmd, x);
 	}
 	else
-	{
-//printf("\nn_cmd=%d\n", n_cmd);
-		sh->comands[n_cmd].arg = malloc(sizeof(char **) * 2); 
-		sh->comands[n_cmd].cmd = ft_strdup(sh->tokens[0].tokens); 
-		sh->comands[n_cmd].arg[0] = ft_strdup(sh->tokens[0].tokens);
+		x = parse_no_cmds(sh, n_cmd, x);
+	return(x);
+}
+
+int		parse_with_args(t_sh *sh, int n_cmd, int x, int narg)
+{
+	sh->comands[n_cmd].arg = malloc(sizeof(char **) * (sh->comands[n_cmd].n_args + 2));
+	sh->comands[n_cmd].cmd = ft_strdup(sh->tokens[x - 1].tokens);
+	sh->comands[n_cmd].arg[narg++] = ft_strdup(sh->tokens[x - 1].tokens);
+	while(narg <= sh->comands[n_cmd].n_args) 
+		sh->comands[n_cmd].arg[narg++] = ft_strdup(sh->tokens[x++].tokens);
+	if (sh->comands[n_cmd].n_args > 0)
+		sh->comands[n_cmd].arg[narg] = NULL;
+	else
 		sh->comands[n_cmd].arg[1] = NULL;
-//		sh->vars.cmds_num = 1;
+	if(sh->vars.redir_num > 0)
+	{
+		x++;
+		if(sh->tokens[x - 1].r_in  == true && sh->tokens[x].file == true )
+			sh->comands[n_cmd].infile = ft_strdup(sh->tokens[x].tokens);
+		else if(sh->tokens[x - 1].r_out == true  && sh->tokens[x].file == true )
+			sh->comands[n_cmd].outfile = ft_strdup(sh->tokens[x].tokens);
+		else if(sh->tokens[x - 1].r_heredoc == true && sh->tokens[x].tokens)
+			sh->comands[n_cmd].inheredoc_file = ft_strdup(sh->tokens[x].tokens);
+		else if(sh->tokens[x - 1].r_outappend == true && sh->tokens[x].file == true )
+			sh->comands[n_cmd].outappendfile = ft_strdup(sh->tokens[x].tokens);
+		sh->vars.redir_num--;
+		sh->comands[n_cmd].redir = true;
 		x++;
 	}
 	return(x);
 }
 
-	 
-int		parse_pipes(t_sh *sh, int z, int n_cmd)
+int		parse_no_args(t_sh *sh, int n_cmd, int x)
 {
-	int x;
+	sh->comands[n_cmd].arg = malloc(sizeof(char **) * 2); 
+	sh->comands[n_cmd].cmd = ft_strdup(sh->tokens[x].tokens); 
+	sh->comands[n_cmd].arg[0] = ft_strdup(sh->tokens[x].tokens);
+	sh->comands[n_cmd].arg[1] = NULL;
+	sh->comands[n_cmd].n_args = 0;
+	if(++x < sh->vars.tk_num && (sh->vars.redir_num > 0 || sh->tokens[x].file))
+	{
+		if(sh->tokens[x].file == true)
+			sh->comands[n_cmd].infile = ft_strdup(sh->tokens[x - 1].tokens);
+		x++;
+		while(sh->tokens[x].pipe == false && x < sh->vars.tk_num)
+		{
+			if(sh->tokens[x - 1].r_in == true && sh->tokens[x].file)
+				sh->comands[n_cmd].infile = ft_strdup(sh->tokens[x].tokens);
+			else if(sh->tokens[x - 1].r_heredoc == true && sh->tokens[x].file)
+				sh->comands[n_cmd].inheredoc_file = NULL;
+			else if(sh->tokens[x - 1].r_out == true && sh->tokens[x].file)
+				sh->comands[n_cmd].outfile = ft_strdup(sh->tokens[x].tokens);
+			else if(sh->tokens[x - 1].r_outappend == true && sh->tokens[x].file)
+				sh->comands[n_cmd].outappendfile = ft_strdup(sh->tokens[x].tokens);
+			x++;	
+		}
+		sh->comands[n_cmd].redir = true;
+	}
+	return(x);
+}
+
+int		parse_no_cmds(t_sh *sh, int n_cmd, int x)
+{
+	sh->comands[n_cmd].arg = malloc(sizeof(char **) * 2); 
+	sh->comands[n_cmd].cmd = ft_strdup(sh->tokens[0].tokens); 
+	sh->comands[n_cmd].arg[0] = ft_strdup(sh->tokens[0].tokens);
+	sh->comands[n_cmd].arg[1] = NULL;
+	x++;
+	return(x);
+}
+
+int	parse_pipes(t_sh *sh, int z, int n_cmd)
+{
+	int	x;
 
 	x = z;
-//printf("\nentrou no parse_pipes = %d\n", sh->vars.pipe_num);
-	if(sh->vars.pipe_num == 0)
-		return(x);
-	//while(sh->tokens[x].pipe == false && (x < sh->vars.tk_num))
-	//	x = parse_redir(sh, x, n_cmd);
-	if(sh->tokens[x].pipe == true && (x < sh->vars.tk_num))
-	{
-//printf("nao entrou!?\n");
-		sh->comands[n_cmd].pipe = true;
-		x++;
-	}
-	return(x);
-}
+	if (sh->vars.pipe_num == 0)
+		return (x);
 
+	// Itera até encontrar um pipe ou chegar ao final dos tokens
+	while (x < sh->vars.tk_num)
+	{
+		// Se encontrar um pipe, marca e avança
+		if (sh->tokens[x].pipe == true)
+		{
+			sh->comands[n_cmd].pipes = true; // Marca que este comando usa pipe
+			x++; // Avança para o próximo token após o pipe
+			break; // Sai do laço, pois encontrou o pipe
+		}
+		// Caso contrário, pode lidar com redirecionamentos aqui (não implementado)
+		// x = parse_redir(sh, x, n_cmd);
+		else
+		{
+			x++;
+		}
+	}
+	return (x);
+}

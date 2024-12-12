@@ -23,7 +23,7 @@ void	 print_exec(t_sh *sh)
 				xx++;
 			}
 			
-			if(sh->comands[x].pipe == true)
+			if(sh->comands[x].pipes == true)
 				printf("**	pipe = ON!	\n");
 			else
 				printf("**	pipe = OFF	\n");
@@ -108,87 +108,51 @@ void    printflags(t_sh *sh)
 	}
 }
 
+
+static void	sh_loop(t_sh *sh)
+{
+		char	*prompt;
+
+
+		init_cycle(sh);
+		prompt = get_prompt(sh);
+		sh->cmd_line = readline(prompt);
+		free(prompt);
+		if(!sh->cmd_line)
+			handbrake_and_exit(sh);
+		add_history(sh->cmd_line);
+		if(ft_strlen(sh->cmd_line) > 0)
+		{
+			sh->cmd_line = prepare_line(sh->cmd_line);
+			sh->vars.tk_num = count_tokens(sh);
+			init_tokens(sh);
+			split_cmd(sh);
+			filter_tokens(sh);
+			search_expand(sh);
+//printflags(sh);
+			init_parser(sh);
+			fill_parser(sh);
+			executor(sh);
+//print_exec(sh);
+			free_tokens(sh);
+			free_cmds(sh);
+		}
+}
+
 int main(int ac, char **av, char **envp)
 {
    	t_sh	*sh;
-	char	*prompt;
-	//char	**temp;
+	//char	*prompt;
 
 	(void)ac;
 	(void)av;
 	sh = ft_calloc(1, sizeof(t_sh));
-	//temp = ft_calloc(2, sizeof(char **));
-	//sh->tokens = ft_calloc(1, sizeof(t_tokens));
 	if(sh == NULL)
 		return(EXIT_FAILURE);
 	ft_getenv(sh, envp);
 	init_error(sh);
 	while(1)
-	{
-		sh->vars.sh_status = true;
-		//free_heredoc(sh);
-	//	if(!g_status)
-	//		g_status = 0;
-		ft_sigset();
-		init_vars(sh);
-		if(sh->cmd_line)
-			free(sh->cmd_line);		
-		prompt = get_prompt(sh); //----------VERIFICAR LEAKS AQUI!!!!
-		sh->cmd_line = readline(prompt);
-		free(prompt);
-//printf("\ncmdline=%s\n", sh->cmd_line);
-		if(!sh->cmd_line)
-		{
-			sh->vars.sh_status = false;
-			g_status = EXIT_SIGQUIT;
-			ft_exit(sh, NULL);	
-		}
-			
-		add_history(sh->cmd_line);
-
-		if(ft_strlen(sh->cmd_line) > 0)
-		{
-			sh->cmd_line = prepare_line(sh->cmd_line); //----------VERIFICAR LEAKS AQUI!!!!
-			sh->vars.tk_num = count_tokens(sh);
-			init_tokens(sh);
-			split_cmd(sh);
-			filter_tokens(sh);
-
-
-			search_expand(sh);
-
-			init_parser(sh);
-			/*if(check_before_parse(sh))
-			{
-					printf("\ninvalid!!!\n");
-					free_tokens(sh);
-					break;
-			}
-			if(check_r_out(sh) || check_r_in(sh) || check_r_append_out(sh))// || check_pipe(&sh))
-			{
-					printf("\ninvalid!!!\n");
-					free_tokens(sh);
-					break;
-			}*/
-//printf("\nQUUUEUEUEUUE CARALHO AQUI ESTA CMD=%d\n", sh->vars.cmds_num);
-
-			fill_parser(sh);  //----------VERIFICAR LEAKS AQUI!!!!
-//printf("\nQUUUEUEUEUUE CARALHO AQUI ESTA CMD=%d\n", sh->vars.cmds_num);
-
-printflags(sh);
-			
-			executor(sh);
-
-print_exec(sh);
-
-			free_tokens(sh);
-			free_cmds(sh);
-		}
-	
-	}
+		sh_loop(sh);
 	return(0);
-
-
-
-
 }
+

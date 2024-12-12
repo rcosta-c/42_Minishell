@@ -1,12 +1,11 @@
 #include "../includes/minishell.h"
 
-/*void	free_for_executer(t_sh *sh)
+void	handbrake_and_exit(t_sh *sh)
 {
-	free_tokens(sh);
-	free(sh->cmd_line);
-
-}*/
-
+	sh->vars.sh_status = false;
+	g_status = EXIT_SIGQUIT;
+	ft_exit(sh, NULL);	
+}
 
 void	free_tokens(t_sh *sh)
 {
@@ -29,20 +28,14 @@ void	free_cmds(t_sh *sh)
 	int x;
 	int	xx;
 
-	xx = 0;
 	x = 0;
-
 	if(sh->vars.cmds_num > 0)
 	{
 		while(x < sh->vars.cmds_num)
 		{
 			xx = 0;
-//printf("\nnumero de comandos= %d\ne agora no cmd = %d\n", sh->vars.cmds_num, x);
 			while(xx <= sh->comands[x].n_args)
-			{
-				free(sh->comands[x].arg[xx]);
-				xx++;
-			}
+				free(sh->comands[x].arg[xx++]);
 			free(sh->comands[x].cmd);
 			free(sh->comands[x].arg);
 			if(sh->comands[x].infile)
@@ -57,25 +50,6 @@ void	free_cmds(t_sh *sh)
 		}
 		free(sh->comands);
 	}
-	/*
-	while(x < sh->vars.cmds_num && sh->vars.cmds_num > 0)
-	{
-		if(sh->comands[x].n_args > 0)
-		{
-			while(xx - 1 <= sh->comands[x].n_args)
-			{
-				free(sh->comands[x].arg[xx]);
-				xx++;	
-			}
-			free(sh->comands[x].arg);
-		}
-		free(sh->comands[x].cmd);
-		if(sh->comands[x].outfile)
-			free(sh->comands[x].outfile);
-		if(sh->comands[x].infile)
-			free(sh->comands[x].infile);
-		x++;
-	}*/
 }
 
 void	free_env(t_sh *sh)

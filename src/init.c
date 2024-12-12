@@ -37,8 +37,6 @@ void	init_parser(t_sh *sh)
 	x = 0;
 	if(sh->vars.cmds_num <= sh->vars.pipe_num)
 		sh->vars.cmds_num = sh->vars.cmds_num + sh->vars.pipe_num; 
-
-//printf("\nCARALHO AQUI ESTA CMD=%d\n", sh->vars.cmds_num);
 	sh->comands = malloc(sizeof(t_exec) * (sh->vars.cmds_num + 1));
 	if(!sh->comands)
 		exit(EXIT_FAILURE);
@@ -47,4 +45,13 @@ void	init_parser(t_sh *sh)
 		init_cmds(sh, x);
 		x++;
 	}
+}
+
+void init_cycle(t_sh *sh)
+{
+	sh->vars.sh_status = true;
+	ft_sigset();
+	init_vars(sh);
+	if(sh->cmd_line)
+		free(sh->cmd_line);	
 }

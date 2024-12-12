@@ -67,24 +67,14 @@ void    exec_builtin(t_sh *sh, int cmd_nbr)
 		ft_exit(sh, sh->comands[cmd_nbr].arg);
 }
 
-char    *prep_cmd(t_sh *sh, char *cmd, int xx)
+static char		*prep_cmd_helper(char *temp, char **path, char *cmd)
 {
-	char	**path;
-	char	*temp;
+	int 		x;
 	struct stat	path_stat;
-	int x;
 
 	x = 0;
-	if(cmd[0] == '/')
-	{
-		if(access(cmd, X_OK) != 0 && access(cmd, F_OK) != 0)
-			sh->comands[xx].errors.cmd_not_found = true;
-		return(cmd);
-	}
-	path = ft_split(getenv("PATH"), ':');
-	temp = ft_strjoin("/bin/", cmd);
 	if(stat(temp, &path_stat) == 0 && access(temp, X_OK) == 0 && access(temp, F_OK) == 0)
-		x = 0;	
+		x = 0;
 	else
 	{
 		while(path[x])
@@ -97,11 +87,29 @@ char    *prep_cmd(t_sh *sh, char *cmd, int xx)
 		}
 		if (!path[x])
 		{
-			sh->comands[xx].errors.cmd_not_found = true;
 			free(temp);
 			temp = ft_strdup(cmd);	
 		}
 	}
+	return(temp);
+}
+
+char    *prep_cmd(t_sh *sh, char *cmd, int xx)
+{
+	char	**path;
+	char	*temp;
+	int x;
+
+	x = 0;
+	if(cmd[0] == '/')
+	{
+		if(access(cmd, X_OK) != 0 && access(cmd, F_OK) != 0)
+			sh->comands[xx].errors.cmd_not_found = true;
+		return(cmd);
+	}
+	path = ft_split(getenv("PATH"), ':');
+	temp = ft_strjoin("/bin/", cmd);
+	temp = prep_cmd_helper(temp, path, cmd);
 	x = -1;
 	while(path[++x])
 		free(path[x]);
@@ -109,3 +117,6 @@ char    *prep_cmd(t_sh *sh, char *cmd, int xx)
 	free(cmd);
 	return(temp);
 }
+
+
+

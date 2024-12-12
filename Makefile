@@ -8,7 +8,7 @@ CC := cc
 CFLAGS := -Wall -Werror -Wextra
 
 
-SRCS := src/minishell.c \
+SRCS := src/main.c \
 						builtins/env.c \
 						builtins/exit.c \
 						builtins/cd.c \

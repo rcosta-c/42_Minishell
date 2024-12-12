@@ -47,6 +47,7 @@ typedef struct s_vars
 	int		redir_num;
 	int		heredoc_num;
 	int		pipe_num;
+	int		is_pipe;
 	int		envp_total;
 }   t_vars;
 
@@ -104,7 +105,7 @@ typedef struct s_exec
 	char    	*outappendfile;
 	int			pipe_fd[2];
 	bool		redir;
-	bool		pipe;
+	bool		pipes;
 	int			inheredoc_fd;
 	int			infile_fd;
 	int			outfile_fd;
@@ -148,6 +149,7 @@ void	free_cmds(t_sh *sh);
 void	free_env(t_sh *sh);
 void	free_exit(t_sh *sh);
 void	free_for_executer(t_sh *sh);
+void	handbrake_and_exit(t_sh *sh);
 
 /*   FIM   */
 
@@ -163,7 +165,7 @@ bool    verify_errors(t_sh *sh);
 void	init_error(t_sh *sh);
 void	init_tokens(t_sh *sh);
 void	init_parser(t_sh *sh);
-
+void 	init_cycle(t_sh *sh);
 /*   FIM   */
 
 
@@ -217,7 +219,7 @@ void	filter_tokens(t_sh *sh);
 /* TOKEN_FILTER2.c */
 void	filter_file (t_sh *sh, int n);
 void	filter_pipes_redir(t_sh *sh, int n);
-void	filter_quotes(t_sh *sh, int n);
+void	filter_quotes(t_sh *sh, int n, int x);
 /*   FIM   */
 
 
@@ -236,6 +238,7 @@ bool    check_r_out(t_sh *sh);
 bool    check_r_in(t_sh *sh);
 bool	check_r_append_out(t_sh *sh);
 
+
 /*	FIM	   */
 
 
@@ -247,8 +250,11 @@ void	handle_redirects(t_sh *sh, int x);
 
 /*	PARSE_UTILS.c	*/
 
-int	parse_utils(t_sh *sh, int z, int n_cmd);
-int	parse_pipes(t_sh *sh, int z, int n_cmd);
+int		parse_no_cmds(t_sh *sh, int n_cmd, int x);
+int		parse_no_args(t_sh *sh, int n_cmd, int x);
+int		parse_with_args(t_sh *sh, int n_cmd, int x, int narg);
+int		parse_utils(t_sh *sh, int x, int n_cmd);
+int		parse_pipes(t_sh *sh, int z, int n_cmd);
 void	remove_quoted(t_sh *sh);
 
 /*	FIM		*/
@@ -289,8 +295,11 @@ void    exec_builtin(t_sh *sh, int cmd_nbr);
 /*	FIM		*/
 
 /*	PIPE.c*/
-void    start_pipes(t_sh *sh);
-void    close_pipe_child(t_sh *sh);
+void	execute_pipeline(t_sh *sh, int n_cmds);
+void create_pipes(t_sh *sh, int ***pipes);
+void	close_pipes(int **pipes, int pipe_num);
+void setup_pipes(int **pipes, int i, int cmds_num);
+void	check_pipes(t_sh *sh);
 /*	FIM		*/
 
 #endif

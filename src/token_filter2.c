@@ -4,15 +4,13 @@ void	filter_file(t_sh *sh, int n)
 {
 	int	x;
 
-	x = 0;//ft_strlen(sh->tokens[n].tokens);
-	//printf("\npassou aqui %d\n\n", n);
+	x = 0;
 	while(sh->tokens[n].tokens[x])
 	{
 		if(sh->tokens[n].tokens[x] == '.')
 		{
 			if(sh->tokens[n].tokens[x + 1] == '.')
 				break;
-			//printf("\n%s true file", sh->tokens[n].tokens);
 			sh->tokens[n].file = true;
 			break;
 		}
@@ -64,21 +62,15 @@ void	filter_pipes_redir(t_sh *sh, int n)
 	}
 }
 
-void	filter_quotes(t_sh *sh, int n)
+void	filter_quotes(t_sh *sh, int n, int x)
 {
-	int x;
-
-	x = 1;
 	if(!sh->tokens[n].tokens)
 		return;
 	if(sh->tokens[n].tokens[0] == 34)
 	{
-		while(sh->tokens[n].tokens[x])
-		{
+		while(sh->tokens[n].tokens[x++])
 			if(sh->tokens[n].tokens[x] == '$')
 				sh->tokens[n].exp_e = true;
-			x++;
-		}
 		if(sh->tokens[n].tokens[x - 1] == 34 && x > 1)
 			sh->tokens[n].d_quote = true;
 		else

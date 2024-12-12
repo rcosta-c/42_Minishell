@@ -1,7 +1,0 @@
-merda1
-merda 2
-merda    3
-
-merda 4
-merda 5
-merda 9

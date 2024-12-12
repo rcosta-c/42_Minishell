@@ -141,7 +141,6 @@ void    expand_token(t_sh *sh, char *token, int n)
 				c =ft_strdup(" ");	
 		}
 		z = join_2_str(z, c, NULL, 1);
-	//free(c);
 		exp_counter--;
 		if (exp_counter == 0)
 		{
@@ -161,28 +160,23 @@ void	search_expand(t_sh *sh)
 
 	n = 0;
 	x = 0;
-	while(n < sh->vars.tk_num)
+	while(n++ < sh->vars.tk_num)
 	{
 		if(sh->tokens[n].exp_e || sh->tokens[n].exp_t )
 			expand_token(sh, sh->tokens[n].tokens, n);
 		else if(sh->tokens[n].d_quote && (sh->tokens[n].exp_e || sh->tokens[n].exp_t))
 		{
 			while(sh->tokens[n].tokens[x++])
-			{
 				if(sh->tokens[n].tokens[x] == '$')
 					expand_token(sh, sh->tokens[n].tokens, n); 
-			}
 		}
 		else if(sh->tokens[n].file && sh->tokens[n].exp_t)
 		{
-			while(sh->tokens[n].tokens[x])
+			while(sh->tokens[n].tokens[x++])
 			{
 				if(sh->tokens[n].tokens[x] == '~')
 					expand_token(sh, sh->tokens[n].tokens, n);
-				x++;
 			}
 		}
-//printf("\n%d\n", n);
-		n++;
 	}
 }

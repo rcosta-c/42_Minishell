@@ -20,7 +20,7 @@ void    init_tk_flag1(t_sh *sh, int x)
 
 void    init_cmds(t_sh *sh, int x)
 {
-    sh->comands[x].pipe = false;
+    sh->comands[x].pipes = false;
 	sh->comands[x].redir = false;
 	sh->comands[x].pipe_fd[0] = -1;
 	sh->comands[x].pipe_fd[1] = -1;

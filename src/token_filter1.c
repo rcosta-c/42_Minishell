@@ -1,6 +1,7 @@
 #include "../includes/minishell.h"
 
-void	filter_args (t_sh *sh, int n)
+
+void	filter_args(t_sh *sh, int n)
 {
 	if(n == 0)
 		return;
@@ -19,7 +20,6 @@ void	filter_args (t_sh *sh, int n)
 		sh->tokens[n].arg = true;
 	if(sh->tokens[n].file == true)
 		sh->tokens[n].arg = true;
-	
 }
 
 void	filter_envp(t_sh *sh, int n)
@@ -65,61 +65,16 @@ void	filter_cmds(t_sh *sh, int n)
 	}
 }
 
-/*static void	filter_tkerrors(t_sh *sh)
-{
-	int	x;
-
-	x = 0;
-//printf("\nfilter_tkerrors-sh_status=%d\n", sh->vars.sh_status);
-	while(x < sh->vars.tk_num)
-	{
-		if(sh->tokens[0].pipe == true)
-		{
-			g_status = WRONG_SYNTAX;
-			sh->vars.sh_status = false;
-			return;
-		}
-		if(sh->tokens[sh->vars.tk_num - 1].pipe == true)
-		{
-			g_status = WRONG_SYNTAX;
-			sh->vars.sh_status = false;
-			return;
-		}
-		if(sh->tokens[x].r_heredoc || sh->tokens[x].r_in || sh->tokens[x].r_out || sh->tokens[x].r_outappend)
-		{
-			x++;
-			if(sh->tokens[x].file == false)
-			{
-				g_status = WRONG_SYNTAX;
-				sh->vars.sh_status = false;
-				return;
-			}
-		}
-		if(sh->tokens[x].pipe)
-		{
-			x++;
-			if(sh->tokens[x].cmd == false)
-			{
-				g_status = WRONG_SYNTAX;
-				sh->error.token_error = true;
-				sh->vars.sh_status = false;
-				return;
-			}
-		}
-		x++;
-	}
-	return;
-}*/
-
-
 void	filter_tokens(t_sh *sh)
 {
 	int	n;
+	int x;
 
+	x = 1;
 	n = 0;
 	while(n < sh->vars.tk_num)
 	{
-		filter_quotes(sh, n);
+		filter_quotes(sh, n, x);
 		filter_envp(sh, n);
 		filter_file(sh, n);
 		filter_pipes_redir(sh, n);
@@ -127,5 +82,4 @@ void	filter_tokens(t_sh *sh)
 		filter_cmds(sh, n);
 	n++;
 	}
-	//
 }

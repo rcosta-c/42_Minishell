@@ -1,19 +1,14 @@
 #include "../includes/minishell.h"
 
-static char	*verify_home(t_sh *sh, char *prompt)
+static	int	verify_helper(t_sh *sh, char *prompt, int x)
 {
 	char	*home;
-	int		x;
-	int		n_pr;
-	int		n_total;
-	char	*final_prompt;
 
-	x = 0;
 	home = search_envp(sh, "HOME");
 	while(prompt[x])
 	{
 		if(x == 0 && prompt[x] != home[x])
-			return(prompt);
+			return(x);
 		else if(prompt[x] == home[x])
 		{
 			x++;
@@ -21,9 +16,21 @@ static char	*verify_home(t_sh *sh, char *prompt)
 		else if(prompt[x] != home[x])
 			break;
 	}
+	free(home);
+	return(x);
+}
+
+static char	*verify_home(t_sh *sh, char *prompt)
+{
+	int		x;
+	int		n_pr;
+	int		n_total;
+	char	*final_prompt;
+
+	x = 0;
+	x = verify_helper(sh, prompt, x);
 	n_pr = ft_strlen(prompt);
 	n_total = n_pr - x;
-	free(home);
 	final_prompt = malloc(sizeof(char) * n_total + 2);
 	n_total = 1;
 	if(x == 1)
