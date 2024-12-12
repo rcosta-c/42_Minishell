@@ -129,11 +129,13 @@ static void	sh_loop(t_sh *sh)
 			split_cmd(sh);
 			filter_tokens(sh);
 			search_expand(sh);
-//printflags(sh);
+printflags(sh);
 			init_parser(sh);
 			fill_parser(sh);
+
 			executor(sh);
-//print_exec(sh);
+print_exec(sh);
+
 			free_tokens(sh);
 			free_cmds(sh);
 		}

@@ -104,7 +104,7 @@ char	*ft_nextgnl(char *buffer)
 		free (buffer);
 		return (NULL);
 	}
-	nextstr = malloc(sizeof(char *) * (ft_bufferlen(buffer) - counter + 1));
+	nextstr = malloc(sizeof(char *) * (ft_bufferlen(buffer) - counter));
 	if (!nextstr)
 	{
 		free (nextstr);

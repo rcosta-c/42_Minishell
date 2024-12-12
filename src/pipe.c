@@ -79,6 +79,7 @@ void	execute_pipeline(t_sh *sh, int n_cmds)
 	i = 0;
 	while (i < n_cmds)
 	{
+		handle_redirects(sh, i);
 		pipe(pipefd);
 		if (fork() == 0)
 		{

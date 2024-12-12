@@ -74,6 +74,12 @@ bool    verify_errors(t_sh *sh)
 		g_status = WRONG_SYNTAX;
 		return(true);
 	}
+	/*else if(sh->error.cmd_error == true)
+	{
+		ft_putstr_fd("Minishell: SAIII AAQYUU: \n", 2);
+		g_status = EXIT_FAILURE;
+		return(true);
+	}*/
 	else  if(sh->vars.cmds_num > 0)
 		if(verify_error_helper(sh, x) == true)
 			return(true);

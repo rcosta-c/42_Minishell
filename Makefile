@@ -33,6 +33,7 @@ SRCS := src/main.c \
 						src/prompt.c \
 						src/prompt_utils.c \
 						src/init.c \
+						src/parse_utils_quotes.c \
 						src/redir.c \
 						src/signals.c \
 						src/init_utils.c \

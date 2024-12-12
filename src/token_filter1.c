@@ -70,10 +70,12 @@ void	filter_tokens(t_sh *sh)
 	int	n;
 	int x;
 
-	x = 1;
 	n = 0;
 	while(n < sh->vars.tk_num)
 	{
+		x = 1;
+		if(!sh->tokens[n].tokens)
+		return;
 		filter_quotes(sh, n, x);
 		filter_envp(sh, n);
 		filter_file(sh, n);
@@ -83,3 +85,4 @@ void	filter_tokens(t_sh *sh)
 	n++;
 	}
 }
+

@@ -36,6 +36,9 @@ static void	handle_redir_inhere(t_sh *sh, int x)
 		close(sh->comands[x].inheredoc_fd);
 		return;
 	}
+	if(sh->comands[x].outappend_fd < 0 && sh->comands[x].outfile_fd < 0)
+		if (ft_strncmp(sh->comands[x].cmd, "cat", ft_strlen("cat") - 1) == 0)
+			sh->comands[x].infile = ft_strdup(sh->comands[x].inheredoc_file);
     close(sh->comands[x].inheredoc_fd);
 }
 
