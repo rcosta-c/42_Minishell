@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cde-paiv <cde-paiv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 18:05:19 by cde-paiv          #+#    #+#             */
-/*   Updated: 2024/12/11 18:27:27 by cde-paiv         ###   ########.fr       */
+/*   Updated: 2024/12/13 12:11:18 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ void	execute_pipeline(t_sh *sh, int n_cmds)
 
 	in_fd = 0;
 	i = 0;
+	if(filter_cmd_error(sh) == true)
+		return;
 	while (i < n_cmds)
 	{
 		handle_redirects(sh, i);
@@ -87,9 +89,13 @@ void	execute_pipeline(t_sh *sh, int n_cmds)
 			if (i < n_cmds - 1)
 				dup2(pipefd[1], 1);
 			close(pipefd[0]);
-			execvp(sh->comands[i].cmd, sh->comands[i].arg);
-			perror("execvp");
-			exit(EXIT_FAILURE);
+// 			execvp(sh->comands[i].cmd, sh->comands[i].arg);
+			if (execve(sh->comands[i].cmd, sh->comands[i].arg, sh->envp) == -1)
+			{
+                perror("Erro ao executar comando");
+                g_status = EXIT_FAILURE;
+				exit(EXIT_FAILURE);
+    		}
 		}
 		close(pipefd[1]);
 		in_fd = pipefd[0];

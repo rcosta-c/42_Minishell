@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   token_filter2.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/13 10:52:02 by rcosta-c          #+#    #+#             */
+/*   Updated: 2024/12/13 10:52:05 by rcosta-c         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
 void	filter_file(t_sh *sh, int n)
@@ -20,6 +32,23 @@ void	filter_file(t_sh *sh, int n)
 	{
 		sh->tokens[n].file = true;
 		sh->tokens[n].arg = false;
+	}
+}
+
+static void	check_filter_redir(t_sh *sh, int n)
+{
+	if(sh->tokens[n].tokens[0] == '>')
+	{
+		if(!sh->tokens[n].tokens[1])
+		{
+		sh->tokens[n].r_out = true;
+			sh->vars.redir_num++;
+		}
+		if(sh->tokens[n].tokens[1] == '>')
+		{
+			sh->tokens[n].r_outappend = true;
+			sh->vars.redir_num++;
+		}
 	}
 }
 
@@ -46,19 +75,7 @@ void	filter_pipes_redir(t_sh *sh, int n)
 				sh->vars.heredoc_num++;
 			}
 		}
-		if(sh->tokens[n].tokens[0] == '>')
-		{
-			if(!sh->tokens[n].tokens[1])
-			{
-				sh->tokens[n].r_out = true;
-				sh->vars.redir_num++;
-			}
-			if(sh->tokens[n].tokens[1] == '>')
-			{
-				sh->tokens[n].r_outappend = true;
-				sh->vars.redir_num++;
-			}
-		}
+		check_filter_redir(sh, n);
 	}
 }
 

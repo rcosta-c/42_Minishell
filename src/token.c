@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   token.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/13 10:51:45 by rcosta-c          #+#    #+#             */
+/*   Updated: 2024/12/13 12:09:20 by rcosta-c         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
@@ -36,46 +47,44 @@ bool counter_validation(int c)
 	else 
 		return(false);
 }
-/*static int		prepare_line_helper(char *str, char *temp, int x_o)
+
+static int process_chunk(char *str, char *temp, int *x_o, int *x_d)
 {
-	
-	return(x_o);
-}*/
+	if(str[*x_o] == 34 || str[*x_o] == 39)	
+	{
+		if(check_if_dquote(str, *x_o) || check_if_squote(str, *x_o))
+		{	temp[(*x_d)++] = str[(*x_o)++];
+			while(str[*x_o] != 34 && str[*x_o] != 39)
+				temp[(*x_d)++] = str[(*x_o)++];
+		}
+		else
+			temp[(*x_d)++] = str[(*x_o)++];	
+	}
+	while(str[*x_o] && token_is_valid(str[*x_o]))
+		temp[(*x_d)++] = str[(*x_o)++];
+	if(str[*x_o] == 32)
+	{
+		while(str[*x_o] == 32)
+			(*x_o)++;
+		if(str[*x_o] != '\0' && *x_d > 0)
+			temp[(*x_d)++] = 32;
+	}
+	return(*x_o);
+}
 
 char *prepare_line(char *str)
 {
-	int     x_o;
-	int     x_d;
+	int     x_o[1];
+	int     x_d[1];
 	char    temp[1000];
 
-	x_o = 0;
-	x_d = 0;
+	x_o[0] = 0;
+	x_d[0] = 0;
 	if(ft_strlen(str) == 0)
 		return(ft_strdup(""));
-	while(str[x_o])
-	{
-		if(str[x_o] == 34 || str[x_o] == 39)	
-		{
-			if(check_if_dquote(str, x_o) || check_if_squote(str, x_o))
-			{
-				temp[x_d++] = str[x_o++];
-				while(str[x_o] != 34 && str[x_o] != 39)
-					temp[x_d++] = str[x_o++];
-			}
-			else
-				temp[x_d++] = str[x_o++];	
-		}
-		while(token_is_valid(&str[x_o]))
-			temp[x_d++] = str[x_o++];
-		if(str[x_o] == 32)
-		{
-			while(str[x_o] == 32)
-				x_o++;
-			if(str[x_o] != '\0' && x_d > 0)
-				temp[x_d++] = 32;
-		}
-	}
-	temp[x_d] = '\0';
+	while(str[x_o[0]])
+		x_o[0] = process_chunk(str, temp, &x_o[0], &x_d[0]);
+	temp[x_d[0]] = '\0';
 	free(str);
 	return(ft_strdup(temp));
 }

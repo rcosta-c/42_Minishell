@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   executer.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/13 10:55:18 by rcosta-c          #+#    #+#             */
+/*   Updated: 2024/12/13 11:46:12 by rcosta-c         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
 void    execute_cmd(t_sh *sh, int x)
@@ -20,6 +32,7 @@ void    execute_cmd(t_sh *sh, int x)
 			{
                 perror("Erro ao executar comando");
                 g_status = EXIT_FAILURE;
+				exit(EXIT_FAILURE);
     		}
 			g_status = EXIT_SUCCESS;
 		}
@@ -38,6 +51,8 @@ static void	executor_for_one(t_sh *sh, int x)
 	else
 	{
 		sh->comands[x].cmd = prep_cmd(sh, sh->comands[x].cmd, x);
+		if(filter_cmd_error(sh) == true)
+		return;
 		execute_cmd(sh, x);
 	}
 	if (sh->comands[x].inbackup != -1) 

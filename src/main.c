@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/13 10:54:30 by rcosta-c          #+#    #+#             */
+/*   Updated: 2024/12/13 12:09:51 by rcosta-c         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
 int		g_status;
@@ -124,6 +136,7 @@ static void	sh_loop(t_sh *sh)
 		{
 			sh->cmd_line = prepare_line(sh->cmd_line);
 			sh->vars.tk_num = count_tokens(sh);
+//printf("\n\ncmd=%s	tk_num=%d\n\n", sh->cmd_line, sh->vars.tk_num);
 			init_tokens(sh);
 			split_cmd(sh);
 			filter_tokens(sh);
@@ -131,8 +144,8 @@ static void	sh_loop(t_sh *sh)
 //printflags(sh);
 			init_parser(sh);
 			fill_parser(sh);
-			executor(sh);
 //print_exec(sh);
+			executor(sh);
 			free_tokens(sh);
 			free_cmds(sh);
 		}

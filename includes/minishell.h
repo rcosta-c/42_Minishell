@@ -155,12 +155,9 @@ void	handbrake_and_exit(t_sh *sh);
 /*   FIM   */
 
 /*	ERRORS.c	*/
-
+bool	filter_cmd_error(t_sh *sh);
 bool    verify_errors(t_sh *sh);
-
 /*	FIM 	*/
-
-
 
 /* INIT.c */
 void	init_error(t_sh *sh);
@@ -169,22 +166,17 @@ void	init_parser(t_sh *sh);
 void 	init_cycle(t_sh *sh);
 /*   FIM   */
 
-
 /*	INIT_UTILS.c	*/
-
 void	init_tk_flag1(t_sh *sh, int x);
 void    init_cmds(t_sh *sh, int x);
 void	init_vars(t_sh *sh);
 /*		FIM 	*/
 
-
 /*	SIGNALS.c	*/
-
 void	ft_sigset(void);
 void	ft_sigset_fd(void);
 void	ft_signal_handler(int sig);
 void	ft_signal_handfd(int sig);
-
 /*	FIM		*/         
 
 /* TOKEN.c */
@@ -199,7 +191,7 @@ void	split_cmd(t_sh *sh);
 /*   FIM   */
 
 /* TOKEN_CHECKER.c */
-bool token_is_valid(char *src);
+bool token_is_valid(char src);
 int	check_dquote(char *str, int counter);
 int	check_squote(char *str, int counter);
 int check_type_quote(char *cmd_line, int x);
@@ -218,21 +210,27 @@ void	filter_cmds(t_sh *sh, int n);
 void	filter_tokens(t_sh *sh);
 /*   FIM   */
 
-
 /* TOKEN_FILTER2.c */
 void	filter_file (t_sh *sh, int n);
 void	filter_pipes_redir(t_sh *sh, int n);
 void	filter_quotes(t_sh *sh, int n, int x);
 /*   FIM   */
 
-
 /* EXPANDER.c */
 void	search_expand(t_sh *sh);
 void	expand_token(t_sh *sh, char *token, int n);
-char	*search_envp(t_sh *sh, char *z);
-
+char    *expand_token_seeker(t_sh *sh, int *x, int n);
+char    *expand_token_seeker2(t_sh *sh, int *x, int n, char *c);
+char    *pre_expand(t_sh *sh, int *x, int n);
 /*   FIM   */
 
+/*	EXPANDER_UTILS.c*/
+int	ft_envp_n_cmp(const char *s1, const char *s2);
+int		count_expands(t_sh *sh, int n);
+char	*search_envp(t_sh *sh, char *z);
+int	ft_envp_n_cmp(const char *s1, const char *s2);
+char	*expand_exit(t_sh *sh, int n, int x, char *z);
+/*	FIM 	*/
 
 /* PARSE.C*/
 bool    check_before_parse(t_sh *sh);
@@ -240,40 +238,28 @@ void    fill_parser(t_sh *sh);
 bool    check_r_out(t_sh *sh);
 bool    check_r_in(t_sh *sh);
 bool	check_r_append_out(t_sh *sh);
-
-
 /*	FIM	   */
 
-
 /*	REDIR.c		*/
-
 void	handle_redirects(t_sh *sh, int x);
-
 /*	FIM 	*/
 
 /*	PARSE_UTILS.c	*/
-
 int		parse_no_cmds(t_sh *sh, int n_cmd, int x);
 int		parse_no_args(t_sh *sh, int n_cmd, int x);
 int		parse_with_args(t_sh *sh, int n_cmd, int x, int narg);
 int		parse_utils(t_sh *sh, int x, int n_cmd);
 int		parse_pipes(t_sh *sh, int z, int n_cmd);
-
 /*	FIM		*/
 
 /* PARSE_UTILS_QUOTES.c 	*/
-
 void	remove_quoted(t_sh *sh);
-
 /*		FIM		*/
 
 /*	HEREDOC.c	*/
-
 char *handle_nextline_heredoc(int fd);
 void handle_heredoc(t_sh *sh, int x);
-
 /*	FIM		*/
-
 
 /* BUILTINS.c */
 void	ft_echo(t_sh *sh, char **args);
@@ -285,21 +271,17 @@ void	ft_env(t_sh *sh, char **args);
 void	ft_export(t_sh *sh, char **args);
 /*   FIM   */
 
-
 /*	EXECUTER.c	*/
 void    execute_cmd(t_sh *sh, int x);
 void	executor(t_sh *sh);
 void    execute_multi_cmd(t_sh *sh, int x);
-
 /*	FIM		*/
-
 
 /*	EXECUTER_UTILS.c	*/
 bool	check_if_builtin(char *cmd);
 char    *prep_cmd(t_sh *sh, char *cmd, int x);
 bool	check_exec_error(t_sh *sh, int x);
 void    exec_builtin(t_sh *sh, int cmd_nbr);
-
 /*	FIM		*/
 
 /*	PIPE.c*/

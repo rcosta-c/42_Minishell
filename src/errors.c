@@ -1,6 +1,47 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   errors.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/13 10:55:30 by rcosta-c          #+#    #+#             */
+/*   Updated: 2024/12/13 11:48:40 by rcosta-c         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
-static void	filter_tkerrors(t_sh *sh)
+bool	filter_cmd_error(t_sh *sh)
+{
+	int x;
+
+	x = 0;
+	if(sh->vars.sh_status == false)
+		return(true);
+	while(x < sh->vars.cmds_num)
+	{
+		if (!access(sh->comands[x].cmd, F_OK)) // Comando existe
+		{
+			if (access(sh->comands[x].cmd, X_OK)) // Sem permissão
+			{
+				fprintf(stderr, "Minishell: permissão negada: %s\n", sh->comands[x].cmd);
+				g_status = NO_PERMISSION;
+				exit(true);
+			}
+		}
+		else
+		{
+			fprintf(stderr, "Minishell: comando não encontrado: %s\n", sh->comands[x].cmd);
+			g_status = CMD_NOT_FOUND;
+			exit(true);
+		}
+		x++;
+	}
+	return(false);
+}
+
+static bool	filter_tkerrors(t_sh *sh)
 {
 	int	x;
 
@@ -10,22 +51,23 @@ static void	filter_tkerrors(t_sh *sh)
 		ft_putstr_fd(" syntax error near unexpected token `|'\n", 2);
 		g_status = SYNTAX_MISPELL;
 		sh->vars.sh_status = false;
-		return;
+		return (true);
 	}
 	if(sh->tokens[sh->vars.tk_num - 1].pipe == true)
 	{
 		ft_putstr_fd(" syntax error near unexpected token `|'\n", 2);
 		g_status = SYNTAX_MISPELL;
 		sh->vars.sh_status = false;
-		return;
+		return (true);
 	}
 	if(sh->tokens[x].r_heredoc || sh->tokens[x].r_in || sh->tokens[x].r_out || sh->tokens[x].r_outappend)
 	{
 		ft_putstr_fd(" syntax error near unexpected token `newline'\n", 2);
 		g_status = SYNTAX_MISPELL;
 		sh->vars.sh_status = false;
-		return;
+		return (true);
 	}
+	return(false);
 }
 
 static bool	verify_error_helper(t_sh *sh, int x)
@@ -61,7 +103,8 @@ bool    verify_errors(t_sh *sh)
 	int x;
 
 	x = 0;
-	filter_tkerrors(sh);
+	if(filter_tkerrors(sh) == true)
+		return(true);
 	if(sh->error.expand_error == true || sh->error.parse_error == true)
 	{
 		ft_putstr_fd("Minishell: erro de sintaxe junto a símbolo | inesperado: \n", 2);
@@ -74,12 +117,6 @@ bool    verify_errors(t_sh *sh)
 		g_status = WRONG_SYNTAX;
 		return(true);
 	}
-	/*else if(sh->error.cmd_error == true)
-	{
-		ft_putstr_fd("Minishell: SAIII AAQYUU: \n", 2);
-		g_status = EXIT_FAILURE;
-		return(true);
-	}*/
 	else  if(sh->vars.cmds_num > 0)
 		if(verify_error_helper(sh, x) == true)
 			return(true);

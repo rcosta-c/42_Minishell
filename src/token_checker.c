@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   token_checker.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/13 10:52:28 by rcosta-c          #+#    #+#             */
+/*   Updated: 2024/12/13 10:52:30 by rcosta-c         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
-bool token_is_valid(char *src)
+bool token_is_valid(char src)
 {
-	if(*src == 33 || (*src >= 35 && *src <= 126))
+	if(src == 33 || (src >= 35 && src <= 126))
 		return(true);
-	else if(*src == 9)
+	else if(src == 9)
 		return(true);
 	else
 		return(false);
