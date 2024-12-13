@@ -69,6 +69,21 @@ void	setup_pipes(int **pipes, int i, int cmds_num)
 	}
 }
 
+static void		prep_cmds_pipes(t_sh *sh)
+{
+	int x;
+
+	x = 0;
+	while(x < sh->vars.cmds_num)
+	{
+		sh->comands[x].cmd = prep_cmd(sh, sh->comands[x].cmd, x);
+		x++;
+	}
+
+}
+
+
+
 void	execute_pipeline(t_sh *sh, int n_cmds)
 {
 	int	i;
@@ -77,6 +92,7 @@ void	execute_pipeline(t_sh *sh, int n_cmds)
 
 	in_fd = 0;
 	i = 0;
+	prep_cmds_pipes(sh);
 	if(filter_cmd_error(sh) == true)
 		return;
 	while (i < n_cmds)
@@ -90,12 +106,26 @@ void	execute_pipeline(t_sh *sh, int n_cmds)
 				dup2(pipefd[1], 1);
 			close(pipefd[0]);
 // 			execvp(sh->comands[i].cmd, sh->comands[i].arg);
-			if (execve(sh->comands[i].cmd, sh->comands[i].arg, sh->envp) == -1)
+			if (check_if_builtin(sh->comands[i].cmd))
+				exec_builtin(sh, i);
+			else if (execve(sh->comands[i].cmd, sh->comands[i].arg, sh->envp) == -1)
 			{
                 perror("Erro ao executar comando");
                 g_status = EXIT_FAILURE;
 				exit(EXIT_FAILURE);
     		}
+			if (sh->comands[i].inbackup != -1) 
+			{
+				dup2(sh->comands[i].inbackup, STDIN_FILENO);
+				sh->comands[i].infile_fd = -1;
+				close(sh->comands[i].inbackup);
+			}
+			if (sh->comands[i].outbackup != -1) 
+			{
+				dup2(sh->comands[i].outbackup, STDOUT_FILENO);
+				sh->comands[i].outfile_fd = -1;
+				close(sh->comands[i].outbackup);
+			}	
 		}
 		close(pipefd[1]);
 		in_fd = pipefd[0];

@@ -130,5 +130,3 @@ char    *prep_cmd(t_sh *sh, char *cmd, int xx)
 	return(temp);
 }
 
-
-

@@ -27,19 +27,20 @@ bool	filter_cmd_error(t_sh *sh)
 			{
 				fprintf(stderr, "Minishell: permissão negada: %s\n", sh->comands[x].cmd);
 				g_status = NO_PERMISSION;
-				exit(true);
+				return(true);
 			}
 		}
 		else
 		{
 			fprintf(stderr, "Minishell: comando não encontrado: %s\n", sh->comands[x].cmd);
 			g_status = CMD_NOT_FOUND;
-			exit(true);
+			return(true);
 		}
 		x++;
 	}
 	return(false);
 }
+
 
 static bool	filter_tkerrors(t_sh *sh)
 {

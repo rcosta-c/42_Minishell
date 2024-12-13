@@ -51,8 +51,19 @@ void	 print_exec(t_sh *sh)
 			printf("**	OUTFILE_FD=%d \n", sh->comands[x].outfile_fd);
 			printf("**	OUTAPPENDFILE=%s 	\n", sh->comands[x].outappendfile);
 			printf("**	OUTAPPENDFILE_FD=%d \n\n\n", sh->comands[x].outappend_fd);
-			
-			x++;
+			if(sh->comands[x].errors.cmd_not_found == true)
+				printf("**	errors.cmd_not_found = ON!	\n");
+			else
+				printf("**	errors.cmd_not_found = OFF	\n");
+			if(sh->comands[x].errors.empty_pipe == true)
+				printf("**	errors.empty_pipe = ON!	\n");
+			else
+				printf("**	errors.empty_pipe = OFF	\n");
+			if(sh->comands[x].errors.empty_redir == true)
+				printf("**	empty_redir = ON!	\n");
+			else
+				printf("**	empty_redir = OFF	\n");
+			x++;	
 		}
 }
 
@@ -141,10 +152,10 @@ static void	sh_loop(t_sh *sh)
 			split_cmd(sh);
 			filter_tokens(sh);
 			search_expand(sh);
-//printflags(sh);
+printflags(sh);
 			init_parser(sh);
 			fill_parser(sh);
-//print_exec(sh);
+print_exec(sh);
 			executor(sh);
 			free_tokens(sh);
 			free_cmds(sh);
