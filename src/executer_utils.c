@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:55:24 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/13 10:55:25 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/14 11:28:09 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,8 @@ char    *prep_cmd(t_sh *sh, char *cmd, int xx)
 	int x;
 
 	x = 0;
-	if(cmd[0] == '/')
+//printf("\n\n   AGORA AQUI ESTA XX = %d, cmd = %s ", xx, cmd);
+	if(cmd[x] == '/')
 	{
 		if(access(cmd, X_OK) != 0 && access(cmd, F_OK) != 0)
 			sh->comands[xx].errors.cmd_not_found = true;

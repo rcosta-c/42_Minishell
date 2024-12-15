@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:55:09 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/13 10:55:10 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/14 22:47:26 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int	ft_envp_n_cmp(const char *s1, const char *s2)
 	size_t	counter;
 	size_t n;
 
+//printf("\n\n%s\n\n", s1);
 	n = ft_strlen(s1);
 	counter = 0;
 	if (n == 0)

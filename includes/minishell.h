@@ -1,7 +1,7 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-#define DELIMITER "EOF"
+//#define DELIMITER "EOF"
 
 #ifndef BUFFER_SIZE
 # define BUFFER_SIZE 1024
@@ -218,7 +218,7 @@ void	filter_quotes(t_sh *sh, int n, int x);
 
 /* EXPANDER.c */
 void	search_expand(t_sh *sh);
-void	expand_token(t_sh *sh, char *token, int n);
+void	expand_token(t_sh *sh, int n);
 char    *expand_token_seeker(t_sh *sh, int *x, int n);
 char    *expand_token_seeker2(t_sh *sh, int *x, int n, char *c);
 char    *pre_expand(t_sh *sh, int *x, int n);

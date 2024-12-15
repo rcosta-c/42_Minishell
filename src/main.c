@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:54:30 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/13 12:09:51 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/14 23:42:39 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,10 +152,10 @@ static void	sh_loop(t_sh *sh)
 			split_cmd(sh);
 			filter_tokens(sh);
 			search_expand(sh);
-printflags(sh);
+//printflags(sh);
 			init_parser(sh);
 			fill_parser(sh);
-print_exec(sh);
+//print_exec(sh);
 			executor(sh);
 			free_tokens(sh);
 			free_cmds(sh);
@@ -175,6 +175,7 @@ int main(int ac, char **av, char **envp)
 	init_error(sh);
 	while(1)
 		sh_loop(sh);
+	rl_clear_history();
 	return(0);
 }
 

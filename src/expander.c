@@ -6,58 +6,63 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:55:03 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/13 10:55:04 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/15 00:32:22 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char    *pre_expand(t_sh *sh, int *x, int n)
+char *pre_expand(t_sh *sh, int *x, int n)
 {
-	int 	xa;
-	int		xt;
+    int     xa;
     char    *a;
 
-	xa = *x;
-	while(sh->tokens[n].tokens[xt] != '$' && sh->tokens[n].tokens[xt] == '~')
-		xt++;
-	xa -= *x;
-	a = malloc(sizeof(char *) * xa + 1);
-	xa = 0;	
-	while(sh->tokens[n].tokens[*x])
-	{
-		if (sh->tokens[n].tokens[*x] == '$' || sh->tokens[n].tokens[*x] == '~')
-			break;
-		a[xa++] = sh->tokens[n].tokens[*x++];
-	}
-	a[xa] = '\0';
-	return(a);
+    xa = 0;
+    while (sh->tokens[n].tokens[*x + xa] && 
+           sh->tokens[n].tokens[*x + xa] != '$' && 
+           sh->tokens[n].tokens[*x + xa] != '~')
+        xa++;
+    a = malloc(sizeof(char) * (xa + 1));
+    if (!a)
+        return (NULL);
+    xa = 0;
+    while (sh->tokens[n].tokens[*x] && 
+           sh->tokens[n].tokens[*x] != '$' && 
+           sh->tokens[n].tokens[*x] != '~')
+    {
+        a[xa] = sh->tokens[n].tokens[*x];
+        (*x)++;
+        xa++;
+    }
+    a[xa] = '\0';
+    return (a);
 }
 
 char    *expand_token_seeker2(t_sh *sh, int *x, int n, char *c)
 {
     char    b[500];
-
-	if(sh->tokens[n].tokens[*x + 1] ==  '?' && sh->tokens[n].tokens[*x] == '$')
+	int		bx;
+	
+	if(sh->tokens[n].tokens[*x] == '$' && sh->tokens[n].tokens[*x + 1] ==  '?')
 	{
-		x++;
+		(*x)++;
 		c = ft_itoa(g_status);
-		x++;
+		(*x)++;
 	}
 	else if(sh->tokens[n].tokens[*x] == '$')
 	{
-		x++;
-		while((sh->tokens[n].tokens[*x] >= 'A' && sh->tokens[n].tokens[*x] <= 'Z') \
-			|| sh->tokens[n].tokens[*x] == '$' || sh->tokens[n].tokens[*x] == '?')
+		bx = 0;
+		(*x)++;
+		while(sh->tokens[n].tokens[*x] && ft_isalpha(sh->tokens[n].tokens[*x]))
 		{
-				b[*x] = sh->tokens[n].tokens[*x];
-				x++;
+				b[bx++] = sh->tokens[n].tokens[*x];
+				(*x)++;
 		}
-		b[*x] = '\0';
+		b[bx] = '\0';
 		c = search_envp(sh, b);
 		if(!c)
-			c =ft_strdup(" ");	
-	}
+			c =ft_strdup(" ");
+		}
 	return(c);
 }
 
@@ -67,41 +72,45 @@ char    *expand_token_seeker(t_sh *sh, int *x, int n)
 	pid_t	pid;
 
 	c = NULL;
-	if(sh->tokens[n].tokens[*x] == '~' && sh->tokens[n].d_quote == false && sh->tokens[n].s_quote == false)
+	if(sh->tokens[n].tokens[*x] == '~' && sh->tokens[n].d_quote == false \
+		&& sh->tokens[n].s_quote == false)
 	{
 		c = search_envp(sh, "HOME");
-		x++;
+		(*x)++;
 	}
 	else if(sh->tokens[n].tokens[*x] ==  '$' && sh->tokens[n].tokens[*x + 1] == '$')
 	{
-		x++;
+		(*x)++;
 		pid = getpid();
 		c = ft_itoa(pid);
-		x++;
+		(*x)++;
 	}
 	else
 		return(expand_token_seeker2(sh, x, n, c));
 	return(c);
 }
 
-void    expand_token(t_sh *sh, char *token, int n)
+void    expand_token(t_sh *sh, int n)
 {
     char    *z;
-    int     x;
+    int     x[1];
     int     exp_counter;
-
-	(void)token;
+	int		counter;
+	
+	counter = -1;
 	z = NULL;
 	exp_counter = count_expands(sh, n);
-	x = 0;
-	while(sh->tokens[n].tokens[x])
+	x[0] = 0;
+	while(++counter < sh->vars.tk_num)
 	{
-		z = join_2_str(z, pre_expand(sh, &x, n), NULL, 1);
-		z = join_2_str(z, expand_token_seeker(sh, &x, n), NULL, 1);
+		z = join_2_str(z, pre_expand(sh, x, n), NULL, 1);
+		if((size_t)x == ft_strlen(sh->tokens[n].tokens) - 1)
+			break;
+		z = join_2_str(z, expand_token_seeker(sh, x, n), NULL, 1);
 		exp_counter--;
 		if (exp_counter == 0)
 		{
-			z = expand_exit(sh, n, x, z);
+			z = expand_exit(sh, n, x[0], z);
 			break;
 		}
 	}
@@ -119,19 +128,19 @@ void	search_expand(t_sh *sh)
 	while(n++ < sh->vars.tk_num)
 	{
 		if(sh->tokens[n].exp_e || sh->tokens[n].exp_t )
-			expand_token(sh, sh->tokens[n].tokens, n);
+			expand_token(sh, n);
 		else if(sh->tokens[n].d_quote && (sh->tokens[n].exp_e || sh->tokens[n].exp_t))
 		{
 			while(sh->tokens[n].tokens[x++])
 				if(sh->tokens[n].tokens[x] == '$')
-					expand_token(sh, sh->tokens[n].tokens, n); 
+					expand_token(sh, n); 
 		}
 		else if(sh->tokens[n].file && sh->tokens[n].exp_t)
 		{
 			while(sh->tokens[n].tokens[x++])
 			{
 				if(sh->tokens[n].tokens[x] == '~')
-					expand_token(sh, sh->tokens[n].tokens, n);
+					expand_token(sh, n);
 			}
 		}
 	}
