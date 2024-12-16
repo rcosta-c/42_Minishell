@@ -48,8 +48,75 @@ bool counter_validation(int c)
 		return(false);
 }
 
+
+static bool	check_if_special_redirin(char *str, int x)
+{
+	if(str[x] == '<')
+	{
+		if(str[x + 2] && str[x + 1] == '<' && ft_isprint(str[x + 2]))
+			return(true);
+		else if(str[x + 1] && ft_isprint(str[x + 1]))
+			return(true);
+		else
+			return(false);
+	}
+	return(false);
+}
+
+static bool	check_if_special_redirout(char *str, int x)
+{
+	if(str[x] == '>')
+	{
+		if(str[x + 2] && str[x + 1] == '>' && ft_isprint(str[x + 2]))
+			return(true);
+		else if(str[x + 1] && ft_isprint(str[x + 1]))
+			return(true);
+		else
+			return(false);
+	}
+	return(false);
+}
+
+static bool	check_if_special_redir(char *str, int x)
+{
+	
+	if (check_if_special_redirin(str, x) == true)
+		return(true);
+	else if (check_if_special_redirout(str, x) == true)
+		return(true);
+	else
+	{
+		/*while(str[x] && str[x] != 32)
+		{
+			if(check_if_special_redir(str, x) == true)
+				return(true);
+			x++;
+		}*/
+		return(false);
+	}
+}
+
 static int process_chunk(char *str, char *temp, int *x_o, int *x_d)
 {
+	if(check_if_special_redir(str, *x_o))
+	{
+		while(str[*x_o] && str[*x_o] != 32)
+		{
+			if(str[*x_o] == '>' || str[*x_o] == '<')
+			{
+				temp[(*x_d)++] = str[(*x_o)++];
+				if(str[*x_o] == '>' || str[*x_o] == '<')
+				{
+					temp[(*x_d)++] = str[(*x_o)++];
+					temp[(*x_d)++] = ' ';
+				}
+				else
+					temp[(*x_d)++] = ' ';
+			}
+			else
+				temp[(*x_d)++] = str[(*x_o)++];
+		}
+	}
 	if(str[*x_o] == 34 || str[*x_o] == 39)	
 	{
 		if(check_if_dquote(str, *x_o) || check_if_squote(str, *x_o))
