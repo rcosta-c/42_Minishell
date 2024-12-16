@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:55:18 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/15 23:13:33 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/16 10:50:50 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,3 +80,4 @@ void	executor(t_sh *sh)
 	else
 		check_pipes(sh);
 }
+

@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:54:06 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/13 10:54:07 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/16 10:52:44 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,9 @@ void    fill_parser(t_sh *sh)
 	remove_quoted(sh);
 	while(x < sh->vars.tk_num)
 	{
+//		printf("\n\nx vai em =%d\n\n", x);
 		x = parse_utils(sh, x, n_cmd);
+//		printf("\n\nx vai em =%d\n\n", x);
 		if(x >= sh->vars.tk_num)
 			break;
 		x = parse_pipes(sh, x, n_cmd);

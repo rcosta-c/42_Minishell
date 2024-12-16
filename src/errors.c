@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:55:30 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/15 22:11:19 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/16 00:26:17 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,33 @@ bool	filter_cmd_error(t_sh *sh)
 	}
 	return(false);
 }
-
+static bool	filter_tkerrors2(t_sh *sh)
+{
+	if(sh->tokens[0].r_heredoc || sh->tokens[0].r_in || 
+			sh->tokens[0].r_out || sh->tokens[0].r_outappend)
+	{
+		ft_putstr_fd(" syntax error near unexpected token `newline'\n", 2);
+		g_status = SYNTAX_MISPELL;
+		sh->vars.sh_status = false;
+		return (true);
+	}
+	else if(sh->tokens[sh->vars.tk_num - 1].r_heredoc || 
+			sh->tokens[sh->vars.tk_num - 1].r_in || 
+			sh->tokens[sh->vars.tk_num - 1].r_out || 
+			sh->tokens[sh->vars.tk_num - 1].r_outappend)
+	{
+		ft_putstr_fd(" syntax error near unexpected token `newline'\n", 2);
+		g_status = SYNTAX_MISPELL;
+		sh->vars.sh_status = false;
+		return (true);
+	}
+	return(false);	
+}
 
 static bool	filter_tkerrors(t_sh *sh)
 {
-	int	x;
-
-	x = 0;
-	if(sh->vars.tk_num == sh->vars.pipe_num || sh->tokens[0].pipe == true)
+	if(sh->vars.tk_num == sh->vars.pipe_num || 
+		sh->tokens[0].pipe == true)
 	{
 		ft_putstr_fd(" syntax error near unexpected token `|'\n", 2);
 		g_status = SYNTAX_MISPELL;
@@ -61,13 +80,8 @@ static bool	filter_tkerrors(t_sh *sh)
 		sh->vars.sh_status = false;
 		return (true);
 	}
-	else if(sh->tokens[x].r_heredoc || sh->tokens[x].r_in || sh->tokens[x].r_out || sh->tokens[x].r_outappend)
-	{
-		ft_putstr_fd(" syntax error near unexpected token `newline'\n", 2);
-		g_status = SYNTAX_MISPELL;
-		sh->vars.sh_status = false;
-		return (true);
-	}
+	else
+		filter_tkerrors2(sh);
 	return(false);
 }
 
