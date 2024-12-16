@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:55:18 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/16 10:50:50 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/16 22:41:00 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,17 @@ void    execute_cmd(t_sh *sh, int x)
 static void	executor_for_one(t_sh *sh, int x)
 {
 	x = 0;
-	handle_redirects(sh, x);
 	if (check_if_builtin(sh->comands[x].cmd))
+	{
+		handle_redirects(sh, x);
 		exec_builtin(sh, x);
+	}
 	else
 	{
 		sh->comands[x].cmd = prep_cmd(sh, sh->comands[x].cmd, x);
 		if(filter_cmd_error(sh) == true)
 		return;
+		handle_redirects(sh, x);
 		execute_cmd(sh, x);
 	}
 	if (sh->comands[x].inbackup != -1) 

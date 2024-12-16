@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:54:30 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/16 10:51:51 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/16 23:47:51 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,7 +172,7 @@ static void	sh_loop(t_sh *sh)
 		if(ft_strlen(sh->cmd_line) > 0)
 		{
 			sh->cmd_line = prepare_line(sh->cmd_line);
-			printf("\n\nprepline=%s\n", sh->cmd_line);
+//printf("\n\nprepline=%s\n", sh->cmd_line);
 			sh->vars.tk_num = count_tokens(sh);
 //printf("\n\ncmd=%s	tk_num=%d\n\n", sh->cmd_line, sh->vars.tk_num);
 			init_tokens(sh);

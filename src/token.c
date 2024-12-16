@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:51:45 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/13 12:09:20 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/16 23:47:07 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,42 +85,44 @@ static bool	check_if_special_redir(char *str, int x)
 	else if (check_if_special_redirout(str, x) == true)
 		return(true);
 	else
-	{
-		/*while(str[x] && str[x] != 32)
-		{
-			if(check_if_special_redir(str, x) == true)
-				return(true);
-			x++;
-		}*/
 		return(false);
-	}
+}
+
+static void	ft_special_agent_redir(char *str, char *temp, int *x_o, int *x_d)
+{
+		if(str[*x_o] == '>' || str[*x_o] == '<')
+		{
+			if(ft_isalnum(str[*x_o - 1]))
+				temp[(*x_d)++] = ' ';
+			temp[(*x_d)++] = str[(*x_o)++];
+			if(str[*x_o] == '>' || str[*x_o] == '<')
+			{
+				temp[(*x_d)++] = str[(*x_o)++];
+				temp[(*x_d)++] = ' ';
+			}
+			else
+				temp[(*x_d)++] = ' ';
+			if(str[*x_o] == 32)
+				(*x_o)++;
+		}	
+}
+
+static void ft_give_some_space(char *str, char *temp, int *x_o, int *x_d)
+{
+	while(str[*x_o] == 32)
+			(*x_o)++;
+	if(str[*x_o] != '\0' && *x_d > 0)
+		temp[(*x_d)++] = 32;	
 }
 
 static int process_chunk(char *str, char *temp, int *x_o, int *x_d)
 {
-	if(check_if_special_redir(str, *x_o))
-	{
-		while(str[*x_o] && str[*x_o] != 32)
-		{
-			if(str[*x_o] == '>' || str[*x_o] == '<')
-			{
-				temp[(*x_d)++] = str[(*x_o)++];
-				if(str[*x_o] == '>' || str[*x_o] == '<')
-				{
-					temp[(*x_d)++] = str[(*x_o)++];
-					temp[(*x_d)++] = ' ';
-				}
-				else
-					temp[(*x_d)++] = ' ';
-			}
-			else
-				temp[(*x_d)++] = str[(*x_o)++];
-		}
-	}
+	
 	if(str[*x_o] == 34 || str[*x_o] == 39)	
 	{
 		if(check_if_dquote(str, *x_o) || check_if_squote(str, *x_o))
-		{	temp[(*x_d)++] = str[(*x_o)++];
+		{	
+			temp[(*x_d)++] = str[(*x_o)++];
 			while(str[*x_o] != 34 && str[*x_o] != 39)
 				temp[(*x_d)++] = str[(*x_o)++];
 		}
@@ -128,14 +130,14 @@ static int process_chunk(char *str, char *temp, int *x_o, int *x_d)
 			temp[(*x_d)++] = str[(*x_o)++];	
 	}
 	while(str[*x_o] && token_is_valid(str[*x_o]))
-		temp[(*x_d)++] = str[(*x_o)++];
-	if(str[*x_o] == 32)
 	{
-		while(str[*x_o] == 32)
-			(*x_o)++;
-		if(str[*x_o] != '\0' && *x_d > 0)
-			temp[(*x_d)++] = 32;
+		if(check_if_special_redir(str, *x_o))
+			ft_special_agent_redir(str, temp, &x_o[0], &x_d[0]);
+		else
+			temp[(*x_d)++] = str[(*x_o)++];
 	}
+	if(str[*x_o] == 32)
+		ft_give_some_space(str, temp, x_o, x_d);
 	return(*x_o);
 }
 
