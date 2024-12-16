@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: cde-paiv <cde-paiv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:54:37 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/16 09:05:19 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/16 19:45:05 by cde-paiv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,5 +67,5 @@ void init_cycle(t_sh *sh)
 	ft_sigset();
 	init_vars(sh);
 	if(sh->cmd_line)
-		free(sh->cmd_line);	
+		free(sh->cmd_line);
 }
