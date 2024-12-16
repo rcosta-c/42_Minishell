@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:54:30 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/14 23:42:39 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/15 23:51:03 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,33 @@ void    printflags(t_sh *sh)
 		n++;
 	}
 }
+void	printf_flag_errors(t_sh *sh)
+{
+	int x;
 
+	x = 0;
+	
+		printf("exec_error%d\n", sh->error.exec_error);
+		printf("parse error%d\n ", sh->error.parse_error);
+		printf("expand_error%d\n ", sh->error.expand_error);
+		printf("token_error%d\n ", sh->error.token_error);
+		printf("exit_error%d\n ", sh->error.exit_error);
+		printf("cmd_error%d\n ", sh->error.cmd_error);
+		printf("heredoc_error%d\n ", sh->error.heredoc_error);
+	
+		while(x < sh->vars.cmds_num)
+		{
+			
+			printf("cmd_not_found%d\n ", sh->comands[x].errors.cmd_not_found);
+			printf("infile_notvalid%d\n ", sh->comands[x].errors.infile_notvalid);
+			printf("infile_noaccess%d\n ", sh->comands[x].errors.infile_noaccess);
+			printf("outfile_noaccess%d\n ", sh->comands[x].errors.outfile_noaccess);
+			printf("outfile_notvalid%d\n ", sh->comands[x].errors.outfile_notvalid);
+			printf("empty_pipe%d\n ", sh->comands[x].errors.empty_pipe);
+			printf("empty_redir%d\n ", sh->comands[x].errors.empty_redir);
+			x++;
+		}
+}
 
 static void	sh_loop(t_sh *sh)
 {
@@ -157,6 +183,7 @@ static void	sh_loop(t_sh *sh)
 			fill_parser(sh);
 //print_exec(sh);
 			executor(sh);
+//printf_flag_errors(sh);
 			free_tokens(sh);
 			free_cmds(sh);
 		}

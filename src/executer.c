@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:55:18 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/15 00:36:43 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/15 23:13:33 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,11 @@ void    execute_cmd(t_sh *sh, int x)
                 g_status = EXIT_FAILURE;
 				exit(EXIT_FAILURE);
     		}
-			g_status = 0;
 		}
 		else
 			waitpid(pid, NULL, 0);
 	}
+	g_status = errno;
 }
 
 

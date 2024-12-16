@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:55:03 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/15 00:32:22 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/15 21:51:39 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,36 +14,37 @@
 
 char *pre_expand(t_sh *sh, int *x, int n)
 {
-    int     xa;
-    char    *a;
+	int     xa;
+	char    *a;
 
-    xa = 0;
-    while (sh->tokens[n].tokens[*x + xa] && 
-           sh->tokens[n].tokens[*x + xa] != '$' && 
-           sh->tokens[n].tokens[*x + xa] != '~')
-        xa++;
-    a = malloc(sizeof(char) * (xa + 1));
-    if (!a)
-        return (NULL);
-    xa = 0;
-    while (sh->tokens[n].tokens[*x] && 
-           sh->tokens[n].tokens[*x] != '$' && 
-           sh->tokens[n].tokens[*x] != '~')
-    {
-        a[xa] = sh->tokens[n].tokens[*x];
-        (*x)++;
-        xa++;
-    }
-    a[xa] = '\0';
-    return (a);
+	xa = 0;
+	while (sh->tokens[n].tokens[*x + xa] && 
+			sh->tokens[n].tokens[*x + xa] != '$' && 
+			sh->tokens[n].tokens[*x + xa] != '~')
+		xa++;
+	a = malloc(sizeof(char) * (xa + 1));
+	if (!a)
+		return (NULL);
+	xa = 0;
+	while (sh->tokens[n].tokens[*x] && 
+			sh->tokens[n].tokens[*x] != '$' && 
+			sh->tokens[n].tokens[*x] != '~')
+	{
+		a[xa] = sh->tokens[n].tokens[*x];
+		(*x)++;
+		xa++;
+	}
+	a[xa] = '\0';
+	return (a);
 }
 
 char    *expand_token_seeker2(t_sh *sh, int *x, int n, char *c)
 {
-    char    b[500];
+	char    b[500];
 	int		bx;
 	
-	if(sh->tokens[n].tokens[*x] == '$' && sh->tokens[n].tokens[*x + 1] ==  '?')
+	if(sh->tokens[n].tokens[*x] == '$' && 
+		sh->tokens[n].tokens[*x + 1] ==  '?')
 	{
 		(*x)++;
 		c = ft_itoa(g_status);
@@ -53,16 +54,14 @@ char    *expand_token_seeker2(t_sh *sh, int *x, int n, char *c)
 	{
 		bx = 0;
 		(*x)++;
-		while(sh->tokens[n].tokens[*x] && ft_isalpha(sh->tokens[n].tokens[*x]))
-		{
-				b[bx++] = sh->tokens[n].tokens[*x];
-				(*x)++;
-		}
+		while(sh->tokens[n].tokens[*x] && 
+				ft_isalpha(sh->tokens[n].tokens[*x]))
+					b[bx++] = sh->tokens[n].tokens[(*x)++];
 		b[bx] = '\0';
 		c = search_envp(sh, b);
 		if(!c)
 			c =ft_strdup(" ");
-		}
+	}
 	return(c);
 }
 
@@ -72,13 +71,15 @@ char    *expand_token_seeker(t_sh *sh, int *x, int n)
 	pid_t	pid;
 
 	c = NULL;
-	if(sh->tokens[n].tokens[*x] == '~' && sh->tokens[n].d_quote == false \
-		&& sh->tokens[n].s_quote == false)
+	if(sh->tokens[n].tokens[*x] == '~' && 
+		sh->tokens[n].d_quote == false &&
+			sh->tokens[n].s_quote == false)
 	{
 		c = search_envp(sh, "HOME");
 		(*x)++;
 	}
-	else if(sh->tokens[n].tokens[*x] ==  '$' && sh->tokens[n].tokens[*x + 1] == '$')
+	else if(sh->tokens[n].tokens[*x] ==  '$' &&
+			sh->tokens[n].tokens[*x + 1] == '$')
 	{
 		(*x)++;
 		pid = getpid();
@@ -92,9 +93,9 @@ char    *expand_token_seeker(t_sh *sh, int *x, int n)
 
 void    expand_token(t_sh *sh, int n)
 {
-    char    *z;
-    int     x[1];
-    int     exp_counter;
+	char    *z;
+	int     x[1];
+	int     exp_counter;
 	int		counter;
 	
 	counter = -1;

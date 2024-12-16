@@ -21,12 +21,12 @@
 #include <signal.h>
 #include <sys/ioctl.h>
 #include <dirent.h>
+#include <errno.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "../lib/libft/libft.h"
 #include "../lib/gnl/get_next_line.h"
 
-# define OTHER_ERROR	1
 # define SYNTAX_MISPELL	2
 # define NO_PERMISSION	126
 # define CMD_NOT_FOUND	127

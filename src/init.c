@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:54:37 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/13 10:54:38 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/15 23:58:59 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,10 @@ void	init_parser(t_sh *sh)
 	if(sh->vars.cmds_num == 0 && sh->vars.pipe_num == 0 && sh->vars.redir_num == 0)
 		return;
 	x = 0;
-	if(sh->vars.cmds_num <= sh->vars.pipe_num)
-		sh->vars.cmds_num = sh->vars.cmds_num + sh->vars.pipe_num; 
+	if(sh->vars.cmds_num > sh->vars.pipe_num)
+		sh->vars.cmds_num = sh->vars.cmds_num + sh->vars.pipe_num;
+	else
+		sh->vars.cmds_num = 1;
 	sh->comands = malloc(sizeof(t_exec) * (sh->vars.cmds_num + 1));
 	if(!sh->comands)
 		exit(EXIT_FAILURE);

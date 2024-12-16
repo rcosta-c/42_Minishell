@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:52:16 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/13 10:52:19 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/15 23:46:11 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,8 @@ void	filter_cmds(t_sh *sh, int n)
 			sh->tokens[n].arg = false;
 			sh->vars.cmds_num++;
 		}
-	else if(n > 0 && sh->tokens[n - 1].pipe == true)
+	else if(n > 0 && sh->tokens[n - 1].pipe == true &&
+			sh->tokens[0].pipe == false)
 	{
 		sh->tokens[n].cmd = true;
 		sh->tokens[n].arg = false;

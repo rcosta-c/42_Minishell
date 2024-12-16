@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:54:13 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/13 10:54:14 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/15 23:55:31 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,27 @@ int		parse_no_args(t_sh *sh, int n_cmd, int x)
 
 int		parse_no_cmds(t_sh *sh, int n_cmd, int x)
 {
-	sh->comands[n_cmd].arg = malloc(sizeof(char **) * 2); 
-	sh->comands[n_cmd].cmd = ft_strdup(sh->tokens[0].tokens); 
-	sh->comands[n_cmd].arg[0] = ft_strdup(sh->tokens[0].tokens);
-	sh->comands[n_cmd].arg[1] = NULL;
-	x++;
+	int		narg;
+
+	narg = 0;
+	sh->vars.cmds_num = 1;
+	sh->comands[n_cmd].arg = malloc(sizeof(char **) * (sh->vars.tk_num + 1)); 
+	sh->comands[n_cmd].cmd = ft_strdup(sh->tokens[x].tokens);
+	if(sh->vars.tk_num > 1)
+	{
+		while(x < sh->vars.tk_num)
+			sh->comands[n_cmd].arg[narg++] = ft_strdup(sh->tokens[x++].tokens);
+		sh->comands[n_cmd].arg[narg] = NULL;
+		sh->comands[n_cmd].n_args = narg - 1;
+		x++;
+	}
+	else
+	{
+		sh->comands[n_cmd].arg[0] = ft_strdup(sh->tokens[x].tokens);
+		sh->comands[n_cmd].arg[1] = NULL;
+		sh->comands[n_cmd].n_args = 0;
+		x++;
+	}
 	return(x);
 }
 

@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:55:30 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/13 11:48:40 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/15 22:11:19 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,21 +47,21 @@ static bool	filter_tkerrors(t_sh *sh)
 	int	x;
 
 	x = 0;
-	if(sh->tokens[0].pipe == true)
+	if(sh->vars.tk_num == sh->vars.pipe_num || sh->tokens[0].pipe == true)
 	{
 		ft_putstr_fd(" syntax error near unexpected token `|'\n", 2);
 		g_status = SYNTAX_MISPELL;
 		sh->vars.sh_status = false;
 		return (true);
 	}
-	if(sh->tokens[sh->vars.tk_num - 1].pipe == true)
+	else if(sh->tokens[sh->vars.tk_num - 1].pipe == true)
 	{
 		ft_putstr_fd(" syntax error near unexpected token `|'\n", 2);
 		g_status = SYNTAX_MISPELL;
 		sh->vars.sh_status = false;
 		return (true);
 	}
-	if(sh->tokens[x].r_heredoc || sh->tokens[x].r_in || sh->tokens[x].r_out || sh->tokens[x].r_outappend)
+	else if(sh->tokens[x].r_heredoc || sh->tokens[x].r_in || sh->tokens[x].r_out || sh->tokens[x].r_outappend)
 	{
 		ft_putstr_fd(" syntax error near unexpected token `newline'\n", 2);
 		g_status = SYNTAX_MISPELL;
