@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:54:43 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/13 10:54:44 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/17 10:43:21 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,6 @@ void    init_cmds(t_sh *sh, int x)
 {
     sh->comands[x].pipes = false;
 	sh->comands[x].redir = false;
-	sh->comands[x].pipe_fd[0] = -1;
-	sh->comands[x].pipe_fd[1] = -1;
 	sh->comands[x].infile = NULL;
 	sh->comands[x].infile_fd = -1;
 	sh->comands[x].inheredoc_fd = -1;

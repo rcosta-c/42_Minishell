@@ -6,68 +6,11 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 18:05:19 by cde-paiv          #+#    #+#             */
-/*   Updated: 2024/12/16 10:47:04 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/17 10:22:47 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-// funcao para criar os pipes
-void	create_pipes(t_sh *sh, int ***pipes)
-{
-	int	i;
-
-	*pipes = malloc(sizeof(int *) * sh->vars.pipe_num);
-	if (!*pipes)
-		exit(EXIT_FAILURE);
-	i = 0;
-	while (i < sh->vars.pipe_num)
-	{
-		(*pipes)[i] = malloc(sizeof(int) * 2);
-		if (!(*pipes)[i])
-			exit(EXIT_FAILURE);
-		if (pipe((*pipes)[i]) == -1)
-			exit(EXIT_FAILURE);
-		i++;
-	}
-}
-
-void	close_pipes(int **pipes, int pipe_num)
-{
-	int	i;
-
-	i = 0;
-	while (i < pipe_num)
-	{
-		close(pipes[i][0]);
-		close(pipes[i][1]);
-		free(pipes[i]);
-		i++;
-	}
-	free(pipes);
-}
-
-void	setup_pipes(int **pipes, int i, int cmds_num)
-{
-	int	j;
-
-	if (i == 0)
-		dup2(pipes[i][1], STDOUT_FILENO);
-	else if (i == cmds_num - 1)
-		dup2(pipes[i - 1][0], STDIN_FILENO);
-	else
-	{
-		dup2(pipes[i - 1][0], STDIN_FILENO);
-		dup2(pipes[i][1], STDOUT_FILENO);
-	}
-	j = 0;
-	while (j < cmds_num - 1)
-	{
-		close(pipes[j][0]);
-		close(pipes[j][1]);
-		j++;
-	}
-}
 
 static void		prep_cmds_pipes(t_sh *sh)
 {
@@ -82,121 +25,70 @@ static void		prep_cmds_pipes(t_sh *sh)
 
 }
 
-
-void execute_pipeline(t_sh *sh, int n_cmds)
+void execute_comand_in_pipe(t_sh *sh,  int i, int in_fd, int pipefd[2])
 {
-    int i;
-    int pipefd[2];
-    int in_fd;
-	
-	i = 0;
-	in_fd= 0;
-    prep_cmds_pipes(sh);
-    if (filter_cmd_error(sh) == true)
-        return;
-    while (i < n_cmds) 
+	dup2(in_fd, STDIN_FILENO);
+		if (i <  sh->vars.cmds_num - 1)
+		dup2(pipefd[1], STDOUT_FILENO);
+	close(pipefd[0]);
+	close(pipefd[1]);
+	handle_redirects(sh, i); 
+	if (check_if_builtin(sh->comands[i].cmd)) 
 	{
-        pipe(pipefd);
-        pid_t pid = fork();
-        if (pid == -1) 
-		{
-            perror("Erro ao criar processo");
-            exit(EXIT_FAILURE);
-		}
-        if (pid == 0) 
-		{
-            dup2(in_fd, STDIN_FILENO);
-            if (i < n_cmds - 1)
-                dup2(pipefd[1], STDOUT_FILENO);
-            close(pipefd[0]);
-            close(pipefd[1]);
-            handle_redirects(sh, i); 
-            if (check_if_builtin(sh->comands[i].cmd)) 
-			{
-                exec_builtin(sh, i);
-                exit(g_status);
-            } 
-			else if (execve(sh->comands[i].cmd, sh->comands[i].arg, sh->envp) == -1)
-			{
-                perror("Erro ao executar comando");
-                exit(EXIT_FAILURE);
-            }
-        }
-        close(pipefd[1]);
-        if (in_fd != 0)
-            close(in_fd);
-        in_fd = pipefd[0];
-        i++;
-    }
-    close(in_fd);
-    i = 0;
-    while (i < n_cmds) {
-        wait(NULL);
-        i++;
-    }
+		exec_builtin(sh, i);
+		exit(g_status);
+	} 
+	else if (execve(sh->comands[i].cmd, sh->comands[i].arg, sh->envp) == -1)
+	{
+		perror("Erro ao executar comando");
+		exit(EXIT_FAILURE);
+	}
 }
 
-
-
-/*
-void	execute_pipeline(t_sh *sh, int n_cmds)
+static void get_out_of_pipe(void)
 {
-	int	i;
-	int	pipefd[2];
-	int	in_fd;
+	perror("Erro ao criar processo");
+	exit(EXIT_FAILURE);
+}
 
-	in_fd = 0;
+static void pipeline_exit(t_sh *sh, int in_fd, int i)
+{
+	close(in_fd);
 	i = 0;
-	prep_cmds_pipes(sh);
-	if(filter_cmd_error(sh) == true)
-		return;
-	while (i < n_cmds)
-	{
-		handle_redirects(sh, i);
-		pipe(pipefd);
-		if (fork() == 0)
-		{
-			dup2(in_fd, 0);
-			if (i < n_cmds - 1)
-				dup2(pipefd[1], 1);
-			close(pipefd[0]);
-// 			execvp(sh->comands[i].cmd, sh->comands[i].arg);
-			if (check_if_builtin(sh->comands[i].cmd))
-			{
-				exec_builtin(sh, i);
-				return;
-			}
-			else if (execve(sh->comands[i].cmd, sh->comands[i].arg, sh->envp) == -1)
-			{
-                perror("Erro ao executar comando");
-                g_status = EXIT_FAILURE;
-				exit(EXIT_FAILURE);
-    		}
-			if (sh->comands[i].inbackup != -1) 
-			{
-				dup2(sh->comands[i].inbackup, STDIN_FILENO);
-				sh->comands[i].infile_fd = -1;
-				close(sh->comands[i].inbackup);
-			}
-			if (sh->comands[i].outbackup != -1) 
-			{
-				dup2(sh->comands[i].outbackup, STDOUT_FILENO);
-				sh->comands[i].outfile_fd = -1;
-				close(sh->comands[i].outbackup);
-			}	
-		}
-		close(pipefd[1]);
-		in_fd = pipefd[0];
-		i++;
-	}
-	i = 0;
-	while (i < n_cmds)
+	while (i <  sh->vars.cmds_num)
 	{
 		wait(NULL);
 		i++;
 	}
 }
-*/
+
+void execute_pipeline(t_sh *sh)
+{
+	int i;
+	int pipefd[2];
+	int in_fd;
+	
+	i = 0;
+	in_fd = 0;
+	prep_cmds_pipes(sh);
+	if (filter_cmd_error(sh) == true)
+		return;
+	while (i <  sh->vars.cmds_num) 
+	{
+		pipe(pipefd);
+		pid_t pid = fork();
+		if (pid == -1) 
+			get_out_of_pipe();
+		if (pid == 0) 
+			execute_comand_in_pipe(sh, i, in_fd, pipefd);
+		close(pipefd[1]);
+		if (in_fd != 0)
+			close(in_fd);
+		in_fd = pipefd[0];
+		i++;
+	}
+	pipeline_exit(sh, in_fd, i);
+}
 
 void	check_pipes(t_sh *sh)
 {
@@ -215,5 +107,5 @@ void	check_pipes(t_sh *sh)
 		i++;
 	}
 	if (sh->vars.is_pipe)
-		execute_pipeline(sh, sh->vars.cmds_num);
+		execute_pipeline(sh);
 }
