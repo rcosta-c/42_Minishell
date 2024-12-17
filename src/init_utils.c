@@ -64,3 +64,13 @@ void	init_vars(t_sh *sh)
 	sh->vars.redir_num = 0;
 	sh->vars.heredoc_num = 0;
 }
+
+void	init_prompt_utils(t_sh *sh)
+{
+	sh->vars.sh_user = search_envp(sh, "USER");
+	sh->vars.sh_host = find_my_host(sh);
+	sh->vars.sh_pwd = search_envp(sh, "PWD");
+	sh->vars.sh_pwd = verify_home(sh, sh->vars.sh_pwd);
+	
+}
+

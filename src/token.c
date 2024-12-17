@@ -92,7 +92,7 @@ static void	ft_special_agent_redir(char *str, char *temp, int *x_o, int *x_d)
 //printf("\nseu cabrao!\n");
 	if(str[*x_o] == '>' || str[*x_o] == '<')
 	{
-		if(x_o > 0 && ft_isalnum(str[*x_o - 1]))
+		if(*x_o > 0 && ft_isalnum(str[*x_o - 1]))
 			temp[(*x_d)++] = ' ';
 		temp[(*x_d)++] = str[(*x_o)++];
 		if(str[*x_o] == '>' || str[*x_o] == '<')

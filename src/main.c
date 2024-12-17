@@ -172,7 +172,7 @@ static void	sh_loop(t_sh *sh)
 		if(ft_strlen(sh->cmd_line) > 0)
 		{
 			sh->cmd_line = prepare_line(sh->cmd_line);
-printf("\n\nprepline=%s\n", sh->cmd_line);
+//printf("\n\nprepline=%s\n", sh->cmd_line);
 			sh->vars.tk_num = count_tokens(sh);
 //printf("\n\ncmd=%s	tk_num=%d\n\n", sh->cmd_line, sh->vars.tk_num);
 			init_tokens(sh);
@@ -181,10 +181,10 @@ printf("\n\nprepline=%s\n", sh->cmd_line);
 			search_expand(sh);
 			init_parser(sh);
 			fill_parser(sh);
-printflags(sh);
-print_exec(sh);
+//printflags(sh);
+//print_exec(sh);
 			executor(sh);
-printf_flag_errors(sh);
+//printf_flag_errors(sh);
 			free_tokens(sh);
 			free_cmds(sh);
 		}
@@ -200,6 +200,7 @@ int main(int ac, char **av, char **envp)
 	if(sh == NULL)
 		return(EXIT_FAILURE);
 	ft_getenv(sh, envp);
+	init_prompt_utils(sh);
 	init_error(sh);
 	while(1)
 		sh_loop(sh);

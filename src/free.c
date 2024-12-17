@@ -96,6 +96,9 @@ void	free_exit(t_sh *sh)
 	if(sh->cmd_line)
 		free(sh->cmd_line);
 	free_env(sh);
+	free(sh->vars.sh_host);
+	free(sh->vars.sh_pwd);
+	free(sh->vars.sh_user);
 	free(sh);
 	rl_clear_history();
 }

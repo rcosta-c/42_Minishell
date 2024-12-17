@@ -49,6 +49,9 @@ typedef struct s_vars
 	int		pipe_num;
 	int		is_pipe;
 	int		envp_total;
+	char	*sh_user;
+	char	*sh_pwd;
+	char	*sh_host;
 }   t_vars;
 
 
@@ -131,6 +134,9 @@ typedef struct s_sh
 /* PROMPT.c */
 char	*get_prompt(t_sh *sh);
 char	*join_2_str(char *a, char *b, char *z, int option);
+char	*verify_home(t_sh *sh, char *prompt);
+int		verify_helper(t_sh *sh, char *prompt, int x);
+
 /*   FIM   */
 
 
@@ -170,6 +176,7 @@ void 	init_cycle(t_sh *sh);
 void	init_tk_flag1(t_sh *sh, int x);
 void    init_cmds(t_sh *sh, int x);
 void	init_vars(t_sh *sh);
+void	init_prompt_utils(t_sh *sh);
 /*		FIM 	*/
 
 /*	SIGNALS.c	*/

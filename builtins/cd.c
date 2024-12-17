@@ -81,8 +81,9 @@ static void	set_dir(t_sh *sh, char *dir)
 		return ;
 	}
 	ft_export(sh, (char *[]){ "export", new_pwd_var, NULL });
+	free(sh->vars.sh_pwd);
+	sh->vars.sh_pwd = verify_home(sh, new_pwd);
 	free(new_pwd_var);
-	free(new_pwd);
 	sh->error.exit_error = false;
 }
 

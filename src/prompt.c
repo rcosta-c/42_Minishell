@@ -12,7 +12,7 @@
 
 #include "../includes/minishell.h"
 
-static	int	verify_helper(t_sh *sh, char *prompt, int x)
+int	verify_helper(t_sh *sh, char *prompt, int x)
 {
 	char	*home;
 
@@ -32,7 +32,7 @@ static	int	verify_helper(t_sh *sh, char *prompt, int x)
 	return(x);
 }
 
-static char	*verify_home(t_sh *sh, char *prompt)
+char	*verify_home(t_sh *sh, char *prompt)
 {
 	int		x;
 	int		n_pr;
@@ -83,16 +83,21 @@ char	*join_2_str(char *a, char *b, char *z, int option)
 	return(res);
 }
 
-
 char	*get_prompt(t_sh *sh)
 {
-	char	*user;
-	char	*host;
-	char	*dir;
+//	char	*user;
+//	char	*host;
+//	char	*dir;
 	char	*prompt;
 	char	*temp;
 
-	user = search_envp(sh, "USER");
+	prompt = join_2_str(sh->vars.sh_user, sh->vars.sh_host , "@", 0);
+	temp = join_2_str(prompt, sh->vars.sh_pwd, ":", 0);
+	free(prompt);
+	prompt = join_2_str(temp, " ", "$", 0);
+	free(temp);
+	return(prompt);
+	/*user = search_envp(sh, "USER");
 	host = find_my_host(sh);
 	prompt = join_2_str(user, host , "@", 0);
 	free(user);
@@ -104,5 +109,5 @@ char	*get_prompt(t_sh *sh)
 	free(dir);
 	prompt = join_2_str(temp, " ", "$", 0);
 	free(temp);
-	return(prompt);  
+	return(prompt); */ 
 }
