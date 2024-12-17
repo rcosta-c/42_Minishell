@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:51:45 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/17 09:26:56 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/17 12:14:33 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,28 +89,31 @@ static bool	check_if_special_redir(char *str, int x)
 
 static void	ft_special_agent_redir(char *str, char *temp, int *x_o, int *x_d)
 {
+//printf("\nseu cabrao!\n");
+	if(str[*x_o] == '>' || str[*x_o] == '<')
+	{
+		if(x_o > 0 && ft_isalnum(str[*x_o - 1]))
+			temp[(*x_d)++] = ' ';
+		temp[(*x_d)++] = str[(*x_o)++];
 		if(str[*x_o] == '>' || str[*x_o] == '<')
 		{
-			if(x_o > 0 && ft_isalnum(str[*x_o - 1]))
-				temp[(*x_d)++] = ' ';
 			temp[(*x_d)++] = str[(*x_o)++];
-			if(str[*x_o] == '>' || str[*x_o] == '<')
-			{
-				temp[(*x_d)++] = str[(*x_o)++];
-				temp[(*x_d)++] = ' ';
-			}
-			else
-				temp[(*x_d)++] = ' ';
-			if(str[*x_o] == 32)
-				(*x_o)++;
-			return;
-		}	
+			temp[(*x_d)++] = ' ';
+		}
+		else
+			temp[(*x_d)++] = ' ';
+		if(str[*x_o] == 32)
+			(*x_o)++;
+		return;
+	}	
 }
 
 static void ft_give_some_space(char *str, char *temp, int *x_o, int *x_d)
 {
 	while(str[*x_o] == 32)
 			(*x_o)++;
+	(void)*x_d;
+	(void)temp;
 	if(str[*x_o] != '\0' && *x_d > 0)
 		temp[(*x_d)++] = 32;	
 }
@@ -118,13 +121,9 @@ static void ft_give_some_space(char *str, char *temp, int *x_o, int *x_d)
 static bool check_if_pipe(char *str,int x_o)
 {
 	if(str[x_o] == '|')
-	{
-		if(str[x_o] == '|')
-			return(true);
-		else
-			return(false);
-	}
-	return (false);	
+		return(true);
+	else
+		return(false);
 }
 
 static void ft_call_plumber(char *str, char *temp, int *x_o, int *x_d)
@@ -132,18 +131,24 @@ static void ft_call_plumber(char *str, char *temp, int *x_o, int *x_d)
 //printf("\nstr=%s, x_o=%d\n", str, *x_o);
 	if(*x_o > 0)
 	{
-		if(ft_isalnum(str[*x_o - 1]))
+		if(str[*x_o - 1] != ' ')
 			temp[(*x_d)++] = ' ';
 	}
 	temp[(*x_d)++] = str[(*x_o)++];
-	temp[(*x_d)++] = ' ';
+	//temp[(*x_d)++] = ' ';
 	if(str[*x_o] == 32)
 		(*x_o)++;
 }
 
 static int process_chunk(char *str, char *temp, int *x_o, int *x_d)
 {
-	
+	int	max;
+
+	max = ft_strlen(str);
+	if(str[*x_o] == 32)
+	{
+		ft_give_some_space(str, temp, &x_o[0], &x_d[0]);
+	}
 	if(str[*x_o] == 34 || str[*x_o] == 39)	
 	{
 		if(check_if_dquote(str, *x_o) || check_if_squote(str, *x_o))
@@ -155,8 +160,9 @@ static int process_chunk(char *str, char *temp, int *x_o, int *x_d)
 		else
 			temp[(*x_d)++] = str[(*x_o)++];	
 	}
-	while(str[*x_o] && token_is_valid(str[*x_o]))
+	while(str[*x_o] && token_is_valid(str[*x_o]) && *x_o < max)
 	{
+//printf("\nseu cabrao!\n");
 		if(check_if_special_redir(str, *x_o))
 			ft_special_agent_redir(str, temp, &x_o[0], &x_d[0]);
 		else if(check_if_pipe(str, *x_o) == true)
@@ -164,8 +170,9 @@ static int process_chunk(char *str, char *temp, int *x_o, int *x_d)
 		else
 			temp[(*x_d)++] = str[(*x_o)++];
 	}
+	//temp[*x_d++] = ' ';
 	if(str[*x_o] == 32)
-		ft_give_some_space(str, temp, x_o, x_d);
+		ft_give_some_space(str, temp, &x_o[0], &x_d[0]);
 	return(*x_o);
 }
 
