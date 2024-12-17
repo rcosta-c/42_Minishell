@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:54:13 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/17 09:24:49 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/17 14:45:30 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int		parse_with_args(t_sh *sh, int n_cmd, int x, int narg)
 		sh->comands[n_cmd].arg[1] = NULL;
 	if(ft_if_redir(sh, x))
 	{
+		sh->comands[n_cmd].redir = true;
 		x++;
 		if(sh->tokens[x - 1].r_in  == true && sh->tokens[x].file == true )
 			sh->comands[n_cmd].infile = ft_strdup(sh->tokens[x].tokens);
@@ -57,7 +58,6 @@ int		parse_with_args(t_sh *sh, int n_cmd, int x, int narg)
 		else if(sh->tokens[x - 1].r_outappend == true && sh->tokens[x].file == true )
 			sh->comands[n_cmd].outappendfile = ft_strdup(sh->tokens[x].tokens);
 		sh->vars.redir_num--;
-		sh->comands[n_cmd].redir = true;
 		x++;
 	}
 	return(x);
@@ -72,8 +72,9 @@ int		parse_no_args(t_sh *sh, int n_cmd, int x)
 	sh->comands[n_cmd].arg[1] = NULL;
 	sh->comands[n_cmd].n_args = 0;
 	x++;
-	if(sh->vars.redir_num > 0 || sh->tokens[x].file)
+	if(ft_if_redir(sh, x))
 	{
+		sh->comands[n_cmd].redir = true;
 		if(sh->tokens[x].file == true)
 			sh->comands[n_cmd].infile = ft_strdup(sh->tokens[x - 1].tokens);
 		x++;
@@ -89,7 +90,6 @@ int		parse_no_args(t_sh *sh, int n_cmd, int x)
 				sh->comands[n_cmd].outappendfile = ft_strdup(sh->tokens[x].tokens);
 			x++;
 		}
-		sh->comands[n_cmd].redir = true;
 	}
 	return(x);
 }
