@@ -14,7 +14,7 @@
 #include <unistd.h>
 #include <stdarg.h>
 #include <string.h>
-#include <sys/wait.h> 	
+#include <sys/wait.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <fcntl.h> 
@@ -257,8 +257,8 @@ void	remove_quoted(t_sh *sh);
 /*		FIM		*/
 
 /*	HEREDOC.c	*/
-char *handle_nextline_heredoc(int fd);
-void handle_heredoc(t_sh *sh, int x);
+char	*handle_nextline_heredoc(int fd);
+void	handle_heredoc(t_sh *sh, int x);
 /*	FIM		*/
 
 /* BUILTINS.c */
@@ -272,23 +272,20 @@ void	ft_export(t_sh *sh, char **args);
 /*   FIM   */
 
 /*	EXECUTER.c	*/
-void    execute_cmd(t_sh *sh, int x);
+void	execute_cmd(t_sh *sh, int x);
 void	executor(t_sh *sh);
-void    execute_multi_cmd(t_sh *sh, int x);
+void	execute_multi_cmd(t_sh *sh, int x);
 /*	FIM		*/
 
 /*	EXECUTER_UTILS.c	*/
 bool	check_if_builtin(char *cmd);
-char    *prep_cmd(t_sh *sh, char *cmd, int x);
+char	*prep_cmd(t_sh *sh, char *cmd, int x);
 bool	check_exec_error(t_sh *sh, int x);
-void    exec_builtin(t_sh *sh, int cmd_nbr);
+void	exec_builtin(t_sh *sh, int cmd_nbr);
 /*	FIM		*/
 
 /*	PIPE.c*/
 void	execute_pipeline(t_sh *sh, int n_cmds);
-void create_pipes(t_sh *sh, int ***pipes);
-void	close_pipes(int **pipes, int pipe_num);
-void setup_pipes(int **pipes, int i, int cmds_num);
 void	check_pipes(t_sh *sh);
 /*	FIM		*/
 
