@@ -285,7 +285,7 @@ void	exec_builtin(t_sh *sh, int cmd_nbr);
 /*	FIM		*/
 
 /*	PIPE.c*/
-void	execute_pipeline(t_sh *sh, int n_cmds);
+void	execute_pipeline(t_sh *sh);
 void	check_pipes(t_sh *sh);
 /*	FIM		*/
 
