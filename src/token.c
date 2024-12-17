@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:51:45 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/16 23:47:07 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/17 09:26:56 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ bool counter_validation(int c)
 	else 
 		return(false);
 }
-
 
 static bool	check_if_special_redirin(char *str, int x)
 {
@@ -92,7 +91,7 @@ static void	ft_special_agent_redir(char *str, char *temp, int *x_o, int *x_d)
 {
 		if(str[*x_o] == '>' || str[*x_o] == '<')
 		{
-			if(ft_isalnum(str[*x_o - 1]))
+			if(x_o > 0 && ft_isalnum(str[*x_o - 1]))
 				temp[(*x_d)++] = ' ';
 			temp[(*x_d)++] = str[(*x_o)++];
 			if(str[*x_o] == '>' || str[*x_o] == '<')
@@ -104,6 +103,7 @@ static void	ft_special_agent_redir(char *str, char *temp, int *x_o, int *x_d)
 				temp[(*x_d)++] = ' ';
 			if(str[*x_o] == 32)
 				(*x_o)++;
+			return;
 		}	
 }
 
@@ -113,6 +113,32 @@ static void ft_give_some_space(char *str, char *temp, int *x_o, int *x_d)
 			(*x_o)++;
 	if(str[*x_o] != '\0' && *x_d > 0)
 		temp[(*x_d)++] = 32;	
+}
+
+static bool check_if_pipe(char *str,int x_o)
+{
+	if(str[x_o] == '|')
+	{
+		if(str[x_o] == '|')
+			return(true);
+		else
+			return(false);
+	}
+	return (false);	
+}
+
+static void ft_call_plumber(char *str, char *temp, int *x_o, int *x_d)
+{
+//printf("\nstr=%s, x_o=%d\n", str, *x_o);
+	if(*x_o > 0)
+	{
+		if(ft_isalnum(str[*x_o - 1]))
+			temp[(*x_d)++] = ' ';
+	}
+	temp[(*x_d)++] = str[(*x_o)++];
+	temp[(*x_d)++] = ' ';
+	if(str[*x_o] == 32)
+		(*x_o)++;
 }
 
 static int process_chunk(char *str, char *temp, int *x_o, int *x_d)
@@ -133,6 +159,8 @@ static int process_chunk(char *str, char *temp, int *x_o, int *x_d)
 	{
 		if(check_if_special_redir(str, *x_o))
 			ft_special_agent_redir(str, temp, &x_o[0], &x_d[0]);
+		else if(check_if_pipe(str, *x_o) == true)
+			ft_call_plumber(str, temp, &x_o[0], &x_d[0]);
 		else
 			temp[(*x_d)++] = str[(*x_o)++];
 	}

@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:54:13 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/16 10:52:12 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/17 09:24:49 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ int		parse_no_cmds(t_sh *sh, int n_cmd, int x)
 	narg = 0;
 //printf("\n\nCARAAALLLHHHOOOOOOOO\n\n");
 	sh->vars.cmds_num = 1;
+	init_cmds(sh, n_cmd);
 	sh->comands[n_cmd].arg = malloc(sizeof(char **) * (sh->vars.tk_num + 1)); 
 	sh->comands[n_cmd].cmd = ft_strdup(sh->tokens[x].tokens);
 	if(sh->vars.tk_num > 1)

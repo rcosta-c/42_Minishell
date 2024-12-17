@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:54:56 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/13 10:54:57 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/17 09:17:19 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,22 @@ void	free_cmds(t_sh *sh)
 			if(sh->comands[x].outfile)
 				free(sh->comands[x].outfile);
 			if(sh->comands[x].inheredoc_file)
-				free(sh->comands[x].inheredoc_file);		
+				free(sh->comands[x].inheredoc_file);	
+			if (sh->comands[x].inbackup != -1) 
+			{
+				dup2(sh->comands[x].inbackup, STDIN_FILENO);
+				sh->comands[x].infile_fd = -1;
+       			close(sh->comands[x].inbackup);
+			}
+			if (sh->comands[x].outbackup != -1) 
+			{
+				dup2(sh->comands[x].outbackup, STDOUT_FILENO);
+				sh->comands[x].outfile_fd = -1;
+				close(sh->comands[x].outbackup);
+			}
 			x++;
 		}
-		free(sh->comands);
+			free(sh->comands);
 	}
 }
 
