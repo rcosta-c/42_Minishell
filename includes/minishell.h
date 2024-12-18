@@ -278,6 +278,8 @@ void	ft_unset(t_sh *sh, char **args);
 void	ft_exit(t_sh *sh, char **args);
 void	ft_env(t_sh *sh, char **args);
 void	ft_export(t_sh *sh, char **args);
+char	**handle_array(t_sh *sh);
+void	free_temp_env(char **temp);
 /*   FIM   */
 
 /*	EXECUTER.c	*/

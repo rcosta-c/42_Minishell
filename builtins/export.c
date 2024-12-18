@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: cde-paiv <cde-paiv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 18:08:39 by mota              #+#    #+#             */
-/*   Updated: 2024/12/18 10:19:18 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/18 12:45:21 by cde-paiv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ static int	valid_var(char *var)
 void	ft_export(t_sh *sh, char **args)
 {
 	int	i;
+	char **temp;
 
 	i = 1;
 	while (args[i])
@@ -116,13 +117,15 @@ void	ft_export(t_sh *sh, char **args)
 	if (!args[1])
 	{
 		i = 0;
-		while (sh->envp[i])
+		temp = handle_array(sh);
+		while (temp[i])
 		{
 			ft_putstr_fd("declare -x ", 1);
-			ft_putstr_fd(sh->envp[i], 1);
+			ft_putstr_fd(temp[i], 1);
 			ft_putstr_fd("\n", 1);
 			i++;
 		}
 		sh->error.exit_error = false;
+		free_temp_env(temp);
 	}
 }
