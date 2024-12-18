@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 18:08:39 by mota              #+#    #+#             */
-/*   Updated: 2024/12/11 17:45:26 by cde-paiv         ###   ########.fr       */
+/*   Updated: 2024/12/18 10:19:18 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,5 +114,15 @@ void	ft_export(t_sh *sh, char **args)
 		i++;
 	}
 	if (!args[1])
-		ft_env(sh, args);
+	{
+		i = 0;
+		while (sh->envp[i])
+		{
+			ft_putstr_fd("declare -x ", 1);
+			ft_putstr_fd(sh->envp[i], 1);
+			ft_putstr_fd("\n", 1);
+			i++;
+		}
+		sh->error.exit_error = false;
+	}
 }

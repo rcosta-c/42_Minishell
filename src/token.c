@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:51:45 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/17 14:24:01 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/18 10:02:18 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,13 +100,10 @@ static void	ft_special_agent_redir(char *str, char *temp, int *x_o, int *x_d)
 			temp[(*x_d)++] = str[(*x_o)++];
 			temp[(*x_d)++] = ' ';
 		}
-		//else
-		//	temp[(*x_d)++] = ' ';
-		if(str[*x_o] == 32)
-		{
-			(*x_o)++;
+		else
 			temp[(*x_d)++] = ' ';
-		}
+		if(str[*x_o] == 32)
+			(*x_o)++;
 		return;
 	}	
 }
@@ -115,8 +112,6 @@ static void ft_give_some_space(char *str, char *temp, int *x_o, int *x_d)
 {
 	while(str[*x_o] == 32)
 			(*x_o)++;
-	(void)*x_d;
-	(void)temp;
 	if(str[*x_o] != '\0' && *x_d > 0)
 		temp[(*x_d)++] = 32;	
 }
@@ -131,19 +126,19 @@ static bool check_if_pipe(char *str,int x_o)
 
 static void ft_call_plumber(char *str, char *temp, int *x_o, int *x_d)
 {
-//printf("\nstr=%s, x_o=%d\n", str, *x_o);
+	if(str[*x_o] == 32)
+		ft_give_some_space(str, temp, &x_o[0], &x_d[0]);
 	if(*x_o > 0)
 	{
 		if(str[*x_o - 1] != ' ')
 			temp[(*x_d)++] = ' ';
 	}
 	temp[(*x_d)++] = str[(*x_o)++];
-	//temp[(*x_d)++] = ' ';
-	if(str[*x_o] == 32)
-	{
-		(*x_o)++;
-		temp[(*x_d)++] = ' ';
-	}
+//	if(str[*x_o] == 32)
+//	{
+//		(*x_o)++;
+//		temp[(*x_d)++] = ' ';
+//	}
 }
 
 static int process_chunk(char *str, char *temp, int *x_o, int *x_d)
@@ -152,9 +147,7 @@ static int process_chunk(char *str, char *temp, int *x_o, int *x_d)
 
 	max = ft_strlen(str);
 	if(str[*x_o] == 32)
-	{
 		ft_give_some_space(str, temp, &x_o[0], &x_d[0]);
-	}
 	if(str[*x_o] == 34 || str[*x_o] == 39)	
 	{
 		if(check_if_dquote(str, *x_o) || check_if_squote(str, *x_o))

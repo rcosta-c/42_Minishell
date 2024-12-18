@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:54:30 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/17 14:25:04 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/18 10:02:56 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	 print_exec(t_sh *sh)
 			printf("**	OUTFILE=%s 	\n", sh->comands[x].outfile);
 			printf("**	OUTFILE_FD=%d \n", sh->comands[x].outfile_fd);
 			printf("**	OUTAPPENDFILE=%s 	\n", sh->comands[x].outappendfile);
-			printf("**	OUTAPPENDFILE_FD=%d \n\n\n", sh->comands[x].outappend_fd);
+			printf("**	OUTAPPENDFILE_FD=%d \n", sh->comands[x].outappend_fd);
 			if(sh->comands[x].errors.cmd_not_found == true)
 				printf("**	errors.cmd_not_found = ON!	\n");
 			else
@@ -62,7 +62,7 @@ void	 print_exec(t_sh *sh)
 			if(sh->comands[x].errors.empty_redir == true)
 				printf("**	empty_redir = ON!	\n");
 			else
-				printf("**	empty_redir = OFF	\n");
+				printf("**	empty_redir = OFF	\n\n\n");
 			x++;	
 		}
 }

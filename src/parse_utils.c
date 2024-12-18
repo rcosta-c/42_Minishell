@@ -6,13 +6,13 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:54:13 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/17 14:45:30 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/18 09:47:35 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static bool	ft_if_redir(t_sh *sh, int x)
+bool	ft_if_redir(t_sh *sh, int x)
 {
 	if(sh->tokens[x].r_in  == true && sh->tokens[x + 1].file == false)
 		return(false);
@@ -33,9 +33,26 @@ static bool	ft_if_redir(t_sh *sh, int x)
 	else
 		return(false);
 }
+
+void	ft_count_redirs(t_sh *sh, int x, int n_cmd)
+{
+	while(sh->tokens[x].pipe == false && x < sh->vars.tk_num)
+	{
+		if(sh->tokens[x].r_in == true || sh->tokens[x].r_heredoc == true
+			|| sh->tokens[x].r_out == true || sh->tokens[x].r_outappend == true)
+		{
+			sh->comands[n_cmd].n_redir++;	
+		}
+		x++;	
+	}	
+//	printf("\nnumero de redires=%d\n\n", sh->comands[n_cmd].n_redir);
+}
+
+
 int		parse_with_args(t_sh *sh, int n_cmd, int x, int narg)
 {
-//	printf("PARSSSSEEEEE  WITHHH ARGS!!!!\n\n");
+	int counter;
+
 	sh->comands[n_cmd].arg = malloc(sizeof(char **) * (sh->comands[n_cmd].n_args + 2));
 	sh->comands[n_cmd].cmd = ft_strdup(sh->tokens[x - 1].tokens);
 	sh->comands[n_cmd].arg[narg++] = ft_strdup(sh->tokens[x - 1].tokens);
@@ -45,49 +62,98 @@ int		parse_with_args(t_sh *sh, int n_cmd, int x, int narg)
 		sh->comands[n_cmd].arg[narg] = NULL;
 	else
 		sh->comands[n_cmd].arg[1] = NULL;
-	if(ft_if_redir(sh, x))
+	ft_count_redirs(sh, x, n_cmd);
+	if(sh->comands[n_cmd].n_redir > 0)
 	{
+		counter = 0;
 		sh->comands[n_cmd].redir = true;
-		x++;
-		if(sh->tokens[x - 1].r_in  == true && sh->tokens[x].file == true )
-			sh->comands[n_cmd].infile = ft_strdup(sh->tokens[x].tokens);
-		else if(sh->tokens[x - 1].r_out == true  && sh->tokens[x].file == true )
-			sh->comands[n_cmd].outfile = ft_strdup(sh->tokens[x].tokens);
-		else if(sh->tokens[x - 1].r_heredoc == true && sh->tokens[x].tokens)
-			sh->comands[n_cmd].inheredoc_file = ft_strdup(sh->tokens[x].tokens);
-		else if(sh->tokens[x - 1].r_outappend == true && sh->tokens[x].file == true )
-			sh->comands[n_cmd].outappendfile = ft_strdup(sh->tokens[x].tokens);
-		sh->vars.redir_num--;
-		x++;
+		while(counter < sh->comands[n_cmd].n_redir && x < sh->vars.tk_num)
+		{
+			if(sh->tokens[x - 1].r_in  == true)
+			{
+				if(sh->tokens[x].file == true )
+					sh->comands[n_cmd].infile = ft_strdup(sh->tokens[x].tokens);
+				else
+					sh->comands[n_cmd].errors.empty_redir = true;
+				counter++;
+			}
+			else if(sh->tokens[x - 1].r_out == true)
+			{	if(sh->tokens[x].file == true)
+					sh->comands[n_cmd].outfile = ft_strdup(sh->tokens[x].tokens);
+				else
+					sh->comands[n_cmd].errors.empty_redir = true;
+				counter++;
+			}
+			else if(sh->tokens[x - 1].r_heredoc == true)
+			{
+				if(sh->tokens[x].tokens)
+					sh->comands[n_cmd].inheredoc_file = ft_strdup(sh->tokens[x].tokens);
+				else
+					sh->comands[n_cmd].errors.empty_redir = true;
+				counter++;
+			}
+			else if(sh->tokens[x - 1].r_outappend == true)
+			{
+				if(sh->tokens[x].file == true)
+					sh->comands[n_cmd].outappendfile = ft_strdup(sh->tokens[x].tokens);
+				else
+					sh->comands[n_cmd].errors.empty_redir = true;
+				counter++;
+			}
+			x++;
+		}
 	}
 	return(x);
 }
 
 int		parse_no_args(t_sh *sh, int n_cmd, int x)
 {
-//	printf("\n\nPPRASE WITH NOOOOOO ARGS\n\n");
+	int counter;
+	
 	sh->comands[n_cmd].arg = malloc(sizeof(char **) * 2); 
 	sh->comands[n_cmd].cmd = ft_strdup(sh->tokens[x].tokens); 
 	sh->comands[n_cmd].arg[0] = ft_strdup(sh->tokens[x].tokens);
 	sh->comands[n_cmd].arg[1] = NULL;
 	sh->comands[n_cmd].n_args = 0;
 	x++;
-	if(ft_if_redir(sh, x))
+	ft_count_redirs(sh, x, n_cmd);
+	if(sh->comands[n_cmd].n_redir > 0)
 	{
+		counter = 0;
 		sh->comands[n_cmd].redir = true;
-		if(sh->tokens[x].file == true)
-			sh->comands[n_cmd].infile = ft_strdup(sh->tokens[x - 1].tokens);
-		x++;
-		while(sh->tokens[x].pipe == false && x < sh->vars.tk_num)
+		while(counter < sh->comands[n_cmd].n_redir && x < sh->vars.tk_num)
 		{
-			if(sh->tokens[x - 1].r_in == true && sh->tokens[x].file)
-				sh->comands[n_cmd].infile = ft_strdup(sh->tokens[x].tokens);
-			else if(sh->tokens[x - 1].r_heredoc == true && sh->tokens[x].file)
-				sh->comands[n_cmd].inheredoc_file = ft_strdup(sh->tokens[x].tokens);
-			else if(sh->tokens[x - 1].r_out == true && sh->tokens[x].file)
-				sh->comands[n_cmd].outfile = ft_strdup(sh->tokens[x].tokens);
-			else if(sh->tokens[x - 1].r_outappend == true && sh->tokens[x].file)
-				sh->comands[n_cmd].outappendfile = ft_strdup(sh->tokens[x].tokens);
+			if(sh->tokens[x - 1].r_in  == true)
+			{
+				if(sh->tokens[x].file == true )
+					sh->comands[n_cmd].infile = ft_strdup(sh->tokens[x].tokens);
+				else
+					sh->comands[n_cmd].errors.empty_redir = true;
+				counter++;
+			}
+			else if(sh->tokens[x - 1].r_out == true)
+			{	if(sh->tokens[x].file == true)
+					sh->comands[n_cmd].outfile = ft_strdup(sh->tokens[x].tokens);
+				else
+					sh->comands[n_cmd].errors.empty_redir = true;
+				counter++;
+			}
+			else if(sh->tokens[x - 1].r_heredoc == true)
+			{
+				if(sh->tokens[x].tokens)
+					sh->comands[n_cmd].inheredoc_file = ft_strdup(sh->tokens[x].tokens);
+				else
+					sh->comands[n_cmd].errors.empty_redir = true;
+				counter++;
+			}
+			else if(sh->tokens[x - 1].r_outappend == true)
+			{
+				if(sh->tokens[x].file == true)
+					sh->comands[n_cmd].outappendfile = ft_strdup(sh->tokens[x].tokens);
+				else
+					sh->comands[n_cmd].errors.empty_redir = true;
+				counter++;
+			}
 			x++;
 		}
 	}
@@ -97,9 +163,9 @@ int		parse_no_args(t_sh *sh, int n_cmd, int x)
 int		parse_no_cmds(t_sh *sh, int n_cmd, int x)
 {
 	int		narg;
-
+//	int		counter;
+	
 	narg = 0;
-//printf("\n\nCARAAALLLHHHOOOOOOOO\n\n");
 	sh->vars.cmds_num = 1;
 	init_cmds(sh, n_cmd);
 	sh->comands[n_cmd].arg = malloc(sizeof(char **) * (sh->vars.tk_num + 1)); 
@@ -119,6 +185,47 @@ int		parse_no_cmds(t_sh *sh, int n_cmd, int x)
 		sh->comands[n_cmd].n_args = 0;
 		x++;
 	}
+/*	ft_count_redirs(sh, x, n_cmd);
+	if(sh->comands[n_cmd].n_redir > 0)
+	{
+		counter = 0;
+		sh->comands[n_cmd].redir = true;
+		while(counter < sh->comands[n_cmd].n_redir && x < sh->vars.tk_num)
+		{
+			if(sh->tokens[x - 1].r_in  == true)
+			{
+				if(sh->tokens[x].file == true )
+					sh->comands[n_cmd].infile = ft_strdup(sh->tokens[x].tokens);
+				else
+					sh->comands[n_cmd].errors.empty_redir = true;
+				counter++;
+			}
+			else if(sh->tokens[x - 1].r_out == true)
+			{	if(sh->tokens[x].file == true)
+					sh->comands[n_cmd].outfile = ft_strdup(sh->tokens[x].tokens);
+				else
+					sh->comands[n_cmd].errors.empty_redir = true;
+				counter++;
+			}
+			else if(sh->tokens[x - 1].r_heredoc == true)
+			{
+				if(sh->tokens[x].tokens)
+					sh->comands[n_cmd].inheredoc_file = ft_strdup(sh->tokens[x].tokens);
+				else
+					sh->comands[n_cmd].errors.empty_redir = true;
+				counter++;
+			}
+			else if(sh->tokens[x - 1].r_outappend == true)
+			{
+				if(sh->tokens[x].file == true)
+					sh->comands[n_cmd].outappendfile = ft_strdup(sh->tokens[x].tokens);
+				else
+					sh->comands[n_cmd].errors.empty_redir = true;
+				counter++;
+			}
+			x++;
+		}
+	}*/
 	return(x);
 }
 

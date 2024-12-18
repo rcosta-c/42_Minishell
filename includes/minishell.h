@@ -106,7 +106,7 @@ typedef struct s_exec
 	char    	*outfile;
 	char		*inheredoc_file;
 	char    	*outappendfile;
-	int			pipe_fd[2];
+	int			n_redir;
 	bool		redir;
 	bool		pipes;
 	int			inheredoc_fd;
@@ -257,6 +257,8 @@ int		parse_no_args(t_sh *sh, int n_cmd, int x);
 int		parse_with_args(t_sh *sh, int n_cmd, int x, int narg);
 int		parse_utils(t_sh *sh, int x, int n_cmd);
 int		parse_pipes(t_sh *sh, int z, int n_cmd);
+void	ft_count_redirs(t_sh *sh, int x, int n_cmd);
+bool	ft_if_redir(t_sh *sh, int x);
 /*	FIM		*/
 
 /* PARSE_UTILS_QUOTES.c 	*/

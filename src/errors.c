@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:55:30 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/16 00:26:17 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/18 09:35:51 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,12 @@ static bool	verify_error_helper(t_sh *sh, int x)
 			ft_putstr_fd("> : Permissão recusada: \n", 2);
 			g_status = NO_PERMISSION;
 			return(true);
+		}
+		else if (sh->comands[x].errors.empty_redir == true)
+		{
+			ft_putstr_fd("EMPTY REDIR - syntax error near unexpected token `|'\n", 2);
+			g_status = SYNTAX_MISPELL;
+			return(true);			
 		}
 		else
 			x++;
