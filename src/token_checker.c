@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:52:28 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/13 10:52:30 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/19 17:42:51 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,13 @@ int	check_dquote(char *str, int counter)
 			temp++;
 		if(str[temp] == '\0')
 			return(counter);
+		else if(str[temp] == 34 && ft_isalpha(str[temp + 1]))
+		{
+			temp++;
+			while(str[temp] && ft_isalpha(str[temp]))
+				temp++;
+			return(temp);
+		}
 		else
 		{
 			temp++;

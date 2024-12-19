@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:55:30 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/18 09:35:51 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/19 10:05:30 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ bool	filter_cmd_error(t_sh *sh)
 		}
 		else
 		{
+			sh->comands[x].errors.cmd_not_found = true;
 			fprintf(stderr, "Minishell: comando não encontrado: %s\n", sh->comands[x].cmd);
 			g_status = CMD_NOT_FOUND;
 			return(true);

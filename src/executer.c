@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:55:18 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/17 08:01:15 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/19 10:02:59 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static void	executor_for_one(t_sh *sh, int x)
 	{
 		sh->comands[x].cmd = prep_cmd(sh, sh->comands[x].cmd, x);
 		if(filter_cmd_error(sh) == true)
-		return;
+			return;
 		handle_redirects(sh, x);
 		execute_cmd(sh, x);
 	}

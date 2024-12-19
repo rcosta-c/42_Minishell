@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:51:45 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/18 10:02:18 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/19 18:40:11 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,25 +19,32 @@ int	count_tokens(t_sh *sh)
 
 	x = 0;
 	counter = 0;
-	if(!sh->cmd_line)
-		return(counter);
-	while(sh->cmd_line[x])
+	if (!sh->cmd_line)
+		return (0);
+	while (sh->cmd_line[x])
 	{
-		while(sh->cmd_line[x] == 32)
+		while (sh->cmd_line[x] == ' ')
 			x++;
-		if(sh->cmd_line[x] == 34 || sh->cmd_line[x] == 39)
+		if (sh->cmd_line[x] == '"' || sh->cmd_line[x] == '\'')
 		{
-			x = check_type_quote(sh->cmd_line, x);
+			x = check_type_quote(sh->cmd_line, x); 
+			counter++; 
+		}
+		else if (sh->cmd_line[x] && sh->cmd_line[x] != ' ' 
+			&& sh->cmd_line[x] != '>' && sh->cmd_line[x] != '<' && sh->cmd_line[x] != '|')
+		{
+			while (sh->cmd_line[x] && sh->cmd_line[x] != ' ' 
+				&& sh->cmd_line[x] != '>' && sh->cmd_line[x] != '<' && sh->cmd_line[x] != '|')
+				x++;
 			counter++;
 		}
-		while(counter_validation(sh->cmd_line[x]))
+		else if (sh->cmd_line[x] == '>' || sh->cmd_line[x] == '<' || sh->cmd_line[x] == '|')
+		{
+			counter++;
 			x++;
-		if(sh->cmd_line[x] == 32 && counter_validation(sh->cmd_line[x - 1]))
-			counter++;
-		if(!sh->cmd_line[x] && counter_validation(sh->cmd_line[x - 1]))
-			counter++;
+		}
 	}
-	return(counter);
+	return (counter);
 }
 
 bool counter_validation(int c)
@@ -89,7 +96,6 @@ static bool	check_if_special_redir(char *str, int x)
 
 static void	ft_special_agent_redir(char *str, char *temp, int *x_o, int *x_d)
 {
-//printf("\nseu cabrao!\n");
 	if(str[*x_o] == '>' || str[*x_o] == '<')
 	{
 		if(*x_o > 0 && ft_isalnum(str[*x_o - 1]))
@@ -134,11 +140,6 @@ static void ft_call_plumber(char *str, char *temp, int *x_o, int *x_d)
 			temp[(*x_d)++] = ' ';
 	}
 	temp[(*x_d)++] = str[(*x_o)++];
-//	if(str[*x_o] == 32)
-//	{
-//		(*x_o)++;
-//		temp[(*x_d)++] = ' ';
-//	}
 }
 
 static int process_chunk(char *str, char *temp, int *x_o, int *x_d)
@@ -158,10 +159,16 @@ static int process_chunk(char *str, char *temp, int *x_o, int *x_d)
 		}
 		else
 			temp[(*x_d)++] = str[(*x_o)++];	
+		if(str[(*x_o)] != 32 && (str[(*x_o) - 1] == 34 || str[(*x_o) - 1] == 39))
+		{
+//printf("entrouaqui\n");
+			while(str[(*x_o)] && (str[(*x_o)] != 32 || str[(*x_o)] != '>' ||
+				 str[(*x_o)] != '<' || str[(*x_o)] != '|'))
+				temp[(*x_d)++] = str[(*x_o)++];
+		}
 	}
 	while(str[*x_o] && token_is_valid(str[*x_o]) && *x_o < max)
 	{
-//printf("\nseu cabrao!\n");
 		if(check_if_special_redir(str, *x_o))
 			ft_special_agent_redir(str, temp, &x_o[0], &x_d[0]);
 		else if(check_if_pipe(str, *x_o) == true)
@@ -169,7 +176,6 @@ static int process_chunk(char *str, char *temp, int *x_o, int *x_d)
 		else
 			temp[(*x_d)++] = str[(*x_o)++];
 	}
-	//temp[*x_d++] = ' ';
 	if(str[*x_o] == 32)
 		ft_give_some_space(str, temp, &x_o[0], &x_d[0]);
 	return(*x_o);
