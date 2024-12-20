@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:53:34 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/13 10:53:35 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/19 23:58:27 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ char *find_my_host(t_sh *sh)
 	x = 0;
 	xx = 0;
 	temp = search_envp(sh, "SESSION_MANAGER");
+	if(!temp)
+		temp = ft_strdup("/:42");
 	temp2 = malloc(sizeof(char *) * 20);
 	while(temp[x] != '/' && temp[x])
 		x++;

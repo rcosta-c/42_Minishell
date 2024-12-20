@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:54:23 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/13 10:54:24 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/20 00:09:34 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,20 @@ static char	*clean_quote(char *str)
 	int		xx;
 	char	*dest;
 
-	x = 1;
+	x = 0;
 	xx = 0;
 	len = ft_strlen(str);
 	dest = malloc(sizeof(char *) * len - 1);
 	while(str[x])
 	{
-		if(len - 1 == x)
-			break;
-		dest[xx] = str[x];
-		x++;
-		xx++;
+		if(str[x] == 34)
+			x++;
+		else
+		{
+			dest[xx] = str[x];
+			x++;
+			xx++;
+		}
 	}
 	dest[xx] = '\0';
 	free(str);

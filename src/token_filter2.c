@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:52:02 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/13 10:52:05 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/20 00:05:23 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,14 +83,21 @@ void	filter_pipes_redir(t_sh *sh, int n)
 void	filter_quotes(t_sh *sh, int n, int x)
 {
 	int len;
-
+	int	counter;
+	
+	counter = 0;
 	len = ft_strlen(sh->tokens[n].tokens);
 	if(sh->tokens[n].tokens[0] == 34)
 	{
 		while(sh->tokens[n].tokens[x++])
+		{
 			if(sh->tokens[n].tokens[x] == '$')
 				sh->tokens[n].exp_e = true;
-		if(sh->tokens[n].tokens[len - 1] == 34 && len > 1)
+			if(sh->tokens[n].tokens[x] == 34)
+				counter++;
+		}
+		printf("\n\nCOUNTER=%d\n\n", counter);
+		if(counter == 1)			//(sh->tokens[n].tokens[len - 1] == 34 && len > 1)
 			sh->tokens[n].d_quote = true;
 		else
 			sh->tokens[n].f_quote = true;
