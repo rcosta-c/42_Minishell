@@ -9,6 +9,7 @@ CFLAGS := -Wall -Werror -Wextra
 
 
 SRCS := src/main.c \
+						builtins/export_utils.c	\
 						builtins/handle_export.c \
 						builtins/env.c \
 						builtins/exit.c \

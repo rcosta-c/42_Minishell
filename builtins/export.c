@@ -3,129 +3,215 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cde-paiv <cde-paiv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mota <mota@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 18:08:39 by mota              #+#    #+#             */
-/*   Updated: 2024/12/18 12:45:21 by cde-paiv         ###   ########.fr       */
+/*   Updated: 2024/12/21 02:08:07 by mota             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static int	get_var_pos(t_sh *sh, char *var)
+/*static int is_valid_identifier(const char *arg)
 {
-	int	i;
-	int	len;
+    int i;
 
-	i = 0;
-	len = ft_strchr(var, '=') - var;
-	if (len <= 0)
-		return (-1);
-	while (i < sh->vars.envp_total)
-	{
-		if (!ft_strncmp(sh->envp[i], var, len) && sh->envp[i][len] == '=')
-			return (i);
-		i++;
-	}
-	return (-1);
+    if (!arg || (!ft_isalpha(arg[0]) && arg[0] != '_'))
+        return (0);
+    i = 0;
+    while (arg[i] && arg[i] != '=' && !(arg[i] == '+' && arg[i + 1] == '='))
+    {
+        if (!ft_isalnum(arg[i]) && arg[i] != '_')
+            return (0);
+        i++;
+    }
+    return (1);
 }
 
-static void	update_var(t_sh *sh, char *var)
+static void update_existing_var_concat(char **envp, int pos, const char *arg)
 {
-	int		var_pos;
-	int		i;
-	int		new_size;
-	char	**envp_temp;
+    char *new_value;
+    char *old_value;
+    char *key;
+    int key_len;
 
-	var_pos = get_var_pos(sh, var);
-	if (var_pos >= 0)
-	{
-		free(sh->envp[var_pos]);
-		sh->envp[var_pos] = ft_strdup(var);
-		return ;
-	}
-	new_size = sh->vars.envp_total + 2;
-	envp_temp = ft_calloc(new_size, sizeof(char *));
-	if (!envp_temp)
-	{
-		free(envp_temp);
-		exit(EXIT_FAILURE);
-	}
-	i = 0;
-	while (i < sh->vars.envp_total)
-	{
-		envp_temp[i] = ft_strdup(sh->envp[i]);
-		if (!envp_temp[i])
-		{
-			free(envp_temp);
-			exit(EXIT_FAILURE);
-		}
-		i++;
-	}
-	envp_temp[i] = ft_strdup(var);
-	if (!envp_temp[i])
-	{
-		free(envp_temp);
-		exit(EXIT_FAILURE);
-	}
-	sh->vars.envp_total++;
-	free_env(sh);
-	sh->envp = envp_temp;
+    key_len = ft_strchr(arg, '+') - arg;
+    key = ft_substr(arg, 0, key_len);
+    old_value = ft_strchr(envp[pos], '=') + 1;
+    new_value = ft_strjoin(old_value, arg + key_len + 2);
+
+    free(envp[pos]);
+    envp[pos] = ft_strjoin(key, "=");
+    envp[pos] = ft_strjoin(envp[pos], new_value);
+
+    free(new_value);
+    free(key);
 }
 
-static int	valid_var(char *var)
+static void update_existing_var(char **envp, int pos, const char *arg)
 {
-	int	i;
-
-	if (!var || var[0] == '=' || ft_isdigit(var[0]))
-		return (0);
-	i = 0;
-	while (var[i] && var[i] != '=')
-	{
-		if (var[i] != '_' && !ft_isalnum(var[i]))
-			return (0);
-		i++;
-	}
-	return (1);
+    free(envp[pos]);
+    envp[pos] = ft_strdup(arg);
 }
 
-void	ft_export(t_sh *sh, char **args)
+static int handle_export_var(t_sh *sh, const char *arg)
 {
-	int	i;
-	char **temp;
+    char *equal;
+    int var_pos;
 
-	i = 1;
-	while (args[i])
-	{
-		if (valid_var(args[i]))
-		{
-			if (ft_strchr(args[i], '='))
-			{
-				update_var(sh, args[i]);
-				sh->error.exit_error = false;
-			}
-		}
-		else
-		{
-			ft_putstr_fd(": export: ", 2);
-			ft_putstr_fd(args[i], 2);
-			ft_putstr_fd(": not a valid identifier\n", 2);
-			sh->error.exit_error = true;
-		}
-		i++;
-	}
-	if (!args[1])
-	{
-		i = 0;
-		temp = handle_array(sh);
-		while (temp[i])
-		{
-			ft_putstr_fd("declare -x ", 1);
-			ft_putstr_fd(temp[i], 1);
-			ft_putstr_fd("\n", 1);
-			i++;
-		}
-		sh->error.exit_error = false;
-		free_temp_env(temp);
-	}
+    if (ft_strchr(arg, '+') && ft_strchr(arg, '+') + 1 == ft_strchr(arg, '='))
+    {
+        var_pos = get_var_pos(sh, (char *)arg);
+        if (var_pos >= 0)
+            update_existing_var_concat(sh->envp, var_pos, arg);
+        else
+            update_var(sh, (char *)arg); // Cria uma nova variável
+        return (0);
+    }
+
+    equal = ft_strchr(arg, '=');
+    if (!equal)
+        return (0);
+
+    var_pos = get_var_pos(sh, (char *)arg);
+    if (var_pos >= 0)
+        update_existing_var(sh->envp, var_pos, arg);
+    else
+        update_var(sh, (char *)arg);
+
+    return (0);
+}
+
+void ft_export(t_sh *sh, char **args)
+{
+    int i;
+    int status;
+
+    status = 0;
+    if (!args[1])
+    {
+        display_exported_vars(sh);
+        return;
+    }
+
+    i = 1;
+    while (args[i])
+    {
+        if (!is_valid_identifier(args[i]))
+        {
+            ft_putstr_fd("export: `", 2);
+            ft_putstr_fd(args[i], 2);
+            ft_putstr_fd("`: not a valid identifier\n", 2);
+            status = 1;
+        }
+        else
+            handle_export_var(sh, args[i]);
+        i++;
+    }
+    sh->error.exit_error = (status != 0);
+}*/
+
+#include "../includes/minishell.h"
+
+// Função para verificar se o identificador é válido
+static int is_valid_identifier(const char *arg)
+{
+    int i;
+
+    if (!arg || (!ft_isalpha(arg[0]) && arg[0] != '_'))
+        return (0);
+
+    i = 0;
+    while (arg[i] && arg[i] != '=' && arg[i] != '+')
+    {
+        if (!ft_isalnum(arg[i]) && arg[i] != '_')
+            return (0);
+        i++;
+    }
+
+    // Permite '+' apenas se for seguido por '='
+    if (arg[i] == '+' && arg[i + 1] != '=')
+        return (0);
+
+    return (1);
+}
+
+static void handle_export_var(t_sh *sh, const char *arg)
+{
+    char *equal_sign = ft_strchr(arg, '=');
+    if (!equal_sign)
+        return;
+
+    if (*(equal_sign - 1) == '+') // Case for '+=' operator
+    {
+        // Get the variable name (without the '+')
+        char *var_name = ft_substr(arg, 0, equal_sign - arg - 1);
+        char *value_to_add = equal_sign + 1;
+        
+        // Create the search string with '=' to match environment format
+        char *search_var = ft_strjoin(var_name, "=");
+        int var_pos = get_var_pos(sh, search_var);
+        
+        if (var_pos >= 0)
+        {
+            // Get existing value after the '=' sign
+            char *existing_value = ft_strchr(sh->envp[var_pos], '=') + 1;
+            
+            // Create new combined value
+            char *temp_value = ft_strjoin(existing_value, value_to_add);
+            
+            // Create the complete new variable string
+            char *new_var = ft_strjoin(search_var, temp_value);
+            
+            // Update the environment
+            free(sh->envp[var_pos]);
+            sh->envp[var_pos] = new_var;
+            free(temp_value);
+        }
+        else 
+        {
+            // If variable doesn't exist, create it with just the new value
+            char *new_var = ft_strjoin(search_var, value_to_add);
+            update_var(sh, new_var);
+            free(new_var);
+        }
+        
+        free(var_name);
+        free(search_var);
+    }
+    else 
+    {
+        // Standard case, just update/add the variable
+        update_var(sh, (char *)arg);
+    }
+}
+
+// Função principal para o comando 'export'
+void ft_export(t_sh *sh, char **args)
+{
+    int i;
+    int status = 0;
+
+    if (!args[1]) 
+    {
+        display_exported_vars(sh); // Exibe as variáveis exportadas
+        return;
+    }
+
+    for (i = 1; args[i]; i++)
+    {
+        if (!is_valid_identifier(args[i])) // Verifica se o identificador é válido
+        {
+            ft_putstr_fd("export: `", 2);
+            ft_putstr_fd(args[i], 2);
+            ft_putstr_fd("`: not a valid identifier\n", 2);
+            status = 1;
+        }
+        else 
+        {
+            handle_export_var(sh, args[i]); // Trata o export das variáveis
+        }
+    }
+
+    sh->error.exit_error = (status != 0);
 }

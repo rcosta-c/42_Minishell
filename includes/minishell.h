@@ -278,6 +278,9 @@ void	ft_unset(t_sh *sh, char **args);
 void	ft_exit(t_sh *sh, char **args);
 void	ft_env(t_sh *sh, char **args);
 void	ft_export(t_sh *sh, char **args);
+int 	get_var_pos(t_sh *sh, char *var);
+void	update_var(t_sh *sh, char *var);
+void display_exported_vars(t_sh *sh);
 char	**handle_array(t_sh *sh);
 void	free_temp_env(char **temp);
 /*   FIM   */
