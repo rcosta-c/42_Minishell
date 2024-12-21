@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:54:06 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/16 10:52:44 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/21 02:17:45 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,17 @@ bool    check_before_parse(t_sh *sh)
 	}
 	return(false);
 }
+/*static int	parse_emptyenv(t_sh *sh, int x, int n_cmd)
+{
+	sh->comands[n_cmd].arg = malloc(sizeof(char **) * 2); 
+	sh->comands[n_cmd].cmd = ft_strdup("echo"); 
+	sh->comands[n_cmd].arg[0] = ft_strdup("echo");
+	sh->comands[n_cmd].arg[1] = NULL;
+	sh->comands[n_cmd].n_args = 0;
+	x++;
+	return(x);
+	
+}*/
 
 void    fill_parser(t_sh *sh)
 {
@@ -98,12 +109,30 @@ void    fill_parser(t_sh *sh)
 	remove_quoted(sh);
 	while(x < sh->vars.tk_num)
 	{
+		if(sh->tokens[x].exp_empty == true)
+		{
+//printf("\naquitambemestuouad!!!!\n");
+			//x = parse_emptyenv(sh, x, n_cmd);
+			x++;
+			if(x == sh->vars.tk_num)
+			{
+				sh->comands[n_cmd].arg = malloc(sizeof(char **) * 2); 
+				sh->comands[n_cmd].cmd = ft_strdup("echo"); 
+				sh->comands[n_cmd].arg[0] = ft_strdup("echo");
+				sh->comands[n_cmd].arg[1] = NULL;
+				sh->comands[n_cmd].n_args = 0;
+				return;
+			}
+		}
+	//	else
+	//	{
 //		printf("\n\nx vai em =%d\n\n", x);
 		x = parse_utils(sh, x, n_cmd);
 //		printf("\n\nx vai em =%d\n\n", x);
 		if(x >= sh->vars.tk_num)
 			break;
 		x = parse_pipes(sh, x, n_cmd);
+	//	}
 		n_cmd++;		
 	}
 }

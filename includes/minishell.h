@@ -30,12 +30,12 @@
 # define SYNTAX_MISPELL	2
 # define NO_PERMISSION	126
 # define CMD_NOT_FOUND	127
+# define ENV_VAR_NOT_FOUND 128
 # define EXIT_SIGINT	130
 # define EXIT_SIGQUIT	131
 # define PAR
 # define WRONG_SYNTAX	258
 
-//FALTAM MAIS AQUI em cima
 
 extern int				g_status;
 
@@ -73,6 +73,7 @@ typedef struct s_tokens
 	bool    envp;
 	bool    exp_t;      
 	bool    exp_e;
+	bool	exp_empty;
 }   t_tokens;
 
 typedef struct s_error

@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:52:02 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/20 00:05:23 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/20 23:47:12 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void	filter_quotes(t_sh *sh, int n, int x)
 			if(sh->tokens[n].tokens[x] == 34)
 				counter++;
 		}
-		printf("\n\nCOUNTER=%d\n\n", counter);
+//		printf("\n\nCOUNTER=%d\n\n", counter);
 		if(counter == 1)			//(sh->tokens[n].tokens[len - 1] == 34 && len > 1)
 			sh->tokens[n].d_quote = true;
 		else

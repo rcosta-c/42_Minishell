@@ -6,12 +6,64 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:55:30 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/19 10:05:30 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/21 02:19:37 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+
+
+bool filter_cmd_error(t_sh *sh)
+{
+    int x;
+    struct stat path_stat;
+
+    x = 0;
+    if (sh->vars.sh_status == false)
+        return (true);
+    while (x < sh->vars.cmds_num)
+    {
+        if (stat(sh->comands[x].cmd, &path_stat) == 0 && S_ISDIR(path_stat.st_mode))
+        {
+            fprintf(stderr, " Is a directory\n");
+            g_status = NO_PERMISSION;
+            return (true);
+        }
+        if (!access(sh->comands[x].cmd, F_OK))
+        {
+			//printf("\n\nPAASSEEII AQUI\n\n");
+            if (access(sh->comands[x].cmd, X_OK))
+            {
+                fprintf(stderr, "Permission denied: %s\n", sh->comands[x].cmd);
+                g_status = NO_PERMISSION;
+                return (true);
+            }
+        }
+        else
+        {
+            sh->comands[x].errors.cmd_not_found = true;
+            fprintf(stderr, " command not found\n");
+            g_status = CMD_NOT_FOUND;
+            return (true);
+        }
+        if (sh->comands[x].cmd[0] == '$') 
+        {
+            char *env_var = getenv(&sh->comands[x].cmd[1]);
+            if (!env_var || !*env_var)
+            {
+                fprintf(stderr, "Minishell: variável de ambiente não resolvida: %s\n", sh->comands[x].cmd);
+                g_status = ENV_VAR_NOT_FOUND;
+                return (true);
+            }
+        }
+
+        x++;
+    }
+    return (false);
+}
+
+/*
 bool	filter_cmd_error(t_sh *sh)
 {
 	int x;
@@ -40,7 +92,7 @@ bool	filter_cmd_error(t_sh *sh)
 		x++;
 	}
 	return(false);
-}
+}*/
 static bool	filter_tkerrors2(t_sh *sh)
 {
 	if(sh->tokens[0].r_heredoc || sh->tokens[0].r_in || 

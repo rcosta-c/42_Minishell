@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:55:03 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/15 21:51:39 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/21 02:02:23 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,15 @@ char    *expand_token_seeker2(t_sh *sh, int *x, int n, char *c)
 		b[bx] = '\0';
 		c = search_envp(sh, b);
 		if(!c)
+		{
 			c =ft_strdup(" ");
+			sh->tokens[n].exp_empty = true;
+			/*if(sh->vars.tk_num > 1)
+			{
+				sh->vars.cmds_num++;
+				sh->tokens[n + 1].cmd = true;
+			}*/
+		}
 	}
 	return(c);
 }
@@ -98,11 +106,11 @@ void    expand_token(t_sh *sh, int n)
 	int     exp_counter;
 	int		counter;
 	
-	counter = -1;
+	counter = 0;
 	z = NULL;
 	exp_counter = count_expands(sh, n);
 	x[0] = 0;
-	while(++counter < sh->vars.tk_num)
+	while(counter < sh->vars.tk_num)
 	{
 		z = join_2_str(z, pre_expand(sh, x, n), NULL, 1);
 		if((size_t)x == ft_strlen(sh->tokens[n].tokens) - 1)
@@ -114,6 +122,7 @@ void    expand_token(t_sh *sh, int n)
 			z = expand_exit(sh, n, x[0], z);
 			break;
 		}
+		counter++;
 	}
 	free(sh->tokens[n].tokens);
 	sh->tokens[n].tokens = z;
@@ -126,7 +135,7 @@ void	search_expand(t_sh *sh)
 
 	n = 0;
 	x = 0;
-	while(n++ < sh->vars.tk_num)
+	while(n < sh->vars.tk_num)
 	{
 		if(sh->tokens[n].exp_e || sh->tokens[n].exp_t )
 			expand_token(sh, n);
@@ -144,5 +153,6 @@ void	search_expand(t_sh *sh)
 					expand_token(sh, n);
 			}
 		}
+		n++;
 	}
 }

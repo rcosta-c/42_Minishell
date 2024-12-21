@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:54:43 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/18 08:50:53 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/21 01:14:49 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void    init_tk_flag1(t_sh *sh, int x)
 	sh->tokens[x].file = false;
 	sh->tokens[x].exp_e = false;
 	sh->tokens[x].exp_t = false;
+	sh->tokens[x].exp_empty = false;
 }
 
 void    init_cmds(t_sh *sh, int x)

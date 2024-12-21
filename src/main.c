@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mota <mota@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:54:30 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/21 02:11:33 by mota             ###   ########.fr       */
+/*   Updated: 2024/12/21 02:18:38 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,9 +180,11 @@ static void	sh_loop(t_sh *sh)
 //printf("numero de tokens= %d, antes do filter=%s\n\n", sh->vars.tk_num, sh->cmd_line);
 			filter_tokens(sh);
 			search_expand(sh);
-			init_parser(sh);
-			fill_parser(sh);
 //printflags(sh);
+			init_parser(sh);
+
+			fill_parser(sh);
+
 //print_exec(sh);
 			executor(sh);
 //printf_flag_errors(sh);
