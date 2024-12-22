@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:55:30 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/21 02:19:37 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/22 00:18:52 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,19 +26,32 @@ bool filter_cmd_error(t_sh *sh)
     {
         if (stat(sh->comands[x].cmd, &path_stat) == 0 && S_ISDIR(path_stat.st_mode))
         {
-            fprintf(stderr, " Is a directory\n");
-            g_status = NO_PERMISSION;
-            return (true);
+			if(ft_isalpha(sh->comands[x].cmd[0]))
+			{
+				 sh->comands[x].errors.cmd_not_found = true;
+				fprintf(stderr, " command not found\n");
+				g_status = CMD_NOT_FOUND;
+				return (true);
+			}
+				fprintf(stderr, " Is a directory\n");
+				g_status = NO_PERMISSION;
+				return (true);
         }
-        if (!access(sh->comands[x].cmd, F_OK))
+		else if (access(sh->comands[x].cmd, F_OK) == 0)
         {
-			//printf("\n\nPAASSEEII AQUI\n\n");
             if (access(sh->comands[x].cmd, X_OK))
             {
-                fprintf(stderr, "Permission denied: %s\n", sh->comands[x].cmd);
+                fprintf(stderr, " Permission denied\n");
                 g_status = NO_PERMISSION;
                 return (true);
             }
+        }
+		else if((sh->comands[x].cmd[0] == '/') || (sh->comands[x].cmd[0] == '.'))
+        {
+            sh->comands[x].errors.cmd_not_found = true;
+            fprintf(stderr, " No such file or directory\n");
+            g_status = CMD_NOT_FOUND;
+            return (true);
         }
         else
         {
@@ -57,58 +70,37 @@ bool filter_cmd_error(t_sh *sh)
                 return (true);
             }
         }
-
         x++;
     }
     return (false);
 }
 
-/*
-bool	filter_cmd_error(t_sh *sh)
-{
-	int x;
-
-	x = 0;
-	if(sh->vars.sh_status == false)
-		return(true);
-	while(x < sh->vars.cmds_num)
-	{
-		if (!access(sh->comands[x].cmd, F_OK)) // Comando existe
-		{
-			if (access(sh->comands[x].cmd, X_OK)) // Sem permissão
-			{
-				fprintf(stderr, "Minishell: permissão negada: %s\n", sh->comands[x].cmd);
-				g_status = NO_PERMISSION;
-				return(true);
-			}
-		}
-		else
-		{
-			sh->comands[x].errors.cmd_not_found = true;
-			fprintf(stderr, "Minishell: comando não encontrado: %s\n", sh->comands[x].cmd);
-			g_status = CMD_NOT_FOUND;
-			return(true);
-		}
-		x++;
-	}
-	return(false);
-}*/
 static bool	filter_tkerrors2(t_sh *sh)
 {
 	if(sh->tokens[0].r_heredoc || sh->tokens[0].r_in || 
 			sh->tokens[0].r_out || sh->tokens[0].r_outappend)
 	{
-		ft_putstr_fd(" syntax error near unexpected token `newline'\n", 2);
-		g_status = SYNTAX_MISPELL;
-		sh->vars.sh_status = false;
-		return (true);
+		if(ft_strlen(sh->tokens[0].tokens) == 3)
+		{
+			ft_putstr_fd("  syntax error near unexpected token `>'\n", 2);
+			g_status = SYNTAX_MISPELL;
+			sh->vars.sh_status = false;
+			return (true);
+		}
+		else
+		{
+			ft_putstr_fd(" syntax error near unexpected token `newline'\n", 2);
+			g_status = SYNTAX_MISPELL;
+			sh->vars.sh_status = false;
+			return (true);
+		}
 	}
 	else if(sh->tokens[sh->vars.tk_num - 1].r_heredoc || 
 			sh->tokens[sh->vars.tk_num - 1].r_in || 
 			sh->tokens[sh->vars.tk_num - 1].r_out || 
 			sh->tokens[sh->vars.tk_num - 1].r_outappend)
 	{
-		ft_putstr_fd(" syntax error near unexpected token `newline'\n", 2);
+		ft_putstr_fd(" syntax error near unexpected token `%d'\n", 2);
 		g_status = SYNTAX_MISPELL;
 		sh->vars.sh_status = false;
 		return (true);
@@ -162,7 +154,7 @@ static bool	verify_error_helper(t_sh *sh, int x)
 		}
 		else if (sh->comands[x].errors.empty_redir == true)
 		{
-			ft_putstr_fd("EMPTY REDIR - syntax error near unexpected token `|'\n", 2);
+			ft_putstr_fd("syntax error near unexpected token `|'\n", 2);
 			g_status = SYNTAX_MISPELL;
 			return(true);			
 		}

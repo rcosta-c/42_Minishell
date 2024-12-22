@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:51:45 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/19 18:40:11 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/22 00:04:48 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ int	count_tokens(t_sh *sh)
 		else if (sh->cmd_line[x] == '>' || sh->cmd_line[x] == '<' || sh->cmd_line[x] == '|')
 		{
 			counter++;
-			x++;
+			while(sh->cmd_line[x] == '>' || sh->cmd_line[x] == '<' || sh->cmd_line[x] == '|')
+				x++;
 		}
 	}
 	return (counter);
@@ -59,7 +60,7 @@ static bool	check_if_special_redirin(char *str, int x)
 {
 	if(str[x] == '<')
 	{
-		if(str[x + 2] && str[x + 1] == '<' && ft_isprint(str[x + 2]))
+		if(ft_strlen(str) > 2 && str[x + 1] == '<' && ft_isprint(str[x + 2]))
 			return(true);
 		else if(str[x + 1] && ft_isprint(str[x + 1]))
 			return(true);
@@ -73,7 +74,7 @@ static bool	check_if_special_redirout(char *str, int x)
 {
 	if(str[x] == '>')
 	{
-		if(str[x + 2] && str[x + 1] == '>' && ft_isprint(str[x + 2]))
+		if(str[x + 1] == '>' && ft_isprint(str[x + 2]))
 			return(true);
 		else if(str[x + 1] && ft_isprint(str[x + 1]))
 			return(true);
@@ -101,13 +102,16 @@ static void	ft_special_agent_redir(char *str, char *temp, int *x_o, int *x_d)
 		if(*x_o > 0 && ft_isalnum(str[*x_o - 1]))
 			temp[(*x_d)++] = ' ';
 		temp[(*x_d)++] = str[(*x_o)++];
-		if(str[*x_o] == '>' || str[*x_o] == '<')
+		while(str[*x_o] == '>' || str[*x_o] == '<')
+			temp[(*x_d)++] = str[(*x_o)++];
+		temp[(*x_d)++] = ' ';
+		/*if(str[*x_o] == '>' || str[*x_o] == '<')
 		{
 			temp[(*x_d)++] = str[(*x_o)++];
 			temp[(*x_d)++] = ' ';
 		}
 		else
-			temp[(*x_d)++] = ' ';
+			temp[(*x_d)++] = ' ';*/
 		if(str[*x_o] == 32)
 			(*x_o)++;
 		return;

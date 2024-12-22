@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:52:16 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/16 10:54:39 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/21 17:31:52 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	filter_cmds(t_sh *sh, int n)
 {
 	if(n == 0 && sh->tokens[n].pipe == false && \
 		sh->tokens[n].r_out == false && sh->tokens[n].r_in == false && \
-		sh->tokens[n].s_quote == false && sh->tokens[n].d_quote == false)
+		sh->tokens[n].s_quote == false)
 		{
 //			printf("\n\nAQUI ENTRIOU!!\n\n");
 			sh->tokens[n].cmd = true;

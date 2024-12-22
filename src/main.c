@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:54:30 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/21 02:18:38 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/22 00:05:31 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,7 @@ void	printf_flag_errors(t_sh *sh)
 
 	x = 0;
 	
-		printf("exec_error%d\n", sh->error.exec_error);
+		printf("\n\nexec_error%d\n", sh->error.exec_error);
 		printf("parse error%d\n ", sh->error.parse_error);
 		printf("expand_error%d\n ", sh->error.expand_error);
 		printf("token_error%d\n ", sh->error.token_error);

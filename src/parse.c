@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:54:06 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/21 02:17:45 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/21 16:46:14 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,18 @@ bool    check_before_parse(t_sh *sh)
 	
 }*/
 
+/*
+static bool	ft_token_hash_flag(t_sh *sh, int x)
+{
+	int	len;
+
+	len = ft_strlen(sh->tokens[x].tokens);
+	if(len == 1 && sh->tokens[x].tokens[0] == '$')
+		return(true);
+	else
+		return(false);
+}*/
+
 void    fill_parser(t_sh *sh)
 {
 	int x;
@@ -109,7 +121,7 @@ void    fill_parser(t_sh *sh)
 	remove_quoted(sh);
 	while(x < sh->vars.tk_num)
 	{
-		if(sh->tokens[x].exp_empty == true)
+		if(sh->tokens[x].exp_empty == true)// || ft_token_hash_flag(sh, x) == true)
 		{
 //printf("\naquitambemestuouad!!!!\n");
 			//x = parse_emptyenv(sh, x, n_cmd);
@@ -124,6 +136,16 @@ void    fill_parser(t_sh *sh)
 				return;
 			}
 		}
+/*		if(ft_strncmp((sh->tokens[x].tokens), "history", 8) == 0)
+			{
+				sh->comands[n_cmd].arg = malloc(sizeof(char **) * 3); 
+				sh->comands[n_cmd].cmd = ft_strdup("echo"); 
+				sh->comands[n_cmd].arg[0] = ft_strdup("echo");
+				sh->comands[n_cmd].arg[1] = ft_strdup(add_history);;
+				sh->comands[n_cmd].arg[2] = NULL;
+				sh->comands[n_cmd].n_args = 0;
+				return;
+			} */
 	//	else
 	//	{
 //		printf("\n\nx vai em =%d\n\n", x);
