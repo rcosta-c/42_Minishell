@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:52:16 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/21 17:31:52 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/22 08:53:05 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,15 +82,13 @@ void	filter_cmds(t_sh *sh, int n)
 void	filter_tokens(t_sh *sh)
 {
 	int	n;
-	int x;
 
 	n = 0;
 	while(n < sh->vars.tk_num)
 	{
-		x = 1;
 		if(!sh->tokens[n].tokens)
 		return;
-		filter_quotes(sh, n, x);
+		filter_quotes(sh, n);
 		filter_envp(sh, n);
 		filter_file(sh, n);
 		filter_pipes_redir(sh, n);

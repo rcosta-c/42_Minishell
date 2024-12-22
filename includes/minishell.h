@@ -27,6 +27,7 @@
 #include "../lib/libft/libft.h"
 #include "../lib/gnl/get_next_line.h"
 
+# define BUILTINSERROR	1
 # define SYNTAX_MISPELL	2
 # define NO_PERMISSION	126
 # define CMD_NOT_FOUND	127
@@ -221,7 +222,7 @@ void	filter_tokens(t_sh *sh);
 /* TOKEN_FILTER2.c */
 void	filter_file (t_sh *sh, int n);
 void	filter_pipes_redir(t_sh *sh, int n);
-void	filter_quotes(t_sh *sh, int n, int x);
+void	filter_quotes(t_sh *sh, int n);
 /*   FIM   */
 
 /* EXPANDER.c */

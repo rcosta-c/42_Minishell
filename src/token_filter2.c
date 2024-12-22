@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:52:02 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/21 17:32:52 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/22 09:15:12 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,15 +79,16 @@ void	filter_pipes_redir(t_sh *sh, int n)
 	}
 }
 
-
-void	filter_quotes(t_sh *sh, int n, int x)
+void	filter_quotes(t_sh *sh, int n)
 {
 	int len;
 	int	counter;
+	int x;
 	
+	x = 0;
 	counter = 0;
 	len = ft_strlen(sh->tokens[n].tokens);
-	if(sh->tokens[n].tokens[0] == 34)
+	if(sh->tokens[n].tokens[x] == 34)
 	{
 		while(sh->tokens[n].tokens[x++])
 		{
@@ -102,7 +103,7 @@ void	filter_quotes(t_sh *sh, int n, int x)
 		else
 			sh->tokens[n].f_quote = true;
 	}
-	else if(sh->tokens[n].tokens[0] == 39)
+	else if(sh->tokens[n].tokens[x] == 39)
 	{
 		if(sh->tokens[n].tokens[len - 1] == 39 && len > 1)
 			sh->tokens[n].s_quote = true;
@@ -110,3 +111,66 @@ void	filter_quotes(t_sh *sh, int n, int x)
 			sh->tokens[n].f_quote = true;
 	}
 }
+/*
+void	filter_quotes(t_sh *sh, int n)
+{
+	int	counter_d;
+	int counter_s;
+	int	x;
+	
+	x = 0;
+	counter_d = 0;
+	counter_s = 0;
+	while(sh->tokens[n].tokens[x])
+	{
+		if(sh->tokens[n].tokens[x] == '$')
+			sh->tokens[n].exp_e = true;
+		if(sh->tokens[n].tokens[x] == 34)
+			counter_d++;
+		if(sh->tokens[n].tokens[x] == 39)
+			counter_s++;
+		x++;
+	}
+	if(counter_d == 2)
+	{
+		sh->tokens[n].d_quote = true;
+		return;
+	}
+	else if(counter_s == 2)
+	{
+		sh->tokens[n].s_quote = true;
+		return;
+	}
+	else
+			sh->tokens[n].f_quote = true;
+}
+*/
+/*
+void	filter_quotes(t_sh *sh, int n, int x)
+{
+	int	counter_d;
+	int	counter_s;
+	
+	counter_d = 0;
+	counter_s = 0;
+	if(ft_strlen(sh->tokens[n].tokens) < 2)
+		return;
+	while(sh->tokens[n].tokens[x])
+	{
+		if(sh->tokens[n].tokens[x] == '$')
+			sh->tokens[n].exp_e = true;
+		if(sh->tokens[n].tokens[x] == 34)
+			counter_d++;
+		x++;
+	}
+//printf("\n\nCOUNTER=%d\n\n", counter_d);
+	if(counter_d == 2)			//(sh->tokens[n].tokens[len - 1] == 34 && len > 1)
+		sh->tokens[n].d_quote = true;
+	else
+		sh->tokens[n].f_quote = true;
+	if(counter_s == 2)
+		sh->tokens[n].s_quote = true;
+	else
+		sh->tokens[n].f_quote = true;
+	
+}*/
