@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:51:45 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/26 13:17:40 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/26 19:04:47 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,14 @@ int	count_tokens(t_sh *sh)
 		{
 			while (sh->cmd_line[x] && sh->cmd_line[x] != ' ' 
 				&& sh->cmd_line[x] != '>' && sh->cmd_line[x] != '<' && sh->cmd_line[x] != '|')
-				x++;
+			{
+				if (sh->cmd_line[x] == '"' || sh->cmd_line[x] == '\'')
+                {
+                    x = check_type_quote(sh->cmd_line, x);
+                }
+				else
+					x++;
+			}
 			counter++;
 		}
 		else if (sh->cmd_line[x] == '>' || sh->cmd_line[x] == '<' || sh->cmd_line[x] == '|')
@@ -173,6 +180,11 @@ static int process_chunk(char *str, char *temp, int *x_o, int *x_d)
 	}
 	while(str[*x_o] && token_is_valid(str[*x_o]) && *x_o < max)
 	{
+		if(str[*x_o] == 34 || str[*x_o] == 39)	
+		{
+			while(str[*x_o] != 34 && str[*x_o] != 39)
+				temp[(*x_d)++] = str[(*x_o)++];
+		}
 		if(check_if_special_redir(str, *x_o))
 			ft_special_agent_redir(str, temp, &x_o[0], &x_d[0]);
 		else if(check_if_pipe(str, *x_o) == true)

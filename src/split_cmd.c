@@ -6,11 +6,12 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:53:06 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/19 18:41:14 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/26 19:15:15 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
 
 static int    split_quote(t_sh *sh, int x, int n)
 {
@@ -79,5 +80,3 @@ void	split_cmd(t_sh *sh)
 		x++;  
 	}
 }
-
-
