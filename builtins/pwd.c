@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 14:59:34 by mota              #+#    #+#             */
-/*   Updated: 2024/12/22 08:22:11 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/26 11:53:50 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	ft_pwd(t_sh *sh, char **args)
 	}
 	else
 	{
+		g_status = BUILTINSERROR;
 		ft_putstr_fd("pwd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n", 2);
 		sh->error.exit_error = true;
 	}

@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:55:03 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/21 16:10:38 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/26 12:57:47 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char *pre_expand(t_sh *sh, int *x, int n)
 
 char    *expand_token_seeker2(t_sh *sh, int *x, int n, char *c)
 {
-	char    b[500];
+	char    b[5000];
 	int		bx;
 	
 	if(sh->tokens[n].tokens[*x] == '$' && 
@@ -68,11 +68,6 @@ char    *expand_token_seeker2(t_sh *sh, int *x, int n, char *c)
 		{
 			c =ft_strdup(" ");
 			sh->tokens[n].exp_empty = true;
-			/*if(sh->vars.tk_num > 1)
-			{
-				sh->vars.cmds_num++;
-				sh->tokens[n + 1].cmd = true;
-			}*/
 		}
 	}
 	return(c);
@@ -115,22 +110,24 @@ void    expand_token(t_sh *sh, int n)
 	z = NULL;
 	exp_counter = count_expands(sh, n);
 	x[0] = 0;
-	while(counter < sh->vars.tk_num)
+	if(exp_counter > 0)
 	{
-		z = join_2_str(z, pre_expand(sh, x, n), NULL, 1);
-		if((size_t)x == ft_strlen(sh->tokens[n].tokens) - 1)
-			break;
-		z = join_2_str(z, expand_token_seeker(sh, x, n), NULL, 1);
-		exp_counter--;
-		if (exp_counter == 0)
+		while(/*exp_counter > 0 && */counter < exp_counter)
 		{
-			z = expand_exit(sh, n, x[0], z);
-			break;
+			z = join_2_str(z, pre_expand(sh, x, n), NULL, 1);
+			//if((size_t)x == ft_strlen(sh->tokens[n].tokens) - 1)
+			//	break;
+			z = join_2_str(z, expand_token_seeker(sh, x, n), NULL, 1);
+			if (exp_counter == 0)
+			{
+				z = expand_exit(sh, n, x[0], z);
+				break;
+			}
+			counter++;
 		}
-		counter++;
+		free(sh->tokens[n].tokens);
+		sh->tokens[n].tokens = z;
 	}
-	free(sh->tokens[n].tokens);
-	sh->tokens[n].tokens = z;
 }
 
 void	search_expand(t_sh *sh)

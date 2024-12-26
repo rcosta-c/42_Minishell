@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cde-paiv <cde-paiv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 17:55:12 by cde-paiv          #+#    #+#             */
-/*   Updated: 2024/12/17 10:15:01 by cde-paiv         ###   ########.fr       */
+/*   Updated: 2024/12/26 12:02:58 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void	invalid_exit_arg(char *arg, t_sh *sh)
 	ft_putstr_fd(arg, 2);
 	ft_putstr_fd(": numeric argument required\n", 2);
 	free_exit(sh);
-	exit(255);
+	exit(SYNTAX_MISPELL);
 }
 
 void	ft_exit(t_sh *sh, char **args)
@@ -49,6 +49,7 @@ void	ft_exit(t_sh *sh, char **args)
 	}
 	if (args[1] && args[2])
 	{
+		g_status = BUILTINSERROR;
 		ft_putstr_fd("exit: too many arguments\n", 2);
 		sh->error.exit_error = true;
 		return ;
