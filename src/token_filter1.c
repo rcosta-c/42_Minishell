@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:52:16 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/22 08:53:05 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/27 09:57:24 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,21 +39,27 @@ void	filter_envp(t_sh *sh, int n)
 
 	if(!sh->tokens[n].tokens)
 		return;
-	if(sh->tokens[n].tokens[0] == '$')
+	if(sh->tokens[n].s_quote == true)
+		return;
+	x = 0;
+	while(sh->tokens[n].tokens[x])
 	{
-		x = 1;
-		while((sh->tokens[n].tokens[x] >= 'A' && sh->tokens[n].tokens[x] <= 'Z') || \
-		sh->tokens[n].tokens[x] == '$' || sh->tokens[n].tokens[x] == '?')
-			x++;
-		if(!sh->tokens[n].tokens[x])
-			sh->tokens[n].exp_e = true;
-		else
-			sh->tokens[n].f_quote = true;
-	}
-	if(sh->tokens[n].tokens[0] == '~')
-	{
-		if(!sh->tokens[n].tokens[1] || sh->tokens[n].tokens[1] == '/')
-			sh->tokens[n].exp_t = true;	
+		if(sh->tokens[n].tokens[x] == '$')
+		{
+			x ++;
+			if(ft_isalnum(sh->tokens[n].tokens[x]) != 0 || 
+			sh->tokens[n].tokens[x] == '$' || sh->tokens[n].tokens[x] == '?')
+				sh->tokens[n].exp_e = true;
+			while((sh->tokens[n].tokens[x] >= 'A' && sh->tokens[n].tokens[x] <= 'Z') || \
+			sh->tokens[n].tokens[x] == '$' || sh->tokens[n].tokens[x] == '?')
+				x++;
+		}
+		if(sh->tokens[n].tokens[0] == '~')
+		{
+			if(!sh->tokens[n].tokens[1] || sh->tokens[n].tokens[1] == '/')
+				sh->tokens[n].exp_t = true;	
+		}
+		x++;
 	}
 }
 
@@ -63,7 +69,6 @@ void	filter_cmds(t_sh *sh, int n)
 		sh->tokens[n].r_out == false && sh->tokens[n].r_in == false && \
 		sh->tokens[n].s_quote == false)
 		{
-//			printf("\n\nAQUI ENTRIOU!!\n\n");
 			sh->tokens[n].cmd = true;
 			sh->tokens[n].arg = false;
 			sh->vars.cmds_num++;
@@ -71,7 +76,6 @@ void	filter_cmds(t_sh *sh, int n)
 	else if(n > 0 && sh->tokens[n - 1].pipe == true &&
 			sh->tokens[0].pipe == false)
 	{
-//		printf("\n\nAQUI TAMBEEEM ENTRIOU!!\n\n");
 		sh->tokens[n].cmd = true;
 		sh->tokens[n].arg = false;
 		sh->vars.cmds_num++;
@@ -87,14 +91,14 @@ void	filter_tokens(t_sh *sh)
 	while(n < sh->vars.tk_num)
 	{
 		if(!sh->tokens[n].tokens)
-		return;
+			return;
 		filter_quotes(sh, n);
 		filter_envp(sh, n);
 		filter_file(sh, n);
 		filter_pipes_redir(sh, n);
 		filter_args(sh, n);
 		filter_cmds(sh, n);
-	n++;
+		n++;
 	}
 }
 

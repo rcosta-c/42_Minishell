@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:55:09 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/26 13:02:00 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/27 09:58:37 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ int	ft_envp_n_cmp(const char *s1, const char *s2)
 	size_t	counter;
 	size_t n;
 
-//printf("\n\n%s\n\n", s1);
 	n = ft_strlen(s1);
 	counter = 0;
 	if (n == 0)
@@ -84,18 +83,14 @@ int		count_expands(t_sh *sh, int n)
 	x = 0;
 	while(sh->tokens[n].tokens[x])
 	{
-		if(sh->tokens[n].s_quote == true)
-			x++;
-		else
-		{
-			if(sh->tokens[n].tokens[x] == '$' && sh->tokens[n].tokens[x + 1] >= 'A' && sh->tokens[n].tokens[x + 1] <= 'Z' && sh->tokens[n].s_quote == false)
-			exp_counter++;
+			if(sh->tokens[n].tokens[x] == '$')
+				exp_counter++;
 			else if(sh->tokens[n].tokens[x] == '~' && sh->tokens[n].d_quote == false && sh->tokens[n].s_quote == false)
 				exp_counter++;
 			else if(sh->tokens[n].tokens[x] == '$' && (sh->tokens[n].tokens[x + 1] == '$' || sh->tokens[n].tokens[x + 1] == '?'))
 				exp_counter++;
+			
 			x++;
-		}
 	}
 	return(exp_counter);
 }

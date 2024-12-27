@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isalpha.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcosta-c <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:35:43 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/04/19 09:11:05 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/27 09:45:51 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,3 @@ int	ft_isalpha(int c)
 	else
 		return (0);
 }
-/*
-int	main()
-{
-	unsigned char	x;
-
-	x = '*'; 
-	printf(" value : %d\n", ft_isalpha(x));
-} */

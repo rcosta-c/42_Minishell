@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:55:03 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/26 12:57:47 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/27 10:11:13 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,8 @@ char    *expand_token_seeker2(t_sh *sh, int *x, int n, char *c)
 		(*x)++;
 	}
 	else if (sh->tokens[n].tokens[*x] == '$' && 
-		sh->tokens[n].tokens[*x + 1] == '\0')
-	{
-		c = ft_strdup(sh->tokens[n].tokens);
-	}
+		(sh->tokens[n].tokens[*x + 1] == '\0' || ft_isalpha(sh->tokens[n].tokens[*x + 1]) == 0))
+			return(ft_strdup("$"));
 	else if(sh->tokens[n].tokens[*x] == '$')
 	{
 		bx = 0;
@@ -104,30 +102,29 @@ void    expand_token(t_sh *sh, int n)
 	char    *z;
 	int     x[1];
 	int     exp_counter;
-	int		counter;
+//	int		counter;
 	
-	counter = 0;
+	exp_counter = 0;
+//	counter = 0;
 	z = NULL;
 	exp_counter = count_expands(sh, n);
 	x[0] = 0;
-	if(exp_counter > 0)
+//printf("\n\nexp_counter=%d\n\n", exp_counter);
+	while(exp_counter > 0)//(counter < exp_counter)
 	{
-		while(/*exp_counter > 0 && */counter < exp_counter)
+		z = join_2_str(z, pre_expand(sh, x, n), NULL, 1);
+		z = join_2_str(z, expand_token_seeker(sh, x, n), NULL, 1);
+		exp_counter--;
+//printf("\nz=%s, exp_counter=%d\n", z, exp_counter);
+		if (exp_counter == 0)
 		{
-			z = join_2_str(z, pre_expand(sh, x, n), NULL, 1);
-			//if((size_t)x == ft_strlen(sh->tokens[n].tokens) - 1)
-			//	break;
-			z = join_2_str(z, expand_token_seeker(sh, x, n), NULL, 1);
-			if (exp_counter == 0)
-			{
-				z = expand_exit(sh, n, x[0], z);
-				break;
-			}
-			counter++;
+			z = expand_exit(sh, n, x[0], z);
+			break;
 		}
-		free(sh->tokens[n].tokens);
-		sh->tokens[n].tokens = z;
+		//counter++;
 	}
+	free(sh->tokens[n].tokens);
+	sh->tokens[n].tokens = z;
 }
 
 void	search_expand(t_sh *sh)
@@ -139,7 +136,9 @@ void	search_expand(t_sh *sh)
 	x = 0;
 	while(n < sh->vars.tk_num)
 	{
-		if(sh->tokens[n].exp_e || sh->tokens[n].exp_t )
+		if(sh->tokens[n].tokens[0] == '$' && ft_strlen(sh->tokens[n].tokens) == 1)//sh->tokens[n].tokens[*x + 1] == '\0')
+			ft_strlen(sh->tokens[n].tokens);
+		else if(sh->tokens[n].exp_e || sh->tokens[n].exp_t )
 			expand_token(sh, n);
 		else if(sh->tokens[n].d_quote && (sh->tokens[n].exp_e || sh->tokens[n].exp_t))
 		{
