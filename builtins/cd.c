@@ -3,37 +3,81 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: cde-paiv <cde-paiv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 17:54:51 by cde-paiv          #+#    #+#             */
-/*   Updated: 2024/12/26 11:58:59 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/27 11:53:57 by cde-paiv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static char	*going_dir_up(char *oldpwd)
+static bool	change_directory(t_sh *sh, char *dir, char *old_pwd)
 {
-	int	x;
-	int	xx;
-
-	x = 0;
-	xx = ft_strlen(oldpwd);
-	while (xx > x && oldpwd[xx] != '/')
+	if (dir[0] == '.' && dir[1] == '.')
+		old_pwd = going_dir_up(old_pwd);
+	if (!old_pwd)
 	{
-		oldpwd[xx] = '\0';
-		xx--;
+		g_status = BUILTINSERROR;
+		free(old_pwd);
+		sh->error.exit_error = true;
+		return (false);
 	}
-	oldpwd[xx] = '\0';
-	return (oldpwd);
+	if (chdir(dir) != 0)
+	{
+		g_status = BUILTINSERROR;
+		perror("cd");
+		free(old_pwd);
+		sh->error.exit_error = true;
+		return (false);
+	}
+	return (update_old_pwd(sh, old_pwd));
 }
 
-static void	set_dir(t_sh *sh, char *dir)
+static bool	update_new_pwd(t_sh *sh, char *new_pwd)
+{
+	char	*new_pwd_var;
+	char	**temp;
+
+	new_pwd_var = ft_strjoin("PWD=", new_pwd);
+	if (!new_pwd_var)
+	{
+		g_status = BUILTINSERROR;
+		free(new_pwd);
+		sh->error.exit_error = true;
+		return (false);
+	}
+	temp = malloc(sizeof(char **) * 3);
+	temp[0] = ft_strdup("export");
+	temp[1] = ft_strdup("new_pwd_var");
+	temp[2] = NULL;
+	ft_export(sh, temp);
+	free(sh->vars.sh_pwd);
+	sh->vars.sh_pwd = verify_home(sh, new_pwd);
+	free(new_pwd_var);
+	free(temp[0]);
+	free(temp[1]);
+	free(temp);
+	return (true);
+}
+
+static bool	handle_new_pwd(t_sh *sh)
+{
+	char	*new_pwd;
+
+	new_pwd = getcwd(NULL, 0);
+	if (!new_pwd)
+	{
+		g_status = BUILTINSERROR;
+		sh->error.exit_error = true;
+		return (false);
+	}
+	return (update_new_pwd(sh, new_pwd));
+}
+
+void	set_dir(t_sh *sh, char *dir)
 {
 	char	*old_pwd;
-	char	*new_pwd;
-	char	*old_pwd_var;
-	char	*new_pwd_var;
 
 	if (!dir)
 	{
@@ -43,53 +87,10 @@ static void	set_dir(t_sh *sh, char *dir)
 		return ;
 	}
 	old_pwd = getcwd(NULL, 0);
-	if (dir[0] == '.' && dir[1] == '.')
-		old_pwd = going_dir_up(old_pwd);
-	if (!old_pwd)
-	{
-		g_status = BUILTINSERROR;
-		free(old_pwd);
-		sh->error.exit_error = true;
+	if (!change_directory(sh, dir, old_pwd))
 		return ;
-	}
-	if (chdir(dir) != 0)
-	{
-		g_status = BUILTINSERROR;
-		perror("cd");
-		free(old_pwd);
-		sh->error.exit_error = true;
+	if (!handle_new_pwd(sh))
 		return ;
-	}
-	old_pwd_var = ft_strjoin("OLDPWD=", old_pwd);
-	if (!old_pwd_var)
-	{
-		g_status = BUILTINSERROR;
-		free(old_pwd);
-		sh->error.exit_error = true;
-		return ;
-	}
-	ft_export(sh, (char *[]){ "export", old_pwd_var, NULL });
-	free(old_pwd_var);
-	free(old_pwd);
-	new_pwd = getcwd(NULL, 0);
-	if (!new_pwd)
-	{
-		g_status = BUILTINSERROR;
-		sh->error.exit_error = true;
-		return ;
-	}
-	new_pwd_var = ft_strjoin("PWD=", new_pwd);
-	if (!new_pwd_var)
-	{
-		g_status = BUILTINSERROR;
-		free(new_pwd);
-		sh->error.exit_error = true;
-		return ;
-	}
-	ft_export(sh, (char *[]){ "export", new_pwd_var, NULL });
-	free(sh->vars.sh_pwd);
-	sh->vars.sh_pwd = verify_home(sh, new_pwd);
-	free(new_pwd_var);
 	sh->error.exit_error = false;
 }
 

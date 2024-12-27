@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 17:55:12 by cde-paiv          #+#    #+#             */
-/*   Updated: 2024/12/26 12:02:58 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/27 11:42:30 by cde-paiv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ static int	is_valid_number(char *str)
 	}
 	return (1);
 }
+
 static void	invalid_exit_arg(char *arg, t_sh *sh)
 {
 	ft_putstr_fd("exit: ", 2);
