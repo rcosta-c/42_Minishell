@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:55:30 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/27 13:00:59 by cde-paiv         ###   ########.fr       */
+/*   Updated: 2024/12/27 13:12:46 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ bool	filter_cmd_error(t_sh *sh)
 {
 	int		x;
 	char		*env_var;
-	struct static	path_stat;
+	struct stat	path_stat;
 
 	x = 0;
 	if (sh->vars.sh_status == false)

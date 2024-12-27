@@ -285,6 +285,8 @@ void	update_var(t_sh *sh, char *var);
 void display_exported_vars(t_sh *sh);
 char	**handle_array(t_sh *sh);
 void	free_temp_env(char **temp);
+bool	update_old_pwd(t_sh *sh, char *old_pwd);
+char	*going_dir_up(char *oldpwd);
 /*   FIM   */
 
 /*	EXECUTER.c	*/
