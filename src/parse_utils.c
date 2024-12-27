@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:54:13 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/27 12:48:00 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/27 13:44:43 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ int		parse_with_args(t_sh *sh, int n_cmd, int x)
 			x++;
 		}
 	}
+//	printf("\nvai retornar x=%d\n\n", x);
 	return(x);
 }
 
@@ -120,7 +121,7 @@ int		parse_no_args(t_sh *sh, int n_cmd, int x)
 {
 	int counter;
 	
-//	printf("\n\nHEY HEY ESTOU AQUI NO ARGS!!!!\n\n");
+//	printf("\n\nHEY HEY ESTOU AQUI NO ARGS!!x=%d!!\n\n", x);
 	sh->comands[n_cmd].arg = malloc(sizeof(char **) * 2); 
 	sh->comands[n_cmd].cmd = ft_strdup(sh->tokens[x].tokens); 
 	sh->comands[n_cmd].arg[0] = ft_strdup(sh->tokens[x].tokens);
@@ -164,6 +165,7 @@ int		parse_no_args(t_sh *sh, int n_cmd, int x)
 				else
 					sh->comands[n_cmd].errors.empty_redir = true;
 				counter++;
+				
 			}
 			x++;
 		}
@@ -176,6 +178,7 @@ int		parse_no_cmds(t_sh *sh, int n_cmd, int x)
 	int		narg;
 //	int		counter;
 	
+	printf("\n\nestou no cmds\n x=%d     ncmd=%d\n\n", x, n_cmd);
 	narg = 0;
 	sh->vars.cmds_num = 1;
 	init_cmds(sh, n_cmd);

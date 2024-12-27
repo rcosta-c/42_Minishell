@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:54:06 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/27 11:36:21 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/27 13:44:18 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,10 +134,11 @@ void    fill_parser(t_sh *sh)
 				return;
 			}
 		}
+//		printf("\n\nUIUI MEU AMIGO n_cmd=%d\n", n_cmd);
 //		printf("\n\nx vai em =%d\n\n", x);
 		x = parse_utils(sh, x, n_cmd);
 //		printf("\n\nx vai em =%d\n\n", x);
-		if(x >= sh->vars.tk_num)
+		if(x >= sh->vars.tk_num - 1)
 			break;
 		x = parse_pipes(sh, x, n_cmd);
 	//	}
