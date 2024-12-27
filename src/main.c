@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:54:30 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/27 09:58:04 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/27 12:46:10 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,6 +165,8 @@ static void	sh_loop(t_sh *sh)
 		init_cycle(sh);
 		prompt = get_prompt(sh);
 		sh->cmd_line = readline(prompt);
+//printf("\n\n00000prepline=%s\n", sh->cmd_line);
+
 		free(prompt);
 		if(!sh->cmd_line)
 			handbrake_and_exit(sh);

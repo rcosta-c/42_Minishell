@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:52:16 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/27 09:57:24 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/27 10:51:42 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ void	filter_args(t_sh *sh, int n)
 		sh->tokens[n].arg = true;
 	if(sh->tokens[n].exp_e == true || sh->tokens[n].exp_t == true)
 		sh->tokens[n].arg = true;
-	if(sh->tokens[n].file == true)
-		sh->tokens[n].arg = true;
+	//if(sh->tokens[n].file == true)
+	//	sh->tokens[n].arg = true;
 }
 
 void	filter_envp(t_sh *sh, int n)
@@ -54,12 +54,14 @@ void	filter_envp(t_sh *sh, int n)
 			sh->tokens[n].tokens[x] == '$' || sh->tokens[n].tokens[x] == '?')
 				x++;
 		}
-		if(sh->tokens[n].tokens[0] == '~')
+		else if(sh->tokens[n].tokens[0] == '~')
 		{
 			if(!sh->tokens[n].tokens[1] || sh->tokens[n].tokens[1] == '/')
 				sh->tokens[n].exp_t = true;	
+			x++;
 		}
-		x++;
+		else
+			x++;
 	}
 }
 

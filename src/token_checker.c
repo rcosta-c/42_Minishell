@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:52:28 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/20 00:14:02 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/27 12:45:16 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 bool token_is_valid(char src)
 {
-	if(src == 33 || (src >= 35 && src <= 126))
+	if(src == 10 || src == 33 || (src >= 35 && src <= 126))
 		return(true);
 	else if(src == 9)
 		return(true);

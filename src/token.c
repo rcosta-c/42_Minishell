@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:51:45 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/26 19:04:47 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/27 12:55:53 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,6 +180,11 @@ static int process_chunk(char *str, char *temp, int *x_o, int *x_d)
 	}
 	while(str[*x_o] && token_is_valid(str[*x_o]) && *x_o < max)
 	{
+		if(str[*x_o] == '\n')
+        {
+            (*x_o)++;
+            continue;
+        }
 		if(str[*x_o] == 34 || str[*x_o] == 39)	
 		{
 			while(str[*x_o] != 34 && str[*x_o] != 39)
@@ -203,6 +208,7 @@ char *prepare_line(char *str)
 	int     x_d[1];
 	char    temp[1000];
 
+	//printf("\n\nCARALHOOOOOO!!!!!!!\n\n");
 	x_o[0] = 0;
 	x_d[0] = 0;
 	if(ft_strlen(str) == 0)

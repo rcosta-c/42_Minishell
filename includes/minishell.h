@@ -256,7 +256,7 @@ void	handle_redirects(t_sh *sh, int x);
 /*	PARSE_UTILS.c	*/
 int		parse_no_cmds(t_sh *sh, int n_cmd, int x);
 int		parse_no_args(t_sh *sh, int n_cmd, int x);
-int		parse_with_args(t_sh *sh, int n_cmd, int x, int narg);
+int		parse_with_args(t_sh *sh, int n_cmd, int x);
 int		parse_utils(t_sh *sh, int x, int n_cmd);
 int		parse_pipes(t_sh *sh, int z, int n_cmd);
 void	ft_count_redirs(t_sh *sh, int x, int n_cmd);
@@ -276,9 +276,6 @@ void	handle_heredoc(t_sh *sh, int x);
 void	ft_echo(t_sh *sh, char **args);
 void	ft_pwd(t_sh *sh, char **args);
 void	ft_cd(t_sh *sh, char **args);
-void	set_dir(t_sh *sh, char *dir);
-char	*going_dir_up(char *oldpwd);
-bool	update_old_pwd(t_sh *sh, char *old_pwd);
 void	ft_unset(t_sh *sh, char **args);
 void	ft_exit(t_sh *sh, char **args);
 void	ft_env(t_sh *sh, char **args);
