@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:54:30 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/27 12:46:10 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/28 19:03:56 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void    printflags(t_sh *sh)
 {
 	int n = 0;
 
-	printf("\n tknum = %d\ncmds_num=%d\nheredoc=%d\npipe=%d\nredir=%d", sh->vars.tk_num, sh->vars.cmds_num, sh->vars.heredoc_num, sh->vars.pipe_num, sh->vars.redir_num);
+	printf("\n tknum = %d\ncmds_num=%d\nheredoc=%d\npipe=%d\nredir=%d", sh->vars.tk_num, sh->vars.cmds_num, sh->vars.heredoc_num, sh->vars.pipe_num, sh->vars.redir_tot);
 	while(n < sh->vars.tk_num)
 	{
 		printf("\n\n\n\n TOKEN NUMERO %d \n\ntoken=%s\n\n", n, sh->tokens[n].tokens);
@@ -146,7 +146,6 @@ void	printf_flag_errors(t_sh *sh)
 	
 		while(x < sh->vars.cmds_num)
 		{
-			
 			printf("cmd_not_found%d\n ", sh->comands[x].errors.cmd_not_found);
 			printf("infile_notvalid%d\n ", sh->comands[x].errors.infile_notvalid);
 			printf("infile_noaccess%d\n ", sh->comands[x].errors.infile_noaccess);
@@ -158,23 +157,48 @@ void	printf_flag_errors(t_sh *sh)
 		}
 }
 
+bool	verify_cmdline(t_sh *sh, char *cmdline)
+{
+	int x;
+	int len;
+	
+	x = 0;
+	len = 0;
+	while(cmdline[len])
+		len++;
+	while(cmdline[x] && (cmdline[x] == 32 || cmdline[x] == 9))
+	{
+		x++;
+	}
+	if(x == len)
+	{
+		
+		sh->cmd_line = NULL;
+		return(false);
+	}
+	return (true);	
+}
+
 static void	sh_loop(t_sh *sh)
 {
 		char	*prompt;
-
+		bool	start_sh;
+		
+		start_sh = false;
 		init_cycle(sh);
-		prompt = get_prompt(sh);
-		sh->cmd_line = readline(prompt);
-//printf("\n\n00000prepline=%s\n", sh->cmd_line);
-
-		free(prompt);
-		if(!sh->cmd_line)
-			handbrake_and_exit(sh);
-		add_history(sh->cmd_line);
+		while(start_sh == false)
+		{
+			prompt = get_prompt(sh);
+			sh->cmd_line = readline(prompt);
+			free(prompt);
+			if(!sh->cmd_line)
+				handbrake_and_exit(sh);
+			start_sh = verify_cmdline(sh, sh->cmd_line);
+		}
+		save_to_history(sh, sh->cmd_line);
 		if(ft_strlen(sh->cmd_line) > 0)
 		{
 			sh->cmd_line = prepare_line(sh->cmd_line);
-//printf("\n\nprepline=%s\n", sh->cmd_line);
 			sh->vars.tk_num = count_tokens(sh);
 //printf("\n\ncmd=%s	tk_num=%d\n\n", sh->cmd_line, sh->vars.tk_num);
 			init_tokens(sh);
@@ -183,7 +207,9 @@ static void	sh_loop(t_sh *sh)
 			filter_tokens(sh);
 			search_expand(sh);
 //printflags(sh);
-
+			
+		//	precogs(sh);
+			
 			init_parser(sh);
 
 			fill_parser(sh);

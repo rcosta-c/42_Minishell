@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:54:06 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/27 13:44:18 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/27 22:13:14 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ void    fill_parser(t_sh *sh)
 		return;
 	x = 0;
 	n_cmd = 0;
-	remove_quoted(sh);
+//	remove_quoted(sh);
 	while(x < sh->vars.tk_num)
 	{
 		if(sh->tokens[x].exp_empty == true)// || ft_token_hash_flag(sh, x) == true)

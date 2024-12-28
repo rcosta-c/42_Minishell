@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:54:43 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/21 01:14:49 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/28 17:25:10 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,14 +63,16 @@ void	init_vars(t_sh *sh)
 	sh->vars.tk_num = 0;
 	sh->vars.cmds_num = 0;
 	sh->vars.pipe_num = 0;
-	sh->vars.redir_num = 0;
+	sh->vars.redir_tot = 0;
 	sh->vars.heredoc_num = 0;
+	
 }
 
 void	init_prompt_utils(t_sh *sh)
 {
 	sh->vars.sh_user = search_envp(sh, "USER");
 	sh->vars.sh_host = find_my_host(sh);
+	sh->vars.minihome = search_envp(sh, "PWD");
 	sh->vars.sh_pwd = search_envp(sh, "PWD");
 	sh->vars.sh_pwd = verify_home(sh, sh->vars.sh_pwd);
 	

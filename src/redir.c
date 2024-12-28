@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:53:18 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/16 22:40:08 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/27 23:44:01 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ static void	handle_redir_in(t_sh *sh, int x)
 	if (sh->comands[x].infile_fd < 0) 
 	{
     	sh->comands[x].errors.infile_notvalid = true;
-		perror("Erro ao abrir input_fd");
+		//ft_putstr_fd("Minishell: ", 1);
+		perror("Minishell: ");
 		return;
 	}
     sh->comands[x].inbackup = dup(STDOUT_FILENO);

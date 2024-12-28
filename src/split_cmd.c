@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:53:06 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/27 08:29:12 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/28 00:00:50 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ static int    split_quote(t_sh *sh, int x, int n)
 
     xx = 0;  
     len = check_type_quote(sh->cmd_line, x) - x;
+//	printf("\n\nlen=%d x=%d\n", len, x);
 	sh->tokens[n].tokens = malloc(sizeof(char *) * (len + 1));
 	while(xx < len)
 	{
@@ -27,6 +28,7 @@ static int    split_quote(t_sh *sh, int x, int n)
 		xx++;
     }
 	sh->tokens[n].tokens[xx] = '\0';
+//	printf("\n\nvairetornar=%s \t x=%d\n\n",sh->tokens[n].tokens, x);
     return(x);
 }
 
@@ -63,6 +65,9 @@ static int  split_cicle(t_sh *sh, int x, int n)
 
 	xx = 0;
 	sign = false;
+	if(sh->cmd_line[x] == ' ')
+		while(sh->cmd_line[x] == ' ')
+			x++;
 	len = len_for_split_cicle(sh, x);
    	sh->tokens[n].tokens = malloc(sizeof(char *) * (len + 1));
 	while(sh->cmd_line[x] && sh->cmd_line[x] != ' ')
@@ -77,10 +82,11 @@ static int  split_cicle(t_sh *sh, int x, int n)
 				sh->tokens[n].tokens[xx++] = sh->cmd_line[x++];
 	}
 	sh->tokens[n].tokens[xx] = '\0';
+//printf("\nvai retornar x=%d\nestounosplit_ccile str=%s \t n=%d", x, sh->tokens[n].tokens, n);
     return(x);
 }
 
-void	split_cmd(t_sh *sh)
+void		split_cmd(t_sh *sh)
 {
 	int x;
 	int n;

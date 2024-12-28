@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cde-paiv <cde-paiv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:54:37 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/16 19:45:05 by cde-paiv         ###   ########.fr       */
+/*   Updated: 2024/12/28 11:17:23 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	init_parser(t_sh *sh)
 {
 	int	x;
 
-	if(sh->vars.cmds_num == 0 && sh->vars.pipe_num == 0 && sh->vars.redir_num == 0)
+	if(sh->vars.cmds_num == 0 && sh->vars.pipe_num == 0 && sh->vars.redir_tot == 0)
 		return;
 	x = 0;
 	/*if(sh->vars.cmds_num > sh->vars.pipe_num)

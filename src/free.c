@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:54:56 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/27 10:30:10 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/28 17:26:19 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ void	free_env(t_sh *sh)
 
 void	free_exit(t_sh *sh)
 {
+	
 	free_tokens(sh);
 	free_cmds(sh);
 	if(sh->cmd_line)
@@ -99,6 +100,7 @@ void	free_exit(t_sh *sh)
 	free(sh->vars.sh_host);
 	free(sh->vars.sh_pwd);
 	free(sh->vars.sh_user);
+	free(sh->vars.minihome);
 	free(sh);
 	rl_clear_history();
 }

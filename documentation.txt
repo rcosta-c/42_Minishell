@@ -19,7 +19,7 @@ t_vars: Estrutura que contém variáveis relacionadas ao estado do shell.
 bool sh_status: Status do shell.
 int tk_num: Número de tokens.
 int cmds_num: Número de comandos.
-int redir_num: Número de redirecionamentos.
+int redir_tot: Número de redirecionamentos.
 int heredoc_num: Número de heredocs.
 int pipe_num: Número de pipes.
 int is_pipe: Indica se é um pipe.

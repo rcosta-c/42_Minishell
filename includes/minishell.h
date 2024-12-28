@@ -45,7 +45,7 @@ typedef struct s_vars
 	bool	sh_status;
 	int     tk_num;
 	int		cmds_num;
-	int		redir_num;
+	int		redir_tot;
 	int		heredoc_num;
 	int		pipe_num;
 	int		is_pipe;
@@ -53,6 +53,7 @@ typedef struct s_vars
 	char	*sh_user;
 	char	*sh_pwd;
 	char	*sh_host;
+	char	*minihome;
 }   t_vars;
 
 
@@ -259,13 +260,22 @@ int		parse_no_args(t_sh *sh, int n_cmd, int x);
 int		parse_with_args(t_sh *sh, int n_cmd, int x);
 int		parse_utils(t_sh *sh, int x, int n_cmd);
 int		parse_pipes(t_sh *sh, int z, int n_cmd);
-void	ft_count_redirs(t_sh *sh, int x, int n_cmd);
 bool	ft_if_redir(t_sh *sh, int x);
 /*	FIM		*/
 
 /* PARSE_UTILS_QUOTES.c 	*/
+char	*clean_quote_d(char *str);
+char	*clean_quote_s(char *str);
 void	remove_quoted(t_sh *sh);
 /*		FIM		*/
+
+/*	REDIR_PARSE	*/
+void	ft_count_redirs(t_sh *sh, int x, int n_cmd);
+int     ft_parse_redirs(t_sh *sh, int x, int n_cmd);
+
+
+/*	FIM 	*/
+
 
 /*	HEREDOC.c	*/
 char	*handle_nextline_heredoc(int fd);
@@ -306,5 +316,11 @@ void	exec_builtin(t_sh *sh, int cmd_nbr);
 void	execute_pipeline(t_sh *sh);
 void	check_pipes(t_sh *sh);
 /*	FIM		*/
+
+/*	HISTORY.c	*/
+void save_to_history(t_sh *sh, char *cmd_line);
+
+
+/*	FIM	*/
 
 #endif

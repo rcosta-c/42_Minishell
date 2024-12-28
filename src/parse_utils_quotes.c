@@ -6,13 +6,13 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:54:23 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/22 08:58:01 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/27 22:17:06 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static char	*clean_quote_d(char *str)
+char	*clean_quote_d(char *str)
 {
 	int		len;
 	int		x;
@@ -39,7 +39,7 @@ static char	*clean_quote_d(char *str)
 	return(dest);
 }
 
-static char	*clean_quote_s(char *str)
+char	*clean_quote_s(char *str)
 {
 	int		len;
 	int		x;
@@ -66,7 +66,7 @@ static char	*clean_quote_s(char *str)
 	return(dest);
 }
 
-void	remove_quoted(t_sh *sh)
+/*void	remove_quoted(t_sh *sh)
 {
 	int	x;
 
@@ -85,4 +85,4 @@ void	remove_quoted(t_sh *sh)
 		}
 		x++;
 	}
-}
+}*/

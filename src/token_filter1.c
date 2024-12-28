@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:52:16 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/27 13:42:58 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/28 19:05:11 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,13 @@ void	filter_args(t_sh *sh, int n)
 		{
 			sh->tokens[n].arg = true;
 		}
-	if(sh->tokens[n].d_quote == true || sh->tokens[n].s_quote == true)
+	else if((sh->tokens[n].d_quote == true || sh->tokens[n].s_quote == true ) && \
+		sh->tokens[n - 1].r_in == false && sh->tokens[n - 1].r_out == false && \
+		sh->tokens[n - 1].r_heredoc == false && sh->tokens[n - 1].r_outappend == false)
+			sh->tokens[n].arg = true;
+	else if(sh->tokens[n].exp_e == true || sh->tokens[n].exp_t == true)
 		sh->tokens[n].arg = true;
-	if(sh->tokens[n].exp_e == true || sh->tokens[n].exp_t == true)
-		sh->tokens[n].arg = true;
-	if(sh->tokens[n].file == true && (sh->tokens[n - 1].r_heredoc == false) && 
+	else if(sh->tokens[n].file == true && (sh->tokens[n - 1].r_outappend == false) && 
 		(sh->tokens[n - 1].r_in == false) && (sh->tokens[n - 1].r_out == false) && 
 		(sh->tokens[n - 1].r_heredoc == false))
 			{

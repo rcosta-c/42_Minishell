@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:55:30 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/27 13:12:46 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/27 23:40:49 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ bool	filter_cmd_error(t_sh *sh)
 		{
 			if (access(sh->comands[x].cmd, X_OK))
 			{
-				fprintf(stderr, " Permission denied\n");
+				ft_putstr_fd(" Permission denied\n", 2);
 				g_status = NO_PERMISSION;
 				return (true);
 			}
@@ -48,6 +48,8 @@ bool	filter_cmd_error(t_sh *sh)
 		else if ((sh->comands[x].cmd[0] == '/') || (sh->comands[x].cmd[0] == '.'))
 		{
 			sh->comands[x].errors.cmd_not_found = true;
+			
+			//ft_putstr_fd(" No such file or directory\n", 0);
 			fprintf(stderr, " No such file or directory\n");
 			g_status = CMD_NOT_FOUND;
 			return (true);
@@ -55,7 +57,7 @@ bool	filter_cmd_error(t_sh *sh)
 		else
 		{
 			sh->comands[x].errors.cmd_not_found = true;
-			fprintf(stderr, " command not found\n");
+			ft_putstr_fd(" command not found\n", 2);
 			g_status = CMD_NOT_FOUND;
 			return (true);
 		}

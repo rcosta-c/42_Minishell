@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:52:02 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/27 10:52:18 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/28 11:17:23 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,12 @@ void	filter_file(t_sh *sh, int n)
 		}
 		x++;
 	}
-	if(n > 0 && sh->tokens[n - 1].r_heredoc == true)
-	{
-		sh->tokens[n].file = true;
-		sh->tokens[n].arg = false;
-	}
+	if(n > 0 && (sh->tokens[n - 1].r_in == true || sh->tokens[n - 1].r_out == true || \
+		sh->tokens[n - 1].r_heredoc == true || sh->tokens[n - 1].r_outappend == true))
+		{
+			sh->tokens[n].file = true;
+			sh->tokens[n].arg = false;
+		}
 }
 
 static void	check_filter_redir(t_sh *sh, int n)
@@ -42,12 +43,12 @@ static void	check_filter_redir(t_sh *sh, int n)
 		if(!sh->tokens[n].tokens[1])
 		{
 		sh->tokens[n].r_out = true;
-			sh->vars.redir_num++;
+			sh->vars.redir_tot++;
 		}
 		if(sh->tokens[n].tokens[1] == '>')
 		{
 			sh->tokens[n].r_outappend = true;
-			sh->vars.redir_num++;
+			sh->vars.redir_tot++;
 		}
 	}
 }
@@ -66,12 +67,12 @@ void	filter_pipes_redir(t_sh *sh, int n)
 			if(!sh->tokens[n].tokens[1])
 			{
 				sh->tokens[n].r_in = true;
-				sh->vars.redir_num++;
+				sh->vars.redir_tot++;
 			}
 			if(sh->tokens[n].tokens[1] == '<')
 			{
 				sh->tokens[n].r_heredoc = true;
-				sh->vars.redir_num++;
+				sh->vars.redir_tot++;
 				sh->vars.heredoc_num++;
 			}
 		}
@@ -99,9 +100,15 @@ void	filter_quotes(t_sh *sh, int n)
 			x++;
 	}
 	if(counter_s == 2)
+	{
 		sh->tokens[n].s_quote = true;
+		sh->tokens[n].tokens = clean_quote_s(sh->tokens[n].tokens);
+	}
 	else if(counter_d == 2)
+	{
 		sh->tokens[n].d_quote = true;
+		sh->tokens[n].tokens = clean_quote_d(sh->tokens[n].tokens);
+	}
 	else if(counter_d == 0)
 		sh->tokens[n].d_quote =  false;
 	else if(counter_s == 0)

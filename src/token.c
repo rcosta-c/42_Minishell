@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:51:45 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/27 12:55:53 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/28 19:04:25 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,13 +112,6 @@ static void	ft_special_agent_redir(char *str, char *temp, int *x_o, int *x_d)
 		while(str[*x_o] == '>' || str[*x_o] == '<')
 			temp[(*x_d)++] = str[(*x_o)++];
 		temp[(*x_d)++] = ' ';
-		/*if(str[*x_o] == '>' || str[*x_o] == '<')
-		{
-			temp[(*x_d)++] = str[(*x_o)++];
-			temp[(*x_d)++] = ' ';
-		}
-		else
-			temp[(*x_d)++] = ' ';*/
 		if(str[*x_o] == 32)
 			(*x_o)++;
 		return;
@@ -172,7 +165,6 @@ static int process_chunk(char *str, char *temp, int *x_o, int *x_d)
 			temp[(*x_d)++] = str[(*x_o)++];	
 		if(str[(*x_o)] != 32 && (str[(*x_o) - 1] == 34 || str[(*x_o) - 1] == 39))
 		{
-//printf("entrouaqui\n");
 			while(str[(*x_o)] && (str[(*x_o)] != 32 || str[(*x_o)] != '>' ||
 				 str[(*x_o)] != '<' || str[(*x_o)] != '|'))
 				temp[(*x_d)++] = str[(*x_o)++];
@@ -208,7 +200,6 @@ char *prepare_line(char *str)
 	int     x_d[1];
 	char    temp[1000];
 
-	//printf("\n\nCARALHOOOOOO!!!!!!!\n\n");
 	x_o[0] = 0;
 	x_d[0] = 0;
 	if(ft_strlen(str) == 0)

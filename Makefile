@@ -19,6 +19,7 @@ SRCS := src/main.c \
 						builtins/unset.c \
 						builtins/pwd.c \
 						builtins/echo.c \
+						src/history.c \
 						src/token.c \
 						src/split_cmd.c \
 						src/free.c \
@@ -26,6 +27,7 @@ SRCS := src/main.c \
 						src/pipe.c \
 						src/parse.c \
 						src/parse_utils.c \
+						src/redir_parse.c \
 						src/heredoc.c \
 						src/executer.c \
 						src/executer_utils.c \
