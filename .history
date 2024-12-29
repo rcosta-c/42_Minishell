@@ -69,3 +69,55 @@
 69echo "asdsad"
 70echo "asdasd"
 71exit
+72echo "hello"
+73echo asdsd "jasdsajd" 'adasd'
+74exit
+75echo "asdsad" asasd 'asd'
+76echo "asdsd"
+77echo "asdasd " "asasd"
+78exit
+79echo "asdasd " "asasd"
+80exit
+81echo "asdasd " "asasd"
+82exit
+83echo "asdasd " "asasd"
+84exit
+85echo "asdasd " "asasd"
+86exit
+87echo "asdasd " "asasd"
+88exit
+89echo "asdasd"
+90exit
+91echo "asdasd""asasd"
+92exit
+93echo "asdasd " "asasd"
+94exit
+95exit
+96echo "asdasd " "asasd"
+97echo "asdasd " "asasd"
+98exit
+99cat < "1""3""5""7"
+100exit
+101cat < "1""2""3""4"
+102exit
+103echo "asdasd " "asasd"
+104exit
+105echo "asdasd " "asasd"
+106exit
+107cat < "1""2""3""4"
+108exit
+109cat < "1""2""3""4"
+110exit
+111cat < "1""2"
+112exit
+113cat < "1""2"
+114exit
+115cat < "1""1"
+116exit
+117cat < "1""2"
+118exit
+119cat < "1""2""3""4"
+120exit
+121echo "asdad" > TESTE.tt
+122cat TESTE.tt 
+123exit

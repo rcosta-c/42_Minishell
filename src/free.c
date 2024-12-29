@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:54:56 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/28 17:26:19 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/29 22:32:19 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	free_tokens(t_sh *sh)
 	x = 0;
 	if(sh->vars.tk_num > 0)
 	{
-		while(x < sh->vars.tk_num)
+		while(x <= sh->vars.tk_num)
 		{
 				free(sh->tokens[x].tokens);
 				x++;

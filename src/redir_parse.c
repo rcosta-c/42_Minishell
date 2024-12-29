@@ -6,12 +6,11 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 15:46:16 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/29 01:03:33 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/29 23:12:20 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
 
 void	ft_count_redirs(t_sh *sh, int x, int n_cmd)
 {
@@ -24,6 +23,56 @@ void	ft_count_redirs(t_sh *sh, int x, int n_cmd)
 		}
 		x++;	
 	}	
+}
+
+static int	ft_parse_redirs_in(t_sh *sh, int x, int n_cmd, int counter)
+{
+	if(sh->tokens[x - 1].r_in  == true)
+	{
+		if(sh->comands[n_cmd].infile != NULL)
+			free(sh->comands[n_cmd].infile);
+		if(sh->tokens[x].file == true )
+			sh->comands[n_cmd].infile = ft_strdup(sh->tokens[x].tokens);
+		else
+			sh->comands[n_cmd].errors.empty_redir = true;
+		counter++;
+	}
+	else if(sh->tokens[x - 1].r_heredoc == true)
+	{
+		if(sh->comands[n_cmd].inheredoc_file != NULL)
+			free(sh->comands[n_cmd].inheredoc_file);
+		if(sh->tokens[x].tokens)
+			sh->comands[n_cmd].inheredoc_file = ft_strdup(sh->tokens[x].tokens);
+		else
+			sh->comands[n_cmd].errors.empty_redir = true;
+		counter++;
+	}
+	return(counter);
+
+}
+static int	ft_parse_redirs_out(t_sh *sh, int x, int n_cmd, int counter)
+{
+	if(sh->tokens[x - 1].r_out == true)
+	{
+		if(sh->comands[n_cmd].outfile != NULL)
+			free(sh->comands[n_cmd].outfile);
+		if(sh->tokens[x].file == true)
+			sh->comands[n_cmd].outfile = ft_strdup(sh->tokens[x].tokens);
+		else
+			sh->comands[n_cmd].errors.empty_redir = true;
+		counter++;
+	}
+	else if(sh->tokens[x - 1].r_outappend == true)
+	{
+		if(sh->comands[n_cmd].outappendfile != NULL)
+			free(sh->comands[n_cmd].outappendfile);
+		if(sh->tokens[x].file == true)
+			sh->comands[n_cmd].outappendfile = ft_strdup(sh->tokens[x].tokens);
+		else
+			sh->comands[n_cmd].errors.empty_redir = true;
+		counter++;
+	}
+	return(counter);
 }
 
 int     ft_parse_redirs(t_sh *sh, int x, int n_cmd)
@@ -39,47 +88,8 @@ int     ft_parse_redirs(t_sh *sh, int x, int n_cmd)
 		sh->comands[n_cmd].redir = true;
 		while(counter < sh->comands[n_cmd].n_redir && x < sh->vars.tk_num)
 		{
-			if(sh->tokens[x - 1].r_in  == true)
-			{
-				if(sh->comands[n_cmd].infile != NULL)
-					free(sh->comands[n_cmd].infile);
-				if(sh->tokens[x].file == true )
-					sh->comands[n_cmd].infile = ft_strdup(sh->tokens[x].tokens);
-				else
-					sh->comands[n_cmd].errors.empty_redir = true;
-				counter++;
-			}
-			else if(sh->tokens[x - 1].r_out == true)
-			{
-				if(sh->comands[n_cmd].outfile != NULL)
-					free(sh->comands[n_cmd].outfile);
-				if(sh->tokens[x].file == true)
-					sh->comands[n_cmd].outfile = ft_strdup(sh->tokens[x].tokens);
-				else
-					sh->comands[n_cmd].errors.empty_redir = true;
-				counter++;
-			}
-			else if(sh->tokens[x - 1].r_heredoc == true)
-			{
-				if(sh->comands[n_cmd].inheredoc_file != NULL)
-					free(sh->comands[n_cmd].inheredoc_file);
-				if(sh->tokens[x].tokens)
-					sh->comands[n_cmd].inheredoc_file = ft_strdup(sh->tokens[x].tokens);
-				else
-					sh->comands[n_cmd].errors.empty_redir = true;
-				counter++;
-			}
-			else if(sh->tokens[x - 1].r_outappend == true)
-			{
-				if(sh->comands[n_cmd].outappendfile != NULL)
-					free(sh->comands[n_cmd].outappendfile);
-				if(sh->tokens[x].file == true)
-					sh->comands[n_cmd].outappendfile = ft_strdup(sh->tokens[x].tokens);
-				else
-					sh->comands[n_cmd].errors.empty_redir = true;
-				counter++;
-				
-			}
+			counter = ft_parse_redirs_in(sh, x, n_cmd, counter);
+			counter = ft_parse_redirs_out(sh, x, n_cmd, counter);
 			x++;
 		}
 	}
@@ -88,10 +98,10 @@ int     ft_parse_redirs(t_sh *sh, int x, int n_cmd)
 
 void    ft_redir_multiargs(t_sh *sh)
 {
-	int x;
-	int	xx;
-	int counter;
-
+	int		x;
+	int		xx;
+	int	 	counter;
+	char	 *temp;
 	
 	x = 0;
 	counter = 0;
@@ -123,7 +133,10 @@ void    ft_redir_multiargs(t_sh *sh)
 					xx = 0;
 					while(xx < counter)
 					{
-						sh->tokens[x - xx - 1].tokens = ft_strjoin(sh->tokens[x - xx - 1].tokens, sh->tokens[x - xx].tokens);
+						temp = ft_strjoin(sh->tokens[x - xx - 1].tokens, sh->tokens[x - xx].tokens);
+						free(sh->tokens[x - xx - 1].tokens);
+						sh->tokens[x - xx - 1].tokens = ft_strdup(temp);
+						free(temp);
 						xx++;
 					}
 				}
