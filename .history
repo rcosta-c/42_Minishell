@@ -4,3 +4,68 @@
 4cd 
 5jhj
 6dasd
+7cat < "1"2"3"4"5"
+8cat < "1""2""3""4""5"
+9cat < "0""1""2""3"
+10cat < "1""2""3"
+11cat < "1""2""3"
+12cat < "1""2""3"
+13make valgrind
+14cat < "1""2""3"
+15cat < "1""2""3"
+16cat < "1""2""3"
+17"cat" < "1""2""3"
+18cat < "1""2""3"
+19cat < "1""1""3"
+20cat < "1""2""3"
+21cat < "1""2""3"
+22cat < "1""2""3""4""5" < 1231213 >input.asd | echo "asdad"
+23cat < "1""2""3""4"
+24cat < "1""2""3""4"
+25cat < "1""2""3""4"
+26cat < "1""2""4""5"
+27cat < "1""2""4""5"
+28cat < "1""2""4""5"
+29cat < "1""2""3""4"
+30cat < "1""2""3""4""5"
+31cat < "1""2""3""4"
+32exit
+33cat < "1""2""3""4"
+34exit
+35cat < "1""2""3"
+36exit
+37cat < "1""2""3"
+38exit
+39cat < "1""2""3""4"
+40exit
+41exit
+42cat < "1""2""3""5"
+43exit
+44cat < "1""2""3""4"
+45exit
+46cat < "1""2""3""4"
+47exit
+48cat < "1""2""3""4"
+49exit
+50cat < "1""2""3""4"
+51exit
+52cat < "1""2""3""4"
+53exit
+54cat < "1""2""3"
+55exit
+56cat < "1""2""3"
+57exit
+58cat < "1""2""3"
+59exit
+60cat < "1""2""3""4"
+61exit
+62cat < "1""2""3""4"
+63exit
+64echo "asdsad"
+65echo asd
+66echo asdsasad
+67echo asdsasad
+68echo assadda
+69echo "asdsad"
+70echo "asdasd"
+71exit

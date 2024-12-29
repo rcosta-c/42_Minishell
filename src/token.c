@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:51:45 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/28 19:04:25 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/29 01:04:59 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,14 @@ int	count_tokens(t_sh *sh)
 {
 	int x;
 	int counter;
+	int	init;
+	int xx;
 
+	xx = 0;
+	
 	x = 0;
 	counter = 0;
+	init = 0;
 	if (!sh->cmd_line)
 		return (0);
 	while (sh->cmd_line[x])
@@ -27,29 +32,61 @@ int	count_tokens(t_sh *sh)
 			x++;
 		if (sh->cmd_line[x] == '"' || sh->cmd_line[x] == '\'')
 		{
-			x = check_type_quote(sh->cmd_line, x); 
+			xx = 0;
+			init = x;
+			x = check_type_quote(sh->cmd_line, x);
+			while(init < x)
+			{
+				sh->temp[counter][xx] = sh->cmd_line[init];
+				xx++;
+				init++;
+			}
+			sh->temp[counter][xx] = '\0';
 			counter++; 
 		}
 		else if (sh->cmd_line[x] && sh->cmd_line[x] != ' ' 
 			&& sh->cmd_line[x] != '>' && sh->cmd_line[x] != '<' && sh->cmd_line[x] != '|')
 		{
+			xx = 0;
 			while (sh->cmd_line[x] && sh->cmd_line[x] != ' ' 
 				&& sh->cmd_line[x] != '>' && sh->cmd_line[x] != '<' && sh->cmd_line[x] != '|')
 			{
 				if (sh->cmd_line[x] == '"' || sh->cmd_line[x] == '\'')
                 {
+					xx = 0;
+					init = x;
                     x = check_type_quote(sh->cmd_line, x);
+					while(init < x)
+					{
+						sh->temp[counter][xx] = sh->cmd_line[init];
+						xx++;
+						init++;
+					}
                 }
 				else
+				{
+					sh->temp[counter][xx] = sh->cmd_line[x];
 					x++;
+					xx++;
+				}
 			}
+			sh->temp[counter][xx] = '\0';
 			counter++;
 		}
 		else if (sh->cmd_line[x] == '>' || sh->cmd_line[x] == '<' || sh->cmd_line[x] == '|')
 		{
-			counter++;
+			xx = 0;
+			init = x;
 			while(sh->cmd_line[x] == '>' || sh->cmd_line[x] == '<' || sh->cmd_line[x] == '|')
 				x++;
+			while(init < x)
+			{
+				sh->temp[counter][xx] = sh->cmd_line[init];
+				xx++;
+				init++;
+			}
+			sh->temp[counter][xx] = '\0';
+			counter++;
 		}
 	}
 	return (counter);

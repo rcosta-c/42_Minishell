@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:52:16 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/28 19:05:11 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/29 01:07:11 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ void	filter_tokens(t_sh *sh)
 		filter_pipes_redir(sh, n);
 		filter_args(sh, n);
 		filter_cmds(sh, n);
+//printf("\n\naquivoueu   n=%d   token=%s", n, sh->tokens[n].tokens);
 		n++;
 	}
 }

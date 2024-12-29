@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:53:06 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/28 00:00:50 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/28 23:35:02 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,10 @@ static int    split_quote(t_sh *sh, int x, int n)
     int len;
     int xx;
 
+	printf("\nENTROU NO SPLIT QUOTEE\n");
     xx = 0;  
     len = check_type_quote(sh->cmd_line, x) - x;
-//	printf("\n\nlen=%d x=%d\n", len, x);
+	printf("\n\nlen=%d x=%d\n", len, x);
 	sh->tokens[n].tokens = malloc(sizeof(char *) * (len + 1));
 	while(xx < len)
 	{
@@ -28,7 +29,7 @@ static int    split_quote(t_sh *sh, int x, int n)
 		xx++;
     }
 	sh->tokens[n].tokens[xx] = '\0';
-//	printf("\n\nvairetornar=%s \t x=%d\n\n",sh->tokens[n].tokens, x);
+	printf("\n\nvairetornar=%s \t x=%d\n\n",sh->tokens[n].tokens, x);
     return(x);
 }
 
@@ -54,6 +55,8 @@ static int	len_for_split_cicle(t_sh *sh, int x)
 				len++;
 			}
 	}
+	//if(sh->cmd_line[x] == ' ')
+		//x++;
 	return(len);
 }
 
@@ -62,6 +65,8 @@ static int  split_cicle(t_sh *sh, int x, int n)
     int 	xx;
     int 	len;
 	bool	sign;
+
+	printf("\nENTROU NO SPLIT CICLE\n");
 
 	xx = 0;
 	sign = false;
@@ -99,14 +104,15 @@ void		split_cmd(t_sh *sh)
 		return;
 	while(1)
 	{
+		printf("\nronda x=%d\n", x);
 		if(!sh->cmd_line[x])
 			break;
-		if(check_if_squote(sh->cmd_line, x) || check_if_dquote(sh->cmd_line, x))
+		if(check_if_squote(sh->cmd_line, x) == true || check_if_dquote(sh->cmd_line, x) == true)
             x = split_quote(sh, x, n++);
 		else
               x = split_cicle(sh, x, n++);
 	    if(!sh->cmd_line[x])
 			break;
-		x++;  
+		//x++;  
 	}
 }

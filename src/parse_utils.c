@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:54:13 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/28 17:31:25 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/29 01:03:15 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,14 +114,18 @@ int		parse_no_cmds(t_sh *sh, int n_cmd, int x)
 	return(x);
 }
 
+
+
 int	parse_utils(t_sh *sh, int x, int n_cmd)
 {
 	int xtemp;
 
+	if(x == sh->vars.tk_num)
+		return(x);
    	if(sh->tokens[x].cmd) 
 	{
 		xtemp = x;
-		while(sh->tokens[x].pipe == false && x < sh->vars.tk_num)
+		while(x < sh->vars.tk_num &&sh->tokens[x].pipe == false)
 		{
 			if(sh->tokens[x].arg == true)
 				sh->comands[n_cmd].n_args++;
@@ -140,31 +144,6 @@ int	parse_utils(t_sh *sh, int x, int n_cmd)
 		x = parse_no_cmds(sh, n_cmd, x);
 	return(x);
 }
-
-/*int	parse_utils(t_sh *sh, int x, int n_cmd)
-{
-
-   	if(sh->tokens[x].cmd) 
-	{	
-		if(x < sh->vars.tk_num && sh->tokens[x + 1].arg == true)
-		{
-			x++;
-			while(sh->tokens[x].arg == true && x < sh->vars.tk_num)
-			{
-				sh->comands[n_cmd].n_args++;
-				x++;
-			}
-			if(sh->comands[n_cmd].n_args > 0)
-				x -= sh->comands[n_cmd].n_args;
-			x = parse_with_args(sh, n_cmd, x);		
-		}
-		else
-			x = parse_no_args(sh, n_cmd, x);
-	}
-	else
-		x = parse_no_cmds(sh, n_cmd, x);
-	return(x);
-}*/
 
 int	parse_pipes(t_sh *sh, int z, int n_cmd)
 {

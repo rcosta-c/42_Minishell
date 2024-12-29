@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:54:06 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/27 22:13:14 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/29 00:18:38 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,29 +85,21 @@ bool    check_before_parse(t_sh *sh)
 	}
 	return(false);
 }
-/*static int	parse_emptyenv(t_sh *sh, int x, int n_cmd)
-{
-	sh->comands[n_cmd].arg = malloc(sizeof(char **) * 2); 
-	sh->comands[n_cmd].cmd = ft_strdup("echo"); 
-	sh->comands[n_cmd].arg[0] = ft_strdup("echo");
-	sh->comands[n_cmd].arg[1] = NULL;
-	sh->comands[n_cmd].n_args = 0;
-	x++;
-	return(x);
-	
-}*/
 
-/*
-static bool	ft_token_hash_flag(t_sh *sh, int x)
+static bool	ft_invalid_token(t_sh *sh, int x)
 {
-	int	len;
-
-	len = ft_strlen(sh->tokens[x].tokens);
-	if(len == 1 && sh->tokens[x].tokens[0] == '$')
-		return(true);
+	if(sh->tokens[x].cmd == false &&	sh->tokens[x].arg == false &&
+		sh->tokens[x].pipe == false && sh->tokens[x].r_in == false &&
+		sh->tokens[x].r_out == false && sh->tokens[x].r_heredoc == false &&
+		sh->tokens[x].r_outappend == false && sh->tokens[x].s_quote == false &&
+		sh->tokens[x].d_quote == false && sh->tokens[x].f_quote == false && 
+		sh->tokens[x].envp == false && sh->tokens[x].file == false &&
+		sh->tokens[x].exp_e == false && sh->tokens[x].exp_t == false && 
+		sh->tokens[x].exp_empty == false)
+			return(true);
 	else
 		return(false);
-}*/
+}
 
 void    fill_parser(t_sh *sh)
 {
@@ -121,6 +113,13 @@ void    fill_parser(t_sh *sh)
 //	remove_quoted(sh);
 	while(x < sh->vars.tk_num)
 	{
+		if(ft_invalid_token(sh, x) == true)
+		{
+			while(x < sh->vars.tk_num && ft_invalid_token(sh, x) == true)
+				x++;
+			if(x >= sh->vars.tk_num - 1)
+				break;
+		}
 		if(sh->tokens[x].exp_empty == true)// || ft_token_hash_flag(sh, x) == true)
 		{
 			x++;

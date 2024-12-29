@@ -124,6 +124,7 @@ typedef struct s_exec
 
 typedef struct s_sh
 {
+	char		temp[50][50];
 	t_exec      *comands;
 	t_tokens    *tokens;
 	t_vars      vars;
@@ -264,14 +265,15 @@ bool	ft_if_redir(t_sh *sh, int x);
 /*	FIM		*/
 
 /* PARSE_UTILS_QUOTES.c 	*/
-char	*clean_quote_d(char *str);
-char	*clean_quote_s(char *str);
+char	*clean_quote_d(t_sh *sh, int n);
+char	*clean_quote_s(t_sh *sh, int n);
 void	remove_quoted(t_sh *sh);
 /*		FIM		*/
 
 /*	REDIR_PARSE	*/
 void	ft_count_redirs(t_sh *sh, int x, int n_cmd);
 int     ft_parse_redirs(t_sh *sh, int x, int n_cmd);
+void    ft_redir_multiargs(t_sh *sh);
 
 
 /*	FIM 	*/

@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:54:43 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/28 17:25:10 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/28 23:34:21 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void    init_tk_flag1(t_sh *sh, int x)
 {
+	sh->tokens[x].tokens = ft_strdup(sh->temp[x]);
     sh->tokens[x].cmd = false;
 	sh->tokens[x].arg = false;
 	sh->tokens[x].pipe = false;

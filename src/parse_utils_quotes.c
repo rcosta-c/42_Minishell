@@ -6,13 +6,13 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:54:23 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/27 22:17:06 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/29 01:10:13 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	*clean_quote_d(char *str)
+char	*clean_quote_d(t_sh *sh, int n)//char *str)
 {
 	int		len;
 	int		x;
@@ -21,25 +21,23 @@ char	*clean_quote_d(char *str)
 
 	x = 0;
 	xx = 0;
-	len = ft_strlen(str);
-	dest = malloc(sizeof(char *) * len - 1);
-	while(str[x])
+	len = ft_strlen(sh->tokens[n].tokens);
+	dest = malloc(len - 1);
+	while(sh->tokens[n].tokens[x])
 	{
-		if(str[x] == 34)
-			x++;
-		else
-		{
-			dest[xx] = str[x];
-			x++;
-			xx++;
-		}
+		if (sh->tokens[n].tokens[x] != 34)
+        {
+            dest[xx] = sh->tokens[n].tokens[x];
+            xx++;
+        }
+        x++;
 	}
 	dest[xx] = '\0';
-	free(str);
+	free(sh->tokens[n].tokens);
 	return(dest);
 }
 
-char	*clean_quote_s(char *str)
+char	*clean_quote_s(t_sh *sh, int n)
 {
 	int		len;
 	int		x;
@@ -48,21 +46,21 @@ char	*clean_quote_s(char *str)
 
 	x = 0;
 	xx = 0;
-	len = ft_strlen(str);
-	dest = malloc(sizeof(char *) * len - 1);
-	while(str[x])
+	len = ft_strlen(sh->tokens[n].tokens);
+	dest = malloc(len + 1);
+	while(sh->tokens[n].tokens[x])
 	{
-		if(str[x] == 39)
+		if(sh->tokens[n].tokens[x] == 39)
 			x++;
 		else
 		{
-			dest[xx] = str[x];
+			dest[xx] = sh->tokens[n].tokens[x];
 			x++;
 			xx++;
 		}
 	}
 	dest[xx] = '\0';
-	free(str);
+	free(sh->tokens[n].tokens);
 	return(dest);
 }
 
