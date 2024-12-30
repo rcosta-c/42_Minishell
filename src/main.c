@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:54:30 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/30 13:46:00 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/30 14:58:00 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,18 +204,12 @@ static void	sh_loop(t_sh *sh)
 			init_tokens(sh);
 			//split_cmd(sh);
 //printf("numero de tokens= %d, antes do filter=%s\n\n", sh->vars.tk_num, sh->cmd_line);
-
-
 			filter_tokens(sh);
 			ft_redir_multiargs(sh);
 			search_expand(sh);
-			
 //printflags(sh);
-	
 			init_parser(sh);
-
 			fill_parser(sh);
-
 //print_exec(sh);
 			executor(sh);
 //printf_flag_errors(sh);

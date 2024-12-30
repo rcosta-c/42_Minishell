@@ -388,3 +388,6 @@
 388echo $PWD
 389pwd
 390exit
+391pwd
+392echo $PWD
+393exit

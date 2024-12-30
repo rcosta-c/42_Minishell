@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:53:27 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/30 14:57:07 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/30 14:57:44 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,6 @@ char	*join_2_str(char *a, char *b, char *z, int option)
 
 char	*get_prompt(t_sh *sh)
 {
-//	char	*user;
-//	char	*host;
-//	char	*dir;
 	char	*prompt;
 	char	*temp;
 
@@ -99,17 +96,4 @@ char	*get_prompt(t_sh *sh)
 	prompt = join_2_str(temp, " ", "$", 0);
 	free(temp);
 	return(prompt);
-	/*user = search_envp(sh, "USER");
-	host = find_my_host(sh);
-	prompt = join_2_str(user, host , "@", 0);
-	free(user);
-	free(host);
-	dir = search_envp(sh, "PWD");
-	dir = verify_home(sh, dir);
-	temp = join_2_str(prompt, dir, ":", 0);
-	free(prompt);
-	free(dir);
-	prompt = join_2_str(temp, " ", "$", 0);
-	free(temp);
-	return(prompt); */ 
 }

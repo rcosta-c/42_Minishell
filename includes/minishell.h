@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cde-paiv <cde-paiv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 11:42:42 by cde-paiv          #+#    #+#             */
-/*   Updated: 2024/12/30 12:34:33 by cde-paiv         ###   ########.fr       */
+/*   Updated: 2024/12/30 15:00:58 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef struct s_vars
 	int		pipe_num;
 	int		is_pipe;
 	int		envp_total;
+	char	*sh_home;
 	char	*sh_user;
 	char	*sh_pwd;
 	char	*sh_host;
@@ -119,6 +120,7 @@ typedef struct s_exec
 	char		*outappendfile;
 	bool		redir;
 	bool		pipes;
+	bool		heredoc;
 	int			n_redir;
 	int			n_args;
 	int			inheredoc_fd;
