@@ -339,3 +339,52 @@
 339unset kk
 340export 
 341exit
+342ls
+343cat < texto_exemplo.txt << fim | grep merda | wc -l
+344exit
+345cat < texto_exemplo.txt << fim | grep merda | wc -l
+346cat < texto_exemplo.txt | grep merda | wc -l
+347cat << lo.txt | grep merda | wc -l
+348cat << txt | grep merda | wc -l
+349cat << a.txt | grep merda | wc -l
+350cat << lo.txt | grep merda | wc -l
+351cat << lo.txt | grep merda | wc -l
+352cat << lo.txt | grep merda | wc -l
+353cat << lo.txt
+354cat << lo.txt | grep merda | wc -l
+355exit
+356cat << lo.txt | grep merda | wc -l
+357cat < texto_exemplo.txt << txt | grep merda | wc -l
+358exit
+359echo $PWD
+360pwd
+361unset pwd
+362echo $PWD
+363unset PWD
+364echo $PWD
+365pwd
+366unset PWD
+367cd ..
+368pwd
+369echo $PWD
+370pwd
+371pwd
+372exit
+373pwd
+374echo $HOME
+375exit
+376pwd
+377exit
+378pwd
+379exit
+380pwd
+381exit
+382pwd
+383exit
+384pwd
+385exit
+386echo $PWD
+387unset PWD
+388echo $PWD
+389pwd
+390exit

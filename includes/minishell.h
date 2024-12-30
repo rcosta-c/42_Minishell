@@ -53,6 +53,7 @@ typedef struct s_vars
 	char	*sh_user;
 	char	*sh_pwd;
 	char	*sh_host;
+	char	*sh_home;
 	char	*minihome;
 }   t_vars;
 
@@ -112,6 +113,7 @@ typedef struct s_exec
 	int			n_redir;
 	bool		redir;
 	bool		pipes;
+	bool		heredoc;
 	int			inheredoc_fd;
 	int			infile_fd;
 	int			outfile_fd;

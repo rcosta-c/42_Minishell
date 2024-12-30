@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:54:30 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/29 23:04:22 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/30 12:53:50 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,6 +233,7 @@ int main(int ac, char **av, char **envp)
 	sh = ft_calloc(1, sizeof(t_sh));
 	if(sh == NULL)
 		return(EXIT_FAILURE);
+	
 	ft_getenv(sh, envp);
 	init_prompt_utils(sh);
 	init_error(sh);

@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:54:43 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/28 23:34:21 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/30 12:35:12 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void    init_cmds(t_sh *sh, int x)
 	sh->comands[x].n_redir = 0;
     sh->comands[x].pipes = false;
 	sh->comands[x].redir = false;
+	sh->comands[x].heredoc = false;
 	sh->comands[x].infile = NULL;
 	sh->comands[x].infile_fd = -1;
 	sh->comands[x].inheredoc_fd = -1;
@@ -71,6 +72,7 @@ void	init_vars(t_sh *sh)
 
 void	init_prompt_utils(t_sh *sh)
 {
+	sh->vars.sh_home = search_envp(sh, "HOME");
 	sh->vars.sh_user = search_envp(sh, "USER");
 	sh->vars.sh_host = find_my_host(sh);
 	sh->vars.minihome = search_envp(sh, "PWD");

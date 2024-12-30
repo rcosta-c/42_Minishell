@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 14:59:34 by mota              #+#    #+#             */
-/*   Updated: 2024/12/27 12:31:56 by cde-paiv         ###   ########.fr       */
+/*   Updated: 2024/12/30 12:40:49 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,10 @@ void	ft_pwd(t_sh *sh, char **args)
 
 	(void)args;
 	i = 0;
-	while (sh->envp && ft_strncmp(sh->envp[i], "PWD=", 4))
-		i++;
-	if (sh->envp && sh->envp[i])
+	
+	if(sh->vars.sh_pwd)
 	{
-		temp = ft_substr(sh->envp[i], 4, ft_strlen(sh->envp[i]));
+		temp = ft_strjoin(sh->vars.sh_home, (sh->vars.sh_pwd + 1));
 		ft_putstr_fd(temp, 1);
 		ft_putstr_fd("\n", 1);
 		free(temp);

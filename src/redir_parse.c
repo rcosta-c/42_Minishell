@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 15:46:16 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/30 08:41:22 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/30 11:57:52 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,11 @@ static int	ft_parse_redirs_in(t_sh *sh, int x, int n_cmd, int counter)
 {
 	if(sh->tokens[x - 1].r_in  == true)
 	{
-//		if(sh->comands[n_cmd].inheredoc_file != NULL)
-//			free(sh->comands[n_cmd].inheredoc_file);
+		if(sh->comands[n_cmd].heredoc == true)
+		{
+			sh->comands[x].heredoc = false;	
+			//free(sh->comands[n_cmd].inheredoc_file);
+		}
 		if(sh->comands[n_cmd].infile != NULL)
 			free(sh->comands[n_cmd].infile);
 		if(sh->tokens[x].file == true )
@@ -41,8 +44,22 @@ static int	ft_parse_redirs_in(t_sh *sh, int x, int n_cmd, int counter)
 	}
 	else if(sh->tokens[x - 1].r_heredoc == true)
 	{
-//		if(sh->comands[n_cmd].infile != NULL)
-//			free(sh->comands[n_cmd].infile);
+		sh->comands[n_cmd].heredoc = true;
+		if(sh->comands[n_cmd].infile != NULL)
+			free(sh->comands[n_cmd].infile);
+		//if(sh->comands[n_cmd].inheredoc_file != NULL)
+		//	free(sh->comands[n_cmd].inheredoc_file);
+		if(sh->tokens[x].tokens)
+			sh->comands[n_cmd].infile = ft_strdup(sh->tokens[x].tokens);
+		else
+			sh->comands[n_cmd].errors.empty_redir = true;
+		counter++;
+	}
+	/*else if(sh->tokens[x - 1].r_heredoc == true)
+	{
+		sh->comands[x].heredoc = true;
+		if(sh->comands[n_cmd].infile != NULL)
+			free(sh->comands[n_cmd].infile);
 		if(sh->comands[n_cmd].inheredoc_file != NULL)
 			free(sh->comands[n_cmd].inheredoc_file);
 		if(sh->tokens[x].tokens)
@@ -50,7 +67,7 @@ static int	ft_parse_redirs_in(t_sh *sh, int x, int n_cmd, int counter)
 		else
 			sh->comands[n_cmd].errors.empty_redir = true;
 		counter++;
-	}
+	}*/
 	return(counter);
 
 }

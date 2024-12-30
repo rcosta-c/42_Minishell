@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 18:05:19 by cde-paiv          #+#    #+#             */
-/*   Updated: 2024/12/17 10:22:47 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/30 12:09:25 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void execute_comand_in_pipe(t_sh *sh,  int i, int in_fd, int pipefd[2])
 		dup2(pipefd[1], STDOUT_FILENO);
 	close(pipefd[0]);
 	close(pipefd[1]);
-	handle_redirects(sh, i); 
+	
 	if (check_if_builtin(sh->comands[i].cmd)) 
 	{
 		exec_builtin(sh, i);
@@ -75,6 +75,7 @@ void execute_pipeline(t_sh *sh)
 		return;
 	while (i <  sh->vars.cmds_num) 
 	{
+		handle_redirects(sh, i); 
 		pipe(pipefd);
 		pid_t pid = fork();
 		if (pid == -1) 

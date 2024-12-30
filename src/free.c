@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:54:56 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/30 08:43:36 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/30 12:38:38 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ void	free_exit(t_sh *sh)
 	free(sh->vars.sh_host);
 	free(sh->vars.sh_pwd);
 	free(sh->vars.sh_user);
+	free(sh->vars.sh_home);
 	free(sh->vars.minihome);
 	free(sh);
 	if (access(".heredoc_temp.txt", F_OK) == 0)
