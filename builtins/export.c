@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 18:08:39 by mota              #+#    #+#             */
-/*   Updated: 2024/12/30 09:35:39 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/30 11:05:22 by cde-paiv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ static int	is_valid_identifier(const char *arg)
 	return (1);
 }
 
-static void	handle_append_export(t_sh *sh, char *search_var, char *value_to_add, int var_pos)
+static void	handle_append_export(t_sh *sh, char *search_var,
+			char *value_to_add, int var_pos)
 {
 	char	*existing_value;
 	char	*temp_value;

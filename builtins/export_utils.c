@@ -3,40 +3,45 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: cde-paiv <cde-paiv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 00:26:43 by mota              #+#    #+#             */
-/*   Updated: 2024/12/30 09:40:09 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/30 11:27:23 by cde-paiv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+static void	display_info(char *equal_sign, char **temp, int i)
+{
+	ft_putstr_fd("declare -x ", 1);
+	write(1, temp[i], equal_sign - temp[i] + 1);
+	ft_putchar_fd('"', 1);
+	ft_putstr_fd(equal_sign + 1, 1);
+	ft_putchar_fd('"', 1);
+	ft_putchar_fd('\n', 1);
+}
 
 void	display_exported_vars(t_sh *sh)
 {
 	int		i;
 	char	*equal_sign;
 	char	**temp;
-	
+
 	i = 0;
 	temp = handle_array(sh);
-	while (sh->envp[i++])
+	while (sh->envp[i])
 	{
 		equal_sign = ft_strchr(temp[i], '=');
 		if (equal_sign)
-		{
-			ft_putstr_fd("declare -x ", 1);
-			write(1, temp[i], equal_sign - temp[i] + 1);
-			ft_putchar_fd('"', 1);
-			ft_putstr_fd(equal_sign + 1, 1);
-			ft_putchar_fd('"\n', 1);
-		}
+			display_info(equal_sign, temp, i);
 		else
 		{
 			ft_putstr_fd("declare -x ", 1);
 			ft_putstr_fd(temp[i], 1);
 			ft_putchar_fd('\n', 1);
 		}
+		i++;
 	}
 	free_temp_env(temp);
 }

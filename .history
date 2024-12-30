@@ -283,3 +283,59 @@
 283export ZZZ+=999
 284env
 285exit
+286exit
+287unset PWD
+288pwd
+289pwd
+290unset pwd
+291unset PWD
+292pwd
+293clear
+294echo $PWD
+295pwd
+296unset PWD
+297pwd
+298unset aeareaed
+299exit
+300unset noaeifn
+301exit
+302unset seewsfcs
+303exit
+304unset adsvcwrf
+305exit
+306unset fseGRGw
+307exit
+308unset adevWFDc
+309export kkk=42
+310export 
+311export kkk=42
+312export
+313export kkk=2323
+314unset kkk
+315exit
+316export
+317export
+318export kkk=333
+319export
+320export kkk+=666
+321export
+322export kkk=99999
+323export
+324unset kkk
+325export
+326unset kkk
+327export
+328unset kkk
+329exit
+330export kk=311
+331unset kk
+332export
+333env
+334unset kk
+335export
+336exit
+337export kk=333
+338export 
+339unset kk
+340export 
+341exit

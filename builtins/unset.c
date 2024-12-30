@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: cde-paiv <cde-paiv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 18:16:01 by mota              #+#    #+#             */
-/*   Updated: 2024/12/27 12:01:51 by cde-paiv         ###   ########.fr       */
+/*   Updated: 2024/12/30 11:35:14 by cde-paiv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,32 @@ static bool	check_wrong_args(char **args)
 	return (false);
 }
 
+static void	exit_unset(t_sh *sh, int j, char **envx)
+{
+	envx[j] = NULL;
+	free_env(sh);
+	sh->envp = envx;
+	sh->vars.envp_total--;
+}
+
+static int	get_var_pos_unset(t_sh *sh, char *var)
+{
+	int	i;
+	int	len;
+
+	i = 0;
+	len = ft_strlen(var);
+	if (len <= 0)
+		return (-1);
+	while (i < sh->vars.envp_total)
+	{
+		if (!ft_strncmp(sh->envp[i], var, len) && sh->envp[i][len] == '=')
+			return (i);
+		i++;
+	}
+	return (-1);
+}
+
 void	ft_unset(t_sh *sh, char **args)
 {
 	int		i;
@@ -49,6 +75,8 @@ void	ft_unset(t_sh *sh, char **args)
 	i = 0;
 	j = 0;
 	if (check_wrong_args(args) == true)
+		return ;
+	if (get_var_pos_unset(sh, args[1]) == -1)
 		return ;
 	envx = malloc(sizeof(char *) * (sh->vars.envp_total));
 	if (!envx)
@@ -63,8 +91,5 @@ void	ft_unset(t_sh *sh, char **args)
 		}
 		i++;
 	}
-	envx[j] = NULL;
-	free_env(sh);
-	sh->envp = envx;
-	sh->vars.envp_total--;
+	exit_unset(sh, j, envx);
 }
