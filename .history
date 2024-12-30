@@ -121,3 +121,165 @@
 121echo "asdad" > TESTE.tt
 122cat TESTE.tt 
 123exit
+124echo "asasdasd"
+125echo "asasdasd" "asdsdaasd"
+126echo "asasdasd" "asdsdaasd"
+127exit
+128ls -l
+129ls -la
+130rm -rf .heredoc_temp.txt 
+131ls -la
+132cat << fim | ls > novo.txt
+133cat << fim
+134cat << fim | ls > novo.txt
+135cat << fim | cat > novo.txt
+136cat << fim | ls > novo.txt
+137cat << fim | echo
+138ls -la
+139rm .heredoc_temp.txt 
+140cat << EOF
+141ls -la
+142exit
+143ls -la
+144cat << fim
+145ls -la
+146exit
+147cat << EOF | cat << fim > novo2.txt
+148exit
+149cat << EOF | cat << fim > novo99.txt
+150exit
+151ls
+152cat novo
+153cat novo99.txt 
+154cat << EOF > velho99.txt
+155cat velho99.txt 
+156cat << EOF > velho88.txt | ls
+157cat << EOF > velsadasdho88.txt | ls
+158ls
+159cat < velho99.txt 
+160cat < out.txt 
+161cat < out.txt | grep vel | wc -l
+162cat < out.txt | grep "vel" | wc -l
+163exit
+164cat << EOF | grep merda | wc -l
+165cat << EOF | grep merda
+166cat << EOF > novonnov.txt 
+167cat << EOF >> novonnov.txt 
+168cat < novonnov.txt | grep merda | wc -l
+169cat > zerozero.txt | grep merda | wc -l
+170cat > zerozero.txt | grep merda | wc -l
+171exit
+172cat << EOF > velsadasdho88.txt | grep merda
+173cat << EOF > velsadasdho88.txt | grep merda | wc -l
+174cat velsadasdho88.txt 
+175cat << EOF > velsadasdho88.txt | grep merda | wc -l
+176exit
+177cat .heredoc_temp.txt 
+178cat < .heredoc_temp.txt | grep merda | wc -l
+179exit
+180ls -la
+181exit
+182ls -la
+183exit
+184asdasdsa
+185asd
+186sad
+187asd
+188as
+189exit
+190exit
+191exit
+192cat << fim > 9999.txt
+193cat 9999.txt 
+194cat < 9999.txt << fim | grep merda | wc -l
+195make clean
+196exit
+197cat < 9999.txt << fim | grep merda | wc -l
+198cat 9999.txt 
+199cat << fim < 9999.txt | grep merda | wc -l
+200exit
+201cat << fim < 9999.txt | grep merda | wc -l
+202cat < 9999.txt | grep merda | wc -l
+203cat << FIM << FIM | grep merda | wc -l
+204exit
+205env
+206export DDD=42
+207env
+208export
+209export DDD+=999
+210env
+211exit
+212export
+213exit
+214export
+215export DDD+42
+216export DDD=42
+217env
+218export DDD+=42
+219env
+220export DDD+=asdsadsad42
+221env
+222exit
+223export
+224exit
+225export
+226exit
+227exporto
+228expo
+229expor
+230exportaa
+231exportaaasdsad
+232exit
+233exportasd
+234exporta
+235expor
+236expot
+237export
+238exit
+239export
+240exit
+241export
+242exit
+243export
+244export
+245export
+246exit
+247export DD=42
+248export
+249export DD=9999
+250export
+251unset DD
+252exporto
+253export
+254env
+255echo $DD
+256export DD=42
+257env
+258export DD=99999
+259env
+260export DD+=7777
+261env
+262exit
+263export
+264export DD=42
+265export DD+=99
+266exit
+267export DD=42
+268export DD+=99942
+269exit
+270export DDD=42
+271env
+272export DDD+=999
+273env
+274exit
+275export DD=42
+276export DD+=49992
+277exit
+278export XXX=42
+279export XXX+=999
+280exit
+281export ZZZ=42
+282env
+283export ZZZ+=999
+284env
+285exit

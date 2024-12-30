@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:54:56 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/29 22:32:19 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/30 08:43:36 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,10 @@ void	free_cmds(t_sh *sh)
 			if(sh->comands[x].outfile)
 				free(sh->comands[x].outfile);
 			if(sh->comands[x].inheredoc_file)
-				free(sh->comands[x].inheredoc_file);	
+			{
+			//	unlink(sh->comands[x].inheredoc_file);
+				free(sh->comands[x].inheredoc_file);
+			}	
 			if (sh->comands[x].inbackup != -1) 
 			{
 				dup2(sh->comands[x].inbackup, STDIN_FILENO);
@@ -102,5 +105,7 @@ void	free_exit(t_sh *sh)
 	free(sh->vars.sh_user);
 	free(sh->vars.minihome);
 	free(sh);
+	if (access(".heredoc_temp.txt", F_OK) == 0)
+		unlink(".heredoc_temp.txt");
 	rl_clear_history();
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cde-paiv <cde-paiv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 00:26:43 by mota              #+#    #+#             */
-/*   Updated: 2024/12/27 12:31:20 by cde-paiv         ###   ########.fr       */
+/*   Updated: 2024/12/30 09:40:09 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,29 +16,29 @@ void	display_exported_vars(t_sh *sh)
 {
 	int		i;
 	char	*equal_sign;
-
+	char	**temp;
+	
 	i = 0;
-	while (sh->envp[i])
+	temp = handle_array(sh);
+	while (sh->envp[i++])
 	{
-		equal_sign = ft_strchr(sh->envp[i], '=');
+		equal_sign = ft_strchr(temp[i], '=');
 		if (equal_sign)
 		{
 			ft_putstr_fd("declare -x ", 1);
-			write(1, sh->envp[i], equal_sign - sh->envp[i] + 1);
+			write(1, temp[i], equal_sign - temp[i] + 1);
 			ft_putchar_fd('"', 1);
 			ft_putstr_fd(equal_sign + 1, 1);
-			ft_putchar_fd('"', 1);
-			ft_putchar_fd('\n', 1);
+			ft_putchar_fd('"\n', 1);
 		}
 		else
 		{
 			ft_putstr_fd("declare -x ", 1);
-			ft_putstr_fd(sh->envp[i], 1);
+			ft_putstr_fd(temp[i], 1);
 			ft_putchar_fd('\n', 1);
 		}
-		i++;
 	}
-	sh->error.exit_error = false;
+	free_temp_env(temp);
 }
 
 int	get_var_pos(t_sh *sh, char *var)

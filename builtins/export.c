@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 18:08:39 by mota              #+#    #+#             */
-/*   Updated: 2024/12/27 16:00:53 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/30 09:35:39 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,12 @@ static int	is_valid_identifier(const char *arg)
 	return (1);
 }
 
-static void	handle_append_export(t_sh *sh, char *search_var, char *value_to_add)
+static void	handle_append_export(t_sh *sh, char *search_var, char *value_to_add, int var_pos)
 {
 	char	*existing_value;
 	char	*temp_value;
 	char	*new_var;
-	int		var_pos;
 
-	var_pos = 0;
 	if (var_pos >= 0)
 	{
 		existing_value = ft_strchr(sh->envp[var_pos], '=') + 1;
@@ -61,9 +59,9 @@ static void	handle_export_var(t_sh *sh, const char *arg)
 	char	*var_name;
 	char	*value_to_add;
 	char	*search_var;
-	//int		var_pos;
+	int		var_pos;
 
-	//var_pos = 0;
+	var_pos = 0;
 	equal_sign = ft_strchr(arg, '=');
 	if (!equal_sign)
 		return ;
@@ -72,8 +70,8 @@ static void	handle_export_var(t_sh *sh, const char *arg)
 		var_name = ft_substr(arg, 0, equal_sign - arg - 1);
 		value_to_add = equal_sign + 1;
 		search_var = ft_strjoin(var_name, "=");
-		//var_pos = get_var_pos(sh, search_var);
-		handle_append_export(sh, search_var, value_to_add);
+		var_pos = get_var_pos(sh, search_var);
+		handle_append_export(sh, search_var, value_to_add, var_pos);
 		free(var_name);
 		free(search_var);
 	}
