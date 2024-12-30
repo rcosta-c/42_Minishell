@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:53:12 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/13 10:53:13 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/30 14:54:37 by cde-paiv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,13 @@ void	ft_sigset(void)
 	signal(SIGTERM, SIG_IGN);
 }
 
-
-
 void	ft_sigset_fd(void)
 {
 	signal(SIGINT, ft_signal_handfd);
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGTERM, SIG_IGN);
 }
+
 void	ft_signal_handler(int sig)
 {
 	if (sig == SIGINT)
@@ -37,6 +36,7 @@ void	ft_signal_handler(int sig)
 		rl_redisplay();
 	}
 }
+
 void	ft_signal_handfd(int sig)
 {
 	if (sig == SIGINT)

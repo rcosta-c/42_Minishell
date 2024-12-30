@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   init_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: cde-paiv <cde-paiv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:54:43 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/30 13:46:50 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/30 15:28:25 by cde-paiv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void    init_tk_flag1(t_sh *sh, int x)
+void	init_tk_flag1(t_sh *sh, int x)
 {
 	sh->tokens[x].tokens = ft_strdup(sh->temp[x]);
-    sh->tokens[x].cmd = false;
+	sh->tokens[x].cmd = false;
 	sh->tokens[x].arg = false;
 	sh->tokens[x].pipe = false;
 	sh->tokens[x].r_in = false;
@@ -32,10 +32,10 @@ void    init_tk_flag1(t_sh *sh, int x)
 	sh->tokens[x].exp_empty = false;
 }
 
-void    init_cmds(t_sh *sh, int x)
+void	init_cmds(t_sh *sh, int x)
 {
 	sh->comands[x].n_redir = 0;
-    sh->comands[x].pipes = false;
+	sh->comands[x].pipes = false;
 	sh->comands[x].redir = false;
 	sh->comands[x].heredoc = false;
 	sh->comands[x].infile = NULL;
@@ -51,12 +51,12 @@ void    init_cmds(t_sh *sh, int x)
 	sh->comands[x].arg = NULL;
 	sh->comands[x].cmd = NULL;
 	sh->comands[x].n_args = 0;
-    sh->comands[x].errors.cmd_not_found = false;
-    sh->comands[x].errors.empty_pipe = false;
-    sh->comands[x].errors.infile_noaccess = false;
-    sh->comands[x].errors.infile_notvalid = false;
-    sh->comands[x].errors.outfile_noaccess = false;
-    sh->comands[x].errors.outfile_notvalid = false;
+	sh->comands[x].errors.cmd_not_found = false;
+	sh->comands[x].errors.empty_pipe = false;
+	sh->comands[x].errors.infile_noaccess = false;
+	sh->comands[x].errors.infile_notvalid = false;
+	sh->comands[x].errors.outfile_noaccess = false;
+	sh->comands[x].errors.outfile_notvalid = false;
 	sh->comands[x].errors.empty_redir = false;
 }
 
@@ -68,6 +68,7 @@ void	init_vars(t_sh *sh)
 	sh->vars.redir_tot = 0;
 	sh->vars.heredoc_num = 0;
 }
+
 static char *get_my_home(t_sh *sh)
 {
 	char	*temp;
@@ -95,7 +96,6 @@ static char *get_my_home(t_sh *sh)
 	return(ft_strdup(t_home));	
 }
 
-
 void	init_prompt_utils(t_sh *sh)
 {
 	sh->vars.sh_home = search_envp(sh, "HOME");
@@ -109,4 +109,3 @@ void	init_prompt_utils(t_sh *sh)
 	sh->vars.sh_pwd = search_envp(sh, "PWD");
 	sh->vars.sh_pwd = verify_home(sh, sh->vars.sh_pwd);
 }
-

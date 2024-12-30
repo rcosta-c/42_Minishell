@@ -6,41 +6,40 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:55:18 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/27 10:30:13 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/30 13:10:35 by cde-paiv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void    execute_cmd(t_sh *sh, int x)
+void	execute_cmd(t_sh *sh, int x)
 {
 	pid_t	pid;
 
-	if(check_exec_error(sh, x))
-		return;
+	if (check_exec_error(sh, x))
+		return ;
 	else
 	{
 		pid = fork();
-		if(pid < 0)
+		if (pid < 0)
 		{
 			perror("fork failed");
 			exit(EXIT_FAILURE);
 		}
-		if(pid == 0)
+		if (pid == 0)
 		{
 			if (execve(sh->comands[x].cmd, sh->comands[x].arg, sh->envp) == -1)
 			{
-                perror("Erro ao executar comando");
-                g_status = EXIT_FAILURE;
+				perror("Erro ao executar comando");
+				g_status = EXIT_FAILURE;
 				exit(EXIT_FAILURE);
-    		}
+			}
 		}
 		else
 			waitpid(pid, NULL, 0);
 	}
 	g_status = errno;
 }
-
 
 static void	executor_for_one(t_sh *sh, int x)
 {
@@ -53,8 +52,8 @@ static void	executor_for_one(t_sh *sh, int x)
 	else
 	{
 		sh->comands[x].cmd = prep_cmd(sh, sh->comands[x].cmd, x);
-		if(filter_cmd_error(sh) == true)
-			return;
+		if (filter_cmd_error(sh) == true)
+			return ;
 		handle_redirects(sh, x);
 		execute_cmd(sh, x);
 	}
@@ -62,13 +61,12 @@ static void	executor_for_one(t_sh *sh, int x)
 
 void	executor(t_sh *sh)
 {
-	if(verify_errors(sh) == true || sh->vars.sh_status == false)
-		return;
-	if(sh->vars.cmds_num == 0)
-		return;
-	if(sh->vars.cmds_num == 1)
+	if (verify_errors(sh) == true || sh->vars.sh_status == false)
+		return ;
+	if (sh->vars.cmds_num == 0)
+		return ;
+	if (sh->vars.cmds_num == 1)
 		executor_for_one(sh, 0);
 	else
 		check_pipes(sh);
 }
-

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: cde-paiv <cde-paiv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:53:18 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/30 11:54:19 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/30 15:30:51 by cde-paiv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,28 +35,6 @@ static void	handle_redir_in(t_sh *sh, int x)
     }
     close(sh->comands[x].infile_fd);
 }
-
-/*static void	handle_redir_inhere(t_sh *sh, int x)
-{
-	sh->comands[x].inheredoc_fd = open(sh->comands[x].inheredoc_file, O_RDONLY);
-	if (sh->comands[x].inheredoc_fd < 0) 
-	{
-		sh->comands[x].errors.infile_notvalid = true;
-		perror("Erro ao abrir (heredoc)input_fd");
-		return;
-	}
-	sh->comands[x].inbackup = dup(STDOUT_FILENO);
-	if(dup2(sh->comands[x].inheredoc_fd, STDIN_FILENO) < 0)
-	{
-		perror("Erro ao abrir (heredoc)input_fd");
-		close(sh->comands[x].inheredoc_fd);
-		return;
-	}
-	if(sh->comands[x].outappend_fd < 0 && sh->comands[x].outfile_fd < 0)
-		if (ft_strncmp(sh->comands[x].cmd, "cat", ft_strlen("cat") - 1) == 0)
-			sh->comands[x].infile = ft_strdup(sh->comands[x].inheredoc_file);
-    close(sh->comands[x].inheredoc_fd);
-}*/
 
 static void	handle_redir_out(t_sh *sh, int x)
 {

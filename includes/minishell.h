@@ -3,17 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: cde-paiv <cde-paiv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 11:42:42 by cde-paiv          #+#    #+#             */
-/*   Updated: 2024/12/30 15:00:58 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/30 15:31:11 by cde-paiv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-
-//#define DELIMITER "EOF"
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1024
@@ -60,8 +58,8 @@ typedef struct s_vars
 	int		pipe_num;
 	int		is_pipe;
 	int		envp_total;
-	char	*sh_home;
 	char	*sh_user;
+	char	*sh_home;
 	char	*sh_pwd;
 	char	*sh_host;
 	char	*minihome;

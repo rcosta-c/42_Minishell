@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:53:27 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/30 14:57:44 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/30 15:16:28 by cde-paiv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,21 +17,19 @@ int	verify_helper(t_sh *sh, char *prompt, int x)
 	char	*home;
 
 	home = search_envp(sh, "HOME");
-	if(!home)
-		home = ft_strdup("home_dir");
-	while(prompt[x])
+	while (prompt[x])
 	{
-		if(x == 0 && prompt[x] != home[x])
-			return(x);
-		else if(prompt[x] == home[x])
+		if (x == 0 && prompt[x] != home[x])
+			return (x);
+		else if (prompt[x] == home[x])
 		{
 			x++;
 		}
-		else if(prompt[x] != home[x])
-			break;
+		else if (prompt[x] != home[x])
+			break ;
 	}
 	free(home);
-	return(x);
+	return (x);
 }
 
 char	*verify_home(t_sh *sh, char *prompt)
@@ -47,11 +45,11 @@ char	*verify_home(t_sh *sh, char *prompt)
 	n_total = n_pr - x;
 	final_prompt = malloc(sizeof(char) * n_total + 2);
 	n_total = 1;
-	if(x == 1)
+	if (x == 1)
 		final_prompt[0] = '/';
 	else
 		final_prompt[0] = '~';
-	while(prompt[x])
+	while (prompt[x])
 	{
 		final_prompt[n_total] = prompt[x];
 		n_total++;
@@ -59,13 +57,13 @@ char	*verify_home(t_sh *sh, char *prompt)
 	}
 	final_prompt[n_total] = '\0';
 	free(prompt);
-	return(final_prompt);
+	return (final_prompt);
 }
 
 char	*join_2_str(char *a, char *b, char *z, int option)
 {
 	char	*res;
-	char 	*temp;
+	char	*temp;
 
 	if (z)
 	{
@@ -75,14 +73,14 @@ char	*join_2_str(char *a, char *b, char *z, int option)
 	}
 	else
 		res = ft_strjoin(a, b);
-	if(option == 1)
+	if (option == 1)
 	{
 		free(b);
 		free(a);
 	}
-	if(option == 2)
+	if (option == 2)
 		free(a);
-	return(res);
+	return (res);
 }
 
 char	*get_prompt(t_sh *sh)
@@ -90,10 +88,10 @@ char	*get_prompt(t_sh *sh)
 	char	*prompt;
 	char	*temp;
 
-	prompt = join_2_str(sh->vars.sh_user, sh->vars.sh_host , "@", 0);
+	prompt = join_2_str(sh->vars.sh_user, sh->vars.sh_host, "@", 0);
 	temp = join_2_str(prompt, sh->vars.sh_pwd, ":", 0);
 	free(prompt);
 	prompt = join_2_str(temp, " ", "$", 0);
 	free(temp);
-	return(prompt);
+	return (prompt);
 }

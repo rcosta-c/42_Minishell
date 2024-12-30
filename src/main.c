@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: cde-paiv <cde-paiv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:54:30 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/30 14:58:00 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/30 15:32:18 by cde-paiv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +157,22 @@ void	printf_flag_errors(t_sh *sh)
 		}
 }
 
+static void	ft_get_minimal_envp(t_sh *sh)
+{
+	int 	x;
+	char	cwd[1000];
+	
+	x = 2;
+	sh->vars.envp_total = 2;
+	sh->envp = malloc(sizeof(char *) * (x + 1));
+	if(!sh->envp)
+		return;
+	getcwd(cwd, sizeof(cwd));
+	sh->envp[0] = ft_strjoin("PWD=", cwd); 
+	sh->envp[1] = ft_strdup("SHLVL=1");
+	sh->envp[2] = NULL;
+}
+
 bool	verify_cmdline(t_sh *sh, char *cmdline)
 {
 	int x;
@@ -204,12 +220,18 @@ static void	sh_loop(t_sh *sh)
 			init_tokens(sh);
 			//split_cmd(sh);
 //printf("numero de tokens= %d, antes do filter=%s\n\n", sh->vars.tk_num, sh->cmd_line);
+
+
 			filter_tokens(sh);
 			ft_redir_multiargs(sh);
 			search_expand(sh);
+			
 //printflags(sh);
+	
 			init_parser(sh);
+
 			fill_parser(sh);
+
 //print_exec(sh);
 			executor(sh);
 //printf_flag_errors(sh);
@@ -217,23 +239,6 @@ static void	sh_loop(t_sh *sh)
 			free_cmds(sh);
 		}
 }
-
-static void	ft_get_minimal_envp(t_sh *sh)
-{
-	int 	x;
-	char	cwd[1000];
-	
-	x = 2;
-	sh->vars.envp_total = 2;
-	sh->envp = malloc(sizeof(char *) * (x + 1));
-	if(!sh->envp)
-		return;
-	getcwd(cwd, sizeof(cwd));
-	sh->envp[0] = ft_strjoin("PWD=", cwd); 
-	sh->envp[1] = ft_strdup("SHLVL=1");
-	sh->envp[2] = NULL;
-}
-
 
 int main(int ac, char **av, char **envp)
 {
