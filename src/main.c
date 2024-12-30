@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:54:30 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/30 12:53:50 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/30 13:46:00 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,6 +224,23 @@ static void	sh_loop(t_sh *sh)
 		}
 }
 
+static void	ft_get_minimal_envp(t_sh *sh)
+{
+	int 	x;
+	char	cwd[1000];
+	
+	x = 2;
+	sh->vars.envp_total = 2;
+	sh->envp = malloc(sizeof(char *) * (x + 1));
+	if(!sh->envp)
+		return;
+	getcwd(cwd, sizeof(cwd));
+	sh->envp[0] = ft_strjoin("PWD=", cwd); 
+	sh->envp[1] = ft_strdup("SHLVL=1");
+	sh->envp[2] = NULL;
+}
+
+
 int main(int ac, char **av, char **envp)
 {
    	t_sh	*sh;
@@ -233,8 +250,10 @@ int main(int ac, char **av, char **envp)
 	sh = ft_calloc(1, sizeof(t_sh));
 	if(sh == NULL)
 		return(EXIT_FAILURE);
-	
-	ft_getenv(sh, envp);
+	if(envp[0] == NULL)
+		ft_get_minimal_envp(sh);
+	else
+		ft_getenv(sh, envp);
 	init_prompt_utils(sh);
 	init_error(sh);
 	while(1)

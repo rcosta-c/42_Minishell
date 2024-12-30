@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:53:27 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/21 01:53:57 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/30 14:57:07 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	verify_helper(t_sh *sh, char *prompt, int x)
 	char	*home;
 
 	home = search_envp(sh, "HOME");
+	if(!home)
+		home = ft_strdup("home_dir");
 	while(prompt[x])
 	{
 		if(x == 0 && prompt[x] != home[x])

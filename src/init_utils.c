@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:54:43 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/30 12:35:12 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/30 13:46:50 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,17 +67,46 @@ void	init_vars(t_sh *sh)
 	sh->vars.pipe_num = 0;
 	sh->vars.redir_tot = 0;
 	sh->vars.heredoc_num = 0;
-	
 }
+static char *get_my_home(t_sh *sh)
+{
+	char	*temp;
+	char	t_home[500];
+	int		x;
+	int		counter;
+	int 	xx;
+	
+	counter = 0;
+	x = 0;
+	xx = 0;
+	temp = search_envp(sh, "PWD");
+	while(temp[x] && counter != 3)
+	{
+		if(temp[x] == '/')
+			counter++;
+		x++;
+	}
+	while(xx < x)
+	{
+		t_home[xx] = temp[xx];
+		xx++;
+	}
+	t_home[xx] = '\0';
+	return(ft_strdup(t_home));	
+}
+
 
 void	init_prompt_utils(t_sh *sh)
 {
 	sh->vars.sh_home = search_envp(sh, "HOME");
+	if(sh->vars.sh_home == NULL)
+		sh->vars.sh_home = get_my_home(sh);
 	sh->vars.sh_user = search_envp(sh, "USER");
+	if(sh->vars.sh_user == NULL)
+		sh->vars.sh_user = ft_strdup("42Guest");
 	sh->vars.sh_host = find_my_host(sh);
 	sh->vars.minihome = search_envp(sh, "PWD");
 	sh->vars.sh_pwd = search_envp(sh, "PWD");
 	sh->vars.sh_pwd = verify_home(sh, sh->vars.sh_pwd);
-	
 }
 
