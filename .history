@@ -391,3 +391,6 @@
 391pwd
 392echo $PWD
 393exit
+394pwd
+395ls
+396exit

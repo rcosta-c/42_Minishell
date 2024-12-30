@@ -6,7 +6,7 @@
 /*   By: cde-paiv <cde-paiv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:54:43 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/30 15:28:25 by cde-paiv         ###   ########.fr       */
+/*   Updated: 2024/12/30 17:47:40 by cde-paiv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,40 +69,40 @@ void	init_vars(t_sh *sh)
 	sh->vars.heredoc_num = 0;
 }
 
-static char *get_my_home(t_sh *sh)
+static char	*get_my_home(t_sh *sh)
 {
 	char	*temp;
 	char	t_home[500];
 	int		x;
 	int		counter;
-	int 	xx;
-	
+	int		xx;
+
 	counter = 0;
 	x = 0;
 	xx = 0;
 	temp = search_envp(sh, "PWD");
-	while(temp[x] && counter != 3)
+	while (temp[x] && counter != 3)
 	{
-		if(temp[x] == '/')
+		if (temp[x] == '/')
 			counter++;
 		x++;
 	}
-	while(xx < x)
+	while (xx < x)
 	{
 		t_home[xx] = temp[xx];
 		xx++;
 	}
 	t_home[xx] = '\0';
-	return(ft_strdup(t_home));	
+	return (ft_strdup(t_home));
 }
 
 void	init_prompt_utils(t_sh *sh)
 {
 	sh->vars.sh_home = search_envp(sh, "HOME");
-	if(sh->vars.sh_home == NULL)
+	if (sh->vars.sh_home == NULL)
 		sh->vars.sh_home = get_my_home(sh);
 	sh->vars.sh_user = search_envp(sh, "USER");
-	if(sh->vars.sh_user == NULL)
+	if (sh->vars.sh_user == NULL)
 		sh->vars.sh_user = ft_strdup("42Guest");
 	sh->vars.sh_host = find_my_host(sh);
 	sh->vars.minihome = search_envp(sh, "PWD");

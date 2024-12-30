@@ -6,7 +6,7 @@
 /*   By: cde-paiv <cde-paiv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:54:30 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/30 15:32:18 by cde-paiv         ###   ########.fr       */
+/*   Updated: 2024/12/30 17:59:36 by cde-paiv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 
 int		g_status;
 
-
-void	 print_exec(t_sh *sh)
+/*void	 print_exec(t_sh *sh)
 {
 	int  x;
 	int xx;
@@ -155,109 +154,98 @@ void	printf_flag_errors(t_sh *sh)
 			printf("empty_redir%d\n ", sh->comands[x].errors.empty_redir);
 			x++;
 		}
-}
+}*/
 
 static void	ft_get_minimal_envp(t_sh *sh)
 {
-	int 	x;
+	int		x;
 	char	cwd[1000];
-	
+
 	x = 2;
 	sh->vars.envp_total = 2;
 	sh->envp = malloc(sizeof(char *) * (x + 1));
-	if(!sh->envp)
-		return;
+	if (!sh->envp)
+		return ;
 	getcwd(cwd, sizeof(cwd));
-	sh->envp[0] = ft_strjoin("PWD=", cwd); 
+	sh->envp[0] = ft_strjoin("PWD=", cwd);
 	sh->envp[1] = ft_strdup("SHLVL=1");
 	sh->envp[2] = NULL;
 }
 
 bool	verify_cmdline(t_sh *sh, char *cmdline)
 {
-	int x;
-	int len;
-	
+	int	x;
+	int	len;
+
 	x = 0;
 	len = 0;
-	while(cmdline[len])
+	while (cmdline[len])
 		len++;
-	while(cmdline[x] && (cmdline[x] == 32 || cmdline[x] == 9))
+	while (cmdline[x] && (cmdline[x] == 32 || cmdline[x] == 9))
 	{
 		x++;
 	}
-	if(x == len)
+	if (x == len)
 	{
-		
 		sh->cmd_line = NULL;
-		return(false);
+		return (false);
 	}
-	return (true);	
+	return (true);
 }
 
 static void	sh_loop(t_sh *sh)
 {
-		char	*prompt;
-		bool	start_sh;
-		
-		start_sh = false;
-		init_cycle(sh);
-		while(start_sh == false)
-		{
-			prompt = get_prompt(sh);
-			sh->cmd_line = readline(prompt);
-			free(prompt);
-			if(!sh->cmd_line)
-				handbrake_and_exit(sh);
-			start_sh = verify_cmdline(sh, sh->cmd_line);
-		}
-		save_to_history(sh, sh->cmd_line);
-		if(ft_strlen(sh->cmd_line) > 0)
-		{
-			sh->cmd_line = prepare_line(sh->cmd_line);
-			sh->vars.tk_num = count_tokens(sh);
-//printf("\n\ncmd=%s	tk_num=%d\n\n", sh->cmd_line, sh->vars.tk_num);
-			init_tokens(sh);
-			//split_cmd(sh);
-//printf("numero de tokens= %d, antes do filter=%s\n\n", sh->vars.tk_num, sh->cmd_line);
+	char	*prompt;
+	bool	start_sh;
 
-
-			filter_tokens(sh);
-			ft_redir_multiargs(sh);
-			search_expand(sh);
-			
+	start_sh = false;
+	init_cycle(sh);
+	while (start_sh == false)
+	{
+		prompt = get_prompt(sh);
+		sh->cmd_line = readline(prompt);
+		free(prompt);
+		if (!sh->cmd_line)
+			handbrake_and_exit(sh);
+		start_sh = verify_cmdline(sh, sh->cmd_line);
+	}
+	save_to_history(sh, sh->cmd_line);
+	if (ft_strlen(sh->cmd_line) > 0)
+	{
+		sh->cmd_line = prepare_line(sh->cmd_line);
+		sh->vars.tk_num = count_tokens(sh);
+		init_tokens(sh);
+		filter_tokens(sh);
+		ft_redir_multiargs(sh);
+		search_expand(sh);
 //printflags(sh);
-	
-			init_parser(sh);
-
-			fill_parser(sh);
-
+		init_parser(sh);
+		fill_parser(sh);
 //print_exec(sh);
-			executor(sh);
+		executor(sh);
 //printf_flag_errors(sh);
-			free_tokens(sh);
-			free_cmds(sh);
-		}
+		free_tokens(sh);
+		free_cmds(sh);
+	}
 }
 
-int main(int ac, char **av, char **envp)
+int	main(int ac, char **av, char **envp)
 {
-   	t_sh	*sh;
+	t_sh	*sh;
 
 	(void)ac;
 	(void)av;
 	sh = ft_calloc(1, sizeof(t_sh));
-	if(sh == NULL)
-		return(EXIT_FAILURE);
-	if(envp[0] == NULL)
+	if (sh == NULL)
+		return (EXIT_FAILURE);
+	if (envp[0] == NULL)
 		ft_get_minimal_envp(sh);
 	else
 		ft_getenv(sh, envp);
 	init_prompt_utils(sh);
 	init_error(sh);
-	while(1)
+	while (1)
 		sh_loop(sh);
 	rl_clear_history();
-	return(0);
+	return (0);
 }
-

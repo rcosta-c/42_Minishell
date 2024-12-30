@@ -6,82 +6,81 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:52:28 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/27 12:45:16 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/30 19:21:59 by cde-paiv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-bool token_is_valid(char src)
+bool	token_is_valid(char src)
 {
-	if(src == 10 || src == 33 || (src >= 35 && src <= 126))
-		return(true);
-	else if(src == 9)
-		return(true);
+	if (src == 10 || src == 33 || (src >= 35 && src <= 126))
+		return (true);
+	else if (src == 9)
+		return (true);
 	else
-		return(false);
+		return (false);
 }
 
 int	check_dquote(char *str, int counter)
 {
-	int 	temp;
+	int	temp;
 
 	temp = counter;
-	if(str[temp] == 34)
+	if (str[temp] == 34)
 	{
 		temp++;
-		while(str[temp] && str[temp] != 34)
+		while (str[temp] && str[temp] != 34)
 			temp++;
-		if(str[temp] == '\0')
-			return(counter);
-		else if(str[temp] == 34 && ft_isalnum(str[temp + 1]))
+		if (str[temp] == '\0')
+			return (counter);
+		else if (str[temp] == 34 && ft_isalnum(str[temp + 1]))
 		{
 			temp++;
-			while(str[temp] && ft_isalnum(str[temp]))
+			while (str[temp] && ft_isalnum(str[temp]))
 				temp++;
-			return(temp);
+			return (temp);
 		}
 		else
 		{
 			temp++;
-			return(temp);
+			return (temp);
 		}
 	}
-	return(counter);
+	return (counter);
 }
 
 int	check_squote(char *str, int counter)
 {
-	int 	temp;
+	int	temp;
 
 	temp = counter;
-	if(str[temp] == 39)
+	if (str[temp] == 39)
 	{
 		temp++;
-		while(str[temp] && str[temp] != 39)
+		while (str[temp] && str[temp] != 39)
 			temp++;
-		if(str[temp] == '\0')
-			return(counter);
+		if (str[temp] == '\0')
+			return (counter);
 		else
 		{
 			temp++;
-			return(temp);
+			return (temp);
 		}
 	}
-	return(counter);
-	
+	return (counter);
 }
 
-int check_type_quote(char *cmd_line, int x)
+int	check_type_quote(char *cmd_line, int x)
 {
-	if(cmd_line[x] == 34)
+	if (cmd_line[x] == 34)
 	{
-		return(check_dquote(cmd_line, x));
+		return (check_dquote(cmd_line, x));
 	}
-	else if(cmd_line[x] == 39)
+	else if (cmd_line[x] == 39)
 	{
-		return(check_squote(cmd_line, x));
+		return (check_squote(cmd_line, x));
 	}
 	else
-		return(x);
+		return (x);
 }

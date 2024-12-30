@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:52:56 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/26 22:32:49 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2024/12/30 19:23:32 by cde-paiv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,18 @@ bool	check_if_dquote(char *str, int x_o)
 
 	counter = 0;
 	x = x_o + 1;
-	if(str[x_o] != 34)
-		return(false);
-	while(str[x])
+	if (str[x_o] != 34)
+		return (false);
+	while (str[x])
 	{
-		if(str[x] == 34)
+		if (str[x] == 34)
 			counter++;
 		x++;
 	}
-	if(counter % 2 != 0)
-		return(true);
+	if (counter % 2 != 0)
+		return (true);
 	else
-		return(false);
+		return (false);
 }
 
 bool	check_if_squote(char *str, int x_o)
@@ -40,18 +40,18 @@ bool	check_if_squote(char *str, int x_o)
 
 	counter = 0;
 	x = x_o + 1;
-	if(str[x_o] != 39)
-		return(false);
-	while(str[x])
+	if (str[x_o] != 39)
+		return (false);
+	while (str[x])
 	{
-		if(str[x] == 39)
+		if (str[x] == 39)
 			counter++;
 		x++;
 	}
-	if(counter % 2 != 0)
-		return(true);
+	if (counter % 2 != 0)
+		return (true);
 	else
-		return(false);
+		return (false);
 }
 
 bool	search_ext(char *str)
@@ -59,11 +59,11 @@ bool	search_ext(char *str)
 	int	len;
 
 	len = ft_strlen(str);
-	while(len > 0)
+	while (len > 0)
 	{
-		if(str[len] == '.')
-			return(true);
+		if (str[len] == '.')
+			return (true);
 		len--;
 	}
-	return(false);
+	return (false);
 }
