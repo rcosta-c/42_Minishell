@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cde-paiv <cde-paiv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:54:30 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/30 17:59:36 by cde-paiv         ###   ########.fr       */
+/*   Updated: 2024/12/30 23:47:06 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,6 +193,13 @@ bool	verify_cmdline(t_sh *sh, char *cmdline)
 	return (true);
 }
 
+void	handbrake_and_exit(t_sh *sh)
+{
+	sh->vars.sh_status = false;
+	g_status = EXIT_SIGQUIT;
+	ft_exit(sh, NULL);
+}
+
 static void	sh_loop(t_sh *sh)
 {
 	char	*prompt;
@@ -213,7 +220,8 @@ static void	sh_loop(t_sh *sh)
 	if (ft_strlen(sh->cmd_line) > 0)
 	{
 		sh->cmd_line = prepare_line(sh->cmd_line);
-		sh->vars.tk_num = count_tokens(sh);
+		if(sh->cmd_line)
+			count_tokens(sh);
 		init_tokens(sh);
 		filter_tokens(sh);
 		ft_redir_multiargs(sh);

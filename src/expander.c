@@ -6,51 +6,19 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:55:03 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/30 17:39:24 by cde-paiv         ###   ########.fr       */
+/*   Updated: 2024/12/31 00:46:08 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-char	*pre_expand(t_sh *sh, int *x, int n)
-{
-	int		xa;
-	char	*a;
-
-	xa = 0;
-	while (sh->tokens[n].tokens[*x + xa]
-		&& sh->tokens[n].tokens[*x + xa] != '$'
-		&& sh->tokens[n].tokens[*x + xa] != '~')
-		xa++;
-	a = malloc(sizeof(char) * (xa + 1));
-	if (!a)
-		return (NULL);
-	xa = 0;
-	while (sh->tokens[n].tokens[*x]
-		&& sh->tokens[n].tokens[*x] != '$'
-		&& sh->tokens[n].tokens[*x] != '~')
-	{
-		a[xa] = sh->tokens[n].tokens[*x];
-		(*x)++;
-		xa++;
-	}
-	a[xa] = '\0';
-	return (a);
-}
 
 char	*expand_token_seeker2(t_sh *sh, int *x, int n, char *c)
 {
 	char	b[5000];
 	int		bx;
 
+	expand_exit_token(sh, x, n, c);
 	if (sh->tokens[n].tokens[*x] == '$'
-		&& sh->tokens[n].tokens[*x + 1] == '?')
-	{
-		(*x)++;
-		c = ft_itoa(g_status);
-		(*x)++;
-	}
-	else if (sh->tokens[n].tokens[*x] == '$'
 		&& (sh->tokens[n].tokens[*x + 1] == '\0'
 			|| ft_isalpha(sh->tokens[n].tokens[*x + 1]) == 0))
 		return (ft_strdup("$"));
@@ -123,6 +91,17 @@ void	expand_token(t_sh *sh, int n)
 	sh->tokens[n].tokens = z;
 }
 
+static int	prep_search(t_sh *sh, int n, int x)
+{
+	while (sh->tokens[n].tokens[x++])
+	{
+		if (sh->tokens[n].tokens[x] == '$')
+			expand_token(sh, n);
+	}
+	return (x);
+
+}
+
 void	search_expand(t_sh *sh)
 {
 	int	x;
@@ -137,20 +116,14 @@ void	search_expand(t_sh *sh)
 			ft_strlen(sh->tokens[n].tokens);
 		else if (sh->tokens[n].exp_e || sh->tokens[n].exp_t)
 			expand_token(sh, n);
-		else if (sh->tokens[n].d_quote && (sh->tokens[n].exp_e
-				|| sh->tokens[n].exp_t))
-		{
-			while (sh->tokens[n].tokens[x++])
-				if (sh->tokens[n].tokens[x] == '$')
-					expand_token(sh, n);
-		}
+		else if (sh->tokens[n].d_quote && 
+			(sh->tokens[n].exp_e || sh->tokens[n].exp_t))
+				x = prep_search(sh, n, x);
 		else if (sh->tokens[n].file && sh->tokens[n].exp_t)
 		{
 			while (sh->tokens[n].tokens[x++])
-			{
 				if (sh->tokens[n].tokens[x] == '~')
 					expand_token(sh, n);
-			}
 		}
 		n++;
 	}

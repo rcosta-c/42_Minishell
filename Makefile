@@ -21,20 +21,27 @@ SRCS := src/main.c \
 						builtins/echo.c \
 						src/history.c \
 						src/token.c \
-						src/split_cmd.c \
 						src/free.c \
 						src/errors.c \
+						src/errors_utils.c \
+						src/errors_utils2.c \
 						src/pipe.c \
+						src/pipe_utils.c \
 						src/parse.c \
 						src/parse_utils.c \
+						src/parse_utils2.c \
 						src/redir_parse.c \
+						src/redir_parse2.c \
 						src/heredoc.c \
 						src/executer.c \
 						src/executer_utils.c \
+						src/token_utils.c \
+						src/token_counter.c \
 						src/token_checker.c \
 						src/token_checker_utils.c \
 						src/token_filter1.c \
 						src/token_filter2.c \
+						src/token_filter3.c \
 						src/prompt.c \
 						src/prompt_utils.c \
 						src/init.c \

@@ -6,23 +6,11 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 18:05:19 by cde-paiv          #+#    #+#             */
-/*   Updated: 2024/12/30 15:10:34 by cde-paiv         ###   ########.fr       */
+/*   Updated: 2024/12/30 21:56:08 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-static void	prep_cmds_pipes(t_sh *sh)
-{
-	int	x;
-
-	x = 0;
-	while (x < sh->vars.cmds_num)
-	{
-		sh->comands[x].cmd = prep_cmd(sh, sh->comands[x].cmd, x);
-		x++;
-	}
-}
 
 void	execute_comand_in_pipe(t_sh *sh, int i, int in_fd, int pipefd[2])
 {
@@ -43,26 +31,8 @@ void	execute_comand_in_pipe(t_sh *sh, int i, int in_fd, int pipefd[2])
 	}
 }
 
-static void	get_out_of_pipe(void)
+void	execute_pipeline(t_sh *sh, int i)
 {
-	perror("Erro ao criar processo");
-	exit(EXIT_FAILURE);
-}
-
-static void	pipeline_exit(t_sh *sh, int in_fd, int i)
-{
-	close(in_fd);
-	i = 0;
-	while (i < sh->vars.cmds_num)
-	{
-		wait(NULL);
-		i++;
-	}
-}
-
-void	execute_pipeline(t_sh *sh)
-{
-	int		i;
 	int		pipefd[2];
 	int		in_fd;
 	pid_t	pid;
@@ -107,5 +77,5 @@ void	check_pipes(t_sh *sh)
 		i++;
 	}
 	if (sh->vars.is_pipe)
-		execute_pipeline(sh);
+		execute_pipeline(sh, i);
 }

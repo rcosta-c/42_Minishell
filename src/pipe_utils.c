@@ -1,35 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   pipe_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/25 14:59:34 by mota              #+#    #+#             */
-/*   Updated: 2024/12/31 00:31:47 by rcosta-c         ###   ########.fr       */
+/*   Created: 2024/12/30 21:54:31 by rcosta-c          #+#    #+#             */
+/*   Updated: 2024/12/30 21:57:29 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	ft_pwd(t_sh *sh, char **args)
+void	prep_cmds_pipes(t_sh *sh)
 {
-	char	*temp;
+	int	x;
 
-	(void)args;
-	if(sh->vars.sh_pwd)
+	x = 0;
+	while (x < sh->vars.cmds_num)
 	{
-		temp = ft_strjoin(sh->vars.sh_home, (sh->vars.sh_pwd + 1));
-		ft_putstr_fd(temp, 1);
-		ft_putstr_fd("\n", 1);
-		free(temp);
+		sh->comands[x].cmd = prep_cmd(sh, sh->comands[x].cmd, x);
+		x++;
 	}
-	else
+}
+
+void	get_out_of_pipe(void)
+{
+	perror("Erro ao criar processo");
+	exit(EXIT_FAILURE);
+}
+
+void	pipeline_exit(t_sh *sh, int in_fd, int i)
+{
+	close(in_fd);
+	i = 0;
+	while (i < sh->vars.cmds_num)
 	{
-		g_status = BUILTINSERROR;
-		ft_putstr_fd("pwd: error retrieving current directory:", 2);
-		ft_putstr_fd("getcwd: cannot access parent", 2);
-		ft_putstr_fd("directories: No such file or directory\n", 2);
-		sh->error.exit_error = true;
+		wait(NULL);
+		i++;
 	}
 }

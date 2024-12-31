@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:54:13 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/30 18:20:17 by cde-paiv         ###   ########.fr       */
+/*   Updated: 2024/12/30 21:48:44 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ int	parse_with_args(t_sh *sh, int n_cmd, int x)
 
 	narg = 0;
 	xtemp = x;
-	sh->comands[n_cmd].arg = malloc(sizeof(char **) * (sh->comands[n_cmd].n_args + 2));
+	sh->comands[n_cmd].arg = malloc(sizeof(char **) * \
+		(sh->comands[n_cmd].n_args + 2));
 	sh->comands[n_cmd].cmd = ft_strdup(sh->tokens[x - 1].tokens);
 	sh->comands[n_cmd].arg[narg++] = ft_strdup(sh->tokens[x - 1].tokens);
 	while (sh->tokens[x].pipe == false && x < sh->vars.tk_num)
@@ -141,20 +142,5 @@ int	parse_utils(t_sh *sh, int x, int n_cmd)
 	}
 	else
 		x = parse_no_cmds(sh, n_cmd, x);
-	return (x);
-}
-
-int	parse_pipes(t_sh *sh, int z, int n_cmd)
-{
-	int	x;
-
-	x = z;
-	if (sh->vars.pipe_num == 0)
-		return (x);
-	if (sh->tokens[x].pipe)
-	{
-		sh->comands[n_cmd].pipes = true;
-		x++;
-	}
 	return (x);
 }

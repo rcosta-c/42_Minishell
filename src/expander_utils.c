@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:55:09 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/30 17:45:25 by cde-paiv         ###   ########.fr       */
+/*   Updated: 2024/12/31 00:39:06 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,4 +96,16 @@ int	count_expands(t_sh *sh, int n)
 		x++;
 	}
 	return (exp_counter);
+}
+
+void	expand_exit_token(t_sh *sh, int *x, int n, char *c)
+{
+	(void)c;
+	if (sh->tokens[n].tokens[*x] == '$'
+		&& sh->tokens[n].tokens[*x + 1] == '?')
+	{
+		(*x)++;
+		c = ft_itoa(g_status);
+		(*x)++;
+	}
 }

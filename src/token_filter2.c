@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:52:02 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/30 19:44:43 by cde-paiv         ###   ########.fr       */
+/*   Updated: 2024/12/30 23:35:17 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,20 +101,5 @@ void	filter_quotes(t_sh *sh, int n)
 			counter_s++;
 		x++;
 	}
-	if (counter_s == 2)
-	{
-		sh->tokens[n].s_quote = true;
-		sh->tokens[n].tokens = clean_quote_s(sh, n);
-	}
-	else if (counter_d == 2)
-	{
-		sh->tokens[n].d_quote = true;
-		sh->tokens[n].tokens = clean_quote_d(sh, n);
-	}
-	else if (counter_d == 0)
-		sh->tokens[n].d_quote = false;
-	else if (counter_s == 0)
-		sh->tokens[n].s_quote = false;
-	else if (counter_d == 1 || counter_s == 1)
-		sh->tokens[n].f_quote = true;
+	filter_quotes_helper(sh, n, counter_s, counter_d);
 }

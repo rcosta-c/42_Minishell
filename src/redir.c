@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cde-paiv <cde-paiv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:53:18 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/30 18:32:38 by cde-paiv         ###   ########.fr       */
+/*   Updated: 2024/12/30 21:51:19 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ static void	handle_redir_in(t_sh *sh, int x)
 
 static void	handle_redir_out(t_sh *sh, int x)
 {
-	sh->comands[x].outfile_fd = open(sh->comands[x].outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	sh->comands[x].outfile_fd = open(sh->comands[x].outfile, \
+		O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (sh->comands[x].outfile_fd < 0)
 	{
 		sh->comands[x].errors.outfile_notvalid = true;
@@ -56,7 +57,8 @@ static void	handle_redir_out(t_sh *sh, int x)
 
 static void	handle_redir_outapp(t_sh *sh, int x)
 {
-	sh->comands[x].outappend_fd = open(sh->comands[x].outappendfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	sh->comands[x].outappend_fd = open(sh->comands[x].outappendfile, \
+		O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (sh->comands[x].outappend_fd < 0)
 	{
 		sh->comands[x].errors.outfile_notvalid = true;

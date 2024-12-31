@@ -6,11 +6,52 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:55:18 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/30 13:10:35 by cde-paiv         ###   ########.fr       */
+/*   Updated: 2024/12/31 00:18:22 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void	exec_builtin(t_sh *sh, int cmd_nbr)
+{
+	if (ft_strncmp("echo", sh->comands[cmd_nbr].cmd, ft_strlen("echo")) == 0)
+		ft_echo(sh, sh->comands[cmd_nbr].arg);
+	else if (ft_strncmp("cd", sh->comands[cmd_nbr].cmd, ft_strlen("cd")) == 0)
+		ft_cd(sh, sh->comands[cmd_nbr].arg);
+	else if (ft_strncmp("pwd", sh->comands[cmd_nbr].cmd, ft_strlen("pwd")) == 0)
+		ft_pwd(sh, sh->comands[cmd_nbr].arg);
+	else if (ft_strncmp("export", sh->comands[cmd_nbr].cmd,
+			ft_strlen("export")) == 0)
+		ft_export(sh, sh->comands[cmd_nbr].arg);
+	else if (ft_strncmp("unset", sh->comands[cmd_nbr].cmd,
+			ft_strlen("unset")) == 0)
+		ft_unset(sh, sh->comands[cmd_nbr].arg);
+	else if (ft_strncmp("env", sh->comands[cmd_nbr].cmd, ft_strlen("env")) == 0)
+		ft_env(sh, sh->comands[cmd_nbr].arg);
+	else if (ft_strncmp("exit", sh->comands[cmd_nbr].cmd,
+			ft_strlen("exit")) == 0)
+		ft_exit(sh, sh->comands[cmd_nbr].arg);
+}
+
+bool	check_if_builtin(char *cmd)
+{
+	if (ft_strncmp("echo", cmd, ft_strlen(cmd)) == 0)
+		return (true);
+	else if (ft_strncmp("cd", cmd, ft_strlen(cmd)) == 0)
+		return (true);
+	else if (ft_strncmp("pwd", cmd, ft_strlen(cmd)) == 0)
+		return (true);
+	else if (ft_strncmp("export", cmd, ft_strlen(cmd)) == 0)
+		return (true);
+	else if (ft_strncmp("unset", cmd, ft_strlen(cmd)) == 0)
+		return (true);
+	else if (ft_strncmp("env", cmd, ft_strlen(cmd)) == 0)
+		return (true);
+	else if (ft_strncmp("exit", cmd, ft_strlen(cmd)) == 0)
+		return (true);
+	else
+		return (false);
+}
 
 void	execute_cmd(t_sh *sh, int x)
 {

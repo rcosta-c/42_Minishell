@@ -6,85 +6,11 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:54:06 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/30 18:08:51 by cde-paiv         ###   ########.fr       */
+/*   Updated: 2024/12/30 21:48:58 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-bool	check_r_append_out(t_sh *sh)
-{
-	int	x;
-
-	x = 0;
-	while (x < sh->vars.tk_num)
-	{
-		if (sh->tokens[x].r_outappend)
-		{
-			x++;
-			if (sh->tokens[x].file)
-				return (false);
-			else
-				return (true);
-		}
-		x++;
-	}
-	return (false);
-}
-
-bool	check_r_out(t_sh *sh)
-{
-	int	x;
-
-	x = 0;
-	while (x < sh->vars.tk_num)
-	{
-		if (sh->tokens[x].r_out)
-		{
-			x++;
-			if (sh->tokens[x].file)
-				return (false);
-			else
-				return (true);
-		}
-		x++;
-	}
-	return (false);
-}
-
-bool	check_r_in(t_sh *sh)
-{
-	int	x;
-
-	x = 0;
-	while (x < sh->vars.tk_num)
-	{
-		if (sh->tokens[x].r_in)
-		{
-			x++;
-			if (sh->tokens[x].file)
-				return (false);
-			else
-				return (true);
-		}
-		x++;
-	}
-	return (false);
-}
-
-bool	check_before_parse(t_sh *sh)
-{
-	int	x;
-
-	x = 0;
-	while (x < sh->vars.tk_num)
-	{
-		if (sh->tokens[x].f_quote)
-			return (true);
-		x++;
-	}
-	return (false);
-}
 
 static bool	ft_invalid_token(t_sh *sh, int x)
 {
@@ -101,15 +27,30 @@ static bool	ft_invalid_token(t_sh *sh, int x)
 		return (false);
 }
 
+int	parse_pipes(t_sh *sh, int z, int n_cmd)
+{
+	int	x;
+
+	x = z;
+	if (sh->vars.pipe_num == 0)
+		return (x);
+	if (sh->tokens[x].pipe)
+	{
+		sh->comands[n_cmd].pipes = true;
+		x++;
+	}
+	return (x);
+}
+
 void	fill_parser(t_sh *sh)
 {
 	int	x;
 	int	n_cmd;
 
-	if (sh->vars.sh_status == false)
-		return ;
 	x = 0;
 	n_cmd = 0;
+	if (sh->vars.sh_status == false)
+		return ;
 	while (x < sh->vars.tk_num)
 	{
 		if (ft_invalid_token(sh, x) == true)
@@ -120,18 +61,8 @@ void	fill_parser(t_sh *sh)
 				break ;
 		}
 		if (sh->tokens[x].exp_empty == true)
-		{
-			x++;
-			if (x == sh->vars.tk_num)
-			{
-				sh->comands[n_cmd].arg = malloc(sizeof(char **) * 2);
-				sh->comands[n_cmd].cmd = ft_strdup("echo");
-				sh->comands[n_cmd].arg[0] = ft_strdup("echo");
-				sh->comands[n_cmd].arg[1] = NULL;
-				sh->comands[n_cmd].n_args = 0;
-				return ;
-			}
-		}
+			if (++x == sh->vars.tk_num)
+				ft_easyfix_command(sh, n_cmd);
 		x = parse_utils(sh, x, n_cmd);
 		if (x >= sh->vars.tk_num - 1)
 			break ;

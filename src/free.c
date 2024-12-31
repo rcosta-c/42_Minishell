@@ -6,18 +6,11 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:54:56 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/30 15:26:59 by cde-paiv         ###   ########.fr       */
+/*   Updated: 2024/12/31 00:16:53 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-void	handbrake_and_exit(t_sh *sh)
-{
-	sh->vars.sh_status = false;
-	g_status = EXIT_SIGQUIT;
-	ft_exit(sh, NULL);
-}
 
 void	free_tokens(t_sh *sh)
 {
@@ -32,6 +25,30 @@ void	free_tokens(t_sh *sh)
 			x++;
 		}
 		free(sh->tokens);
+	}
+}
+
+void	free_cmds_helper(t_sh *sh, int x)
+{
+	if (sh->comands[x].infile)
+		free(sh->comands[x].infile);
+	if (sh->comands[x].outappendfile)
+		free(sh->comands[x].outappendfile);
+	if (sh->comands[x].outfile)
+		free(sh->comands[x].outfile);
+	if (sh->comands[x].inheredoc_file)
+		free(sh->comands[x].inheredoc_file);
+	if (sh->comands[x].inbackup != -1)
+	{
+		dup2(sh->comands[x].inbackup, STDIN_FILENO);
+		sh->comands[x].infile_fd = -1;
+		close(sh->comands[x].inbackup);
+	}
+	if (sh->comands[x].outbackup != -1)
+	{
+		dup2(sh->comands[x].outbackup, STDOUT_FILENO);
+		sh->comands[x].outfile_fd = -1;
+		close(sh->comands[x].outbackup);
 	}
 }
 
@@ -50,26 +67,7 @@ void	free_cmds(t_sh *sh)
 				free(sh->comands[x].arg[xx++]);
 			free(sh->comands[x].cmd);
 			free(sh->comands[x].arg);
-			if (sh->comands[x].infile)
-				free(sh->comands[x].infile);
-			if (sh->comands[x].outappendfile)
-				free(sh->comands[x].outappendfile);
-			if (sh->comands[x].outfile)
-				free(sh->comands[x].outfile);
-			if (sh->comands[x].inheredoc_file)
-				free(sh->comands[x].inheredoc_file);
-			if (sh->comands[x].inbackup != -1)
-			{
-				dup2(sh->comands[x].inbackup, STDIN_FILENO);
-				sh->comands[x].infile_fd = -1;
-				close(sh->comands[x].inbackup);
-			}
-			if (sh->comands[x].outbackup != -1)
-			{
-				dup2(sh->comands[x].outbackup, STDOUT_FILENO);
-				sh->comands[x].outfile_fd = -1;
-				close(sh->comands[x].outbackup);
-			}
+			free_cmds_helper(sh, x);
 			x++;
 		}
 		free(sh->comands);

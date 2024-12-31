@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cde-paiv <cde-paiv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 11:42:42 by cde-paiv          #+#    #+#             */
-/*   Updated: 2024/12/30 15:31:11 by cde-paiv         ###   ########.fr       */
+/*   Updated: 2024/12/31 00:40:26 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,6 +171,19 @@ bool	filter_cmd_error(t_sh *sh);
 bool	verify_errors(t_sh *sh);
 /*	FIM 	*/
 
+/*	ERROR_UTILS1.c*/
+bool	check_directory_error(t_sh *sh, int x);
+bool	filter_tk_error_exit(t_sh *sh);
+bool	check_access_error(t_sh *sh, int x);
+bool	check_file_error(t_sh *sh, int x);
+bool	check_env_var_error(t_sh *sh, int x);
+/*	FIM 	*/
+
+/*	ERROR_UTILS2.c 	*/
+bool	verify_error_exit(int option);
+bool	verify_error_helper(t_sh *sh, int x);
+/*	FIM		*/
+
 /* INIT.c */
 void	init_error(t_sh *sh);
 void	init_tokens(t_sh *sh);
@@ -194,13 +207,13 @@ void	ft_signal_handfd(int sig);
 
 /* TOKEN.c */
 char	*prepare_line(char *str);
-int		count_tokens(t_sh *sh);
-bool	counter_validation(int c);
 void	filter_tokens(t_sh *sh);
 /*   FIM   */
 
-/* SPLIT_CMD.c */
-void	split_cmd(t_sh *sh);
+/* TOKEN_COUNTER.c */
+void	count_tokens(t_sh *sh);
+bool	counter_validation(int c);
+
 /*   FIM   */
 
 /* TOKEN_CHECKER.c */
@@ -216,6 +229,14 @@ bool	check_if_squote(char *str, int x_o);
 bool	search_ext(char *str);
 /*   FIM   */
 
+/*	TOKEN_UTILS.c*/
+bool	check_if_special_redir(char *str, int x);
+bool	check_if_special_redirout(char *str, int x);
+bool	check_if_special_redirin(char *str, int x);
+void	ft_give_some_space(char *str, char *temp, int *x_o, int *x_d);
+bool	check_if_pipe(char *str, int x_o);
+/*	FIM		*/
+
 /* TOKEN_FILTER1.c */
 void	filter_args(t_sh *sh, int n);
 void	filter_envp(t_sh *sh, int n);
@@ -229,6 +250,12 @@ void	filter_pipes_redir(t_sh *sh, int n);
 void	filter_quotes(t_sh *sh, int n);
 /*   FIM   */
 
+/* TOKEN_FILTER2.c */
+void	filter_args_checker(t_sh *sh, int n);
+int		filter_envp_helper(t_sh *sh, int n, int x);
+void	filter_quotes_helper(t_sh *sh, int n, int counter_s, int counter_d);
+/*	FIM 	*/
+
 /* EXPANDER.c */
 void	search_expand(t_sh *sh);
 void	expand_token(t_sh *sh, int n);
@@ -238,19 +265,17 @@ char	*pre_expand(t_sh *sh, int *x, int n);
 /*   FIM   */
 
 /*	EXPANDER_UTILS.c*/
-int		ft_envp_n_cmp(const char *s1, const char *s2);
 int		count_expands(t_sh *sh, int n);
 char	*search_envp(t_sh *sh, char *z);
 int		ft_envp_n_cmp(const char *s1, const char *s2);
 char	*expand_exit(t_sh *sh, int n, int x, char *z);
+void	expand_exit_token(t_sh *sh, int *x, int n, char *c);
+
 /*	FIM 	*/
 
 /* PARSE.C*/
-bool	check_before_parse(t_sh *sh);
 void	fill_parser(t_sh *sh);
-bool	check_r_out(t_sh *sh);
-bool	check_r_in(t_sh *sh);
-bool	check_r_append_out(t_sh *sh);
+int		parse_pipes(t_sh *sh, int z, int n_cmd);
 /*	FIM	   */
 
 /*	REDIR.c		*/
@@ -262,8 +287,15 @@ int		parse_no_cmds(t_sh *sh, int n_cmd, int x);
 int		parse_no_args(t_sh *sh, int n_cmd, int x);
 int		parse_with_args(t_sh *sh, int n_cmd, int x);
 int		parse_utils(t_sh *sh, int x, int n_cmd);
-int		parse_pipes(t_sh *sh, int z, int n_cmd);
 bool	ft_if_redir(t_sh *sh, int x);
+/*	FIM		*/
+
+/*	PARSE_UTILS2.c	*/
+bool	check_before_parse(t_sh *sh);
+void	ft_easyfix_command(t_sh *sh, int n_cmd);
+bool	check_r_out(t_sh *sh);
+bool	check_r_in(t_sh *sh);
+bool	check_r_append_out(t_sh *sh);
 /*	FIM		*/
 
 /* PARSE_UTILS_QUOTES.c 	*/
@@ -273,9 +305,13 @@ void	remove_quoted(t_sh *sh);
 /*		FIM		*/
 
 /*	REDIR_PARSE	*/
+
+void	ft_redir_multiargs(t_sh *sh);
+/*	FIM 	*/
+
+/*	REDIR_PARSE2	*/
 void	ft_count_redirs(t_sh *sh, int x, int n_cmd);
 int		ft_parse_redirs(t_sh *sh, int x, int n_cmd);
-void	ft_redir_multiargs(t_sh *sh);
 /*	FIM 	*/
 
 /*	HEREDOC.c	*/
@@ -314,8 +350,14 @@ void	exec_builtin(t_sh *sh, int cmd_nbr);
 /*	FIM		*/
 
 /*	PIPE.c*/
-void	execute_pipeline(t_sh *sh);
+void	execute_pipeline(t_sh *sh, int i);
 void	check_pipes(t_sh *sh);
+/*	FIM		*/
+
+/*	PIPE.c*/
+void	get_out_of_pipe(void);
+void	prep_cmds_pipes(t_sh *sh);
+void	pipeline_exit(t_sh *sh, int in_fd, int i);
 /*	FIM		*/
 
 /*	HISTORY.c	*/

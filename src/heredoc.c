@@ -6,26 +6,35 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:54:49 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/30 13:31:38 by cde-paiv         ###   ########.fr       */
+/*   Updated: 2024/12/30 22:08:20 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+static char	*ft_init_heredoc(t_sh *sh, int x)
+{
+	char	*delimiter;
+
+	delimiter = ft_strdup(sh->comands[x].infile);
+	free(sh->comands[x].infile);
+	sh->comands[x].infile = ft_strdup(".heredoc_temp.txt");
+	sh->comands[x].infile_fd = open(sh->comands[x].infile, \
+		O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	if (sh->comands[x].infile_fd < 0)
+	{
+		perror("Error opening .heredoc_temp.txt");
+		exit(EXIT_FAILURE);
+	}
+	return (delimiter);
+}
 
 void	handle_heredoc(t_sh *sh, int x)
 {
 	char	*line;
 	char	*delimiter;
 
-	delimiter = ft_strdup(sh->comands[x].infile);
-	free(sh->comands[x].infile);
-	sh->comands[x].infile = ft_strdup(".heredoc_temp.txt");
-	sh->comands[x].infile_fd = open(sh->comands[x].infile, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	if (sh->comands[x].infile_fd < 0)
-	{
-		perror("Error opening .heredoc_temp.txt");
-		exit(EXIT_FAILURE);
-	}
+	delimiter = ft_init_heredoc(sh, x);
 	ft_sigset_fd();
 	while (1)
 	{
