@@ -6,13 +6,13 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 16:15:39 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/30 13:51:05 by cde-paiv         ###   ########.fr       */
+/*   Updated: 2025/01/02 00:29:59 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static int	count_history_entries(t_sh *sh)
+int	count_history_entries(t_sh *sh)
 {
 	char	*line;
 	int		fd;
@@ -21,7 +21,7 @@ static int	count_history_entries(t_sh *sh)
 
 	x = 0;
 	dir = ft_strjoin(sh->vars.minihome, "/.history");
-	fd = open(dir, O_RDONLY);
+	fd = open(dir, O_RDONLY | O_CREAT, 0644);
 	if (fd < 0)
 	{
 		perror("Error opening history file");
@@ -48,7 +48,7 @@ void	save_to_history(t_sh *sh, char *cmd_line)
 	char	*dir;
 
 	add_history(cmd_line);
-	entry_number = ft_itoa(count_history_entries(sh));
+	entry_number = ft_itoa(sh->vars.history_n);
 	dir = ft_strjoin(sh->vars.minihome, "/.history");
 	fd = open(dir, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
@@ -57,11 +57,13 @@ void	save_to_history(t_sh *sh, char *cmd_line)
 		return ;
 	}
 	if (write(fd, entry_number, ft_strlen(entry_number)) == -1
+		|| write(fd, " ", 1) == -1
 		|| write(fd, cmd_line, ft_strlen(cmd_line)) == -1
 		|| write(fd, "\n", 1) == -1)
 	{
 		perror("Error writing history file");
 	}
+	sh->vars.history_n++;
 	close(fd);
 	free(dir);
 	free(entry_number);

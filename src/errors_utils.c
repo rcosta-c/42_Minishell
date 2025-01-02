@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   errors_utlis.c                                     :+:      :+:    :+:   */
+/*   errors_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 23:50:16 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/31 00:15:17 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/02 00:40:13 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ bool	check_access_error(t_sh *sh, int x)
 {
 	if (access(sh->comands[x].cmd, F_OK) == 0)
 	{
-		if (access(sh->comands[x].cmd, X_OK))
+		if (access(sh->comands[x].cmd, X_OK) != 0)
 		{
 			ft_putstr_fd(" Permission denied\n", 2);
 			g_status = NO_PERMISSION;
@@ -56,6 +56,12 @@ bool	check_access_error(t_sh *sh, int x)
 
 bool	check_file_error(t_sh *sh, int x)
 {
+	struct stat	path_stat;
+
+	if (stat(sh->comands[x].cmd, &path_stat) == 0
+		&& access(sh->comands[x].cmd, X_OK) == 0
+		&& access(sh->comands[x].cmd, F_OK) == 0)
+		return (false);
 	if ((sh->comands[x].cmd[0] == '/') || (sh->comands[x].cmd[0] == '.'))
 	{
 		sh->comands[x].errors.cmd_not_found = true;

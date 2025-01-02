@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cde-paiv <cde-paiv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:54:43 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/30 17:47:40 by cde-paiv         ###   ########.fr       */
+/*   Updated: 2025/01/02 00:32:38 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,4 +108,5 @@ void	init_prompt_utils(t_sh *sh)
 	sh->vars.minihome = search_envp(sh, "PWD");
 	sh->vars.sh_pwd = search_envp(sh, "PWD");
 	sh->vars.sh_pwd = verify_home(sh, sh->vars.sh_pwd);
+	sh->vars.history_n = count_history_entries(sh);
 }

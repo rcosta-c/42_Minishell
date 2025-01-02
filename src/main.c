@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:54:30 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/30 23:47:06 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/02 00:23:54 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int		g_status;
 
-/*void	 print_exec(t_sh *sh)
+void	 print_exec(t_sh *sh)
 {
 	int  x;
 	int xx;
@@ -154,7 +154,7 @@ void	printf_flag_errors(t_sh *sh)
 			printf("empty_redir%d\n ", sh->comands[x].errors.empty_redir);
 			x++;
 		}
-}*/
+}
 
 static void	ft_get_minimal_envp(t_sh *sh)
 {
@@ -216,6 +216,7 @@ static void	sh_loop(t_sh *sh)
 			handbrake_and_exit(sh);
 		start_sh = verify_cmdline(sh, sh->cmd_line);
 	}
+	//add_history(sh->cmd_line);
 	save_to_history(sh, sh->cmd_line);
 	if (ft_strlen(sh->cmd_line) > 0)
 	{

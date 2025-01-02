@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:55:03 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/31 00:46:08 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/02 00:33:21 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*expand_token_seeker2(t_sh *sh, int *x, int n, char *c)
 	char	b[5000];
 	int		bx;
 
-	expand_exit_token(sh, x, n, c);
+	c = expand_exit_token(sh, x, n, c);
 	if (sh->tokens[n].tokens[*x] == '$'
 		&& (sh->tokens[n].tokens[*x + 1] == '\0'
 			|| ft_isalpha(sh->tokens[n].tokens[*x + 1]) == 0))
@@ -99,7 +99,6 @@ static int	prep_search(t_sh *sh, int n, int x)
 			expand_token(sh, n);
 	}
 	return (x);
-
 }
 
 void	search_expand(t_sh *sh)
@@ -116,9 +115,9 @@ void	search_expand(t_sh *sh)
 			ft_strlen(sh->tokens[n].tokens);
 		else if (sh->tokens[n].exp_e || sh->tokens[n].exp_t)
 			expand_token(sh, n);
-		else if (sh->tokens[n].d_quote && 
-			(sh->tokens[n].exp_e || sh->tokens[n].exp_t))
-				x = prep_search(sh, n, x);
+		else if (sh->tokens[n].d_quote
+			&& (sh->tokens[n].exp_e || sh->tokens[n].exp_t))
+			x = prep_search(sh, n, x);
 		else if (sh->tokens[n].file && sh->tokens[n].exp_t)
 		{
 			while (sh->tokens[n].tokens[x++])

@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:54:06 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/30 21:48:58 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/01 23:21:22 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,8 @@ static bool	ft_invalid_token(t_sh *sh, int x)
 		return (false);
 }
 
-int	parse_pipes(t_sh *sh, int z, int n_cmd)
+int	parse_pipes(t_sh *sh, int x, int n_cmd)
 {
-	int	x;
-
-	x = z;
 	if (sh->vars.pipe_num == 0)
 		return (x);
 	if (sh->tokens[x].pipe)

@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 22:17:25 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/30 22:48:39 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/02 00:11:55 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,25 +36,21 @@ static int	counter_regular_token(t_sh *sh, int x, int counter)
 	int	xx;
 	int	init;
 
+	xx = 0;
 	while (sh->cmd_line[x] && sh->cmd_line[x] != ' '
 		&& sh->cmd_line[x] != '>'
 		&& sh->cmd_line[x] != '<'
 		&& sh->cmd_line[x] != '|')
 	{
-		if (sh->cmd_line[x] == '"' || sh->cmd_line[x] == '\'')
+		if (sh->cmd_line[x] == 39 || sh->cmd_line[x] == 34)
 		{
-			xx = 0;
 			init = x;
 			x = check_type_quote(sh->cmd_line, x);
 			while (init < x)
 				sh->temp[counter][xx++] = sh->cmd_line[init++];
 		}
 		else
-		{
-			sh->temp[counter][xx] = sh->cmd_line[x];
-			x++;
-			xx++;
-		}
+			sh->temp[counter][xx++] = sh->cmd_line[x++];
 	}
 	sh->temp[counter][xx] = '\0';
 	return (x);
@@ -90,7 +86,7 @@ void	count_tokens(t_sh *sh)
 	{
 		while (sh->cmd_line[x] == ' ')
 			x++;
-		if (sh->cmd_line[x] == '"' || sh->cmd_line[x] == '\'')
+		if (sh->cmd_line[x] == 34 || sh->cmd_line[x] == 39)
 			x = count_quote_token(sh, x, sh->vars.tk_num);
 		else if (sh->cmd_line[x] && sh->cmd_line[x] != ' '
 			&& sh->cmd_line[x] != '>'

@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:54:13 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/30 21:48:44 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/02 00:37:28 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ int	parse_with_args(t_sh *sh, int n_cmd, int x)
 		sh->comands[n_cmd].arg[1] = NULL;
 	x = xtemp;
 	x = ft_parse_redirs(sh, x, n_cmd);
-	x++;
 	return (x);
 }
 

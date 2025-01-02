@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 23:21:44 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/30 23:26:00 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/02 00:37:05 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@ void	ft_count_redirs(t_sh *sh, int x, int n_cmd)
 			|| sh->tokens[x].r_out == true
 			|| sh->tokens[x].r_outappend == true)
 		{
-			sh->comands[n_cmd].n_redir++;
+			if (x < sh->vars.tk_num - 1 && sh->tokens[x + 1].pipe == true)
+				x = x;
+			else
+				sh->comands[n_cmd].n_redir++;
 		}
 		x++;
 	}
@@ -97,6 +100,12 @@ int	ft_parse_redirs(t_sh *sh, int x, int n_cmd)
 			counter = ft_parse_redirs_out(sh, x, n_cmd, counter);
 			x++;
 		}
+		return (x);
 	}
-	return (x);
+	else
+	{
+		while (sh->tokens[x].pipe == false && x < sh->vars.tk_num)
+			x++;
+		return (x);
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:52:28 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/30 19:21:59 by cde-paiv         ###   ########.fr       */
+/*   Updated: 2025/01/01 23:57:01 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,13 @@ int	check_squote(char *str, int counter)
 			temp++;
 		if (str[temp] == '\0')
 			return (counter);
+		else if (str[temp] == 39 && ft_isalnum(str[temp + 1]))
+		{
+			temp++;
+			while (str[temp] && ft_isalnum(str[temp]))
+				temp++;
+			return (temp);
+		}
 		else
 		{
 			temp++;

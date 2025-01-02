@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:54:56 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/31 00:16:53 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/02 00:34:19 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,9 @@ void	free_tokens(t_sh *sh)
 			x++;
 		}
 		free(sh->tokens);
+		x = 0;
+		while (x < 50)
+			ft_bzero(sh->temp[x++], sizeof(char *));
 	}
 }
 

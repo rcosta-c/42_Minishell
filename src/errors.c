@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:55:30 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/31 00:12:16 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/02 00:36:47 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@ bool	filter_cmd_error(t_sh *sh)
 		return (true);
 	while (x < sh->vars.cmds_num)
 	{
-		if (check_directory_error(sh, x))
+		if (check_directory_error(sh, x) == true)
 			return (true);
-		if (check_access_error(sh, x))
+		else if (check_access_error(sh, x) == true)
 			return (true);
-		if (check_file_error(sh, x))
+		else if (check_file_error(sh, x) == true)
 			return (true);
-		if (check_env_var_error(sh, x))
+		else if (check_env_var_error(sh, x) == true)
 			return (true);
 		x++;
 	}
@@ -55,8 +55,26 @@ static bool	filter_tkerrors2(t_sh *sh)
 		|| sh->tokens[sh->vars.tk_num - 1].r_out
 		|| sh->tokens[sh->vars.tk_num - 1].r_outappend)
 	{
-		ft_putstr_fd(" syntax error near unexpected token `%d'\n", 2);
+		ft_putstr_fd(" syntax error near unexpected token `newline'\n", 2);
 		return (filter_tk_error_exit(sh));
+	}
+	return (false);
+}
+
+static bool	invalid_syntax_pipe(t_sh *sh)
+{
+	int	x;
+
+	x = 0;
+	while (x < sh->vars.tk_num)
+	{
+		if (sh->tokens[x].pipe == true)
+			if (sh->tokens[x - 1].r_heredoc == true
+				|| sh->tokens[x - 1].r_in == true
+				|| sh->tokens[x - 1].r_out == true
+				|| sh->tokens[x - 1].r_outappend == true)
+				return (true);
+		x++;
 	}
 	return (false);
 }
@@ -71,7 +89,8 @@ static bool	filter_tkerrors(t_sh *sh)
 		sh->vars.sh_status = false;
 		return (true);
 	}
-	else if (sh->tokens[sh->vars.tk_num - 1].pipe == true)
+	else if (sh->tokens[sh->vars.tk_num - 1].pipe == true
+		|| invalid_syntax_pipe(sh) == true)
 	{
 		ft_putstr_fd(" syntax error near unexpected token `|'\n", 2);
 		g_status = SYNTAX_MISPELL;

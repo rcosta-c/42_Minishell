@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 11:42:42 by cde-paiv          #+#    #+#             */
-/*   Updated: 2024/12/31 00:40:26 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/02 00:20:13 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ typedef struct s_vars
 	int		pipe_num;
 	int		is_pipe;
 	int		envp_total;
+	int		history_n;
 	char	*sh_user;
 	char	*sh_home;
 	char	*sh_pwd;
@@ -269,7 +270,7 @@ int		count_expands(t_sh *sh, int n);
 char	*search_envp(t_sh *sh, char *z);
 int		ft_envp_n_cmp(const char *s1, const char *s2);
 char	*expand_exit(t_sh *sh, int n, int x, char *z);
-void	expand_exit_token(t_sh *sh, int *x, int n, char *c);
+char	*expand_exit_token(t_sh *sh, int *x, int n, char *c);
 
 /*	FIM 	*/
 
@@ -362,6 +363,7 @@ void	pipeline_exit(t_sh *sh, int in_fd, int i);
 
 /*	HISTORY.c	*/
 void	save_to_history(t_sh *sh, char *cmd_line);
+int		count_history_entries(t_sh *sh);
 /*	FIM	*/
 
 #endif
