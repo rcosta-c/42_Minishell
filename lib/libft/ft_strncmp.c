@@ -17,8 +17,10 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	size_t	counter;
 
 	counter = 0;
+	if (ft_strlen(s1) != ft_strlen(s2))
+		return (-1);
 	if (n == 0)
-		return (0);
+		return (-1);
 	while (s1[counter] == s2[counter] && s1[counter] != '\0')
 	{
 		if (counter < (n - 1))
@@ -28,16 +30,3 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	}
 	return ((unsigned char)(s1[counter]) - (unsigned char)(s2[counter]));
 }
-/*
-#include <stdio.h>
-#include <string.h>
-int	main()
-{
-	char	*t1, *t2;
-	int	x = 0;
-
-	t1 = "USER";
-	t2 = "USE=rcostabelele";
-	x = strlen(t1);
-	printf("value is : %d \n", ft_strncmp(t1, t2, x));
-}*/

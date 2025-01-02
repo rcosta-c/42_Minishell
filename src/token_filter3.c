@@ -47,15 +47,44 @@ int	filter_envp_helper(t_sh *sh, int n, int x)
 
 void	filter_quotes_helper(t_sh *sh, int n, int counter_s, int counter_d)
 {
-	if (counter_s == 2)
+	int sign;
+	int x;
+	int len;
+
+	x = 0;
+	sign = 0;
+	len = ft_strlen(sh->tokens[n].tokens);
+	if (counter_d == 2 && counter_s == 2)
 	{
+		while (x < len)
+		{
+			if (sign == 0 && (sh->tokens[n].tokens[x] == 34 || sh->tokens[n].tokens[x] == 39))
+				sign = sh->tokens[n].tokens[x];
+			x++;
+		}
+	}
+	if (counter_d == 2 && counter_s == 2)
+	{
+		if(sign == 34)
+		{
+			sh->tokens[n].d_quote = true;
+			sh->tokens[n].tokens = clean_quote_d(sh, n);
+		}
+		else if(sign == 39)
+		{
 		sh->tokens[n].s_quote = true;
 		sh->tokens[n].tokens = clean_quote_s(sh, n);
+		}
 	}
 	else if (counter_d == 2)
 	{
 		sh->tokens[n].d_quote = true;
 		sh->tokens[n].tokens = clean_quote_d(sh, n);
+	}
+	else if (counter_s == 2)
+	{
+		sh->tokens[n].s_quote = true;
+		sh->tokens[n].tokens = clean_quote_s(sh, n);
 	}
 	else if (counter_d == 0)
 		sh->tokens[n].d_quote = false;
