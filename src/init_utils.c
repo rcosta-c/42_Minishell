@@ -15,6 +15,7 @@
 void	init_tk_flag1(t_sh *sh, int x)
 {
 	sh->tokens[x].tokens = ft_strdup(sh->temp[x]);
+	printf("\ninit_token%d=%s\n", x, sh->tokens[x].tokens);
 	sh->tokens[x].cmd = false;
 	sh->tokens[x].arg = false;
 	sh->tokens[x].pipe = false;

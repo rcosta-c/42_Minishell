@@ -226,8 +226,9 @@ static void	sh_loop(t_sh *sh)
 		init_tokens(sh);
 		filter_tokens(sh);
 		ft_redir_multiargs(sh);
-		search_expand(sh);
 //printflags(sh);
+
+		search_expand(sh);
 		init_parser(sh);
 		fill_parser(sh);
 //print_exec(sh);
