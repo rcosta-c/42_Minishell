@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:55:18 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/01 22:17:37 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/03 11:09:55 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,15 @@ void	exec_builtin(t_sh *sh, int cmd_nbr)
 	else if (ft_strncmp("pwd", sh->comands[cmd_nbr].cmd, ft_strlen("pwd")) == 0)
 		ft_pwd(sh, sh->comands[cmd_nbr].arg);
 	else if (ft_strncmp("export", sh->comands[cmd_nbr].cmd,
-		ft_strlen("export")) == 0)
+			ft_strlen("export")) == 0)
 		ft_export(sh, sh->comands[cmd_nbr].arg);
 	else if (ft_strncmp("unset", sh->comands[cmd_nbr].cmd,
-		ft_strlen("unset")) == 0)
+			ft_strlen("unset")) == 0)
 		ft_unset(sh, sh->comands[cmd_nbr].arg);
 	else if (ft_strncmp("env", sh->comands[cmd_nbr].cmd, ft_strlen("env")) == 0)
 		ft_env(sh, sh->comands[cmd_nbr].arg);
-	else if (ft_strncmp("exit", sh->comands[cmd_nbr].cmd, ft_strlen("exit")) == 0)
+	else if (ft_strncmp("exit", sh->comands[cmd_nbr].cmd,
+			ft_strlen("exit")) == 0)
 		ft_exit(sh, sh->comands[cmd_nbr].arg);
 }
 
@@ -70,15 +71,15 @@ void	execute_cmd(t_sh *sh, int x)
 		{
 			if (execve(sh->comands[x].cmd, sh->comands[x].arg, sh->envp) == -1)
 			{
-				perror("Erro ao executar comando");
+				perror("Error executing command");
 				g_status = EXIT_FAILURE;
 				exit(EXIT_FAILURE);
 			}
+			g_status = errno;
 		}
 		else
 			waitpid(pid, NULL, 0);
 	}
-	g_status = errno;
 }
 
 static void	executor_for_one(t_sh *sh, int x)

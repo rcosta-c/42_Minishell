@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 22:17:25 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/02 00:11:55 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/03 07:59:56 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ static int	count_quote_token(t_sh *sh, int x, int counter)
 		init++;
 	}
 	sh->temp[counter][xx] = '\0';
-		printf("\n\nquotesfodasse%d=%s\n\n", counter, sh->temp[counter]);
-
 	sh->vars.tk_num++;
 	return (x);
 }
@@ -55,7 +53,6 @@ static int	counter_regular_token(t_sh *sh, int x, int counter)
 			sh->temp[counter][xx++] = sh->cmd_line[x++];
 	}
 	sh->temp[counter][xx] = '\0';
-	printf("\n\nfodasse%d=%s\n\n", counter, sh->temp[counter]);
 	return (x);
 }
 
@@ -77,8 +74,6 @@ static int	count_special_token(t_sh *sh, int x, int counter)
 	}
 	sh->temp[counter][xx] = '\0';
 	sh->vars.tk_num++;
-		printf("\n\nspecialfodasse%d=%s\n\n", counter, sh->temp[counter]);
-
 	return (x);
 }
 

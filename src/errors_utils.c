@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 23:50:16 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/02 00:40:13 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/03 09:07:17 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,20 @@ bool	filter_tk_error_exit(t_sh *sh)
 
 bool	check_access_error(t_sh *sh, int x)
 {
+	int xx;
+    struct stat file_info;
+
+	xx = 1;
+	while(sh->comands[x].n_args >= 1 && xx <= sh->comands[x].n_args)
+	{
+		if (stat(sh->comands[x].arg[xx], &file_info) == -1)
+			if (errno == ENOENT)
+			{
+				g_status = SYNTAX_MISPELL;
+				return (false);
+			}
+		xx++;
+	}
 	if (access(sh->comands[x].cmd, F_OK) == 0)
 	{
 		if (access(sh->comands[x].cmd, X_OK) != 0)
@@ -49,7 +63,6 @@ bool	check_access_error(t_sh *sh, int x)
 			g_status = NO_PERMISSION;
 			return (true);
 		}
-		return (false);
 	}
 	return (false);
 }

@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 15:46:16 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/30 23:25:47 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/03 08:18:30 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 static bool	is_redirection_token(t_sh *sh, int x)
 {
-	if(sh->tokens[x].r_in == true || sh->tokens[x].r_heredoc == true || \
+	if (sh->tokens[x].r_in == true || sh->tokens[x].r_heredoc == true || \
 			sh->tokens[x].r_outappend == true || sh->tokens[x].r_out == true)
-				return (true);
+		return (true);
 	else
 		return (false);
 }
@@ -60,31 +60,30 @@ static void	join_quote_tokens(t_sh *sh, int x, int counter)
 	}
 }
 
-void ft_redir_multiargs(t_sh *sh)
+void	ft_redir_multiargs(t_sh *sh)
 {
-    int x;
-    int counter;
+	int	x;
+	int	counter;
 
-    x = 0;
-    if (sh->vars.redir_tot == 0 || sh->vars.tk_num < 4)
-        return;
-    
-    while (x < sh->vars.tk_num)
-    {
-        if (x > 0 && is_redirection_token(sh, x))
-        {
-            if (x >= sh->vars.tk_num) 
-				break;
-            if (sh->tokens[x].tokens[0] == 34 || sh->tokens[x].tokens[0] == 39)
-            {
-                counter = process_quotes(sh, x);
-                if (counter > 1)
-                {
-                    join_quote_tokens(sh, x, counter);
-                    x += counter - 1;
-                }
-            }
-        }
-        x++;
-    }
+	x = 0;
+	if (sh->vars.redir_tot == 0 || sh->vars.tk_num < 4)
+		return ;
+	while (x < sh->vars.tk_num)
+	{
+		if (x > 0 && is_redirection_token(sh, x))
+		{
+			if (x >= sh->vars.tk_num)
+				break ;
+			if (sh->tokens[x].tokens[0] == 34 || sh->tokens[x].tokens[0] == 39)
+			{
+				counter = process_quotes(sh, x);
+				if (counter > 1)
+				{
+					join_quote_tokens(sh, x, counter);
+					x += counter - 1;
+				}
+			}
+		}
+		x++;
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 07:58:24 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/12 22:59:47 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/03 08:23:14 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@
 # endif
 
 char	*get_next_line(int fd);
-char    *ft_finalstr(char *buffer);
-char    *ft_nextgnl(char *buffer);
+char	*ft_finalstr(char *buffer);
+char	*ft_nextgnl(char *buffer);
 char	*ft_search_nl(const char *x, int flag);
-char    *ft_chunckjoin(int fd, char *buffer, char *temp);
+char	*ft_chunckjoin(int fd, char *buffer, char *temp);
 
 #endif

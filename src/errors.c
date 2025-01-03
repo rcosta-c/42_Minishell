@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:55:30 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/02 00:36:47 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/03 08:03:50 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,15 +111,13 @@ bool	verify_errors(t_sh *sh)
 		return (true);
 	if (sh->error.expand_error == true || sh->error.parse_error == true)
 	{
-		ft_putstr_fd("Minishell: erro de sintaxe junto a símbolo | \
-			inesperado: \n", 2);
+		ft_putstr_fd(" syntax error near unexpected token `|'\n", 2);
 		g_status = WRONG_SYNTAX;
 		return (true);
 	}
 	else if (sh->error.token_error == true)
 	{
-		ft_putstr_fd("Minishell: erro de sintaxe junto a símbolo | \
-			inesperado: \n", 2);
+		ft_putstr_fd(" syntax error near unexpected token `|'\n", 2);
 		g_status = WRONG_SYNTAX;
 		return (true);
 	}

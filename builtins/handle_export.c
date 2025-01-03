@@ -93,3 +93,4 @@ char	**handle_array(t_sh *sh)
 	sort(temp_env, j);
 	return (temp_env);
 }
+

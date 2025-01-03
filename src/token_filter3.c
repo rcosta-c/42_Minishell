@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 23:28:20 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/02 00:37:45 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/03 08:16:37 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,25 @@ int	filter_envp_helper(t_sh *sh, int n, int x)
 	return (x);
 }
 
+static void	filter_quotes_helper2(t_sh *sh, int n, int counter_s, int counter_d)
+{
+	if (counter_d == 2 && counter_s != 2)
+		sh->tokens[n].tokens = clean_quote_d(sh, n);
+	else if (counter_s == 2 && counter_d != 2)
+		sh->tokens[n].tokens = clean_quote_s(sh, n);
+	else if (counter_d == 0)
+		sh->tokens[n].d_quote = false;
+	else if (counter_s == 0)
+		sh->tokens[n].s_quote = false;
+	else if (counter_d == 1 || counter_s == 1)
+		sh->tokens[n].f_quote = true;
+}
+
 void	filter_quotes_helper(t_sh *sh, int n, int counter_s, int counter_d)
 {
-	int sign;
-	int x;
-	int len;
+	int	sign;
+	int	x;
+	int	len;
 
 	x = 0;
 	sign = 0;
@@ -58,40 +72,20 @@ void	filter_quotes_helper(t_sh *sh, int n, int counter_s, int counter_d)
 	{
 		while (x < len)
 		{
-			if (sign == 0 && (sh->tokens[n].tokens[x] == 34 || sh->tokens[n].tokens[x] == 39))
+			if (sign == 0 && (sh->tokens[n].tokens[x] == 34
+					|| sh->tokens[n].tokens[x] == 39))
 				sign = sh->tokens[n].tokens[x];
 			x++;
 		}
 	}
 	if (counter_d == 2 && counter_s == 2)
 	{
-		if(sign == 34)
-		{
-			sh->tokens[n].d_quote = true;
+		if (sign == 34)
 			sh->tokens[n].tokens = clean_quote_d(sh, n);
-		}
-		else if(sign == 39)
-		{
-		sh->tokens[n].s_quote = true;
-		sh->tokens[n].tokens = clean_quote_s(sh, n);
-		}
+		else if (sign == 39)
+			sh->tokens[n].tokens = clean_quote_s(sh, n);
 	}
-	else if (counter_d == 2)
-	{
-		sh->tokens[n].d_quote = true;
-		sh->tokens[n].tokens = clean_quote_d(sh, n);
-	}
-	else if (counter_s == 2)
-	{
-		sh->tokens[n].s_quote = true;
-		sh->tokens[n].tokens = clean_quote_s(sh, n);
-	}
-	else if (counter_d == 0)
-		sh->tokens[n].d_quote = false;
-	else if (counter_s == 0)
-		sh->tokens[n].s_quote = false;
-	else if (counter_d == 1 || counter_s == 1)
-		sh->tokens[n].f_quote = true;
+	filter_quotes_helper2(sh, n, counter_s, counter_d);
 }
 
 char	*pre_expand(t_sh *sh, int *x, int n)

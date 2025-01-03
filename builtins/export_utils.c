@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cde-paiv <cde-paiv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 00:26:43 by mota              #+#    #+#             */
-/*   Updated: 2024/12/30 11:27:23 by cde-paiv         ###   ########.fr       */
+/*   Updated: 2025/01/03 11:43:00 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	get_var_pos(t_sh *sh, char *var)
 	int	len;
 
 	i = 0;
-	len = ft_strchr(var, '=') - var;
+    len = ft_strchr(var, '=') - var;
 	if (len <= 0)
 		return (-1);
 	while (i < sh->vars.envp_total)

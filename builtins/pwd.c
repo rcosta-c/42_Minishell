@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 14:59:34 by mota              #+#    #+#             */
-/*   Updated: 2024/12/31 00:31:47 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/03 08:25:18 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	ft_pwd(t_sh *sh, char **args)
 	char	*temp;
 
 	(void)args;
-	if(sh->vars.sh_pwd)
+	if (sh->vars.sh_pwd)
 	{
 		temp = ft_strjoin(sh->vars.sh_home, (sh->vars.sh_pwd + 1));
 		ft_putstr_fd(temp, 1);
