@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 11:08:36 by cde-paiv          #+#    #+#             */
-/*   Updated: 2024/12/30 09:21:02 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/04 00:52:35 by cde-paiv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,4 +93,3 @@ char	**handle_array(t_sh *sh)
 	sort(temp_env, j);
 	return (temp_env);
 }
-

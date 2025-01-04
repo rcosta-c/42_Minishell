@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: cde-paiv <cde-paiv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 18:05:19 by cde-paiv          #+#    #+#             */
-/*   Updated: 2025/01/04 00:26:44 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/04 00:57:42 by cde-paiv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,10 @@ static bool	check_if_arg_error(t_sh *sh, int i)
 
 void	execute_comand_in_pipe(t_sh *sh, int i, int in_fd, int pipefd[2])
 {
+	struct stat	file_info;
+	int		xx;
+
+	xx = 0;
 	dup2(in_fd, STDIN_FILENO);
 	if (i < sh->vars.cmds_num - 1)
 		dup2(pipefd[1], STDOUT_FILENO);
@@ -47,6 +51,13 @@ void	execute_comand_in_pipe(t_sh *sh, int i, int in_fd, int pipefd[2])
 	}
 	if (check_if_arg_error(sh, i) == true)
 		exit(EXIT_FAILURE);
+	while (sh->comands[i].n_args >= 1 && xx < sh->comands[i].n_args)
+	{
+		if (stat(sh->comands[i].arg[xx + 1], &file_info) == -1)
+			if (errno == ENOENT)
+				exit(EXIT_FAILURE);
+		xx++;
+	}
 }
 
 void	execute_pipeline(t_sh *sh, int i)

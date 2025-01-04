@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 08:19:44 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/04 00:04:36 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/04 00:33:58 by cde-paiv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 long long int	ft_atol(const char *nptr)
 {
-	int	x;
+	int				x;
 	long long int	reslt;
 	long long int	signal;
 
