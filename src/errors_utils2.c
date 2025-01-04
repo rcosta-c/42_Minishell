@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors_utils2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: cde-paiv <cde-paiv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/31 00:11:02 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/31 00:35:05 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/04 01:06:28 by cde-paiv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,31 @@ bool	verify_error_helper(t_sh *sh, int x)
 			x++;
 	}
 	return (false);
+}
+
+bool	check_directory_error(t_sh *sh, int x)
+{
+	struct stat	path_stat;
+
+	if (stat(sh->comands[x].cmd, &path_stat) == 0 && S_ISDIR(path_stat.st_mode))
+	{
+		if (ft_isalpha(sh->comands[x].cmd[0]))
+		{
+			sh->comands[x].errors.cmd_not_found = true;
+			ft_putstr_fd(" command not found\n", 2);
+			g_status = CMD_NOT_FOUND;
+			return (true);
+		}
+		ft_putstr_fd("  Is a directory\n", 2);
+		g_status = NO_PERMISSION;
+		return (true);
+	}
+	return (false);
+}
+
+bool	filter_tk_error_exit(t_sh *sh)
+{
+	g_status = SYNTAX_MISPELL;
+	sh->vars.sh_status = false;
+	return (true);
 }

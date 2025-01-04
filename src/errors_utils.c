@@ -3,41 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   errors_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: cde-paiv <cde-paiv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 23:50:16 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/04 00:26:18 by cde-paiv         ###   ########.fr       */
+/*   Updated: 2025/01/04 01:06:06 by cde-paiv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-bool	check_directory_error(t_sh *sh, int x)
-{
-	struct stat	path_stat;
-
-	if (stat(sh->comands[x].cmd, &path_stat) == 0 && S_ISDIR(path_stat.st_mode))
-	{
-		if (ft_isalpha(sh->comands[x].cmd[0]))
-		{
-			sh->comands[x].errors.cmd_not_found = true;
-			ft_putstr_fd(" command not found\n", 2);
-			g_status = CMD_NOT_FOUND;
-			return (true);
-		}
-		ft_putstr_fd("  Is a directory\n", 2);
-		g_status = NO_PERMISSION;
-		return (true);
-	}
-	return (false);
-}
-
-bool	filter_tk_error_exit(t_sh *sh)
-{
-	g_status = SYNTAX_MISPELL;
-	sh->vars.sh_status = false;
-	return (true);
-}
 
 static bool	check_file(char **arg, int xx)
 {
@@ -55,20 +28,24 @@ static bool	check_file(char **arg, int xx)
 
 bool	check_special_case(t_sh *sh, int x)
 {
-	int		xx;
+	int			xx;
 	struct stat	file_info;
 
 	xx = 0;
 	while (sh->comands[x].n_args >= 1 && xx < sh->comands[x].n_args)
 	{
 		if (stat(sh->comands[x].arg[xx + 1], &file_info) == -1)
+		{
 			if (check_file(sh->comands[x].arg, xx + 1) == true)
+			{
 				if (errno == ENOENT)
 				{
 					ft_putstr_fd(" No such file or directory\n", 2);
 					g_status = BUILTINSERROR;
 					return (true);
 				}
+			}
+		}
 		xx++;
 	}
 	return (false);
