@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 17:55:12 by cde-paiv          #+#    #+#             */
-/*   Updated: 2024/12/27 11:42:30 by cde-paiv         ###   ########.fr       */
+/*   Updated: 2025/01/04 00:05:26 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void	invalid_exit_arg(char *arg, t_sh *sh)
 
 void	ft_exit(t_sh *sh, char **args)
 {
-	int	exit_code;
+	long long int	exit_code;
 
 	if (g_status != -1)
 		exit_code = g_status;
@@ -58,7 +58,7 @@ void	ft_exit(t_sh *sh, char **args)
 	if (args[1] && !is_valid_number(args[1]))
 		invalid_exit_arg(args[1], sh);
 	if (args[1])
-		exit_code = ft_atoi(args[1]);
+		exit_code = ft_atol(args[1]);
 	else
 		exit_code = 0;
 	free_exit(sh);

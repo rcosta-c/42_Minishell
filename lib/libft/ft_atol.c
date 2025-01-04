@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   ft_atol.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 08:19:44 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/04 00:03:00 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/04 00:04:36 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_atoi(const char *nptr)
+long long int	ft_atol(const char *nptr)
 {
 	int	x;
-	int	reslt;
-	int	signal;
+	long long int	reslt;
+	long long int	signal;
 
 	x = 0;
 	signal = 1;

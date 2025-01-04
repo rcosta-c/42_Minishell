@@ -79,6 +79,7 @@ SRCS := src/main.c \
 						lib/libft/ft_strnstr.c \
 						lib/libft/ft_strtrim.c \
 						lib/libft/ft_atoi.c \
+						lib/libft/ft_atol.c \
 						lib/libft/ft_memcmp.c \
 						lib/libft/ft_strlcat.c \
 						lib/libft/ft_putstr_fd.c \

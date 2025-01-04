@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 18:05:19 by cde-paiv          #+#    #+#             */
-/*   Updated: 2024/12/30 21:56:08 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/03 23:39:14 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,10 @@
 
 void	execute_comand_in_pipe(t_sh *sh, int i, int in_fd, int pipefd[2])
 {
+	struct stat file_info;
+	int 		xx;
+
+	xx = 0;
 	dup2(in_fd, STDIN_FILENO);
 	if (i < sh->vars.cmds_num - 1)
 		dup2(pipefd[1], STDOUT_FILENO);
@@ -29,7 +33,15 @@ void	execute_comand_in_pipe(t_sh *sh, int i, int in_fd, int pipefd[2])
 		perror("Erro ao executar comando");
 		exit(EXIT_FAILURE);
 	}
+	while(sh->comands[i].n_args >= 1 && xx < sh->comands[i].n_args)
+	{
+		if (stat(sh->comands[i].arg[xx + 1], &file_info) == -1)
+			if (errno == ENOENT)
+				exit(EXIT_FAILURE);
+		xx++;
+	}
 }
+
 
 void	execute_pipeline(t_sh *sh, int i)
 {
@@ -47,7 +59,7 @@ void	execute_pipeline(t_sh *sh, int i)
 		handle_redirects(sh, i);
 		pipe(pipefd);
 		pid = fork();
-		if (pid == -1)
+		if (pid == -1 || g_status)
 			get_out_of_pipe();
 		if (pid == 0)
 			execute_comand_in_pipe(sh, i, in_fd, pipefd);

@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 11:42:42 by cde-paiv          #+#    #+#             */
-/*   Updated: 2025/01/03 12:32:41 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/03 22:34:04 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@
 # define ENV_VAR_NOT_FOUND 128
 # define EXIT_SIGINT	130
 # define EXIT_SIGQUIT	131
-# define PAR
+# define CONAS			77
 # define WRONG_SYNTAX	258
 
 extern int				g_status;

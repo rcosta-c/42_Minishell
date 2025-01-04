@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 23:50:16 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/03 09:07:17 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/03 23:42:24 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,22 +39,46 @@ bool	filter_tk_error_exit(t_sh *sh)
 	return (true);
 }
 
-bool	check_access_error(t_sh *sh, int x)
+static bool	check_file(char **arg, int xx)
+{
+	int x;
+
+	x = 0;
+	while(arg[xx][x] != '\0')
+	{
+		if(arg[xx][x] == '.')
+			return(true);
+		x++;
+	}
+	return(false);
+	
+}
+
+bool	check_special_case(t_sh *sh, int x)
 {
 	int xx;
-    struct stat file_info;
+	struct stat file_info;
 
-	xx = 1;
-	while(sh->comands[x].n_args >= 1 && xx <= sh->comands[x].n_args)
+	xx = 0;
+	while(sh->comands[x].n_args >= 1 && xx < sh->comands[x].n_args)
 	{
-		if (stat(sh->comands[x].arg[xx], &file_info) == -1)
-			if (errno == ENOENT)
-			{
-				g_status = SYNTAX_MISPELL;
-				return (false);
-			}
+		if (stat(sh->comands[x].arg[xx + 1], &file_info) == -1)
+			if(check_file(sh->comands[x].arg, xx + 1) == true)
+				if (errno == ENOENT)	
+				{
+					ft_putstr_fd(" No such file or directory\n", 2);
+					g_status = BUILTINSERROR;
+					return (true);
+				}
 		xx++;
 	}
+	return (false);
+}
+
+bool	check_access_error(t_sh *sh, int x)
+{
+	if(check_special_case(sh, x) == true)
+		return (true);
 	if (access(sh->comands[x].cmd, F_OK) == 0)
 	{
 		if (access(sh->comands[x].cmd, X_OK) != 0)
