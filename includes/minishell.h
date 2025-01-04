@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 11:42:42 by cde-paiv          #+#    #+#             */
-/*   Updated: 2025/01/03 22:34:04 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/04 00:19:22 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,6 +218,7 @@ bool	counter_validation(int c);
 /*   FIM   */
 
 /* TOKEN_CHECKER.c */
+bool	verify_cmdline(t_sh *sh, char *cmdline);
 bool	token_is_valid(char src);
 int		check_dquote(char *str, int counter);
 int		check_squote(char *str, int counter);

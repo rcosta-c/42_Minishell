@@ -6,11 +6,32 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:52:28 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/01 23:57:01 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/04 00:19:02 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+bool	verify_cmdline(t_sh *sh, char *cmdline)
+{
+	int	x;
+	int	len;
+
+	x = 0;
+	len = 0;
+	while (cmdline[len])
+		len++;
+	while (cmdline[x] && (cmdline[x] == 32 || cmdline[x] == 9))
+	{
+		x++;
+	}
+	if (x == len)
+	{
+		sh->cmd_line = NULL;
+		return (false);
+	}
+	return (true);
+}
 
 bool	token_is_valid(char src)
 {

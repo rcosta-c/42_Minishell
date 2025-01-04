@@ -6,18 +6,30 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 18:05:19 by cde-paiv          #+#    #+#             */
-/*   Updated: 2025/01/03 23:39:14 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/04 00:26:44 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	execute_comand_in_pipe(t_sh *sh, int i, int in_fd, int pipefd[2])
+static bool	check_if_arg_error(t_sh *sh, int i)
 {
-	struct stat file_info;
-	int 		xx;
+	struct stat	file_info;
+	int			xx;
 
 	xx = 0;
+	while (sh->comands[i].n_args >= 1 && xx < sh->comands[i].n_args)
+	{
+		if (stat(sh->comands[i].arg[xx + 1], &file_info) == -1)
+			if (errno == ENOENT)
+				return (true);
+		xx++;
+	}
+	return (false);
+}
+
+void	execute_comand_in_pipe(t_sh *sh, int i, int in_fd, int pipefd[2])
+{
 	dup2(in_fd, STDIN_FILENO);
 	if (i < sh->vars.cmds_num - 1)
 		dup2(pipefd[1], STDOUT_FILENO);
@@ -33,15 +45,9 @@ void	execute_comand_in_pipe(t_sh *sh, int i, int in_fd, int pipefd[2])
 		perror("Erro ao executar comando");
 		exit(EXIT_FAILURE);
 	}
-	while(sh->comands[i].n_args >= 1 && xx < sh->comands[i].n_args)
-	{
-		if (stat(sh->comands[i].arg[xx + 1], &file_info) == -1)
-			if (errno == ENOENT)
-				exit(EXIT_FAILURE);
-		xx++;
-	}
+	if (check_if_arg_error(sh, i) == true)
+		exit(EXIT_FAILURE);
 }
-
 
 void	execute_pipeline(t_sh *sh, int i)
 {
