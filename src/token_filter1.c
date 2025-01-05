@@ -66,7 +66,8 @@ void	filter_cmds(t_sh *sh, int n)
 	if (n == 0 && sh->tokens[n].pipe == false
 		&& sh->tokens[n].r_out == false
 		&& sh->tokens[n].r_in == false
-		&& sh->tokens[n].s_quote == false)
+		&& sh->tokens[n].r_heredoc == false
+		&& sh->tokens[n].r_outappend == false)
 	{
 		sh->tokens[n].cmd = true;
 		sh->tokens[n].arg = false;

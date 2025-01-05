@@ -17,6 +17,8 @@ static bool	check_file(char **arg, int xx)
 	int	x;
 
 	x = 0;
+	if (!arg[xx])
+		return (false);
 	while (arg[xx][x] != '\0')
 	{
 		if (arg[xx][x] == '.')

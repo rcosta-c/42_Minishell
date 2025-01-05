@@ -62,15 +62,16 @@ static char	*prep_cmd_helper(char *temp, char **path, char *cmd)
 	struct stat	path_stat;
 
 	x = 0;
-	if (stat(temp, &path_stat) == 0 && access(temp, X_OK) == 0
+	/*if (stat(temp, &path_stat) == 0 && access(temp, X_OK) == 0
 		&& access(temp, F_OK) == 0)
 		x = 0;
 	else
-	{
+	{*/
 		while (path[x])
 		{
 			free(temp);
-			temp = ft_strjoin(path[x], cmd);
+			temp = join_2_str(path[x], cmd, "/", 0);
+			printf("\nTEMP_no_HELPER %d=%s-fim-\n", x, temp);
 			if (stat(temp, &path_stat) == 0 && access(temp, X_OK) == 0
 				&& access(temp, F_OK) == 0)
 				break ;
@@ -81,7 +82,7 @@ static char	*prep_cmd_helper(char *temp, char **path, char *cmd)
 			free(temp);
 			temp = ft_strdup(cmd);
 		}
-	}
+	//}
 	return (temp);
 }
 
