@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 23:28:20 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/03 08:16:37 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/06 12:36:29 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,9 @@ int	filter_envp_helper(t_sh *sh, int n, int x)
 
 static void	filter_quotes_helper2(t_sh *sh, int n, int counter_s, int counter_d)
 {
-	if (counter_d == 2 && counter_s != 2)
+	if (counter_d >= 2 && counter_d % 2 == 0)
 		sh->tokens[n].tokens = clean_quote_d(sh, n);
-	else if (counter_s == 2 && counter_d != 2)
+	else if (counter_s >= 2 && counter_s % 2 == 0)
 		sh->tokens[n].tokens = clean_quote_s(sh, n);
 	else if (counter_d == 0)
 		sh->tokens[n].d_quote = false;
@@ -68,7 +68,8 @@ void	filter_quotes_helper(t_sh *sh, int n, int counter_s, int counter_d)
 	x = 0;
 	sign = 0;
 	len = ft_strlen(sh->tokens[n].tokens);
-	if (counter_d == 2 && counter_s == 2)
+	if (counter_d >= 2 && counter_s >= 2
+		&& counter_d % 2 == 0 && counter_s % 2 == 0)
 	{
 		while (x < len)
 		{
@@ -78,14 +79,16 @@ void	filter_quotes_helper(t_sh *sh, int n, int counter_s, int counter_d)
 			x++;
 		}
 	}
-	if (counter_d == 2 && counter_s == 2)
+	if (counter_d >= 2 && counter_s >= 2
+		&& counter_d % 2 == 0 && counter_s % 2 == 0)
 	{
 		if (sign == 34)
 			sh->tokens[n].tokens = clean_quote_d(sh, n);
 		else if (sign == 39)
 			sh->tokens[n].tokens = clean_quote_s(sh, n);
 	}
-	filter_quotes_helper2(sh, n, counter_s, counter_d);
+	else
+		filter_quotes_helper2(sh, n, counter_s, counter_d);
 }
 
 char	*pre_expand(t_sh *sh, int *x, int n)

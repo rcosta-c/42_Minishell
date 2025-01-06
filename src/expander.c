@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:55:03 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/02 00:33:21 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/06 10:25:50 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,9 @@ void	search_expand(t_sh *sh)
 	x = 0;
 	while (n < sh->vars.tk_num)
 	{
-		if (sh->tokens[n].tokens[0] == '$'
+		if (!sh->tokens[n].tokens)
+			(void)n;
+		else if (sh->tokens[n].tokens[0] == '$'
 			&& ft_strlen(sh->tokens[n].tokens) == 1)
 			ft_strlen(sh->tokens[n].tokens);
 		else if (sh->tokens[n].exp_e || sh->tokens[n].exp_t)

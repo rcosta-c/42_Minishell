@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:55:24 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/03 09:00:27 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/06 08:34:20 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,22 +60,19 @@ static char	*prep_cmd_helper(char *temp, char **path, char *cmd)
 {
 	int			x;
 	struct stat	path_stat;
-	
+
 	x = 0;
-		while (path[x])
-		{
-			temp = join_2_str(path[x], cmd, "/", 0);
-			if (stat(temp, &path_stat) == 0 && access(temp, X_OK) == 0
-				&& access(temp, F_OK) == 0)
-				break ;
-			free(temp);
-			x++;
-		}
-		if (!path[x])
-		{
-			free(temp);
-			temp = ft_strdup(cmd);
-		}
+	while (path[x])
+	{
+		temp = join_2_str(path[x], cmd, "/", 0);
+		if (stat(temp, &path_stat) == 0 && access(temp, X_OK) == 0
+			&& access(temp, F_OK) == 0)
+			break ;
+		free(temp);
+		x++;
+	}
+	if (!path[x])
+		temp = ft_strdup(cmd);
 	return (temp);
 }
 
@@ -86,6 +83,7 @@ char	*prep_cmd(t_sh *sh, char *cmd, int xx)
 	int		x;
 
 	x = 0;
+	temp = NULL;
 	if (cmd[x] == '/')
 	{
 		if (access(cmd, X_OK) != 0 && access(cmd, F_OK) != 0)
@@ -93,7 +91,6 @@ char	*prep_cmd(t_sh *sh, char *cmd, int xx)
 		return (cmd);
 	}
 	path = ft_split(getenv("PATH"), ':');
-	temp = ft_strjoin("/bin/", cmd);
 	temp = prep_cmd_helper(temp, path, cmd);
 	x = -1;
 	while (path[++x])

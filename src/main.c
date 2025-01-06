@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:54:30 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/04 00:19:45 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/06 12:35:22 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,7 +185,14 @@ static void	tokenizer(t_sh *sh)
 	if (sh->cmd_line)
 		count_tokens(sh);
 	init_tokens(sh);
+
 	filter_tokens(sh);
+//printflags(sh);
+
+	check_invalid_start(sh);
+
+//printflags(sh);
+
 	ft_redir_multiargs(sh);
 	search_expand(sh);
 }
@@ -211,9 +218,11 @@ static void	sh_loop(t_sh *sh)
 	{
 		tokenizer(sh);
 		init_parser(sh);
-	//		printflags(sh);
-
 		fill_parser(sh);
+
+//printflags(sh);
+//print_exec(sh);
+
 		executor(sh);
 		free_tokens(sh);
 		free_cmds(sh);
