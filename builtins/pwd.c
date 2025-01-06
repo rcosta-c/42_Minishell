@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 14:59:34 by mota              #+#    #+#             */
-/*   Updated: 2025/01/03 08:25:18 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/06 13:22:41 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,16 @@
 void	ft_pwd(t_sh *sh, char **args)
 {
 	char	*temp;
+	int		i;
 
-	(void)args;
-	if (sh->vars.sh_pwd)
+	i = 0;
+	if (args[1])
+	{
+		g_status = BUILTINSERROR;
+		ft_putstr_fd("pwd: options not allowed\n", 2);
+		sh->error.exit_error = true;
+	}
+	else if (sh->vars.sh_pwd)
 	{
 		temp = ft_strjoin(sh->vars.sh_home, (sh->vars.sh_pwd + 1));
 		ft_putstr_fd(temp, 1);
