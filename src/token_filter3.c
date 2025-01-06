@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 23:28:20 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/06 12:36:29 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/06 13:07:10 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,22 +65,19 @@ void	filter_quotes_helper(t_sh *sh, int n, int counter_s, int counter_d)
 	int	x;
 	int	len;
 
-	x = 0;
+	x = -1;
 	sign = 0;
 	len = ft_strlen(sh->tokens[n].tokens);
-	if (counter_d >= 2 && counter_s >= 2
-		&& counter_d % 2 == 0 && counter_s % 2 == 0)
+	if (multiquote_checker(counter_s, counter_d) == true)
 	{
-		while (x < len)
+		while (++x < len)
 		{
 			if (sign == 0 && (sh->tokens[n].tokens[x] == 34
 					|| sh->tokens[n].tokens[x] == 39))
 				sign = sh->tokens[n].tokens[x];
-			x++;
 		}
 	}
-	if (counter_d >= 2 && counter_s >= 2
-		&& counter_d % 2 == 0 && counter_s % 2 == 0)
+	if (multiquote_checker(counter_s, counter_d) == true)
 	{
 		if (sign == 34)
 			sh->tokens[n].tokens = clean_quote_d(sh, n);

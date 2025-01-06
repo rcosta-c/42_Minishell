@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 11:42:42 by cde-paiv          #+#    #+#             */
-/*   Updated: 2025/01/06 11:26:15 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/06 13:08:03 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,6 +154,7 @@ int		verify_helper(t_sh *sh, char *prompt, int x);
 /*	PROMP_UTILS.c	*/
 void	ft_getenv(t_sh *sh, char **envp);
 char	*find_my_host(t_sh *sh);
+bool	multiquote_checker(int counter_s, int counter_d);
 /*	FIM 	*/
 
 /* FREE.c */
@@ -190,7 +191,7 @@ void	init_error(t_sh *sh);
 void	init_tokens(t_sh *sh);
 void	init_parser(t_sh *sh);
 void	init_cycle(t_sh *sh);
-int	init_check_invalid_start(t_sh *sh, char n_temp[50][50]);
+int		init_check_invalid_start(t_sh *sh, char n_temp[50][50]);
 /*   FIM   */
 
 /*	INIT_UTILS.c	*/

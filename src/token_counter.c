@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 22:17:25 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/06 11:29:25 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/06 13:01:58 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ static int	count_quote_token(t_sh *sh, int x, int counter)
 	xx = 0;
 	init = x;
 	x = check_type_quote(sh->cmd_line, x);
-	if(x == init)
+	if (x == init)
 		sh->temp[counter][xx++] = sh->cmd_line[x++];
 	else
-	{		
+	{
 		while (init < x)
 		{
 			sh->temp[counter][xx] = sh->cmd_line[init];
@@ -32,7 +32,6 @@ static int	count_quote_token(t_sh *sh, int x, int counter)
 		}
 	}
 	sh->temp[counter][xx] = '\0';
-//printf("\ntoken%d=%s-fim-\n", sh->vars.tk_num, sh->temp[counter]);
 	sh->vars.tk_num++;
 	return (x);
 }

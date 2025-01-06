@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:53:34 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/03 12:30:37 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/06 13:07:43 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,13 @@ char	*find_my_host(t_sh *sh)
 	temp = ft_strdup(temp2);
 	free(temp2);
 	return (temp);
+}
+
+bool	multiquote_checker(int counter_s, int counter_d)
+{
+	if (counter_d >= 2 && counter_s >= 2
+		&& counter_d % 2 == 0 && counter_s % 2 == 0)
+		return (true);
+	else
+		return (false);
 }
