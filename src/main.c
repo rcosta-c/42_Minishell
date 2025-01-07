@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:54:30 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/06 13:07:52 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/07 22:42:28 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int		g_status;
 static void	ft_get_minimal_envp(t_sh *sh)
 {
 	int		x;
-	char	cwd[1000];
+	char	cwd[10000];
 
 	x = 2;
 	sh->vars.envp_total = 2;

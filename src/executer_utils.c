@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:55:24 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/06 08:34:20 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/07 22:41:29 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ static char	*prep_cmd_helper(char *temp, char **path, char *cmd)
 	struct stat	path_stat;
 
 	x = 0;
+	if (!path)
+		return(ft_strdup(cmd));
 	while (path[x])
 	{
 		temp = join_2_str(path[x], cmd, "/", 0);
@@ -76,26 +78,39 @@ static char	*prep_cmd_helper(char *temp, char **path, char *cmd)
 	return (temp);
 }
 
+static void	free_prepcmd(char *temp2, char **path, char *cmd)
+{
+	int		x;
+
+	x = -1;
+	if (path)
+	{
+		while (path[++x])
+			free(path[x]);
+	}
+	free(temp2);
+	free(path);
+	free(cmd);
+}
+
 char	*prep_cmd(t_sh *sh, char *cmd, int xx)
 {
 	char	**path;
 	char	*temp;
-	int		x;
+	char	*temp2;
 
-	x = 0;
 	temp = NULL;
-	if (cmd[x] == '/')
+	if (cmd[0] == '/')
 	{
 		if (access(cmd, X_OK) != 0 && access(cmd, F_OK) != 0)
 			sh->comands[xx].errors.cmd_not_found = true;
 		return (cmd);
 	}
-	path = ft_split(getenv("PATH"), ':');
+	temp2 = search_envp(sh, "PATH");
+	if(!temp2)
+		temp2 = ft_strdup(" :");
+	path = ft_split(temp2, ':');
 	temp = prep_cmd_helper(temp, path, cmd);
-	x = -1;
-	while (path[++x])
-		free(path[x]);
-	free(path);
-	free(cmd);
+	free_prepcmd(temp2, path, cmd);
 	return (temp);
 }

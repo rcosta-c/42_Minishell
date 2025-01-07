@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 14:59:34 by mota              #+#    #+#             */
-/*   Updated: 2025/01/06 13:22:41 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/07 22:08:44 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,7 @@
 void	ft_pwd(t_sh *sh, char **args)
 {
 	char	*temp;
-	int		i;
 
-	i = 0;
 	if (args[1])
 	{
 		g_status = BUILTINSERROR;

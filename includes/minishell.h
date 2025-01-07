@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 11:42:42 by cde-paiv          #+#    #+#             */
-/*   Updated: 2025/01/06 13:08:03 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/07 22:52:06 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ typedef struct s_exec
 
 typedef struct s_sh
 {
-	char		temp[50][50];
+	char		temp[500][500];
 	t_exec		*comands;
 	t_tokens	*tokens;
 	t_vars		vars;
