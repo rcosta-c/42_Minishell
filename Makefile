@@ -37,6 +37,7 @@ SRCS := src/main.c \
 						src/executer_utils.c \
 						src/token_utils.c \
 						src/token_counter.c \
+						src/token_copy.c \
 						src/token_checker.c \
 						src/token_checker_utils.c \
 						src/token_filter1.c \

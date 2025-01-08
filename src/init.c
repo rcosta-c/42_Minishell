@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:54:37 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/06 13:07:35 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/08 23:33:35 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,22 +66,16 @@ void	init_cycle(t_sh *sh)
 		free(sh->cmd_line);
 }
 
-int	init_check_invalid_start(t_sh *sh, char n_temp[50][50])
+int	init_check_invalid_start(t_sh *sh)
 {
 	int	x;
-	int	counter;
 
-	counter = 0;
-	x = 0;
-	while (x < 50)
-		ft_bzero(n_temp[x++], sizeof(char *));
 	x = 0;
 	while (x < sh->vars.tk_num && (sh->tokens[x].d_quote == true
 			|| sh->tokens[x].s_quote == true)
-		&& ft_strlen(sh->tokens[x].tokens) == 0)
+		&& ft_strlen(sh->tokens[x].tokens) == 2)
 	{
 		x++;
-		counter++;
 	}
-	return (counter);
+	return (x);
 }

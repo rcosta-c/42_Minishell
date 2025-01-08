@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:52:02 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/06 12:35:37 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/08 23:03:52 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,5 +101,7 @@ void	filter_quotes(t_sh *sh, int n)
 			counter_s++;
 		x++;
 	}
+//	if (counter_d > 0 && sh->vars.tk_num == 1)
+//		return;
 	filter_quotes_helper(sh, n, counter_s, counter_d);
 }

@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 23:28:20 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/06 13:07:10 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/08 23:23:33 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,6 @@ void	filter_quotes_helper(t_sh *sh, int n, int counter_s, int counter_d)
 					|| sh->tokens[n].tokens[x] == 39))
 				sign = sh->tokens[n].tokens[x];
 		}
-	}
-	if (multiquote_checker(counter_s, counter_d) == true)
-	{
 		if (sign == 34)
 			sh->tokens[n].tokens = clean_quote_d(sh, n);
 		else if (sign == 39)

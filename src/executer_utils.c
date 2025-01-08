@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:55:24 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/07 22:41:29 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/08 14:54:50 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static char	*prep_cmd_helper(char *temp, char **path, char *cmd)
 
 	x = 0;
 	if (!path)
-		return(ft_strdup(cmd));
+		return (ft_strdup(cmd));
 	while (path[x])
 	{
 		temp = join_2_str(path[x], cmd, "/", 0);
@@ -107,7 +107,7 @@ char	*prep_cmd(t_sh *sh, char *cmd, int xx)
 		return (cmd);
 	}
 	temp2 = search_envp(sh, "PATH");
-	if(!temp2)
+	if (!temp2)
 		temp2 = ft_strdup(" :");
 	path = ft_split(temp2, ':');
 	temp = prep_cmd_helper(temp, path, cmd);
