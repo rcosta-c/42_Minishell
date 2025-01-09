@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:54:23 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/08 23:31:25 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/09 10:28:41 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*clean_quote_d(t_sh *sh, int n)
 	xx = 0;
 	sh->tokens[n].d_quote = true;
 	if (n == 0 && ft_strlen(sh->tokens[n].tokens) == 2)
-		return(sh->tokens[n].tokens);
+		return (sh->tokens[n].tokens);
 	len = ft_strlen(sh->tokens[n].tokens);
 	dest = ft_calloc(sizeof(char), len + 1);
 	while (sh->tokens[n].tokens[x])
@@ -51,7 +51,7 @@ char	*clean_quote_s(t_sh *sh, int n)
 	xx = 0;
 	sh->tokens[n].s_quote = true;
 	if (n == 0 && ft_strlen(sh->tokens[n].tokens) == 2)
-		return(sh->tokens[n].tokens);
+		return (sh->tokens[n].tokens);
 	len = ft_strlen(sh->tokens[n].tokens);
 	dest = ft_calloc(sizeof(char), len + 1);
 	while (sh->tokens[n].tokens[x])

@@ -6,23 +6,37 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 18:39:54 by mota              #+#    #+#             */
-/*   Updated: 2025/01/03 22:55:16 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/09 10:30:05 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+static bool	env_exit_error(t_sh *sh, char **args)
+{
+	int	i;
+
+	i = 1;
+	if (args[i] && args[i][0] == '-' && ft_isalnum(args[i][1]))
+	{
+		sh->error.exit_error = true;
+		ft_putstr_fd("env: options not allowed\n", 2);
+		return (true);
+	}
+	return (false);
+}
+
 void	ft_env(t_sh *sh, char **args)
 {
 	size_t	i;
 
-	if (args[1] && args[1][0] == '-' && args[1][1] == 'i')
+	if (env_exit_error(sh, args) == true)
 		return ;
-	if (args[1])
+	else if (args[1])
 	{
-		ft_putstr_fd("env: ", 2);
+		ft_putstr_fd("env: '", 2);
 		ft_putstr_fd(args[1], 2);
-		ft_putstr_fd(": No such file or directory\n", 2);
+		ft_putstr_fd("': No such file or directory\n", 2);
 		sh->error.exit_error = true;
 		return ;
 	}

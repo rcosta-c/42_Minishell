@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cde-paiv <cde-paiv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 23:50:16 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/04 01:06:06 by cde-paiv         ###   ########.fr       */
+/*   Updated: 2025/01/09 08:29:08 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,7 @@ bool	check_env_var_error(t_sh *sh, int x)
 		env_var = getenv(&sh->comands[x].cmd[1]);
 		if (!env_var || !*env_var)
 		{
-			ft_putstr_fd("Minishell: variável de ambiente não \
-				resolvida:", 2);
+			ft_putstr_fd(" environment variable not resolved:", 2);
 			ft_putstr_fd(sh->comands[x].cmd, 2);
 			ft_putstr_fd("\n", 2);
 			g_status = ENV_VAR_NOT_FOUND;

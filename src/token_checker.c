@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:52:28 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/04 00:19:02 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/09 09:31:48 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	check_dquote(char *str, int counter)
 		while (str[temp] && str[temp] != 34)
 			temp++;
 		if (str[temp] == '\0')
-			return (counter);
+			return (temp);
 		else if (str[temp] == 34 && ft_isalnum(str[temp + 1]))
 		{
 			temp++;
@@ -82,7 +82,7 @@ int	check_squote(char *str, int counter)
 		while (str[temp] && str[temp] != 39)
 			temp++;
 		if (str[temp] == '\0')
-			return (counter);
+			return (temp);
 		else if (str[temp] == 39 && ft_isalnum(str[temp + 1]))
 		{
 			temp++;

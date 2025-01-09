@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cde-paiv <cde-paiv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 18:05:19 by cde-paiv          #+#    #+#             */
-/*   Updated: 2025/01/04 01:09:19 by cde-paiv         ###   ########.fr       */
+/*   Updated: 2025/01/09 08:30:43 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	execute_comand_in_pipe(t_sh *sh, int i, int in_fd, int pipefd[2])
 	}
 	else if (execve(sh->comands[i].cmd, sh->comands[i].arg, sh->envp) == -1)
 	{
-		perror("Erro ao executar comando");
+		perror("Error executing command");
 		exit(EXIT_FAILURE);
 	}
 	if (check_if_arg_error(sh, i) == true)

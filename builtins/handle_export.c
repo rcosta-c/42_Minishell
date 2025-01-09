@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 11:08:36 by cde-paiv          #+#    #+#             */
-/*   Updated: 2025/01/04 00:52:35 by cde-paiv         ###   ########.fr       */
+/*   Updated: 2025/01/09 08:37:52 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void	sort(char **array, int n)
 	char	*temp;
 
 	i = 0;
-	while (i < n -1)
+	while (i < n - 1)
 	{
 		j = 0;
 		while (j < n - i - 1)
@@ -74,13 +74,9 @@ void	free_temp_env(char **temp)
 char	**handle_array(t_sh *sh)
 {
 	char	**temp_env;
-	int		i;
 	int		j;
 
-	i = 0;
 	j = 0;
-	while (sh->envp[i])
-		i++;
 	temp_env = malloc((sh->vars.envp_total + 1) * sizeof(char **));
 	if (!temp_env)
 		return (NULL);

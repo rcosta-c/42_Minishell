@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:54:37 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/08 23:33:35 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/09 10:27:47 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,18 +64,4 @@ void	init_cycle(t_sh *sh)
 	init_vars(sh);
 	if (sh->cmd_line)
 		free(sh->cmd_line);
-}
-
-int	init_check_invalid_start(t_sh *sh)
-{
-	int	x;
-
-	x = 0;
-	while (x < sh->vars.tk_num && (sh->tokens[x].d_quote == true
-			|| sh->tokens[x].s_quote == true)
-		&& ft_strlen(sh->tokens[x].tokens) == 2)
-	{
-		x++;
-	}
-	return (x);
 }

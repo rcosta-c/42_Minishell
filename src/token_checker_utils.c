@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:52:56 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/08 23:36:16 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/09 10:28:14 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,19 +66,4 @@ bool	search_ext(char *str)
 		len--;
 	}
 	return (false);
-}
-
-void	check_invalid_start(t_sh *sh)
-{
-	int		counter;
-
-	counter = init_check_invalid_start(sh);
-	if (counter == 0)
-		return ;
-	else if ((counter >= 1))
-	{
-		free(sh->tokens[0].tokens);
-		sh->tokens[0].pipe = true;
-		sh->tokens[0].tokens = ft_strdup("|");
-	}
 }

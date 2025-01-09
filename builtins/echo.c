@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 21:26:11 by mota              #+#    #+#             */
-/*   Updated: 2025/01/06 13:16:22 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/09 10:30:12 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,10 @@ void	ft_echo(t_sh *sh, char **args)
 
 	i = 1;
 	n_flag = 0;
-	while (args[i] && !ft_strncmp(args[i], "-n", 2))
+	while (args[i] && !ft_strncmp(args[i], "-", 1))
 	{
-		n_flag = 1;
+		if (ft_strlen(args[i]) == 2 && args[i][1] == 'n')
+			n_flag = 1;
 		i++;
 	}
 	while (args[i])

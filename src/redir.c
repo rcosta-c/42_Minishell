@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:53:18 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/30 21:51:19 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/09 08:34:02 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ static void	handle_redir_in(t_sh *sh, int x)
 	if (sh->comands[x].infile_fd < 0)
 	{
 		sh->comands[x].errors.infile_notvalid = true;
-		perror("Minishell: ");
+		perror("Error opening stdin");
 		return ;
 	}
 	sh->comands[x].inbackup = dup(STDOUT_FILENO);
 	if (dup2(sh->comands[x].infile_fd, STDIN_FILENO) < 0)
 	{
-		perror("Erro ao redirecionar stdin");
+		perror("Error redirecting stdin");
 		close(sh->comands[x].infile_fd);
 		return ;
 	}
@@ -42,13 +42,13 @@ static void	handle_redir_out(t_sh *sh, int x)
 	if (sh->comands[x].outfile_fd < 0)
 	{
 		sh->comands[x].errors.outfile_notvalid = true;
-		perror("erro ao abrir output_fd");
+		perror("Error opening output_fd");
 		return ;
 	}
 	sh->comands[x].outbackup = dup(STDOUT_FILENO);
 	if (dup2(sh->comands[x].outfile_fd, STDOUT_FILENO) < 0)
 	{
-		perror("Erro ao redirecionar stdout");
+		perror("Error redirecting stdin");
 		close(sh->comands[x].outfile_fd);
 		return ;
 	}
@@ -62,13 +62,13 @@ static void	handle_redir_outapp(t_sh *sh, int x)
 	if (sh->comands[x].outappend_fd < 0)
 	{
 		sh->comands[x].errors.outfile_notvalid = true;
-		perror("erro ao abrir output_fd");
+		perror("Error opening output_fd");
 		return ;
 	}
 	sh->comands[x].outbackup = dup(STDOUT_FILENO);
 	if (dup2(sh->comands[x].outappend_fd, STDOUT_FILENO) < 0)
 	{
-		perror("Erro ao redirecionar stdout");
+		perror("Error redirecting stdin");
 		close(sh->comands[x].outappend_fd);
 		return ;
 	}

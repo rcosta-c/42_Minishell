@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 11:42:42 by cde-paiv          #+#    #+#             */
-/*   Updated: 2025/01/08 15:29:16 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/09 10:28:21 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,7 +191,6 @@ void	init_error(t_sh *sh);
 void	init_tokens(t_sh *sh);
 void	init_parser(t_sh *sh);
 void	init_cycle(t_sh *sh);
-int		init_check_invalid_start(t_sh *sh);
 /*   FIM   */
 
 /*	INIT_UTILS.c	*/
@@ -235,8 +234,6 @@ int		check_type_quote(char *cmd_line, int x);
 bool	check_if_dquote(char *str, int x_o);
 bool	check_if_squote(char *str, int x_o);
 bool	search_ext(char *str);
-void	check_invalid_start(t_sh *sh);
-
 /*   FIM   */
 
 /*	TOKEN_UTILS.c*/

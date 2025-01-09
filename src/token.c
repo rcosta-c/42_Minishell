@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:51:45 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/30 23:12:48 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/09 10:30:35 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ char	*prepare_line(char *str)
 {
 	int		x_o[1];
 	int		x_d[1];
-	char	temp[1000];
+	char	temp[10000];
 
 	x_o[0] = 0;
 	x_d[0] = 0;

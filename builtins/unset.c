@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 18:16:01 by mota              #+#    #+#             */
-/*   Updated: 2025/01/06 13:20:46 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/09 10:29:35 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,27 @@ static int	get_var_pos_unset(t_sh *sh, char *var)
 	return (-1);
 }
 
+static bool	check_options(t_sh *sh, char **args)
+{
+	int	i;
+
+	i = 1;
+	if (args[i])
+	{
+		while (args[i] && !ft_strncmp(args[i], "-", 1))
+		{
+			if (ft_strlen(args[i]) >= 2 && args[i][0] == '-')
+			{
+				ft_putstr_fd("unset: options not allowed\n", 2);
+				sh->error.exit_error = true;
+				return (true);
+			}
+			i++;
+		}
+	}
+	return (false);
+}
+
 void	ft_unset(t_sh *sh, char **args)
 {
 	int		i;
@@ -74,7 +95,7 @@ void	ft_unset(t_sh *sh, char **args)
 
 	i = 0;
 	j = 0;
-	if (check_wrong_args(args) == true)
+	if (check_wrong_args(args) == true || check_options(sh, args) == true)
 		return ;
 	if (get_var_pos_unset(sh, args[1]) == -1)
 		return ;
