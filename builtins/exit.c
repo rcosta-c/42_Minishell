@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 17:55:12 by cde-paiv          #+#    #+#             */
-/*   Updated: 2025/01/09 10:29:52 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/09 10:35:58 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void	invalid_exit_arg(char *arg, t_sh *sh)
 
 static bool	check_errors_exit(t_sh *sh, char **args)
 {
-	if (args[1] && args[1][0] == '-' && ft_isalnum(args[1][1]))
+	if (args[1] && args[1][0] == '-' && ft_isalpha(args[1][1]))
 	{
 		g_status = BUILTINSERROR;
 		ft_putstr_fd("exit: options not allowed\n", 2);

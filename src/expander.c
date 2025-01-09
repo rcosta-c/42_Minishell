@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:55:03 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/06 10:25:50 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/09 11:37:16 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*expand_token_seeker2(t_sh *sh, int *x, int n, char *c)
 		bx = 0;
 		(*x)++;
 		while (sh->tokens[n].tokens[*x]
-			&& ft_isalpha(sh->tokens[n].tokens[*x]))
+			&& ft_isalnum(sh->tokens[n].tokens[*x]))
 			b[bx++] = sh->tokens[n].tokens[(*x)++];
 		b[bx] = '\0';
 		c = search_envp(sh, b);

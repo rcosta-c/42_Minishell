@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:55:09 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/07 22:54:13 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/09 11:38:27 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,10 @@ int	ft_envp_n_cmp(const char *s1, const char *s2)
 	size_t	counter;
 	size_t	n;
 
-	n = ft_strlen(s1);
+	if (ft_strlen(s2) > ft_strlen(s1))
+		n = ft_strlen(s2);
+	else
+		n = ft_strlen(s1);
 	counter = 0;
 	if (n == 0)
 		return (0);
@@ -40,7 +43,9 @@ int	ft_envp_n_cmp(const char *s1, const char *s2)
 		else
 			return (0);
 	}
-	if (s2[counter] == '=')
+	if (s1[counter] == '\0' && s2[counter] == '=')
+		return (0);
+	else if (s2[counter] == '=')
 		return ((unsigned char)(s1[counter]) - (unsigned char)(s2[counter]));
 	else
 		return ((unsigned char)(s2[counter]));
