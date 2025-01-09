@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:54:43 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/09 11:11:13 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/09 22:30:51 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,13 @@ void	init_cmds(t_sh *sh, int x)
 	sh->comands[x].pipes = false;
 	sh->comands[x].redir = false;
 	sh->comands[x].heredoc = false;
+	sh->comands[x].app_out = false;
 	sh->comands[x].infile = NULL;
-	sh->comands[x].infile_fd = -1;
-	sh->comands[x].inheredoc_fd = -1;
+	sh->comands[x].infile_fd = ERROR_FD;
+	sh->comands[x].inheredoc_fd = ERROR_FD;
 	sh->comands[x].inheredoc_file = NULL;
 	sh->comands[x].outfile = NULL;
-	sh->comands[x].outfile_fd = -1;
-	sh->comands[x].outappend_fd = -1;
+	sh->comands[x].outfile_fd = ERROR_FD;
 	sh->comands[x].outappendfile = NULL;
 	sh->comands[x].inbackup = -1;
 	sh->comands[x].outbackup = -1;

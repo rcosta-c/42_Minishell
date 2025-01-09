@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 11:42:42 by cde-paiv          #+#    #+#             */
-/*   Updated: 2025/01/09 10:28:21 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/09 22:32:50 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@
 # include "../lib/libft/libft.h"
 # include "../lib/gnl/get_next_line.h"
 
+# define ERROR_FD		-1
 # define BUILTINSERROR	1
 # define SYNTAX_MISPELL	2
 # define NO_PERMISSION	126
@@ -120,12 +121,12 @@ typedef struct s_exec
 	bool		redir;
 	bool		pipes;
 	bool		heredoc;
+	bool		app_out;
 	int			n_redir;
 	int			n_args;
 	int			inheredoc_fd;
 	int			infile_fd;
 	int			outfile_fd;
-	int			outappend_fd;
 	int			outbackup;
 	int			inbackup;
 	t_execerror	errors;
@@ -319,6 +320,7 @@ void	ft_redir_multiargs(t_sh *sh);
 /*	REDIR_PARSE2	*/
 void	ft_count_redirs(t_sh *sh, int x, int n_cmd);
 int		ft_parse_redirs(t_sh *sh, int x, int n_cmd);
+int		count_dpoint(char **ptr);
 /*	FIM 	*/
 
 /*	HEREDOC.c	*/

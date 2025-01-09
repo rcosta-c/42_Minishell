@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:55:24 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/08 14:54:50 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/09 22:33:16 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,19 +61,19 @@ static char	*prep_cmd_helper(char *temp, char **path, char *cmd)
 	int			x;
 	struct stat	path_stat;
 
-	x = 0;
 	if (!path)
 		return (ft_strdup(cmd));
-	while (path[x])
+	x = count_dpoint(path);
+	while (x >= 0)
 	{
 		temp = join_2_str(path[x], cmd, "/", 0);
 		if (stat(temp, &path_stat) == 0 && access(temp, X_OK) == 0
 			&& access(temp, F_OK) == 0)
 			break ;
 		free(temp);
-		x++;
+		x--;
 	}
-	if (!path[x])
+	if (x < 0)
 		temp = ft_strdup(cmd);
 	return (temp);
 }
