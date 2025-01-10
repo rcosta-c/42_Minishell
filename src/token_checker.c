@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:52:28 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/09 09:31:48 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/10 16:02:15 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,60 +43,51 @@ bool	token_is_valid(char src)
 		return (false);
 }
 
-int	check_dquote(char *str, int counter)
-{
-	int	temp;
 
-	temp = counter;
-	if (str[temp] == 34)
-	{
-		temp++;
-		while (str[temp] && str[temp] != 34)
-			temp++;
-		if (str[temp] == '\0')
-			return (temp);
-		else if (str[temp] == 34 && ft_isalnum(str[temp + 1]))
-		{
-			temp++;
-			while (str[temp] && ft_isalnum(str[temp]))
-				temp++;
-			return (temp);
-		}
-		else
-		{
-			temp++;
-			return (temp);
-		}
-	}
-	return (counter);
+int check_dquote(char *str, int counter)
+{
+    int temp;
+
+    temp = counter;
+    if (str[temp] == 34)
+    {
+        temp++;
+        while (str[temp] && str[temp] != 34)
+            temp++;
+        if (str[temp] == '\0')
+            return (temp);
+        temp++;
+        while (str[temp] && (ft_isalnum(str[temp]) || 
+               str[temp] == 34 || str[temp] == 39 ||
+               str[temp] == '_' || str[temp] == '-' ||
+               str[temp] == '.' || str[temp] == '/'))
+			temp = check_dquote_helper(str, temp);
+        return (temp);
+    }
+    return (counter);
 }
 
-int	check_squote(char *str, int counter)
+int check_squote(char *str, int counter)
 {
-	int	temp;
+    int temp;
 
-	temp = counter;
-	if (str[temp] == 39)
-	{
-		temp++;
-		while (str[temp] && str[temp] != 39)
-			temp++;
-		if (str[temp] == '\0')
-			return (temp);
-		else if (str[temp] == 39 && ft_isalnum(str[temp + 1]))
-		{
-			temp++;
-			while (str[temp] && ft_isalnum(str[temp]))
-				temp++;
-			return (temp);
-		}
-		else
-		{
-			temp++;
-			return (temp);
-		}
-	}
-	return (counter);
+    temp = counter;
+    if (str[temp] == 39)
+    {
+        temp++;
+        while (str[temp] && str[temp] != 39)
+            temp++;
+        if (str[temp] == '\0')
+            return (temp);
+        temp++; 
+        while (str[temp] && (ft_isalnum(str[temp]) || 
+               str[temp] == 34 || str[temp] == 39 ||
+               str[temp] == '_' || str[temp] == '-' ||
+               str[temp] == '.' || str[temp] == '/'))
+			temp = check_squote_helper(str, temp);
+        return (temp);
+    }
+    return (counter);
 }
 
 int	check_type_quote(char *cmd_line, int x)

@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:54:43 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/09 22:30:51 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/10 15:37:39 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	init_tk_flag1(t_sh *sh, int x)
 	sh->tokens[x].r_out = false;
 	sh->tokens[x].r_heredoc = false;
 	sh->tokens[x].r_outappend = false;
+	sh->tokens[x].m_quote = false;
 	sh->tokens[x].s_quote = false;
 	sh->tokens[x].d_quote = false;
 	sh->tokens[x].f_quote = false;

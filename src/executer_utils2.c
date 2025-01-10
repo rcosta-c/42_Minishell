@@ -23,3 +23,4 @@ void	after_execution(t_sh *sh, int pid)
 	else if (WIFSIGNALED(status))
 		g_status = 128 + WTERMSIG(status);
 }
+

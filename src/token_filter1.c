@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:52:16 by rcosta-c          #+#    #+#             */
-/*   Updated: 2024/12/30 23:33:20 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/10 17:05:58 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,24 +37,29 @@ void	filter_args(t_sh *sh, int n)
 	}
 }
 
-void	filter_envp(t_sh *sh, int n)
+void filter_envp(t_sh *sh, int n)
 {
-	int	x;
+	int		x;
+	bool	in_quotes;
 
 	if (!sh->tokens[n].tokens)
-		return ;
-	if (sh->tokens[n].s_quote == true)
-		return ;
+		return;
 	x = 0;
+	in_quotes = false;
 	while (sh->tokens[n].tokens[x])
 	{
-		if (sh->tokens[n].tokens[x] == '$')
-			x = filter_envp_helper(sh, n, x);
-		else if (sh->tokens[n].tokens[0] == '~')
+		 if (sh->tokens[n].tokens[x] == '\'')
 		{
-			if (!sh->tokens[n].tokens[1] || sh->tokens[n].tokens[1] == '/')
-				sh->tokens[n].exp_t = true;
+			in_quotes = !in_quotes;
 			x++;
+			continue;
+		}
+		if (!in_quotes && sh->tokens[n].tokens[x] == '$')
+			x = filter_envp_helper(sh, n, x);
+		else if (!in_quotes && sh->tokens[n].tokens[x] == '~')
+		{
+			if (!sh->tokens[n].tokens[++x] || sh->tokens[n].tokens[x] == '/')
+				sh->tokens[n].exp_t = true;
 		}
 		else
 			x++;
@@ -91,8 +96,8 @@ void	filter_tokens(t_sh *sh)
 	{
 		if (!sh->tokens[n].tokens)
 			return ;
-		filter_quotes(sh, n);
 		filter_envp(sh, n);
+		filter_quotes(sh, n);
 		filter_file(sh, n);
 		filter_pipes_redir(sh, n);
 		filter_args(sh, n);

@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 11:42:42 by cde-paiv          #+#    #+#             */
-/*   Updated: 2025/01/10 10:53:57 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/10 17:21:06 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ typedef struct s_tokens
 	bool	cmd;
 	bool	arg;
 	bool	pipe;
+	bool	m_quote;
 	bool	s_quote;
 	bool	d_quote;
 	bool	f_quote;
@@ -235,6 +236,8 @@ int		check_type_quote(char *cmd_line, int x);
 bool	check_if_dquote(char *str, int x_o);
 bool	check_if_squote(char *str, int x_o);
 bool	search_ext(char *str);
+int		check_squote_helper(char *str, int temp);
+int		check_dquote_helper(char *str, int temp);
 /*   FIM   */
 
 /*	TOKEN_UTILS.c*/
@@ -278,8 +281,12 @@ char	*search_envp(t_sh *sh, char *z);
 int		ft_envp_n_cmp(const char *s1, const char *s2);
 char	*expand_exit(t_sh *sh, int n, int x, char *z);
 char	*expand_exit_token(t_sh *sh, int *x, int n, char *c);
-
 /*	FIM 	*/
+
+/*		EXPANDER_UTILS2.c	*/
+char	*expand_token_seeker3(t_sh *sh, int n, int *x);
+
+/*	FIM	*/
 
 /* PARSE.C*/
 void	fill_parser(t_sh *sh);

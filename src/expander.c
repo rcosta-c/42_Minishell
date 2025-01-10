@@ -6,37 +6,23 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:55:03 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/10 11:51:32 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/10 17:22:29 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+
+
 char	*expand_token_seeker2(t_sh *sh, int *x, int n, char *c)
 {
-	char	b[5000];
-	int		bx;
-
 	c = expand_exit_token(sh, x, n, c);
 	if (sh->tokens[n].tokens[*x] == '$'
 		&& (sh->tokens[n].tokens[*x + 1] == '\0'
 			|| ft_isalpha(sh->tokens[n].tokens[*x + 1]) == 0))
 		return (ft_strdup("$"));
 	else if (sh->tokens[n].tokens[*x] == '$')
-	{
-		bx = 0;
-		(*x)++;
-		while (sh->tokens[n].tokens[*x]
-			&& sh->tokens[n].tokens[*x] != '=')
-			b[bx++] = sh->tokens[n].tokens[(*x)++];
-		b[bx] = '\0';
-		c = search_envp(sh, b);
-		if (!c)
-		{
-			c = ft_strdup(" ");
-			sh->tokens[n].exp_empty = true;
-		}
-	}
+		c = expand_token_seeker3(sh, n, x);
 	return (c);
 }
 

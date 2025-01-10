@@ -53,6 +53,7 @@ SRCS := src/main.c \
 						src/init_utils.c \
 						src/expander.c \
 						src/expander_utils.c \
+						src/expander_utils2.c \
 						lib/gnl/get_next_line.c \
 						lib/gnl/get_next_line_utils.c \
 						lib/libft/ft_isalnum.c \

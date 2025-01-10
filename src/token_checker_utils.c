@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:52:56 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/09 10:28:14 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/10 17:03:45 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,50 @@ bool	search_ext(char *str)
 		len--;
 	}
 	return (false);
+}
+
+int	check_squote_helper(char *str, int temp)
+{
+	if (str[temp] == 39)
+	{
+		temp++;
+		while (str[temp] && str[temp] != 39)
+			temp++;
+		if (str[temp] == 39)
+			temp++;
+	}
+	else if (str[temp] == 34)
+	{
+		temp++;
+		while (str[temp] && str[temp] != 34)
+			temp++;
+		if (str[temp] == 34)
+			temp++;
+	}
+	else
+		temp++;
+	return (temp);
+}
+
+int	check_dquote_helper(char *str, int temp)
+{
+	if (str[temp] == 34)
+	{
+		temp++;
+		while (str[temp] && str[temp] != 34)
+			temp++;
+		if (str[temp] == 34)
+	temp++;
+	}
+	else if (str[temp] == 39)
+	{
+		temp++;
+		while (str[temp] && str[temp] != 39)
+			temp++;
+		if (str[temp] == 39)
+			temp++;
+	}
+	else
+		temp++;
+	return (temp);
 }
