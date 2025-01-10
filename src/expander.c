@@ -6,17 +6,21 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:55:03 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/10 17:22:29 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/10 20:27:02 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-
-
 char	*expand_token_seeker2(t_sh *sh, int *x, int n, char *c)
 {
-	c = expand_exit_token(sh, x, n, c);
+	if (sh->tokens[n].tokens[*x] == '$'
+		&& sh->tokens[n].tokens[*x + 1] == '?')
+	{
+		(*x)++;
+		c = ft_itoa(g_status);
+		(*x)++;
+	}
 	if (sh->tokens[n].tokens[*x] == '$'
 		&& (sh->tokens[n].tokens[*x + 1] == '\0'
 			|| ft_isalpha(sh->tokens[n].tokens[*x + 1]) == 0))

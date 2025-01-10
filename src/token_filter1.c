@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:52:16 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/10 17:05:58 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/10 19:47:24 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,22 +37,22 @@ void	filter_args(t_sh *sh, int n)
 	}
 }
 
-void filter_envp(t_sh *sh, int n)
+void	filter_envp(t_sh *sh, int n)
 {
 	int		x;
 	bool	in_quotes;
 
 	if (!sh->tokens[n].tokens)
-		return;
+		return ;
 	x = 0;
 	in_quotes = false;
 	while (sh->tokens[n].tokens[x])
 	{
-		 if (sh->tokens[n].tokens[x] == '\'')
+		if (sh->tokens[n].tokens[x] == '\'')
 		{
 			in_quotes = !in_quotes;
 			x++;
-			continue;
+			continue ;
 		}
 		if (!in_quotes && sh->tokens[n].tokens[x] == '$')
 			x = filter_envp_helper(sh, n, x);

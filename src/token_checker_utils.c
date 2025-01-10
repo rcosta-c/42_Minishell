@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:52:56 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/10 17:03:45 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/10 19:47:44 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ int	check_dquote_helper(char *str, int temp)
 		while (str[temp] && str[temp] != 34)
 			temp++;
 		if (str[temp] == 34)
-	temp++;
+			temp++;
 	}
 	else if (str[temp] == 39)
 	{

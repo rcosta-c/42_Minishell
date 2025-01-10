@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:55:18 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/10 10:53:18 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/10 19:57:59 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ bool	check_if_builtin(char *cmd)
 void	execute_cmd(t_sh *sh, int x)
 {
 	pid_t	pid;
-	
+
 	if (check_exec_error(sh, x))
 		return ;
 	else

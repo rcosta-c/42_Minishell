@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 18:05:19 by cde-paiv          #+#    #+#             */
-/*   Updated: 2025/01/10 10:59:16 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/10 19:54:53 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static bool	check_file_pipe(t_sh *sh, int i)
 	return (false);
 }
 
-void	execute_comand_in_pipe(t_sh *sh, int i, int in_fd, int pipefd[2], int pid)
+void	execute_comand_in_pipe(t_sh *sh, int i, int in_fd, int pipefd[2])
 {
 	dup2(in_fd, STDIN_FILENO);
 	if (i < sh->vars.cmds_num - 1)
@@ -46,7 +46,7 @@ void	execute_comand_in_pipe(t_sh *sh, int i, int in_fd, int pipefd[2], int pid)
 		exit(errno);
 	}
 	else
-		after_execution(sh, pid);
+		after_execution(sh, 0);
 	if (check_file_pipe(sh, i) == true)
 		exit(EXIT_FAILURE);
 }
@@ -70,7 +70,7 @@ void	execute_pipeline(t_sh *sh, int i)
 		if (pid == -1 || g_status)
 			get_out_of_pipe();
 		if (pid == 0)
-			execute_comand_in_pipe(sh, i, in_fd, pipefd, pid);
+			execute_comand_in_pipe(sh, i, in_fd, pipefd);
 		close(pipefd[1]);
 		if (in_fd != 0)
 			close(in_fd);

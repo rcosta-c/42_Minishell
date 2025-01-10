@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 11:42:42 by cde-paiv          #+#    #+#             */
-/*   Updated: 2025/01/10 17:21:06 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/10 19:55:11 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -370,8 +370,9 @@ void	after_execution(t_sh *sh, int pid);
 /*	FIM		*/
 
 /*	PIPE.c*/
-void	execute_pipeline(t_sh *sh, int i);
 void	check_pipes(t_sh *sh);
+void	execute_comand_in_pipe(t_sh *sh, int i, int in_fd, int pipefd[2]);
+void	execute_pipeline(t_sh *sh, int i);
 /*	FIM		*/
 
 /*	PIPE.c*/
