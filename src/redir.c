@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:53:18 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/09 22:35:47 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/10 11:33:23 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static int	open_output_file(t_sh *sh, int x)
 
 	if (sh->comands[x].app_out == true)
 	{
-		fd = open(sh->comands[x].outappendfile,
+		fd = open(sh->comands[x].outfile,
 				O_WRONLY | O_CREAT | O_APPEND,
 				0666);
 	}

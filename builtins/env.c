@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 18:39:54 by mota              #+#    #+#             */
-/*   Updated: 2025/01/09 10:30:05 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/10 11:48:06 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	ft_env(t_sh *sh, char **args)
 	{
 		ft_putstr_fd("env: '", 2);
 		ft_putstr_fd(args[1], 2);
-		ft_putstr_fd("': No such file or directory\n", 2);
+		ft_putstr_fd("': Arguments and options aren't supported\n", 2);
 		sh->error.exit_error = true;
 		return ;
 	}

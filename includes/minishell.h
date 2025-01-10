@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 11:42:42 by cde-paiv          #+#    #+#             */
-/*   Updated: 2025/01/09 22:32:50 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/10 10:53:57 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -356,6 +356,10 @@ bool	check_if_builtin(char *cmd);
 char	*prep_cmd(t_sh *sh, char *cmd, int x);
 bool	check_exec_error(t_sh *sh, int x);
 void	exec_builtin(t_sh *sh, int cmd_nbr);
+/*	FIM		*/
+
+/*	EXECUTER_UTILS2.c	*/
+void	after_execution(t_sh *sh, int pid);
 /*	FIM		*/
 
 /*	PIPE.c*/

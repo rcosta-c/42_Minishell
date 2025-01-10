@@ -6,27 +6,11 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 18:05:19 by cde-paiv          #+#    #+#             */
-/*   Updated: 2025/01/09 08:30:43 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/10 10:59:16 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-static bool	check_if_arg_error(t_sh *sh, int i)
-{
-	struct stat	file_info;
-	int			xx;
-
-	xx = 0;
-	while (sh->comands[i].n_args >= 1 && xx < sh->comands[i].n_args)
-	{
-		if (stat(sh->comands[i].arg[xx + 1], &file_info) == -1)
-			if (errno == ENOENT)
-				return (true);
-		xx++;
-	}
-	return (false);
-}
 
 static bool	check_file_pipe(t_sh *sh, int i)
 {
@@ -44,7 +28,7 @@ static bool	check_file_pipe(t_sh *sh, int i)
 	return (false);
 }
 
-void	execute_comand_in_pipe(t_sh *sh, int i, int in_fd, int pipefd[2])
+void	execute_comand_in_pipe(t_sh *sh, int i, int in_fd, int pipefd[2], int pid)
 {
 	dup2(in_fd, STDIN_FILENO);
 	if (i < sh->vars.cmds_num - 1)
@@ -59,10 +43,10 @@ void	execute_comand_in_pipe(t_sh *sh, int i, int in_fd, int pipefd[2])
 	else if (execve(sh->comands[i].cmd, sh->comands[i].arg, sh->envp) == -1)
 	{
 		perror("Error executing command");
-		exit(EXIT_FAILURE);
+		exit(errno);
 	}
-	if (check_if_arg_error(sh, i) == true)
-		exit(EXIT_FAILURE);
+	else
+		after_execution(sh, pid);
 	if (check_file_pipe(sh, i) == true)
 		exit(EXIT_FAILURE);
 }
@@ -86,7 +70,7 @@ void	execute_pipeline(t_sh *sh, int i)
 		if (pid == -1 || g_status)
 			get_out_of_pipe();
 		if (pid == 0)
-			execute_comand_in_pipe(sh, i, in_fd, pipefd);
+			execute_comand_in_pipe(sh, i, in_fd, pipefd, pid);
 		close(pipefd[1]);
 		if (in_fd != 0)
 			close(in_fd);

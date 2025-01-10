@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 23:21:44 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/09 22:33:32 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/10 11:10:30 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,7 @@ static int	ft_parse_redirs_in(t_sh *sh, int x, int n_cmd, int counter)
 {
 	if (sh->tokens[x - 1].r_in == true)
 	{
-		if (sh->comands[n_cmd].heredoc == true)
-			sh->comands[n_cmd].heredoc = false;
+		sh->comands[n_cmd].heredoc = false;
 		if (sh->comands[n_cmd].infile != NULL)
 			free(sh->comands[n_cmd].infile);
 		if (sh->tokens[x].file == true)
@@ -62,8 +61,7 @@ static int	ft_parse_redirs_out(t_sh *sh, int x, int n_cmd, int counter)
 {
 	if (sh->tokens[x - 1].r_out == true)
 	{
-		if (sh->comands[n_cmd].app_out == true)
-			sh->comands[n_cmd].app_out = false;
+		sh->comands[n_cmd].app_out = false;
 		if (sh->comands[n_cmd].outfile != NULL)
 			free(sh->comands[n_cmd].outfile);
 		if (sh->tokens[x].file == true)

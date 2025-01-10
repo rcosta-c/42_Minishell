@@ -35,6 +35,7 @@ SRCS := src/main.c \
 						src/heredoc.c \
 						src/executer.c \
 						src/executer_utils.c \
+						src/executer_utils2.c \
 						src/token_utils.c \
 						src/token_counter.c \
 						src/token_copy.c \

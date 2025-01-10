@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:55:18 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/03 11:09:55 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/10 10:53:18 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ bool	check_if_builtin(char *cmd)
 void	execute_cmd(t_sh *sh, int x)
 {
 	pid_t	pid;
-
+	
 	if (check_exec_error(sh, x))
 		return ;
 	else
@@ -72,13 +72,11 @@ void	execute_cmd(t_sh *sh, int x)
 			if (execve(sh->comands[x].cmd, sh->comands[x].arg, sh->envp) == -1)
 			{
 				perror("Error executing command");
-				g_status = EXIT_FAILURE;
-				exit(EXIT_FAILURE);
+				exit(errno);
 			}
-			g_status = errno;
 		}
 		else
-			waitpid(pid, NULL, 0);
+			after_execution(sh, pid);
 	}
 }
 
