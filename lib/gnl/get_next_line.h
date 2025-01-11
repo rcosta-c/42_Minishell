@@ -6,14 +6,14 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 07:58:24 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/03 08:23:14 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/11 16:12:17 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
-# include "../42_Minishell/includes/minishell.h"
+# include "lib/libft/libft.h"
 # include <stdlib.h>
 # include <unistd.h>
 

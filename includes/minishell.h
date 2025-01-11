@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 11:42:42 by cde-paiv          #+#    #+#             */
-/*   Updated: 2025/01/10 19:55:11 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/11 18:02:33 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,6 +207,7 @@ void	ft_sigset(void);
 void	ft_sigset_fd(void);
 void	ft_signal_handler(int sig);
 void	ft_signal_handfd(int sig);
+void	ft_sigset_pipes(void);
 /*	FIM		*/
 
 /* TOKEN.c */
@@ -375,10 +376,11 @@ void	execute_comand_in_pipe(t_sh *sh, int i, int in_fd, int pipefd[2]);
 void	execute_pipeline(t_sh *sh, int i);
 /*	FIM		*/
 
-/*	PIPE.c*/
+/*	PIPE_UTILS.c*/
 void	get_out_of_pipe(void);
 void	prep_cmds_pipes(t_sh *sh);
-void	pipeline_exit(t_sh *sh, int in_fd, int i);
+void	wait_for_child(pid_t pid);
+void	handle_error_pipe(const char *msg, int exit_code);
 /*	FIM		*/
 
 /*	HISTORY.c	*/
