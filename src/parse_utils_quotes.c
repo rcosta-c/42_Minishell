@@ -6,11 +6,26 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:54:23 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/09 10:28:41 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/18 11:13:39 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void	cleaning_quotes(t_sh *sh)
+{
+	int	x;
+
+	x = 0;
+	while (x < sh->vars.tk_num)
+	{
+		if (sh->tokens[x].d_quote == true)
+			sh->tokens[x].tokens = clean_quote_d(sh, x);
+		if (sh->tokens[x].s_quote == true)
+			sh->tokens[x].tokens = clean_quote_s(sh, x);
+		x++;
+	}
+}
 
 char	*clean_quote_d(t_sh *sh, int n)
 {
@@ -21,7 +36,6 @@ char	*clean_quote_d(t_sh *sh, int n)
 
 	x = 0;
 	xx = 0;
-	sh->tokens[n].d_quote = true;
 	if (n == 0 && ft_strlen(sh->tokens[n].tokens) == 2)
 		return (sh->tokens[n].tokens);
 	len = ft_strlen(sh->tokens[n].tokens);
@@ -49,7 +63,6 @@ char	*clean_quote_s(t_sh *sh, int n)
 
 	x = 0;
 	xx = 0;
-	sh->tokens[n].s_quote = true;
 	if (n == 0 && ft_strlen(sh->tokens[n].tokens) == 2)
 		return (sh->tokens[n].tokens);
 	len = ft_strlen(sh->tokens[n].tokens);

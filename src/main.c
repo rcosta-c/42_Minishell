@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:54:30 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/10 20:43:18 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/18 11:01:31 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,22 @@ int		g_status;
 
 static void	ft_get_minimal_envp(t_sh *sh)
 {
-	int		x;
 	char	cwd[10000];
+	char	*temp_home;
 
-	x = 2;
-	sh->vars.envp_total = 2;
-	sh->envp = malloc(sizeof(char *) * (x + 1));
+	sh->vars.envp_total = 5;
+	sh->envp = malloc(sizeof(char *) * (sh->vars.envp_total + 1));
 	if (!sh->envp)
 		return ;
 	getcwd(cwd, sizeof(cwd));
 	sh->envp[0] = ft_strjoin("PWD=", cwd);
 	sh->envp[1] = ft_strdup("SHLVL=1");
-	sh->envp[2] = NULL;
+	sh->envp[2] = ft_strdup("PATH=/usr/bin:/bin");
+	sh->envp[3] = ft_strdup("USER=42");
+	temp_home = get_my_home(sh);
+	sh->envp[4] = ft_strjoin("HOME=", temp_home);
+	sh->envp[5] = NULL;
+	free(temp_home);
 }
 
 void	handbrake_and_exit(t_sh *sh)
@@ -47,6 +51,7 @@ static void	tokenizer(t_sh *sh)
 	filter_tokens(sh);
 	ft_redir_multiargs(sh);
 	search_expand(sh);
+	cleaning_quotes(sh);
 }
 
 static void	sh_loop(t_sh *sh)
@@ -86,7 +91,7 @@ int	main(int ac, char **av, char **envp)
 	sh = ft_calloc(1, sizeof(t_sh));
 	if (sh == NULL)
 		return (EXIT_FAILURE);
-	if (envp[0] == NULL)
+	if (envp == NULL || envp[0] == NULL)
 		ft_get_minimal_envp(sh);
 	else
 		ft_getenv(sh, envp);

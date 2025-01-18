@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cde-paiv <cde-paiv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 10:29:46 by cde-paiv          #+#    #+#             */
-/*   Updated: 2024/12/27 11:56:08 by cde-paiv         ###   ########.fr       */
+/*   Updated: 2025/01/17 16:41:34 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ bool	update_old_pwd(t_sh *sh, char *old_pwd)
 	}
 	temp = malloc(sizeof(char **) * 3);
 	temp[0] = ft_strdup("export");
-	temp[1] = ft_strdup("old_pwd_var");
+	temp[1] = ft_strdup(old_pwd_var);
 	temp[2] = NULL;
 	ft_export(sh, temp);
 	free(old_pwd_var);

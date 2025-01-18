@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:55:18 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/10 19:57:59 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/18 11:00:09 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,19 +35,26 @@ void	exec_builtin(t_sh *sh, int cmd_nbr)
 
 bool	check_if_builtin(char *cmd)
 {
-	if (ft_strncmp("echo", cmd, ft_strlen("echo")) == 0)
+	if (ft_strncmp("echo", cmd, ft_strlen("echo")) == 0
+		&& ft_strlen(cmd) == 4)
 		return (true);
-	else if (ft_strncmp("cd", cmd, ft_strlen("cd")) == 0)
+	else if (ft_strncmp("cd", cmd, ft_strlen("cd")) == 0
+		&& ft_strlen(cmd) == 2)
 		return (true);
-	else if (ft_strncmp("pwd", cmd, ft_strlen("pwd")) == 0)
+	else if (ft_strncmp("pwd", cmd, ft_strlen("pwd")) == 0
+		&& ft_strlen(cmd) == 3)
 		return (true);
-	else if (ft_strncmp("export", cmd, ft_strlen("export")) == 0)
+	else if (ft_strncmp("export", cmd, ft_strlen("export")) == 0
+		&& ft_strlen(cmd) == 6)
 		return (true);
-	else if (ft_strncmp("unset", cmd, ft_strlen("unset")) == 0)
+	else if (ft_strncmp("unset", cmd, ft_strlen("unset")) == 0
+		&& ft_strlen(cmd) == 5)
 		return (true);
-	else if (ft_strncmp("env", cmd, ft_strlen("env")) == 0)
+	else if (ft_strncmp("env", cmd, ft_strlen("env")) == 0
+		&& ft_strlen(cmd) == 3)
 		return (true);
-	else if (ft_strncmp("exit", cmd, ft_strlen("exit")) == 0)
+	else if (ft_strncmp("exit", cmd, ft_strlen("exit")) == 0
+		&& ft_strlen(cmd) == 4)
 		return (true);
 	else
 		return (false);

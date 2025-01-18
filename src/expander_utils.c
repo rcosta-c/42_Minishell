@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:55:09 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/10 20:42:30 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/18 11:39:58 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,26 +79,41 @@ char	*search_envp(t_sh *sh, char *z)
 	return (NULL);
 }
 
-int	count_expands(t_sh *sh, int n)
+int	count_expands(t_sh *sh, int n, int exp_counter)
 {
-	int	x;
-	int	exp_counter;
+	int		x;
+	bool	in_single_quotes;
 
-	exp_counter = 0;
 	x = 0;
+	in_single_quotes = false;
 	while (sh->tokens[n].tokens[x])
 	{
-		if (sh->tokens[n].tokens[x] == '$')
-			exp_counter++;
-		else if (sh->tokens[n].tokens[x] == '~'
-			&& sh->tokens[n].d_quote == false
-			&& sh->tokens[n].s_quote == false)
-			exp_counter++;
-		else if (sh->tokens[n].tokens[x] == '$'
-			&& (sh->tokens[n].tokens[x + 1] == '$'
-				|| sh->tokens[n].tokens[x + 1] == '?'))
-			exp_counter++;
+		if (sh->tokens[n].tokens[x] == '\'' && !sh->tokens[n].d_quote)
+			in_single_quotes = !in_single_quotes;
+		else if (!in_single_quotes && !sh->tokens[n].s_quote)
+		{
+			if (sh->tokens[n].tokens[x] == '$')
+			{
+				if (sh->tokens[n].tokens[x + 1] == '$'
+					|| sh->tokens[n].tokens[x + 1] == '?')
+					x++;
+				exp_counter++;
+			}
+			else if (sh->tokens[n].tokens[x] == '~'
+				&& !sh->tokens[n].d_quote)
+				exp_counter++;
+		}
 		x++;
 	}
 	return (exp_counter);
+}
+
+int	prep_search(t_sh *sh, int n, int x)
+{
+	while (sh->tokens[n].tokens[x++])
+	{
+		if (sh->tokens[n].tokens[x] == '$')
+			expand_token(sh, n);
+	}
+	return (x);
 }

@@ -6,23 +6,54 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 17:18:39 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/10 20:46:37 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/18 11:25:32 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static char	*expt3_helper(t_sh *sh, int n, int *x, char *b)
+char	*expand_token_seeker2(t_sh *sh, int *x, int n, char *c)
 {
+	pid_t	pid;
+
+	if (sh->tokens[n].tokens[*x] == '$' && sh->tokens[n].tokens[*x + 1] == '$')
+	{
+		(*x) += 2;
+		pid = getpid();
+		return (ft_itoa(pid));
+	}
+	if (sh->tokens[n].tokens[*x] == '$' && sh->tokens[n].tokens[*x + 1] == '?')
+	{
+		(*x) += 2;
+		return (ft_itoa(g_status));
+	}
+	if (sh->tokens[n].tokens[*x] == '$'
+		&& (sh->tokens[n].tokens[*x + 1] == '\0'
+			|| !ft_isalpha(sh->tokens[n].tokens[*x + 1])))
+	{
+		(*x)++;
+		return (ft_strdup("$"));
+	}
+	if (sh->tokens[n].tokens[*x] == '$')
+		return (expand_token_seeker3(sh, n, x));
+	return (c);
+}
+
+char	*expand_token_seeker3(t_sh *sh, int n, int *x)
+{
+	char	b[2500];
 	int		bx;
 	char	*c;
 
-	bx = 0;
+	if (sh->tokens[n].s_quote)
+		return (NULL);
 	(*x)++;
+	bx = 0;
 	while (sh->tokens[n].tokens[*x]
 		&& sh->tokens[n].tokens[*x] != ' '
 		&& sh->tokens[n].tokens[*x] != '='
-		&& sh->tokens[n].tokens[*x] != '\'')
+		&& sh->tokens[n].tokens[*x] != '\''
+		&& sh->tokens[n].tokens[*x] != '"')
 	{
 		b[bx++] = sh->tokens[n].tokens[(*x)++];
 	}
@@ -32,41 +63,6 @@ static char	*expt3_helper(t_sh *sh, int n, int *x, char *b)
 	{
 		c = ft_strdup(" ");
 		sh->tokens[n].exp_empty = true;
-	}
-	return (c);
-}
-
-static bool	exptksk3_hlp(bool in_quotes)
-{
-	if (in_quotes == true)
-		return (false);
-	else
-		return (true);
-}
-
-char	*expand_token_seeker3(t_sh *sh, int n, int *x)
-{
-	char	b[2500];
-	bool	in_quotes;
-	char	*c;
-
-	c = NULL;
-	in_quotes = false;
-	while (sh->tokens[n].tokens[*x])
-	{
-		if (sh->tokens[n].tokens[*x] == '\'')
-		{
-			in_quotes = exptksk3_hlp(in_quotes);
-			(*x)++;
-			continue ;
-		}
-		if (in_quotes == false && sh->tokens[n].tokens[*x] == '$')
-		{
-			c = expt3_helper(sh, n, x, b);
-			break ;
-		}
-		else
-			(*x)++;
 	}
 	return (c);
 }

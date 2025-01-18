@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 11:42:42 by cde-paiv          #+#    #+#             */
-/*   Updated: 2025/01/11 18:02:33 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/18 11:48:42 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 #  define BUFFER_SIZE 1024
 # endif
 
+# define _GNU_SOURCE
+
 # include <stdio.h>
 # include <stdbool.h>
 # include <stdlib.h>
@@ -26,7 +28,8 @@
 # include <sys/wait.h>
 # include <sys/stat.h>
 # include <sys/types.h>
-# include <fcntl.h> 
+# include <fcntl.h>
+# include <features.h>
 # include <signal.h>
 # include <sys/ioctl.h>
 # include <dirent.h>
@@ -200,6 +203,7 @@ void	init_tk_flag1(t_sh *sh, int x);
 void	init_cmds(t_sh *sh, int x);
 void	init_vars(t_sh *sh);
 void	init_prompt_utils(t_sh *sh);
+char	*get_my_home(t_sh *sh);
 /*		FIM 	*/
 
 /*	SIGNALS.c	*/
@@ -277,17 +281,40 @@ char	*pre_expand(t_sh *sh, int *x, int n);
 /*   FIM   */
 
 /*	EXPANDER_UTILS.c*/
-int		count_expands(t_sh *sh, int n);
+int		count_expands(t_sh *sh, int n, int exp_counter);
 char	*search_envp(t_sh *sh, char *z);
 int		ft_envp_n_cmp(const char *s1, const char *s2);
 char	*expand_exit(t_sh *sh, int n, int x, char *z);
 char	*expand_exit_token(t_sh *sh, int *x, int n, char *c);
+int		prep_search(t_sh *sh, int n, int x);
 /*	FIM 	*/
 
 /*		EXPANDER_UTILS2.c	*/
 char	*expand_token_seeker3(t_sh *sh, int n, int *x);
-
 /*	FIM	*/
+
+/*	EXPANDER_HEREDOC.c	*/
+char	*expand_heredoc_seeker(t_sh *sh, char *line, int *x);
+int		count_heredoc_expands(char *line);
+char	*pre_heredoc_expand(char *line, int *x);
+char	*expand_heredoc_exit(char *line, int *x, char *z);
+/*	FIM 	*/
+
+/*	EXPANDER_HEREDOC2.c	*/
+char	*expand_heredoc_seeker3(t_sh *sh, char *line, int *x);
+/*	FIM 	*/
+
+/*	HEREDOC.c	*/
+char	*handle_nextline_heredoc(int fd);
+void	handle_heredoc(t_sh *sh, int x);
+char	*expand_heredoc(t_sh *sh, char *line);
+/*	FIM		*/
+
+/*	HEREDOC_UTILS.c	*/
+void	heredoc_exit_sigint(t_sh *sh, char *content, char *delimiter, int x);
+void	heredoc_exit_clean(t_sh *sh, char *delimiter, char *content, int x);
+bool	heredoc_break_conditions(char *line, char *delimiter);
+/*	FIM 	*/
 
 /* PARSE.C*/
 void	fill_parser(t_sh *sh);
@@ -315,9 +342,9 @@ bool	check_r_append_out(t_sh *sh);
 /*	FIM		*/
 
 /* PARSE_UTILS_QUOTES.c 	*/
+void	cleaning_quotes(t_sh *sh);
 char	*clean_quote_d(t_sh *sh, int n);
 char	*clean_quote_s(t_sh *sh, int n);
-void	remove_quoted(t_sh *sh);
 /*		FIM		*/
 
 /*	REDIR_PARSE	*/
@@ -330,11 +357,6 @@ void	ft_count_redirs(t_sh *sh, int x, int n_cmd);
 int		ft_parse_redirs(t_sh *sh, int x, int n_cmd);
 int		count_dpoint(char **ptr);
 /*	FIM 	*/
-
-/*	HEREDOC.c	*/
-char	*handle_nextline_heredoc(int fd);
-void	handle_heredoc(t_sh *sh, int x);
-/*	FIM		*/
 
 /* BUILTINS.c */
 void	ft_echo(t_sh *sh, char **args);

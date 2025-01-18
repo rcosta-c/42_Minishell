@@ -33,6 +33,7 @@ SRCS := src/main.c \
 						src/redir_parse.c \
 						src/redir_parse2.c \
 						src/heredoc.c \
+						src/heredoc_utils.c \
 						src/executer.c \
 						src/executer_utils.c \
 						src/executer_utils2.c \
@@ -52,6 +53,8 @@ SRCS := src/main.c \
 						src/signals.c \
 						src/init_utils.c \
 						src/expander.c \
+						src/expander_heredoc.c \
+						src/expander_heredoc2.c \
 						src/expander_utils.c \
 						src/expander_utils2.c \
 						lib/gnl/get_next_line.c \

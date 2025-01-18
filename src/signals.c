@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:53:12 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/11 17:40:28 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/18 11:01:17 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,6 @@
 void	ft_sigset(void)
 {
 	signal(SIGINT, ft_signal_handler);
-	signal(SIGQUIT, SIG_IGN);
-	signal(SIGTERM, SIG_IGN);
-}
-
-void	ft_sigset_fd(void)
-{
-	signal(SIGINT, ft_signal_handfd);
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGTERM, SIG_IGN);
 }
@@ -47,6 +40,18 @@ void	ft_signal_handfd(int sig)
 {
 	if (sig == SIGINT)
 	{
-		write(STDERR_FILENO, "\n", 1);
+		g_status = 130;
 	}
+}
+
+void	ft_sigset_fd(void)
+{
+	struct sigaction	sa;
+
+	sa.sa_handler = ft_signal_handfd;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = 0;
+	sigaction(SIGINT, &sa, NULL);
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGTERM, SIG_IGN);
 }

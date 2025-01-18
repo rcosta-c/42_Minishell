@@ -6,11 +6,21 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 15:46:16 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/03 08:18:30 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/18 11:11:17 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+int	count_dpoint(char **ptr)
+{
+	int	x;
+
+	x = 0;
+	while (ptr[x])
+		x++;
+	return (x);
+}
 
 static bool	is_redirection_token(t_sh *sh, int x)
 {

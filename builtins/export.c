@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 18:08:39 by mota              #+#    #+#             */
-/*   Updated: 2025/01/03 10:57:22 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/17 18:09:38 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,17 @@ static void	handle_append_export(t_sh *sh, char *search_var,
 	}
 }
 
+static void	handle_export_var_helper(t_sh *sh, const char *arg, char *var_name)
+{
+	if (get_var_pos(sh, (char *)arg) == -1)
+	{
+		var_name = ft_strjoin(arg, "=");
+		update_var(sh, var_name);
+		free(var_name);
+	}
+	return ;
+}
+
 static void	handle_export_var(t_sh *sh, const char *arg)
 {
 	char	*equal_sign;
@@ -62,10 +73,13 @@ static void	handle_export_var(t_sh *sh, const char *arg)
 	char	*search_var;
 	int		var_pos;
 
-	var_pos = 0;
+	var_name = NULL;
 	equal_sign = ft_strchr(arg, '=');
 	if (!equal_sign)
+	{
+		handle_export_var_helper(sh, arg, var_name);
 		return ;
+	}
 	if (*(equal_sign - 1) == '+')
 	{
 		var_name = ft_substr(arg, 0, equal_sign - arg - 1);

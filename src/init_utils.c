@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:54:43 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/10 15:37:39 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/17 17:09:13 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,10 @@ void	init_tk_flag1(t_sh *sh, int x)
 	sh->tokens[x].exp_t = false;
 	sh->tokens[x].exp_empty = false;
 }
+/*void	init_cmds_redir(t_sh *sh, int x)
+{
+	
+}*/
 
 void	init_cmds(t_sh *sh, int x)
 {
@@ -70,7 +74,7 @@ void	init_vars(t_sh *sh)
 	sh->vars.heredoc_num = 0;
 }
 
-static char	*get_my_home(t_sh *sh)
+char	*get_my_home(t_sh *sh)
 {
 	char	*temp;
 	char	t_home[500];

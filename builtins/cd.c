@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cde-paiv <cde-paiv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 17:54:51 by cde-paiv          #+#    #+#             */
-/*   Updated: 2024/12/27 11:53:57 by cde-paiv         ###   ########.fr       */
+/*   Updated: 2025/01/17 17:07:37 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,6 @@
 
 static bool	change_directory(t_sh *sh, char *dir, char *old_pwd)
 {
-	if (dir[0] == '.' && dir[1] == '.')
-		old_pwd = going_dir_up(old_pwd);
-	if (!old_pwd)
-	{
-		g_status = BUILTINSERROR;
-		free(old_pwd);
-		sh->error.exit_error = true;
-		return (false);
-	}
 	if (chdir(dir) != 0)
 	{
 		g_status = BUILTINSERROR;
@@ -49,7 +40,7 @@ static bool	update_new_pwd(t_sh *sh, char *new_pwd)
 	}
 	temp = malloc(sizeof(char **) * 3);
 	temp[0] = ft_strdup("export");
-	temp[1] = ft_strdup("new_pwd_var");
+	temp[1] = ft_strdup(new_pwd_var);
 	temp[2] = NULL;
 	ft_export(sh, temp);
 	free(sh->vars.sh_pwd);
