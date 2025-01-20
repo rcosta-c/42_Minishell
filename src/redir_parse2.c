@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 23:21:44 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/18 11:08:17 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/20 09:05:51 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ static void	ft_parse_redirs_out_helper(t_sh *sh, int x, int n_cmd, int counter)
 {
 	int	fd;
 
+	fd = -1;
 	sh->comands[n_cmd].app_out = true;
 	if (sh->comands[n_cmd].outfile != NULL)
 		free(sh->comands[n_cmd].outfile);
@@ -82,6 +83,7 @@ static int	ft_parse_redirs_out(t_sh *sh, int x, int n_cmd, int counter)
 {
 	int	fd;
 
+	fd = -1;
 	if (sh->tokens[x - 1].r_out == true)
 	{
 		sh->comands[n_cmd].app_out = false;
