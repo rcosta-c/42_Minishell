@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 23:21:44 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/20 09:05:51 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/20 15:45:01 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,10 @@ static int	ft_parse_redirs_in(t_sh *sh, int x, int n_cmd, int counter)
 		if (sh->comands[n_cmd].infile != NULL)
 			free(sh->comands[n_cmd].infile);
 		if (sh->tokens[x].tokens)
+		{
 			sh->comands[n_cmd].infile = ft_strdup(sh->tokens[x].tokens);
+			handle_heredoc(sh, n_cmd);
+		}
 		else
 			sh->comands[n_cmd].errors.empty_redir = true;
 		counter++;
@@ -69,6 +72,8 @@ static void	ft_parse_redirs_out_helper(t_sh *sh, int x, int n_cmd, int counter)
 		free(sh->comands[n_cmd].outfile);
 	if (sh->tokens[x].file == true)
 	{
+		if (ft_parse_redirs_out_access(sh, n_cmd, x) == true)
+				return ;
 		sh->comands[n_cmd].outfile = ft_strdup(sh->tokens[x].tokens);
 		fd = open(sh->comands[n_cmd].outfile,
 				O_WRONLY | O_CREAT | O_APPEND, 0666);
@@ -91,6 +96,8 @@ static int	ft_parse_redirs_out(t_sh *sh, int x, int n_cmd, int counter)
 			free(sh->comands[n_cmd].outfile);
 		if (sh->tokens[x].file == true)
 		{
+			if (ft_parse_redirs_out_access(sh, n_cmd, x) == true)
+				return (counter);
 			sh->comands[n_cmd].outfile = ft_strdup(sh->tokens[x].tokens);
 			fd = open(sh->comands[n_cmd].outfile,
 					O_WRONLY | O_CREAT | O_TRUNC, 0666);

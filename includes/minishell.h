@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 11:42:42 by cde-paiv          #+#    #+#             */
-/*   Updated: 2025/01/18 11:48:42 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/20 17:20:16 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,7 @@
 # define CMD_NOT_FOUND	127
 # define ENV_VAR_NOT_FOUND 128
 # define EXIT_SIGINT	130
-# define EXIT_SIGQUIT	131
-# define CONAS			77
+# define EXIT_SIGQUIT	0
 # define WRONG_SYNTAX	258
 
 extern int				g_status;
@@ -352,12 +351,15 @@ char	*clean_quote_s(t_sh *sh, int n);
 void	ft_redir_multiargs(t_sh *sh);
 /*	FIM 	*/
 
-/*	REDIR_PARSE2	*/
+/*	REDIR_PARSE2.c	*/
 void	ft_count_redirs(t_sh *sh, int x, int n_cmd);
 int		ft_parse_redirs(t_sh *sh, int x, int n_cmd);
 int		count_dpoint(char **ptr);
 /*	FIM 	*/
 
+/*	REDIR_PARSE3.c	*/
+bool	ft_parse_redirs_out_access(t_sh *sh, int n_cmd, int x);
+/*	FIM		*/
 /* BUILTINS.c */
 void	ft_echo(t_sh *sh, char **args);
 void	ft_pwd(t_sh *sh, char **args);

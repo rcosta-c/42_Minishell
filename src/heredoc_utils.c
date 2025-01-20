@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:54:49 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/15 12:51:09 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/20 13:00:13 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,11 @@ void	heredoc_exit_sigint(t_sh *sh, char *content, char *delimiter, int x)
 void	heredoc_exit_clean(t_sh *sh, char *delimiter, char *content, int x)
 {
 	free(delimiter);
-	write(sh->comands[x].infile_fd, content, ft_strlen(content));
-	free(content);
+	if (content)
+	{
+		write(sh->comands[x].infile_fd, content, ft_strlen(content));
+		free(content);
+	}
 	close(sh->comands[x].infile_fd);
 }
 
@@ -40,7 +43,7 @@ bool	heredoc_break_conditions(char *line, char *delimiter)
 		ft_putstr_fd("')\n", 2);
 		return (true);
 	}
-	if (ft_strncmp(line, delimiter, ft_strlen(line) - 1) == 0)
+	if (ft_strlen(line) == ft_strlen(delimiter) && ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0)
 	{
 		free(line);
 		return (true);

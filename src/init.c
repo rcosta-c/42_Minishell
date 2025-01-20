@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:54:37 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/09 10:27:47 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/20 17:32:49 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ void	init_parser(t_sh *sh)
 
 void	init_cycle(t_sh *sh)
 {
-	sh->vars.sh_status = true;
 	ft_sigset();
+	sh->vars.sh_status = true;
 	init_vars(sh);
 	if (sh->cmd_line)
 		free(sh->cmd_line);

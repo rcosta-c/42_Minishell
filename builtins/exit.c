@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 17:55:12 by cde-paiv          #+#    #+#             */
-/*   Updated: 2025/01/09 10:35:58 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/20 12:19:49 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ static bool	check_errors_exit(t_sh *sh, char **args)
 	}
 	if (args[1] && args[2])
 	{
-		g_status = BUILTINSERROR;
+		if (g_status == 0)
+			g_status = BUILTINSERROR;
 		ft_putstr_fd("exit: too many arguments\n", 2);
 		sh->error.exit_error = true;
 		return (true);

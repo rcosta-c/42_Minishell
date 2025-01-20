@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:54:49 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/15 12:52:14 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/20 16:50:21 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ void	handle_heredoc(t_sh *sh, int x)
 	char	*delimiter;
 	char	*content;
 
+	line = NULL;
 	content = NULL;
 	delimiter = ft_init_heredoc(sh, x);
 	ft_sigset_fd();
@@ -86,6 +87,7 @@ void	handle_heredoc(t_sh *sh, int x)
 		free(line);
 	}
 	heredoc_exit_clean(sh, delimiter, content, x);
+	ft_sigset();
 }
 
 char	*expand_heredoc(t_sh *sh, char *line)

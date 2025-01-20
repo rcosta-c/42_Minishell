@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/31 00:11:02 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/09 08:29:51 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/20 15:34:40 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ bool	verify_error_exit(int option)
 	}
 	else if (option == 2)
 	{
-		ft_putstr_fd("> :Permission denied: \n", 2);
+		ft_putstr_fd("Error opening stdout: No such file or directory\n", 2);
 		g_status = NO_PERMISSION;
 	}
 	return (true);

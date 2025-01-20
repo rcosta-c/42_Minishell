@@ -32,6 +32,7 @@ SRCS := src/main.c \
 						src/parse_utils2.c \
 						src/redir_parse.c \
 						src/redir_parse2.c \
+						src/redir_parse3.c \
 						src/heredoc.c \
 						src/heredoc_utils.c \
 						src/executer.c \
