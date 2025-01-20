@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:55:09 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/18 11:39:58 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/20 09:31:07 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int	count_expands(t_sh *sh, int n, int exp_counter)
 	{
 		if (sh->tokens[n].tokens[x] == '\'' && !sh->tokens[n].d_quote)
 			in_single_quotes = !in_single_quotes;
-		else if (!in_single_quotes && !sh->tokens[n].s_quote)
+		else if (!in_single_quotes)
 		{
 			if (sh->tokens[n].tokens[x] == '$')
 			{

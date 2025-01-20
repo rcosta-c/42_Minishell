@@ -1,0 +1,23 @@
+1 pwd
+2 cd ..
+3 echo $USER
+4 echo $HOME
+5 echo $HOME '$USER'
+6 echo $HOME $HOME'$USER'
+7 exit
+8 echo '$USER'
+9 echo $HOME'$USER'
+10 echo $HOME'$USER'
+11 echo $USER'$HOME'
+12 ls
+13 echo $HOME
+14 echo $HOME$USER
+15 echo $USER$HOME
+16 echo $USER'$HOME'
+17 echo $USER'$HOME'
+18 echo $USER$HOME
+19 echo $USER'$HOME'
+20 echo "asdsadas" 'asdsad'
+21 echo "'merda'"
+22 echo '"merda"'
+23 exit

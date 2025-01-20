@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:55:03 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/18 11:49:43 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/20 09:26:19 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,8 +107,7 @@ char	*pre_expand(t_sh *sh, int *x, int n)
 			a[xa++] = sh->tokens[n].tokens[(*x)++];
 			continue ;
 		}
-		if (!in_single_quotes && !sh->tokens[n].s_quote
-			&& (sh->tokens[n].tokens[*x] == '$'
+		if (!in_single_quotes && (sh->tokens[n].tokens[*x] == '$'
 				|| (sh->tokens[n].tokens[*x] == '~'
 					&& !sh->tokens[n].d_quote)))
 			break ;
