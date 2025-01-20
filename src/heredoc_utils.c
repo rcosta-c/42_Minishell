@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:54:49 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/20 13:00:13 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/20 21:11:46 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ bool	heredoc_break_conditions(char *line, char *delimiter)
 		ft_putstr_fd("')\n", 2);
 		return (true);
 	}
-	if (ft_strlen(line) == ft_strlen(delimiter) && ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0)
+	if (ft_strlen(line) == ft_strlen(delimiter)
+		&& ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0)
 	{
 		free(line);
 		return (true);

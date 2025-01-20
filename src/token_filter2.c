@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:52:02 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/18 11:14:04 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/20 22:59:20 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ static void	check_filter_redir(t_sh *sh, int n)
 			sh->tokens[n].r_out = true;
 			sh->vars.redir_tot++;
 		}
-		if (sh->tokens[n].tokens[1] == '>')
+		if (sh->tokens[n].tokens[1] == '>'
+			&& ft_strlen(sh->tokens[n].tokens) == 2)
 		{
 			sh->tokens[n].r_outappend = true;
 			sh->vars.redir_tot++;
@@ -59,7 +60,8 @@ void	filter_pipes_redir(t_sh *sh, int n)
 {
 	if (sh->tokens[n].d_quote == false && sh->tokens[n].s_quote == false)
 	{
-		if (sh->tokens[n].tokens[0] == '|')
+		if (sh->tokens[n].tokens[0] == '|'
+			&& ft_strlen(sh->tokens[n].tokens) == 1)
 		{
 			sh->tokens[n].pipe = true;
 			sh->vars.pipe_num++;

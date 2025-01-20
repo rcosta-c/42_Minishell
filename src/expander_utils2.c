@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 17:18:39 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/20 09:26:22 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/20 22:11:53 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ char	*expand_token_seeker3(t_sh *sh, int n, int *x)
 	(*x)++;
 	bx = 0;
 	while (sh->tokens[n].tokens[*x]
+		&& sh->tokens[n].tokens[*x] != '.'
 		&& sh->tokens[n].tokens[*x] != ' '
 		&& sh->tokens[n].tokens[*x] != '='
 		&& sh->tokens[n].tokens[*x] != '\''

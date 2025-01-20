@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 18:05:19 by cde-paiv          #+#    #+#             */
-/*   Updated: 2025/01/18 15:36:03 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/20 22:58:19 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ void	pipeline_exit(t_sh *sh, int in_fd, int i)
 		wait(NULL);
 		i++;
 	}
+	ft_sigset();
 }
 
 void	execute_pipeline(t_sh *sh, int i)
@@ -73,12 +74,12 @@ void	execute_pipeline(t_sh *sh, int i)
 	prep_cmds_pipes(sh);
 	if (filter_cmd_error(sh) == true)
 		return ;
-	while (i < sh->vars.cmds_num)
+	while (i <= sh->vars.pipe_num)
 	{
 		handle_redirects(sh, i);
 		pipe(pipefd);
 		pid = fork();
-		if (pid == -1 || g_status)
+		if (pid == -1)
 			get_out_of_pipe();
 		if (pid == 0)
 			execute_comand_in_pipe(sh, i, in_fd, pipefd);
@@ -95,18 +96,7 @@ void	check_pipes(t_sh *sh)
 {
 	int	i;
 
-	sh->vars.pipe_num = 0;
-	sh->vars.is_pipe = false;
 	i = 0;
-	while (i < sh->vars.tk_num - 1)
-	{
-		if (strcmp(sh->tokens[i].tokens, "|") == 0)
-		{
-			sh->vars.pipe_num++;
-			sh->vars.is_pipe = true;
-		}
-		i++;
-	}
-	if (sh->vars.is_pipe)
+	if (sh->vars.is_pipe > 0)
 		execute_pipeline(sh, i);
 }

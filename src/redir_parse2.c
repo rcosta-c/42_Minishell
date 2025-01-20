@@ -6,45 +6,28 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 23:21:44 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/20 15:45:01 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/20 21:11:17 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-#include "../includes/minishell.h"
-
-void	ft_count_redirs(t_sh *sh, int x, int n_cmd)
+static void	ft_parse_redirs_in_helper(t_sh *sh, int x, int n_cmd, int counter)
 {
-	while (x < sh->vars.tk_num && sh->tokens[x].pipe == false)
-	{
-		if (sh->tokens[x].r_in == true
-			|| sh->tokens[x].r_heredoc == true
-			|| sh->tokens[x].r_out == true
-			|| sh->tokens[x].r_outappend == true)
-		{
-			if (x < sh->vars.tk_num - 1 && sh->tokens[x + 1].pipe == true)
-				(void)x;
-			else
-				sh->comands[n_cmd].n_redir++;
-		}
-		x++;
-	}
+	sh->comands[n_cmd].heredoc = false;
+	if (sh->comands[n_cmd].infile != NULL)
+		free(sh->comands[n_cmd].infile);
+	if (sh->tokens[x].file == true)
+		sh->comands[n_cmd].infile = ft_strdup(sh->tokens[x].tokens);
+	else
+		sh->comands[n_cmd].errors.empty_redir = true;
+	counter++;
 }
 
 static int	ft_parse_redirs_in(t_sh *sh, int x, int n_cmd, int counter)
 {
 	if (sh->tokens[x - 1].r_in == true)
-	{
-		sh->comands[n_cmd].heredoc = false;
-		if (sh->comands[n_cmd].infile != NULL)
-			free(sh->comands[n_cmd].infile);
-		if (sh->tokens[x].file == true)
-			sh->comands[n_cmd].infile = ft_strdup(sh->tokens[x].tokens);
-		else
-			sh->comands[n_cmd].errors.empty_redir = true;
-		counter++;
-	}
+		ft_parse_redirs_in_helper(sh, x, n_cmd, counter);
 	else if (sh->tokens[x - 1].r_heredoc == true)
 	{
 		sh->comands[n_cmd].heredoc = true;
@@ -73,7 +56,7 @@ static void	ft_parse_redirs_out_helper(t_sh *sh, int x, int n_cmd, int counter)
 	if (sh->tokens[x].file == true)
 	{
 		if (ft_parse_redirs_out_access(sh, n_cmd, x) == true)
-				return ;
+			return ;
 		sh->comands[n_cmd].outfile = ft_strdup(sh->tokens[x].tokens);
 		fd = open(sh->comands[n_cmd].outfile,
 				O_WRONLY | O_CREAT | O_APPEND, 0666);

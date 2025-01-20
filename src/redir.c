@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:53:18 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/20 15:39:36 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/20 21:10:42 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,6 @@
 
 static void	handle_redir_in(t_sh *sh, int x)
 {
-	/*if (sh->comands[x].heredoc == true)
-	{
-		handle_heredoc(sh, x);
-	}*/
 	sh->comands[x].infile_fd = open(sh->comands[x].infile, O_RDONLY);
 	if (sh->comands[x].infile_fd < 0)
 	{
