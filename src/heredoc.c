@@ -24,7 +24,7 @@ static char	*ft_init_heredoc(t_sh *sh, int x)
 	name = join_2_str(".heredoc_temp", ".txt", number, 0);
 	sh->comands[x].infile = ft_strdup(name);
 	sh->comands[x].infile_fd = open(sh->comands[x].infile, \
-		O_CREAT | O_WRONLY | O_TRUNC, 0644);
+		O_CREAT | O_WRONLY | O_TRUNC, 0666);
 	if (sh->comands[x].infile_fd < 0)
 	{
 		perror("Error opening .heredoc_temp.txt");

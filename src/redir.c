@@ -29,6 +29,8 @@ static void	handle_redir_in(t_sh *sh, int x)
 		return ;
 	}
 	close(sh->comands[x].infile_fd);
+	if (sh->comands[x].heredoc == true)
+        unlink(sh->comands[x].infile);
 }
 
 static void	cleanup_redir_out(t_sh *sh, int x)

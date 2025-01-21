@@ -391,7 +391,7 @@ void	exec_builtin(t_sh *sh, int cmd_nbr);
 /*	FIM		*/
 
 /*	EXECUTER_UTILS2.c	*/
-void	after_execution(t_sh *sh, int pid);
+void	after_execution(t_sh *sh, pid_t pid);
 /*	FIM		*/
 
 /*	PIPE.c*/

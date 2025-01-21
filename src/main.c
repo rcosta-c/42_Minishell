@@ -168,7 +168,7 @@ static void	tokenizer(t_sh *sh)
 	ft_redir_multiargs(sh);
 	search_expand(sh);
 	cleaning_quotes(sh);
-	printflags(sh);
+//	printflags(sh);
 }
 
 static void	sh_loop(t_sh *sh)
@@ -193,7 +193,7 @@ static void	sh_loop(t_sh *sh)
 		tokenizer(sh);
 		init_parser(sh);
 		fill_parser(sh);
-	print_exec(sh);
+	//print_exec(sh);
 
 		executor(sh);
 		free_tokens(sh);

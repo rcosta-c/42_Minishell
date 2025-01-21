@@ -76,9 +76,7 @@ bool	ft_parse_redirs_out_access(t_sh *sh, int n_cmd, int x)
 {
 	char	*temp;
 	char	*ttemp;
-	int		xx;
 
-	xx = 0;
 	ttemp = ft_strdup(sh->tokens[x].tokens);
 	temp = verify_parse_redir_helper(ttemp);
 	if (temp)

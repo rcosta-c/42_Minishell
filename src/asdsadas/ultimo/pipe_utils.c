@@ -1,25 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executer_utils2.c                                  :+:      :+:    :+:   */
+/*   pipe_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/13 10:55:24 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/10 19:57:42 by rcosta-c         ###   ########.fr       */
+/*   Created: 2024/12/30 21:54:31 by rcosta-c          #+#    #+#             */
+/*   Updated: 2025/01/20 23:54:49 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	after_execution(t_sh *sh, pid_t pid)
+void	prep_cmds_pipes(t_sh *sh)
 {
-	int	status;
+	int	x;
 
-	(void)sh;
-	waitpid(pid, &status, 0);
-	if (WIFEXITED(status))
-		g_status = WEXITSTATUS(status);
-	else if (WIFSIGNALED(status))
-		g_status = 128 + WTERMSIG(status);
+	x = 0;
+	while (x < sh->vars.cmds_num)
+	{
+		sh->comands[x].cmd = prep_cmd(sh, sh->comands[x].cmd, x);
+		x++;
+	}
+}
+
+void	get_out_of_pipe(void)
+{
+	perror("Error while creating process");
+	exit(EXIT_FAILURE);
 }

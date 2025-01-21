@@ -47,9 +47,6 @@ static int	ft_parse_redirs_in(t_sh *sh, int x, int n_cmd, int counter)
 
 static void	ft_parse_redirs_out_helper(t_sh *sh, int x, int n_cmd, int counter)
 {
-	int	fd;
-
-	fd = -1;
 	sh->comands[n_cmd].app_out = true;
 	if (sh->comands[n_cmd].outfile != NULL)
 		free(sh->comands[n_cmd].outfile);
@@ -58,20 +55,16 @@ static void	ft_parse_redirs_out_helper(t_sh *sh, int x, int n_cmd, int counter)
 		if (ft_parse_redirs_out_access(sh, n_cmd, x) == true)
 			return ;
 		sh->comands[n_cmd].outfile = ft_strdup(sh->tokens[x].tokens);
-		fd = open(sh->comands[n_cmd].outfile,
+		sh->comands[n_cmd].outfile_fd = open(sh->comands[n_cmd].outfile,
 				O_WRONLY | O_CREAT | O_APPEND, 0666);
 	}
 	else
 		sh->comands[n_cmd].errors.empty_redir = true;
 	counter++;
-	close(fd);
 }
 
 static int	ft_parse_redirs_out(t_sh *sh, int x, int n_cmd, int counter)
 {
-	int	fd;
-
-	fd = -1;
 	if (sh->tokens[x - 1].r_out == true)
 	{
 		sh->comands[n_cmd].app_out = false;
@@ -82,17 +75,37 @@ static int	ft_parse_redirs_out(t_sh *sh, int x, int n_cmd, int counter)
 			if (ft_parse_redirs_out_access(sh, n_cmd, x) == true)
 				return (counter);
 			sh->comands[n_cmd].outfile = ft_strdup(sh->tokens[x].tokens);
-			fd = open(sh->comands[n_cmd].outfile,
+			sh->comands[n_cmd].outfile_fd = open(sh->comands[n_cmd].outfile,
 					O_WRONLY | O_CREAT | O_TRUNC, 0666);
 		}
 		else
 			sh->comands[n_cmd].errors.empty_redir = true;
 		counter++;
-		close(fd);
 	}
 	else if (sh->tokens[x - 1].r_outappend == true)
 		ft_parse_redirs_out_helper(sh, x, n_cmd, counter);
 	return (counter);
+}
+
+void	ft_close_open_fds(t_sh *sh)
+{
+	int	x;
+
+	x = 0;
+	while (x < sh->vars.cmds_num)
+	{
+		if (sh->comands[x].outfile_fd > -1)
+		{
+			close(sh->comands[x].outfile_fd);
+			sh->comands[x].outfile_fd = ERROR_FD;
+		}
+		if (sh->comands[x].infile_fd > -1)
+		{
+			close(sh->comands[x].infile_fd);
+			sh->comands[x].infile_fd = ERROR_FD;
+		}
+		x++;
+	}
 }
 
 int	ft_parse_redirs(t_sh *sh, int x, int n_cmd)
@@ -112,6 +125,7 @@ int	ft_parse_redirs(t_sh *sh, int x, int n_cmd)
 			counter = ft_parse_redirs_out(sh, x, n_cmd, counter);
 			x++;
 		}
+		ft_close_open_fds(sh);
 		return (x);
 	}
 	else
