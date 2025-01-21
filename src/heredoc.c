@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:54:49 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/20 16:50:21 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/20 23:51:55 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,14 @@
 static char	*ft_init_heredoc(t_sh *sh, int x)
 {
 	char	*delimiter;
+	char	*name;
+	char	*number;
 
 	delimiter = ft_strdup(sh->comands[x].infile);
 	free(sh->comands[x].infile);
-	sh->comands[x].infile = ft_strdup(".heredoc_temp.txt");
+	number = ft_itoa(x);
+	name = join_2_str(".heredoc_temp", ".txt", number, 0);
+	sh->comands[x].infile = ft_strdup(name);
 	sh->comands[x].infile_fd = open(sh->comands[x].infile, \
 		O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (sh->comands[x].infile_fd < 0)
@@ -26,6 +30,8 @@ static char	*ft_init_heredoc(t_sh *sh, int x)
 		perror("Error opening .heredoc_temp.txt");
 		exit(EXIT_FAILURE);
 	}
+	free(number);
+	free(name);
 	return (delimiter);
 }
 

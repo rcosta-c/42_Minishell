@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:55:03 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/20 22:55:51 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/20 23:17:45 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ void	expand_token(t_sh *sh, int n)
 		z = join_2_str(z, pre_expand(sh, &x, n), NULL, 1);
 		z = join_2_str(z, expand_token_seeker(sh, &x, n), NULL, 1);
 		exp_counter--;
-		printf("z=%s", z);
 		if (exp_counter == 0)
 		{
 			z = expand_exit(sh, n, x, z);
@@ -114,7 +113,6 @@ char	*pre_expand(t_sh *sh, int *x, int n)
 		a[xa++] = sh->tokens[n].tokens[(*x)++];
 	}
 	a[xa] = '\0';
-	printf("estou aqui caralho = %s", a);
 	return (a);
 }
 

@@ -6,13 +6,13 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 18:05:19 by cde-paiv          #+#    #+#             */
-/*   Updated: 2025/01/20 23:59:58 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/20 23:54:03 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-/*static bool	check_file_pipe(t_sh *sh, int i)
+/*
+static bool	check_file_pipe(t_sh *sh, int i)
 {
 	struct stat	file_info;
 	int			xx;
@@ -45,13 +45,12 @@ void	execute_comand_in_pipe(t_sh *sh, int i, int in_fd, int pipefd[2])
 		perror("Error executing command");
 		exit(errno);
 	}
-	//else
-		after_execution(sh, 0);
+	//after_execution(sh, pid);
 	//if (check_file_pipe(sh, i) == true)
 	//	exit(EXIT_FAILURE);
 }
 
-void	pipeline_exit(t_sh *sh, int in_fd, int i)
+/*void	pipeline_exit(t_sh *sh, int in_fd, int i)
 {
 	close(in_fd);
 	i = 0;
@@ -60,6 +59,31 @@ void	pipeline_exit(t_sh *sh, int in_fd, int i)
 		wait(NULL);
 		i++;
 	}
+}*/
+void	wait_for_child(pid_t pid)
+{
+	int	status;
+
+	waitpid(pid, &status, 0);
+	if (WIFEXITED(status))
+		g_status = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+		g_status = 128 + WTERMSIG(status);
+	signal(SIGINT, ft_signal_handfd);
+	signal(SIGQUIT, SIG_IGN);
+}
+void	finish_pipeline(t_sh *sh, pid_t *pids, int in_fd)
+{
+	int	i;
+
+	i = 0;
+	while (i < sh->vars.pipe_num)
+	{
+		wait_for_child(pids[i]);
+		i++;
+	}
+	if (in_fd != 0)
+		close(in_fd);
 }
 
 void	execute_pipeline(t_sh *sh, int i)
@@ -68,18 +92,19 @@ void	execute_pipeline(t_sh *sh, int i)
 	int		in_fd;
 	pid_t	*pids;
 
+	pids = malloc(sizeof(pid_t) * sh->vars.pipe_num + 1);
 	i = 0;
 	in_fd = 0;
-	pids = malloc(sizeof(pid_t) * sh->vars.pipe_num + 1);
 	prep_cmds_pipes(sh);
 	if (filter_cmd_error(sh) == true)
 		return ;
-	while (i < sh->vars.pipe_num)
+	ft_sigset_pipes();
+	while (i <= sh->vars.pipe_num)
 	{
 		handle_redirects(sh, i);
 		pipe(pipefd);
 		pids[i] = fork();
-		if (pids[i] == -1)
+		if (pids[i] == -1 || g_status)
 			get_out_of_pipe();
 		if (pids[i] == 0)
 			execute_comand_in_pipe(sh, i, in_fd, pipefd);
@@ -89,8 +114,8 @@ void	execute_pipeline(t_sh *sh, int i)
 		in_fd = pipefd[0];
 		i++;
 	}
-	pipeline_exit(sh, in_fd, i);
-	free(pids);
+	finish_pipeline(sh, pids, in_fd);
+//	pipeline_exit(sh, in_fd, i);
 }
 
 void	check_pipes(t_sh *sh)
