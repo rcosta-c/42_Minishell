@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 11:42:42 by cde-paiv          #+#    #+#             */
-/*   Updated: 2025/01/20 23:45:51 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/22 13:21:38 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -359,7 +359,9 @@ int		count_dpoint(char **ptr);
 
 /*	REDIR_PARSE3.c	*/
 bool	ft_parse_redirs_out_access(t_sh *sh, int n_cmd, int x);
+void	ft_close_open_fds(t_sh *sh);
 /*	FIM		*/
+
 /* BUILTINS.c */
 void	ft_echo(t_sh *sh, char **args);
 void	ft_pwd(t_sh *sh, char **args);
