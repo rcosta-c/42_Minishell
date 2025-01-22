@@ -6,27 +6,11 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 18:05:19 by cde-paiv          #+#    #+#             */
-/*   Updated: 2025/01/18 15:36:03 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/22 13:13:03 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-/*static bool	check_file_pipe(t_sh *sh, int i)
-{
-	struct stat	file_info;
-	int			xx;
-
-	xx = 0;
-	while (sh->comands[i].n_args >= 1 && xx < sh->comands[i].n_args)
-	{
-		if (stat(sh->comands[i].arg[xx + 1], &file_info) == -1)
-			if (errno == ENOENT)
-				return (true);
-		xx++;
-	}
-	return (false);
-}*/
 
 void	execute_comand_in_pipe(t_sh *sh, int i, int in_fd, int pipefd[2])
 {
@@ -48,8 +32,15 @@ void	execute_comand_in_pipe(t_sh *sh, int i, int in_fd, int pipefd[2])
 	}
 }
 
-void	pipeline_exit(t_sh *sh, int in_fd, int i)
+static void	pipeline_exit(t_sh *sh, int in_fd, int i, pid_t *pids)
 {
+	i = 0;
+	while (i < sh->vars.cmds_num)
+	{
+		after_execution(sh, pids[i]);
+		i++;
+	}
+	free(pids);
 	close(in_fd);
 	i = 0;
 	while (i < sh->vars.cmds_num)
@@ -65,8 +56,7 @@ void	execute_pipeline(t_sh *sh, int i)
 	int		in_fd;
 	pid_t	*pids;
 
-	i = 0;
-	in_fd = 0;
+	in_fd = STDIN_FILENO;
 	pids = malloc(sizeof(pid_t) * (sh->vars.cmds_num + 1));
 	prep_cmds_pipes(sh);
 	if (filter_cmd_error(sh) == true)
@@ -76,24 +66,17 @@ void	execute_pipeline(t_sh *sh, int i)
 		handle_redirects(sh, i);
 		pipe(pipefd);
 		pids[i] = fork();
-		if (pids[i] == -1)// || g_status)
+		if (pids[i] == -1)
 			get_out_of_pipe();
 		if (pids[i] == 0)
 			execute_comand_in_pipe(sh, i, in_fd, pipefd);
-	//	after_execution(sh, pids[i]);
-	//	if (check_file_pipe(sh, i) == true)
-	//		exit(EXIT_FAILURE);
 		close(pipefd[1]);
 		if (in_fd != 0)
 			close(in_fd);
-		in_fd = pipefd[0];
+		in_fd = pipefd[STDIN_FILENO];
 		i++;
 	}
-	for (int j = 0; j < i; j++) {
-        after_execution(sh, pids[j]);
-    }
-	free(pids);
-	pipeline_exit(sh, in_fd, i);
+	pipeline_exit(sh, in_fd, i, pids);
 }
 
 void	check_pipes(t_sh *sh)
@@ -105,13 +88,14 @@ void	check_pipes(t_sh *sh)
 	i = 0;
 	while (i < sh->vars.tk_num - 1)
 	{
-		if (strcmp(sh->tokens[i].tokens, "|") == 0)
+		if (ft_strncmp(sh->tokens[i].tokens, "|", 1) == 0)
 		{
 			sh->vars.pipe_num++;
 			sh->vars.is_pipe = true;
 		}
 		i++;
 	}
+	i = 0;
 	if (sh->vars.is_pipe)
 		execute_pipeline(sh, i);
 }

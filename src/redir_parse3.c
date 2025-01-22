@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 15:32:39 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/20 21:07:05 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/22 13:11:18 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,4 +90,25 @@ bool	ft_parse_redirs_out_access(t_sh *sh, int n_cmd, int x)
 	}
 	free(temp);
 	return (false);
+}
+
+void	ft_close_open_fds(t_sh *sh)
+{
+	int	x;
+
+	x = 0;
+	while (x < sh->vars.cmds_num)
+	{
+		if (sh->comands[x].outfile_fd > -1)
+		{
+			close(sh->comands[x].outfile_fd);
+			sh->comands[x].outfile_fd = ERROR_FD;
+		}
+		if (sh->comands[x].infile_fd > -1)
+		{
+			close(sh->comands[x].infile_fd);
+			sh->comands[x].infile_fd = ERROR_FD;
+		}
+		x++;
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 23:21:44 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/20 21:11:17 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/22 13:11:22 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,27 +85,6 @@ static int	ft_parse_redirs_out(t_sh *sh, int x, int n_cmd, int counter)
 	else if (sh->tokens[x - 1].r_outappend == true)
 		ft_parse_redirs_out_helper(sh, x, n_cmd, counter);
 	return (counter);
-}
-
-void	ft_close_open_fds(t_sh *sh)
-{
-	int	x;
-
-	x = 0;
-	while (x < sh->vars.cmds_num)
-	{
-		if (sh->comands[x].outfile_fd > -1)
-		{
-			close(sh->comands[x].outfile_fd);
-			sh->comands[x].outfile_fd = ERROR_FD;
-		}
-		if (sh->comands[x].infile_fd > -1)
-		{
-			close(sh->comands[x].infile_fd);
-			sh->comands[x].infile_fd = ERROR_FD;
-		}
-		x++;
-	}
 }
 
 int	ft_parse_redirs(t_sh *sh, int x, int n_cmd)
