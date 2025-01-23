@@ -59,7 +59,12 @@ char	*read_heredoc_line(void)
 		bytes = read(STDIN_FILENO, &c, 1);
 		if (bytes <= 0 || g_status == 130)
 			return (NULL);
-		if (c == '\n')
+		if (c == '\n' && i == 0)
+		{
+			buffer[i++] = c;
+			break;	
+		}
+		else if (c == '\n')
 			break ;
 		buffer[i++] = c;
 	}

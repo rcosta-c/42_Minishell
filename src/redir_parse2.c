@@ -12,7 +12,7 @@
 
 #include "../includes/minishell.h"
 
-static void	ft_parse_redirs_in_helper(t_sh *sh, int x, int n_cmd, int counter)
+static int	ft_parse_redirs_in_helper(t_sh *sh, int x, int n_cmd, int counter)
 {
 	sh->comands[n_cmd].heredoc = false;
 	if (sh->comands[n_cmd].infile != NULL)
@@ -22,12 +22,13 @@ static void	ft_parse_redirs_in_helper(t_sh *sh, int x, int n_cmd, int counter)
 	else
 		sh->comands[n_cmd].errors.empty_redir = true;
 	counter++;
+	return (counter);
 }
 
 static int	ft_parse_redirs_in(t_sh *sh, int x, int n_cmd, int counter)
 {
 	if (sh->tokens[x - 1].r_in == true)
-		ft_parse_redirs_in_helper(sh, x, n_cmd, counter);
+		counter = ft_parse_redirs_in_helper(sh, x, n_cmd, counter);
 	else if (sh->tokens[x - 1].r_heredoc == true)
 	{
 		sh->comands[n_cmd].heredoc = true;
@@ -45,7 +46,7 @@ static int	ft_parse_redirs_in(t_sh *sh, int x, int n_cmd, int counter)
 	return (counter);
 }
 
-static void	ft_parse_redirs_out_helper(t_sh *sh, int x, int n_cmd, int counter)
+static int	ft_parse_redirs_out_helper(t_sh *sh, int x, int n_cmd, int counter)
 {
 	sh->comands[n_cmd].app_out = true;
 	if (sh->comands[n_cmd].outfile != NULL)
@@ -53,7 +54,7 @@ static void	ft_parse_redirs_out_helper(t_sh *sh, int x, int n_cmd, int counter)
 	if (sh->tokens[x].file == true)
 	{
 		if (ft_parse_redirs_out_access(sh, n_cmd, x) == true)
-			return ;
+			return (counter);
 		sh->comands[n_cmd].outfile = ft_strdup(sh->tokens[x].tokens);
 		sh->comands[n_cmd].outfile_fd = open(sh->comands[n_cmd].outfile,
 				O_WRONLY | O_CREAT | O_APPEND, 0666);
@@ -61,6 +62,7 @@ static void	ft_parse_redirs_out_helper(t_sh *sh, int x, int n_cmd, int counter)
 	else
 		sh->comands[n_cmd].errors.empty_redir = true;
 	counter++;
+	return (counter);
 }
 
 static int	ft_parse_redirs_out(t_sh *sh, int x, int n_cmd, int counter)

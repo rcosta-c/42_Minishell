@@ -14,7 +14,7 @@
 
 static void	handle_redir_in(t_sh *sh, int x)
 {
-	sh->comands[x].infile_fd = open(sh->comands[x].infile, O_RDONLY);
+	sh->comands[x].infile_fd = open(sh->comands[x].infile, O_RDONLY, 0644);
 	if (sh->comands[x].infile_fd < 0)
 	{
 		sh->comands[x].errors.infile_notvalid = true;

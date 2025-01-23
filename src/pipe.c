@@ -57,15 +57,15 @@ void	execute_pipeline(t_sh *sh, int i)
 	pid_t	*pids;
 
 	in_fd = STDIN_FILENO;
-	pids = malloc(sizeof(pid_t) * (sh->vars.cmds_num + 1));
+	pids = malloc(sizeof(pid_t) * (sh->vars.cmds_num + 2));
 	prep_cmds_pipes(sh);
 	if (filter_cmd_error(sh) == true)
 		return ;
 	while (i < sh->vars.cmds_num)
 	{
-		handle_redirects(sh, i);
 		pipe(pipefd);
 		pids[i] = fork();
+		handle_redirects(sh, i);
 		if (pids[i] == -1)
 			get_out_of_pipe();
 		if (pids[i] == 0)

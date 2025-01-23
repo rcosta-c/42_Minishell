@@ -15,17 +15,13 @@
 static bool	exit_check_exec_error(int option)
 {
 	if (option == 1)
-	{
 		g_status = CMD_NOT_FOUND;
-	}
 	else if (option == 2)
-	{
 		g_status = WRONG_SYNTAX;
-	}
 	else if (option == 3)
-	{
 		g_status = NO_PERMISSION;
-	}
+	else if (option == 4)
+		g_status = 1;
 	return (true);
 }
 
@@ -100,7 +96,7 @@ char	*prep_cmd(t_sh *sh, char *cmd, int xx)
 	char	*temp2;
 
 	temp = NULL;
-	if (cmd[0] == '/')
+	if (cmd && cmd[0] == '/')
 	{
 		if (access(cmd, X_OK) != 0 && access(cmd, F_OK) != 0)
 			sh->comands[xx].errors.cmd_not_found = true;

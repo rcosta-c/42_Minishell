@@ -50,7 +50,7 @@ bool	verify_error_helper(t_sh *sh, int x)
 bool	check_directory_error(t_sh *sh, int x)
 {
 	struct stat	path_stat;
-
+	
 	if (stat(sh->comands[x].cmd, &path_stat) == 0 && S_ISDIR(path_stat.st_mode))
 	{
 		if (ft_isalpha(sh->comands[x].cmd[0]))
@@ -60,8 +60,6 @@ bool	check_directory_error(t_sh *sh, int x)
 			g_status = CMD_NOT_FOUND;
 			return (true);
 		}
-		ft_putstr_fd("  Is a directory\n", 2);
-		g_status = NO_PERMISSION;
 		return (true);
 	}
 	return (false);
