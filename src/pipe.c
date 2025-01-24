@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 18:05:19 by cde-paiv          #+#    #+#             */
-/*   Updated: 2025/01/22 13:13:03 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/24 08:07:26 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ void	execute_comand_in_pipe(t_sh *sh, int i, int in_fd, int pipefd[2])
 	dup2(in_fd, STDIN_FILENO);
 	if (i < sh->vars.cmds_num - 1)
 		dup2(pipefd[1], STDOUT_FILENO);
-	close(in_fd);
 	close(pipefd[0]);
 	close(pipefd[1]);
+	handle_redirects(sh, i);
 	if (check_if_builtin(sh->comands[i].cmd))
 	{
 		exec_builtin(sh, i);
@@ -30,24 +30,25 @@ void	execute_comand_in_pipe(t_sh *sh, int i, int in_fd, int pipefd[2])
 		perror("Error executing command");
 		exit(errno);
 	}
+	close(in_fd);
 }
 
 static void	pipeline_exit(t_sh *sh, int in_fd, int i, pid_t *pids)
 {
 	i = 0;
+	close(in_fd);
 	while (i < sh->vars.cmds_num)
 	{
 		after_execution(sh, pids[i]);
 		i++;
 	}
-	free(pids);
-	close(in_fd);
 	i = 0;
 	while (i < sh->vars.cmds_num)
 	{
-		wait(NULL);
+		waitpid(pids[i], NULL, 0);
 		i++;
 	}
+	free(pids);
 }
 
 void	execute_pipeline(t_sh *sh, int i)
@@ -57,7 +58,7 @@ void	execute_pipeline(t_sh *sh, int i)
 	pid_t	*pids;
 
 	in_fd = STDIN_FILENO;
-	pids = malloc(sizeof(pid_t) * (sh->vars.cmds_num + 2));
+	pids = malloc(sizeof(pid_t) * (sh->vars.cmds_num));
 	prep_cmds_pipes(sh);
 	if (filter_cmd_error(sh) == true)
 		return ;
@@ -65,15 +66,14 @@ void	execute_pipeline(t_sh *sh, int i)
 	{
 		pipe(pipefd);
 		pids[i] = fork();
-		handle_redirects(sh, i);
 		if (pids[i] == -1)
 			get_out_of_pipe();
 		if (pids[i] == 0)
 			execute_comand_in_pipe(sh, i, in_fd, pipefd);
 		close(pipefd[1]);
-		if (in_fd != 0)
+		if (in_fd != STDIN_FILENO)
 			close(in_fd);
-		in_fd = pipefd[STDIN_FILENO];
+		in_fd = pipefd[0];
 		i++;
 	}
 	pipeline_exit(sh, in_fd, i, pids);

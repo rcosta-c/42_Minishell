@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:54:49 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/20 23:51:55 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/24 08:01:57 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ char	*read_heredoc_line(void)
 		if (c == '\n' && i == 0)
 		{
 			buffer[i++] = c;
-			break;	
+			break ;
 		}
 		else if (c == '\n')
 			break ;

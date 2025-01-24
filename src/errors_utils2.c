@@ -6,7 +6,7 @@
 /*   By: rcosta-c <rcosta-c@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/31 00:11:02 by rcosta-c          #+#    #+#             */
-/*   Updated: 2025/01/20 15:34:40 by rcosta-c         ###   ########.fr       */
+/*   Updated: 2025/01/24 08:01:13 by rcosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ bool	verify_error_helper(t_sh *sh, int x)
 bool	check_directory_error(t_sh *sh, int x)
 {
 	struct stat	path_stat;
-	
+
 	if (stat(sh->comands[x].cmd, &path_stat) == 0 && S_ISDIR(path_stat.st_mode))
 	{
 		if (ft_isalpha(sh->comands[x].cmd[0]))
