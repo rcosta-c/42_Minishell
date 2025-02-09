@@ -19,7 +19,7 @@
 
   <h2 style="color:#0056b3; border-bottom:2px solid #0056b3; padding-bottom:0.3rem;">Core Components</h2>
 
-  <h3 style="color:#0056b3;">1. Parser</h3>
+  <h3 style="color:#0056b3;">1. Tokenizer</h3>
   <ul>
     <li>
       <strong>Tokenization</strong>: Splits user input into tokens using pipes (<code>|</code>) as delimiters, then further divides each segment by spaces while correctly handling quoted strings.
@@ -39,7 +39,17 @@
     </li>
   </ul>
 
-  <h3 style="color:#0056b3;">3. Executor</h3>
+  <h3 style="color:#0056b3;">3. Parser</h3>
+  <ul>
+    <li>
+      <strong>Parser</strong>: It reads the tokens and "assembles" the commands to be executed. This assembly is easily performed due to the counters and flags that were provided by Tokenizer for each token.
+    </li>
+    <li>
+      <strong>redirects and error management</strong>: It manages the redirects at this stage, and makes an initial check if the existing command structure is correct to be executed.
+    </li>
+  </ul>
+
+  <h3 style="color:#0056b3;">4. Executor</h3>
   <ul>
     <li>
       <strong>Command Assembly</strong>: Constructs arrays of strings (in a format accepted by <code>execve</code>) from the parsed tokens.
@@ -90,12 +100,12 @@
         <li><code>&gt;&gt;</code>: Appends output to a file.</li>
         <li><code>&lt;</code>: Redirects input from a file.</li>
         <li>
-          <code>&lt;&lt; DELIMITER</code>: Prompts for user input until the delimiter is encountered; the collected input is then fed to the command (without being added to history).
+          <code>&lt;&lt; DELIMITER</code>: Prompts for user input until the delimiter is encountered; the collected input is then fed to the command and expanded if needed.(without being added to history).
         </li>
       </ul>
     </li>
     <li>
-      <strong>Environment Variable Expansion</strong>: Supports variables (e.g., <code>$USER</code>, <code>$VAR</code>) and the special variable <code>$?</code>, which holds the exit status of the last executed foreground pipeline.
+      <strong>Environment Variable Expansion</strong>: Supports variables (e.g., <code>$USER</code>, <code>$VAR</code>) and the special variable <code>$?</code>, which holds the exit status of the last executed foreground pipeline, and the special variable <code>$$</code> to check the PID.
     </li>
     <li>
       <strong>Signal Handling</strong>:
