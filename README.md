@@ -6,10 +6,11 @@
 
   <h2 style="color:#0056b3; border-bottom:2px solid #0056b3; padding-bottom:0.3rem;">Project Overview</h2>
   <p>
-    Minishell replicates core functionalities of the Bash shell on a smaller scale. Through this project, you will learn:
+    Minishell replicates the core functionality of the Bash shell on a reduced, but fully functional scale. Through this project, you will learn:
   </p>
   <ul>
     <li><strong>How shells parse and handle user input.</strong></li>
+    <li><strong>Analyze the project in order to phase all the development work.</strong></li>
     <li><strong>The internal mechanisms for command execution and process management.</strong></li>
     <li><strong>Techniques for handling environment variables, pipes, and redirections.</strong></li>
   </ul>
