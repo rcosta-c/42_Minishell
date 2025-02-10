@@ -46,7 +46,7 @@
       <strong>Parser</strong>: It reads the tokens and "assembles" the commands to be executed. This assembly is easily performed due to the counters and flags that were provided by Tokenizer for each token.
     </li>
     <li>
-      <strong>redirects and error management</strong>: It manages the redirects at this stage, and makes an initial check if the existing command structure is correct to be executed.
+      <strong>Redirects and error management</strong>: It manages the redirects at this stage, and makes an initial check if the existing command structure is correct to be executed.
     </li>
   </ul>
 
