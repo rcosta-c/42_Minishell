@@ -145,3 +145,95 @@ Run the program:
 ```
 
 Feel free to explore, contribute, and enhance your understanding of shell programming with our Minishell!
+
+# Tests
+
+Some tests we think every Minishell should handle
+
+non-builtins
+```sh
+uname
+ifconfig
+iwconfig
+```
+
+relative/absolute path
+```sh
+ls
+ls -la
+/bin/ls
+/bin/ls -la
+```
+
+builtins (pwd, cd, env)
+```sh
+pwd
+cd ..
+pwd
+cd 42_Minishell/src
+pwd
+cd ~
+pwd 
+cd 42_Minishell/src
+cd 42_Minishell src
+env
+```
+
+builtins (export, unset, exit)
+```sh
+export
+export XX=42
+echo $XX
+unset XX
+echo $XX
+export XX=42
+echo $XX
+export XX+=99
+echo $XX
+export ZZ
+echo $ZZ
+export
+unset ZZ
+unset XX
+exit 42 42
+echo $?
+./minishell
+exit 42
+echo $?
+./minishell
+exit 242
+echo $?
+```
+
+builtins (echo)
+```sh
+echo Hello
+echo Hello there
+echo "hello there $USER"
+echo 'hello there $USER'
+echo '"hello there $USER"'
+echo "'hello there $USER'"
+echo "$USER $HOME hello" "hello there mate!" '$USER'
+echo -n 'hello there $USER'
+echo $$
+echo $?
+ls notexist
+echo $?
+```
+
+redir's and pipes
+```sh
+ls -l | grep src | wc -l
+ls -l > test1.txt
+cat < test1.txt
+cat test1.txt
+ls -la >> test1.txt
+cat test1.txt
+cat < test1.txt | grep src
+cat << end1 > out1.txt | cat << end2 > out2.txt | cat << end3 > out3.txt
+history
+rm -rf ./.history
+history
+unset PATH
+ls
+```
