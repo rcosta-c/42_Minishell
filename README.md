@@ -3,6 +3,9 @@
   <p>
     Minishell is a simplified Bash shell implementation designed to deepen your understanding of process management, file descriptors, user input handling, and more. This project demystifies how a shell operates behind the scenes—from parsing user commands to executing them—while also strengthening teamwork and communication skills in a collaborative environment.
   </p>
+
+  https://github.com/user-attachments/assets/f123ec28-aae8-424f-9718-214603c8bc53
+  
   <h2 style="color:#0056b3; border-bottom:2px solid #0056b3; padding-bottom:0.3rem;">Project Overview</h2>
   <p>
     Minishell replicates the core functionality of the Bash shell on a reduced, but fully functional scale. Through this project, you will learn:
