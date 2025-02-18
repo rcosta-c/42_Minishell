@@ -1,7 +1,6 @@
 <div style="max-width:900px; margin:2rem auto; background:#fff; padding:2rem; box-shadow:0 0 10px rgba(0,0,0,0.1); border-radius:5px; font-family:Arial, sans-serif; color:#333;">
   <h1 style="color:#0056b3; text-align:center; font-size:2.5rem; margin-bottom:1rem;">Minishell</h1>
- https://github.com/user-attachments/assets/f123ec28-aae8-424f-9718-214603c8bc53
-      <p>
+  <p>
     Minishell is a simplified Bash shell implementation designed to deepen your understanding of process management, file descriptors, user input handling, and more. This project demystifies how a shell operates behind the scenes—from parsing user commands to executing them—while also strengthening teamwork and communication skills in a collaborative environment.
   </p>
   <h2 style="color:#0056b3; border-bottom:2px solid #0056b3; padding-bottom:0.3rem;">Project Overview</h2>
